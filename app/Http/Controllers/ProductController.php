@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Proudct;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
-class ProudctController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
-    }
+        return view('products.index');
+    }                                                                                                                                                                                                                                                                                                                            
 
     /**
      * Show the form for creating a new resource.
@@ -34,7 +34,7 @@ class ProudctController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Proudct $proudct)
+    public function show(product $product)
     {
         //
     }
@@ -42,7 +42,7 @@ class ProudctController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Proudct $proudct)
+    public function edit(product $product)
     {
         //
     }
@@ -50,7 +50,7 @@ class ProudctController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Proudct $proudct)
+    public function update(Request $request, product $product)
     {
         //
     }
@@ -58,7 +58,7 @@ class ProudctController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Proudct $proudct)
+    public function destroy(product $product)
     {
         //
     }

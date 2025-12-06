@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
-use App\Models\Proudct;
+use App\Models\product;
 
 class Cart extends Model
 {
-
-    /** @use HasFactory<\Database\Factories\CartFactory> */
     use HasFactory;
     /**
      * The attributes that are mass assignable.
@@ -31,7 +30,7 @@ class Cart extends Model
 
     public function product()
     {
-        return $this->belongsTo(Proudct::class);
+        return $this->belongsTo(product::class);
     }
 
 
