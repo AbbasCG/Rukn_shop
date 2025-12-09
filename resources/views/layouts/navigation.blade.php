@@ -11,31 +11,31 @@
 
             <!-- Navigation Links - Centered -->
             <div class="hidden sm:flex items-center justify-center flex-1">
-<div class="flex items-center space-x-8">
+    <div class="flex items-center space-x-8">
 
-    <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
-        Home
-    </x-nav-link>
-
-    <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
-        Producten
-    </x-nav-link>
-
-    <x-nav-link :href="route('about')" :active="request()->routeIs('about')">
-        Over ons
-    </x-nav-link>
-
-    <x-nav-link :href="route('contact')" :active="request()->routeIs('contact')">
-        Contact
-    </x-nav-link>
-
-    @auth
-        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-            Dashboard
+        <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
+            Home
         </x-nav-link>
-    @endauth
 
-</div>
+        <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
+            Products
+        </x-nav-link>
+
+        <x-nav-link :href="route('about')" :active="request()->routeIs('about')">
+            About Us
+        </x-nav-link>
+
+        <x-nav-link :href="route('contact')" :active="request()->routeIs('contact')">
+            Contact
+        </x-nav-link>
+
+        @auth
+            <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                Dashboard
+            </x-nav-link>
+        @endauth
+
+    </div>
          
             </div>
 
