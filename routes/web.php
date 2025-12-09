@@ -4,11 +4,21 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PagesController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('home');
+    $featuredProducts = Product::where('is_active', true)
+        ->with('category')
+        ->latest()
+        ->take(8)
+        ->get();
+    
+    return view('home', compact('featuredProducts'));
 })->name('home');
+
+// Route::get('/', [PagesController::class, 'home'])->name('home');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -21,6 +31,7 @@ Route::middleware('auth')->group(function () {
     
     // Cart routes
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add', [CartController::class, 'store'])->name('cart.add');
 });
 
 // Product routes

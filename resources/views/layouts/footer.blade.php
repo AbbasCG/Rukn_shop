@@ -1,5 +1,5 @@
 <footer class="bg-white py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="w-full px-4 sm:px-6 lg:px-8">
 
         <!-- Logo -->
             <div class="flex justify-center mb-8">

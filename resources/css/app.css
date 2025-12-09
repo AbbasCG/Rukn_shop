@@ -7,3 +7,107 @@
         @apply font-heading;
     }
 }
+
+/* Nav Link with animated underline */
+.nav-link-underline {
+    @apply relative transition-all duration-300 ease-in-out;
+}
+
+.nav-link-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: currentColor;
+    transition: width 0.3s ease-in-out;
+}
+
+.nav-link-underline:hover::after {
+    width: 100%;
+}
+
+.nav-link-underline.active::after {
+    width: 100%;
+}
+
+/* Force navigation animations to work */
+a[href*="route"] {
+    @apply transition-all duration-300 ease-in-out;
+}
+
+/* Nav Link Styles */
+.inline-flex.items-center.px-1.pt-1.border-b-2 {
+    @apply transition-all duration-300 ease-in-out;
+}
+
+.inline-flex.items-center.px-1.pt-1.border-b-2:hover {
+    @apply scale-105;
+}
+
+/* Icon hover animations */
+svg.h-6.w-6 {
+    @apply transition-all duration-300 ease-in-out;
+}
+
+a:hover svg.h-6.w-6 {
+    @apply scale-110;
+}
+
+/* Cart icon special animation */
+a[href*="cart"]:hover svg {
+    transform: scale(1.1) rotate(12deg);
+}
+
+/* Dropdown button hover */
+button:has(> div):hover {
+    @apply scale-105;
+}
+
+/* Mobile menu animations */
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInFromLeft {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.animate-menu-slide {
+    animation: slideInDown 0.3s ease-out;
+}
+
+.animate-underline-slide {
+    animation: slideInFromLeft 0.3s ease-in-out forwards;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Ensure transitions work on all interactive elements */
+a, button, [role="button"] {
+    @apply transition-all duration-300 ease-in-out;
+}

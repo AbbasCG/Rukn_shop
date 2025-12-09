@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class CartController extends Controller
 {
@@ -32,7 +33,36 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $existingCartItem = Cart::where('user_id', auth()->id())
+            ->where('product_id', $request->product_id)
+            ->where('status', 'active')
+            ->first();
+
+        if ($existingCartItem) {
+            // Handle both 'quantity' and 'quanttty' column names
+            $quantityColumn = Schema::hasColumn('carts', 'quantity') ? 'quantity' : 'quanttty';
+            $existingCartItem->$quantityColumn = ($existingCartItem->$quantityColumn ?? 0) + $request->quantity;
+            $existingCartItem->save();
+        } else {
+            $cartData = [
+                'user_id' => auth()->id(),
+                'product_id' => $request->product_id,
+                'status' => 'active',
+            ];
+            
+            // Handle both 'quantity' and 'quanttty' column names
+            $quantityColumn = Schema::hasColumn('carts', 'quantity') ? 'quantity' : 'quanttty';
+            $cartData[$quantityColumn] = $request->quantity;
+            
+            Cart::create($cartData);
+        }
+
+        return redirect()->back()->with('success', 'Product added to cart!');
     }
 
     /**
