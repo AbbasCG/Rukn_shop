@@ -18,25 +18,22 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased">
-    <div class="min-h-screen">
-        <!-- Page Heading -->
-        <!-- <header class="fixed top-0 left-0 w-full z-50"> -->
-        <header class="" style="height: 96px;">
-            @include('layouts.navigation')
-        </header>
+<body class="min-h-screen bg-primary-light dark:bg-primary-light text-primary-dark dark:text-primary-light flex flex-col h-[100vh]">
+    {{-- Header altijd full width --}}
+    <header class="w-full">
+        @include('layouts.navigation')
+    </header>
 
-        <!-- Page Content -->
-        <main>
+    {{-- Main: neemt de ruimte in & centreert alleen de card --}}
+    <main class="flex-1 w-full flex justify-center items-center px-4 sm:px-6 lg:px-8 py-28">
+        <div class="w-full max-w-md mx-auto bg-white dark:bg-primary-dark/80 rounded-2xl shadow-xl p-8 md:p-10">
             {{ $slot }}
-        </main>
-        <!-- Page Footer -->
-        <footer>
-            @include('layouts.footer')
-        </footer>
+        </div>
+    </main>
 
-    </div>
-
+    {{-- Footer ook full width --}}
+    <footer class="w-full">
+        @include('layouts.footer')
+    </footer>
 </body>
-
 </html>
