@@ -17,16 +17,20 @@ class product extends Model
 
     protected $fillable = [
         'name',
+        'slug',
         'description',
+        'short_description',
+        'long_description',
         'price',
         'stock',
         'category_id',
         'image_url',
+        'is_active',
     ];
 
     public function reviews()
     {
-        return $this->hasMany(Review::class);
+        return $this->hasMany(Reviews::class);
     }
 
     public function cartItems()
@@ -37,5 +41,18 @@ class product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
+
+    /**
+     * Get the primary image for the product.
+     */
+    public function primaryImage()
+    {
+        return $this->images()->where('is_primary', true)->first() ?? $this->images()->first();
     }
 }

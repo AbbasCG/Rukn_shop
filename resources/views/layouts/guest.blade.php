@@ -18,7 +18,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="min-h-screen bg-primary-light dark:bg-primary-light text-primary-dark dark:text-primary-light flex flex-col h-[100vh]">
+<body class="min-h-screen bg-primary-50 dark:bg-primary-50 text-primary-800 dark:text-primary-800 flex flex-col h-[100vh]">
     {{-- Header altijd full width --}}
     <header class="w-full">
         @include('layouts.navigation')
@@ -26,7 +26,7 @@
 
     {{-- Main: neemt de ruimte in & centreert alleen de card --}}
     <main class="flex-1 w-full flex justify-center items-center px-4 sm:px-6 lg:px-8 py-28">
-        <div class="w-full max-w-md mx-auto bg-white dark:bg-primary-dark/80 rounded-2xl shadow-xl p-8 md:p-10">
+        <div class="w-full max-w-md mx-auto bg-white dark:bg-white rounded-2xl shadow-xl p-8 md:p-10">
             {{ $slot }}
         </div>
     </main>

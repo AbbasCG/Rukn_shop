@@ -17,12 +17,15 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
-        'total_amount',
         'status',
-        'shipping_address',
-        'billing_address',
+        'payment_status',
+        'paid_at',
         'payment_method',
-        'order_date',
+        'payment_reference',
+        'name', 'email', 'phone',
+        'address_line1', 'address_line2', 'postal_code', 'city', 'country',
+        'subtotal', 'shipping_cost', 'total',
+        'notes',
     ];
 
     public function user()
@@ -32,6 +35,20 @@ class Order extends Model
 
     public function orderItems()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(order_items::class);
+    }
+
+    // Alias for items() for convenience
+    public function items()
+    {
+        return $this->hasMany(order_items::class);
+    }
+
+    /**
+     * Allowed status values
+     */
+    public static function statuses(): array
+    {
+        return ['pending','paid','processing','shipped','delivered','cancelled','refunded'];
     }
 }
