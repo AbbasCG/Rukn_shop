@@ -17,7 +17,7 @@ class AdminProductController extends Controller
      */
     public function index()
     {
-        $query = Product::with('category');
+        $query = Product::with('category', 'images');
 
         if (request('q')) {
             $query->where(function ($q) {
@@ -83,7 +83,7 @@ class AdminProductController extends Controller
             'stock' => 'required|integer|min:0',
             'short_description' => 'required|string',
             'long_description' => 'nullable|string',
-            'image_url' => 'nullable|string',
+            'image_url' => 'nullable|string|max:500',
             'images' => 'nullable|array',
             'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
             'is_active' => 'sometimes|boolean',
@@ -91,6 +91,12 @@ class AdminProductController extends Controller
 
         $validated['slug'] = $validated['slug'] ?? Str::slug($validated['name']) . '-' . Str::random(4);
         $validated['is_active'] = $request->boolean('is_active');
+
+        // Validate image_url is a proper URL, not Base64
+        if (!empty($validated['image_url']) && strpos($validated['image_url'], 'data:') === 0) {
+            // If Base64 data is submitted, clear it to force file upload usage
+            $validated['image_url'] = null;
+        }
 
         // Remove images array from validated data before creating product
         unset($validated['images']);
@@ -139,7 +145,7 @@ class AdminProductController extends Controller
             'stock' => 'required|integer|min:0',
             'short_description' => 'required|string',
             'long_description' => 'nullable|string',
-            'image_url' => 'nullable|string',
+            'image_url' => 'nullable|string|max:500',
             'images' => 'nullable|array',
             'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
             'images_to_delete' => 'nullable|array',
@@ -150,6 +156,12 @@ class AdminProductController extends Controller
 
         $validated['slug'] = $validated['slug'] ?? $product->slug;
         $validated['is_active'] = $request->boolean('is_active');
+
+        // Validate image_url is a proper URL, not Base64
+        if (!empty($validated['image_url']) && strpos($validated['image_url'], 'data:') === 0) {
+            // If Base64 data is submitted, clear it to force file upload usage
+            $validated['image_url'] = null;
+        }
 
         // Remove arrays from validated data
         unset($validated['images'], $validated['images_to_delete']);

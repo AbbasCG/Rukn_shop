@@ -126,15 +126,38 @@
         </div>
 
         <!-- Image URL (Full width) - Legacy field -->
-        <div>
+        <div x-data="{ imageUrlUpload: false }">
             <label for="image_url" class="block text-sm font-medium text-primary-dark mb-2">Image URL (Legacy)</label>
-            <input 
-                id="image_url"
-                name="image_url" 
-                type="text"
-                value="{{ old('image_url') }}"
-                placeholder="https://example.com/image.jpg"
-                class="w-full px-4 py-2.5 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
+            <div class="flex gap-2">
+                <input 
+                    id="image_url"
+                    name="image_url" 
+                    type="text"
+                    value="{{ old('image_url') }}"
+                    placeholder="https://example.com/image.jpg"
+                    class="flex-1 px-4 py-2.5 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
+                <button 
+                    type="button"
+                    @click="$refs.imageUrlInput.click()"
+                    class="px-4 py-2.5 bg-primary-dark text-white rounded-lg font-semibold hover:bg-primary-dark/90 transition-all duration-300">
+                    Upload
+                </button>
+                <input 
+                    type="file"
+                    x-ref="imageUrlInput"
+                    accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
+                    @change="
+                        const file = $refs.imageUrlInput.files[0];
+                        if (file && file.type.startsWith('image/')) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                document.getElementById('image_url').value = e.target.result;
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    "
+                    class="hidden">
+            </div>
             @error('image_url')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
 
@@ -159,7 +182,7 @@
                     accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
                     @change="handleFiles"
                     class="hidden"
-                    name="images">
+                    name="images[]">
 
                 <svg class="mx-auto h-12 w-12 text-primary-dark/40 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>

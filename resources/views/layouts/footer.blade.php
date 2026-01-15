@@ -30,7 +30,7 @@
                         <li><a href="{{ route('contact') }}" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">Contact Us</a></li>
                         <li><a href="#" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">Shipping Info</a></li>
                         <li><a href="#" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">Returns</a></li>
-                        <li><a href="#" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">FAQ</a></li>
+                        <li><a href="{{ route('faq') }}" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">FAQ</a></li>
                     </ul>
                 </div>
 

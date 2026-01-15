@@ -5,48 +5,6 @@
     <!-- Header Section -->
     <div>
         <h1 class="text-3xl font-bold text-primary-dark">Edit Product</h1>
-    <script>
-    function imageUploader() {
-        return {
-            selectedImages: [],
-            dragover: false,
-            handleDrop(e) {
-                this.dragover = false;
-                const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
-                this.processFiles(files);
-            },
-            handleFiles() {
-                const files = Array.from(this.$refs.fileInput.files);
-                this.processFiles(files);
-            },
-            processFiles(files) {
-                files.forEach(file => {
-                    if (file.type.startsWith('image/') && file.size <= 5120 * 1024) {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            this.selectedImages.push({
-                                file: file,
-                                preview: e.target.result
-                            });
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
-            },
-            removeImage(index) {
-                this.selectedImages.splice(index, 1);
-                this.$refs.fileInput.value = '';
-            },
-            formatFileSize(bytes) {
-                if (bytes === 0) return '0 Bytes';
-                const k = 1024;
-                const sizes = ['Bytes', 'KB', 'MB'];
-                const i = Math.floor(Math.log(bytes) / Math.log(k));
-                return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
-            }
-        }
-    }
-    </script>
         <p class="text-sm text-primary-dark/60 mt-1">Update product information and availability</p>
     </div>
 
@@ -168,16 +126,55 @@
             @error('long_description')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
 
-        <!-- Image URL (Full width) -->
-        <div>
-            <label for="image_url" class="block text-sm font-medium text-primary-dark mb-2">Image URL</label>
-            <input 
-                id="image_url"
-                name="image_url" 
-                type="text"
-                value="{{ old('image_url', $product->image_url) }}"
-                placeholder="https://example.com/image.jpg"
-                class="w-full px-4 py-2.5 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
+        <!-- Image URL (Full width) - Legacy field -->
+        <div x-data="{ previewUrl: '{{ $product->image_url ? asset($product->image_url) : '' }}' }">
+            <label for="image_url" class="block text-sm font-medium text-primary-dark mb-2">Image URL (Legacy)</label>
+            
+            <!-- Preview -->
+            <template x-if="previewUrl">
+                <div class="mb-3 p-3 bg-primary-gray rounded-lg">
+                    <img :src="previewUrl" alt="Image preview" class="h-32 w-32 object-cover rounded">
+                </div>
+            </template>
+
+            <div class="flex gap-2">
+                <input 
+                    id="image_url"
+                    name="image_url" 
+                    type="text"
+                    value="{{ old('image_url', $product->image_url) }}"
+                    placeholder="https://example.com/image.jpg"
+                    class="flex-1 px-4 py-2.5 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
+                <button 
+                    type="button"
+                    @click="$refs.legacyImageInput.click()"
+                    class="px-4 py-2.5 bg-primary-dark text-white rounded-lg font-semibold hover:bg-primary-dark/90 transition-all duration-300">
+                    Upload
+                </button>
+                <input 
+                    type="file"
+                    x-ref="legacyImageInput"
+                    accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
+                    @change="
+                        const file = $refs.legacyImageInput.files[0];
+                        if (file && file.type.startsWith('image/')) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                previewUrl = e.target.result;
+                                document.getElementById('image_url').value = '';
+                            };
+                            reader.readAsDataURL(file);
+                            // Store file in a temporary field for form submission
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = 'legacy_image_file';
+                            input.value = file.name;
+                            document.querySelector('form').appendChild(input);
+                        }
+                    "
+                    class="hidden">
+            </div>
+            <p class="text-xs text-primary-dark/60 mt-2">Upload a new image or paste a URL. The uploaded file will replace the legacy URL.</p>
             @error('image_url')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
 
@@ -312,4 +309,52 @@
         </div>
     </form>
 </div>
+
+<script>
+function imageUploader() {
+    return {
+        selectedImages: [],
+        dragover: false,
+        
+        handleDrop(e) {
+            this.dragover = false;
+            const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+            this.processFiles(files);
+        },
+
+        handleFiles() {
+            const files = Array.from(this.$refs.fileInput.files);
+            this.processFiles(files);
+        },
+
+        processFiles(files) {
+            files.forEach(file => {
+                if (file.type.startsWith('image/') && file.size <= 5120 * 1024) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.selectedImages.push({
+                            file: file,
+                            preview: e.target.result
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        },
+
+        removeImage(index) {
+            this.selectedImages.splice(index, 1);
+            this.$refs.fileInput.value = '';
+        },
+
+        formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+    }
+}
+</script>
 @endsection

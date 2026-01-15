@@ -182,7 +182,12 @@
                                     <span class="text-sm font-semibold text-primary-dark">#{{ str_pad($product->id, 5, '0', STR_PAD_LEFT) }}</span>
                                 </td>
                                 <td class="px-6 py-4 align-middle">
-                                    @if($product->image_url)
+                                    @php
+                                        $primaryImage = $product->images->firstWhere('is_primary', true) ?? $product->images->first();
+                                    @endphp
+                                    @if($primaryImage)
+                                        <img src="{{ asset('storage/' . $primaryImage->path) }}" alt="{{ $product->name }}" class="w-10 h-10 rounded-lg object-cover border border-primary-gray">
+                                    @elseif($product->image_url)
                                         <img src="{{ asset($product->image_url) }}" alt="{{ $product->name }}" class="w-10 h-10 rounded-lg object-cover border border-primary-gray">
                                     @else
                                         <div class="w-10 h-10 rounded-lg bg-primary-dark/10 border border-primary-gray flex items-center justify-center">

@@ -83,6 +83,9 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
 // Static pages
 Route::get('/about', [PagesController::class, 'about'])->name('about');
 Route::get('/contact', [PagesController::class, 'contact'])->name('contact');
+Route::get('/faq', function () {
+    return view('faq');
+})->name('faq');
 
 require __DIR__.'/auth.php';
                         

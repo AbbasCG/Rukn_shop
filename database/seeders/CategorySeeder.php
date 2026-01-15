@@ -24,16 +24,16 @@ class CategorySeeder extends Seeder
             ['name' => 'Food & Beverages', 'slug' => 'food-beverages', 'description' => 'Food, drinks, and snacks'],
         ];
 
-        foreach ($categories as $category) {
-            Category::create([
-                'name' => $category['name'],
-                'slug' => $category['slug'],
-                'description' => $category['description'],
-                'is_active' => true,
-            ]);
-        }
+        // foreach ($categories as $category) {
+        //     Category::create([
+        //         'name' => $category['name'],
+        //         'slug' => $category['slug'],
+        //         'description' => $category['description'],
+        //         'is_active' => true,
+        //     ]);
+        // }
 
         // Create additional random categories
-        Category::factory()->count(5)->create();
+        // Category::factory()->count(5)->create();
     }
 }

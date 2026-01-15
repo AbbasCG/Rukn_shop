@@ -70,7 +70,7 @@ class ProductController extends Controller
                 $query->latest();
         }
 
-        $products = $query->paginate(9);
+        $products = $query->paginate(8)->withQueryString();
         $categories = Category::where('is_active', true)->get();
 
         return view('products.index', compact('products', 'categories'));

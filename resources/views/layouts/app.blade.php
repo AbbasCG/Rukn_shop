@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 
 <head>
     <meta charset="utf-8">
@@ -21,8 +21,8 @@
 <body class="font-sans antialiased">
     <div class="min-h-screen">
         <!-- Page Heading -->
-        <!-- <header class="fixed top-0 left-0 w-full z-50"> -->
-        <header class="" style="height: 96px;">
+  
+        <header class="" style="height: 80px;">
             @include('layouts.navigation')
         </header>
 

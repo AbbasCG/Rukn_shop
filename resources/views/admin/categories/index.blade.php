@@ -1,7 +1,12 @@
 @extends('layouts.admin', ['title' => 'Categories'])
 
 @section('content')
-<div class="w-full max-w-7xl mx-auto space-y-6">
+<div x-data="{ 
+    deleteModalOpen: false, 
+    deleteCategoryId: null, 
+    deleteCategoryName: '', 
+    deleteForm: null 
+}" @keydown.escape="deleteModalOpen = false" class="w-full max-w-7xl mx-auto space-y-6">
     
     <!-- Header Section -->
     <div class="flex items-center justify-between">
@@ -188,7 +193,7 @@
                                         </a>
                                         <button 
                                             type="button"
-                                            onclick="deleteCategory('{{ $category->id }}', '{{ $category->name }}')"
+                                            @click="deleteModalOpen = true; deleteCategoryId = '{{ $category->id }}'; deleteCategoryName = '{{ $category->name }}';"
                                             class="inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-lg bg-red-600 text-white hover:bg-red-700 transition-all duration-300">
                                             Delete
                                         </button>
@@ -221,22 +226,72 @@
         @endif
     </div>
 
+    <!-- Delete Confirmation Modal -->
+    <div 
+        x-show="deleteModalOpen" 
+        @click.self="deleteModalOpen = false"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        style="display: none;"
+    >
+        <div 
+            @click.stop
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 scale-95"
+            x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95"
+            class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-6"
+        >
+            <!-- Header -->
+            <div>
+                <h3 class="text-2xl font-bold text-primary-dark">Delete category?</h3>
+            </div>
+
+            <!-- Content -->
+            <div class="space-y-2">
+                <p class="text-sm text-neutral-600">
+                    Are you sure you want to delete <span class="font-semibold text-primary-dark" x-text="deleteCategoryName"></span>? This action cannot be undone.
+                </p>
+                <p class="text-xs text-neutral-500">
+                    Any products associated with this category will need to be reassigned.
+                </p>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex items-center gap-3 pt-4">
+                <button 
+                    type="button"
+                    @click="deleteModalOpen = false"
+                    class="flex-1 px-4 py-2.5 rounded-lg border border-neutral-300 text-neutral-700 font-semibold text-sm hover:bg-neutral-50 transition-all duration-200">
+                    Cancel
+                </button>
+                <form 
+                    :action="`/admin/categories/${deleteCategoryId}`"
+                    method="POST" 
+                    style="display: none;"
+                    @keydown.enter.window="if (deleteModalOpen) this.submit()"
+                    id="deleteForm"
+                >
+                    @csrf
+                    @method('DELETE')
+                </form>
+                <button 
+                    type="button"
+                    @click="document.getElementById('deleteForm').submit(); deleteModalOpen = false;"
+                    class="flex-1 px-4 py-2.5 rounded-lg bg-red-600 text-white font-semibold text-sm hover:bg-red-700 transition-all duration-200 active:scale-95">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
 </div>
 
-<!-- Delete Category Modal/Confirmation -->
-<script>
-function deleteCategory(categoryId, categoryName) {
-    if (confirm(`Are you sure you want to delete "${categoryName}"? This action cannot be undone.`)) {
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = `/admin/categories/${categoryId}`;
-        form.innerHTML = `
-            @csrf
-            @method('DELETE')
-        `;
-        document.body.appendChild(form);
-        form.submit();
-    }
-}
-</script>
 @endsection

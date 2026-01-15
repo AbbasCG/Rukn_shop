@@ -1,33 +1,33 @@
 <x-app-layout>
     <!-- 1. HERO SECTION -->
-    <section class="min-h-[calc(100vh-80px)] bg-primary-light flex items-center">
+    <section class="min-h-[calc(100vh-80px)] bg-primary-light flex items-center" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
         <div class="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
                 <!-- Left: Content -->
-                <div class="flex flex-col justify-center py-12">
-                    <p class="text-sm font-semibold text-primary-dark/60 uppercase tracking-widest mb-4">Elegance woven into every moment</p>
+                <div class="flex flex-col justify-center py-12 {{ app()->getLocale() === 'ar' ? 'lg:order-last' : '' }}">
+                    <p class="text-sm font-semibold text-primary-dark/60 uppercase tracking-widest mb-4">{{ __('home.hero_tagline') }}</p>
                     <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-primary-dark mb-6 leading-tight">
-                        Discover the Art of Living
+                        {{ __('home.hero_title') }}
                     </h1>
                     <p class="text-lg text-primary-dark/70 mb-8 leading-relaxed max-w-lg">
-                        Experience our curated collection of timeless pieces designed for those who appreciate quality, craftsmanship, and understated elegance.
+                        {{ __('home.hero_subtitle') }}
                     </p>
-                    <div class="flex flex-col sm:flex-row gap-4">
+                    <div class="flex flex-col sm:flex-row gap-4 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
                         <a href="{{ route('products.index') }}" class="nav-link-underline inline-flex items-center justify-center px-8 py-3 bg-primary-dark text-primary-light font-semibold hover:bg-primary-dark/90 hover:scale-105 transition-all duration-300 ease-in-out">
-                            Shop Now
+                            {{ __('home.shop_now') }}
                         </a>
                         <a href="{{ route('about') }}" class="nav-link-underline inline-flex items-center justify-center px-8 py-3 border-2 border-primary-dark text-primary-dark font-semibold hover:bg-primary-dark/5 hover:scale-105 transition-all duration-300 ease-in-out">
-                            View Collection
+                            {{ __('home.view_collection') }}
                         </a>
                     </div>
                 </div>
 
                 <!-- Right: Image -->
-                <div class="relative h-96 lg:h-full lg:min-h-96">
+                <div class="relative h-96 lg:h-full lg:min-h-96 {{ app()->getLocale() === 'ar' ? 'lg:order-first' : '' }}">
                     <div class="relative w-full h-full rounded-3xl overflow-hidden bg-primary-gray shadow-xl">
                         <img 
                             src="{{ asset('storage/images/banner.jpg') }}" 
-                            alt="Collection Hero" 
+                            alt="{{ __('home.collection_hero_alt') }}" 
                             class="w-full h-full object-cover hover:scale-105 transition-transform duration-700 ease-in-out"
                         >
                     </div>
@@ -37,18 +37,18 @@
     </section>
 
     <!-- 2. NEW COLLECTION SECTION -->
-    <section class="py-24 bg-primary-light">
+    <section class="py-24 bg-primary-light" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
         <div class="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-            <div class="flex justify-between items-end mb-12">
+            <div class="flex justify-between items-end mb-12 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
                 <div>
-                    <p class="text-sm font-semibold text-primary-dark/60 uppercase tracking-widest mb-3">Collection</p>
-                    <h2 class="text-4xl md:text-5xl font-bold text-primary-dark">New Arrivals</h2>
+                    <p class="text-sm font-semibold text-primary-dark/60 uppercase tracking-widest mb-3">{{ __('home.section_collection') }}</p>
+                    <h2 class="text-4xl md:text-5xl font-bold text-primary-dark">{{ __('home.new_arrivals_title') }}</h2>
                     <p class="text-primary-dark/70 mt-3 max-w-xl">
-                        Curate your space with our latest seasonal collection, handpicked for modern elegance.
+                        {{ __('home.new_arrivals_subtitle') }}
                     </p>
                 </div>
                 <a href="{{ route('products.index') }}" class="nav-link-underline text-primary-dark font-semibold hover:text-primary-dark/70 transition-colors duration-300 hidden lg:inline-block">
-                    View all →
+                    {{ __('home.view_all') }} →
                 </a>
             </div>
 
@@ -59,9 +59,9 @@
                         <div class="group flex flex-col h-full">
                             <!-- Product Image -->
                             <div class="relative h-80 bg-primary-gray rounded-2xl overflow-hidden mb-6 flex-shrink-0">
-                                @if($product->image)
+                                @if($product->primaryImage())
                                     <img 
-                                        src="{{ $product->image }}" 
+                                        src="{{ asset('storage/' . $product->primaryImage()->path) }}" 
                                         alt="{{ $product->name }}" 
                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
                                     >
@@ -87,14 +87,14 @@
 
                             <div class="mt-auto">
                                 <p class="text-lg font-semibold text-primary-dark mb-4">
-                                    ${{ number_format($product->price, 2) }}
+                                    €{{ number_format($product->price, 2) }}
                                 </p>
 
                                 <a 
                                     href="{{ route('products.show', $product) }}" 
                                     class="nav-link-underline w-full inline-flex items-center justify-center px-4 py-3 border-2 border-primary-dark text-primary-dark font-semibold hover:bg-primary-dark hover:text-primary-light transition-all duration-300 ease-in-out rounded-lg"
                                 >
-                                    View Details
+                                    {{ __('home.view_details') }}
                                 </a>
                             </div>
                         </div>
@@ -102,25 +102,25 @@
                 </div>
             @else
                 <div class="text-center py-12">
-                    <p class="text-lg text-primary-dark/70">Featured collection coming soon.</p>
+                    <p class="text-lg text-primary-dark/70">{{ __('home.featured_coming_soon') }}</p>
                 </div>
             @endif
         </div>
     </section>
 
     <!-- 3. BESTSELLERS SECTION -->
-    <section class="py-24 bg-primary-gray">
+    <section class="py-24 bg-primary-gray" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
         <div class="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-            <div class="flex justify-between items-end mb-12">
+            <div class="flex justify-between items-end mb-12 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
                 <div>
-                    <p class="text-sm font-semibold text-primary-dark/60 uppercase tracking-widest mb-3">Most Loved</p>
-                    <h2 class="text-4xl md:text-5xl font-bold text-primary-dark">Bestsellers</h2>
+                    <p class="text-sm font-semibold text-primary-dark/60 uppercase tracking-widest mb-3">{{ __('home.section_most_loved') }}</p>
+                    <h2 class="text-4xl md:text-5xl font-bold text-primary-dark">{{ __('home.bestsellers_title') }}</h2>
                     <p class="text-primary-dark/70 mt-3 max-w-xl">
-                        Discover what customers love most. Timeless pieces with exceptional craftsmanship.
+                        {{ __('home.bestsellers_subtitle') }}
                     </p>
                 </div>
                 <a href="{{ route('products.index') }}" class="nav-link-underline text-primary-dark font-semibold hover:text-primary-dark/70 transition-colors duration-300 hidden lg:inline-block">
-                    View all →
+                    {{ __('home.view_all') }} →
                 </a>
             </div>
 
@@ -131,9 +131,9 @@
                         <div class="group flex flex-col h-full">
                             <!-- Product Image -->
                             <div class="relative h-80 bg-primary-light rounded-2xl overflow-hidden mb-6 flex-shrink-0">
-                                @if($product->image)
+                                @if($product->primaryImage())
                                     <img 
-                                        src="{{ $product->image }}" 
+                                        src="{{ asset('storage/' . $product->primaryImage()->path) }}" 
                                         alt="{{ $product->name }}" 
                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
                                     >
@@ -159,14 +159,14 @@
 
                             <div class="mt-auto">
                                 <p class="text-lg font-semibold text-primary-dark mb-4">
-                                    ${{ number_format($product->price, 2) }}
+                                    €{{ number_format($product->price, 2) }}
                                 </p>
 
                                 <a 
                                     href="{{ route('products.show', $product) }}" 
                                     class="nav-link-underline w-full inline-flex items-center justify-center px-4 py-3 border-2 border-primary-dark text-primary-dark font-semibold hover:bg-primary-dark hover:text-primary-light transition-all duration-300 ease-in-out rounded-lg"
                                 >
-                                    View Details
+                                    {{ __('home.view_details') }}
                                 </a>
                             </div>
                         </div>
@@ -174,22 +174,22 @@
                 </div>
             @else
                 <div class="text-center py-12">
-                    <p class="text-lg text-primary-dark/70">Bestsellers coming soon.</p>
+                    <p class="text-lg text-primary-dark/70">{{ __('home.bestsellers_coming_soon') }}</p>
                 </div>
             @endif
         </div>
     </section>
 
     <!-- 4. FEATURES SECTION WITH LARGE IMAGE -->
-    <section class="py-24 bg-primary-light">
+    <section class="py-24 bg-primary-light" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
         <div class="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                 <!-- Large Image -->
-                <div class="relative h-96 lg:h-full lg:min-h-96 order-last lg:order-first">
+                <div class="relative h-96 lg:h-full lg:min-h-96 {{ app()->getLocale() === 'ar' ? 'lg:order-last' : 'lg:order-first' }} order-last">
                     <div class="relative w-full h-full rounded-3xl overflow-hidden bg-primary-gray shadow-lg">
                         <img 
                             src="{{ asset('storage/images/banner.jpg') }}" 
-                            alt="Premium Collection" 
+                            alt="{{ __('home.premium_collection_alt') }}" 
                             class="w-full h-full object-cover"
                         >
                     </div>
@@ -198,17 +198,16 @@
                 <!-- Text + Features -->
                 <div class="flex flex-col justify-center">
                     <h2 class="text-4xl md:text-5xl font-bold text-primary-dark mb-6 leading-tight">
-                        Where tradition meets modern living
+                        {{ __('home.tradition_meets_modern_title') }}
                     </h2>
                     <p class="text-primary-dark/70 mb-12 text-lg leading-relaxed">
-                        Every piece in our collection tells a story of craftsmanship, quality, and timeless design. 
-                        We believe that true elegance lies in simplicity and authenticity.
+                        {{ __('home.tradition_meets_modern_subtitle') }}
                     </p>
 
                     <!-- Features -->
                     <div class="space-y-8">
                         <!-- Feature 1 -->
-                        <div class="flex gap-4">
+                        <div class="flex gap-4 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
                             <div class="flex-shrink-0">
                                 <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-primary-dark/10">
                                     <svg class="h-6 w-6 text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -217,13 +216,13 @@
                                 </div>
                             </div>
                             <div>
-                                <h3 class="text-lg font-semibold text-primary-dark mb-2">Premium Fabrics</h3>
-                                <p class="text-primary-dark/70">Carefully sourced materials from the finest suppliers worldwide.</p>
+                                <h3 class="text-lg font-semibold text-primary-dark mb-2">{{ __('home.feature_premium_fabrics_title') }}</h3>
+                                <p class="text-primary-dark/70">{{ __('home.feature_premium_fabrics_desc') }}</p>
                             </div>
                         </div>
 
                         <!-- Feature 2 -->
-                        <div class="flex gap-4">
+                        <div class="flex gap-4 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
                             <div class="flex-shrink-0">
                                 <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-primary-dark/10">
                                     <svg class="h-6 w-6 text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -232,13 +231,13 @@
                                 </div>
                             </div>
                             <div>
-                                <h3 class="text-lg font-semibold text-primary-dark mb-2">Expert Craftsmanship</h3>
-                                <p class="text-primary-dark/70">Each piece is meticulously crafted by skilled artisans.</p>
+                                <h3 class="text-lg font-semibold text-primary-dark mb-2">{{ __('home.feature_craftsmanship_title') }}</h3>
+                                <p class="text-primary-dark/70">{{ __('home.feature_craftsmanship_desc') }}</p>
                             </div>
                         </div>
 
                         <!-- Feature 3 -->
-                        <div class="flex gap-4">
+                        <div class="flex gap-4 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
                             <div class="flex-shrink-0">
                                 <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-primary-dark/10">
                                     <svg class="h-6 w-6 text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -247,8 +246,8 @@
                                 </div>
                             </div>
                             <div>
-                                <h3 class="text-lg font-semibold text-primary-dark mb-2">Timeless Design</h3>
-                                <p class="text-primary-dark/70">Collections designed to transcend trends and last a lifetime.</p>
+                                <h3 class="text-lg font-semibold text-primary-dark mb-2">{{ __('home.feature_timeless_design_title') }}</h3>
+                                <p class="text-primary-dark/70">{{ __('home.feature_timeless_design_desc') }}</p>
                             </div>
                         </div>
                     </div>
@@ -258,34 +257,32 @@
     </section>
 
     <!-- 5. BRAND STORY SECTION -->
-    <section class="py-24 bg-primary-gray">
+    <section class="py-24 bg-primary-gray" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
         <div class="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                 <!-- Text -->
-                <div class="flex flex-col justify-center py-8">
-                    <p class="text-sm font-semibold text-primary-dark/60 uppercase tracking-widest mb-4">Our Story</p>
+                <div class="flex flex-col justify-center py-8 {{ app()->getLocale() === 'ar' ? 'lg:order-last' : '' }}">
+                    <p class="text-sm font-semibold text-primary-dark/60 uppercase tracking-widest mb-4">{{ __('home.section_our_story') }}</p>
                     <h2 class="text-4xl md:text-5xl font-bold text-primary-dark mb-6">
-                        The Art of Elegance
+                        {{ __('home.story_title') }}
                     </h2>
                     <p class="text-primary-dark/70 mb-6 text-lg leading-relaxed">
-                        Founded on the principle that quality should never be compromised, Rukn Shop brings together 
-                        the best of traditional craftsmanship and contemporary design.
+                        {{ __('home.story_paragraph_1') }}
                     </p>
                     <p class="text-primary-dark/70 mb-8 text-lg leading-relaxed">
-                        We carefully curate every collection to ensure that each piece reflects our commitment to 
-                        elegance, sustainability, and timeless beauty.
+                        {{ __('home.story_paragraph_2') }}
                     </p>
                     <a href="{{ route('about') }}" class="nav-link-underline inline-flex items-center text-primary-dark font-semibold hover:text-primary-dark/70 transition-colors duration-300 w-fit">
-                        Learn more about us →
+                        {{ __('home.learn_more') }} →
                     </a>
                 </div>
 
                 <!-- Image -->
-                <div class="relative h-96 lg:h-full lg:min-h-96">
+                <div class="relative h-96 lg:h-full lg:min-h-96 {{ app()->getLocale() === 'ar' ? 'lg:order-first' : '' }}">
                     <div class="relative w-full h-full rounded-3xl overflow-hidden bg-primary-light shadow-lg">
                         <img 
                             src="{{ asset('storage/images/banner.jpg') }}" 
-                            alt="Rukn Shop Story" 
+                            alt="{{ __('home.story_image_alt') }}" 
                             class="w-full h-full object-cover"
                         >
                     </div>
@@ -295,15 +292,15 @@
     </section>
 
     <!-- 6. TESTIMONIALS SECTION -->
-    <section class="py-24 bg-primary-light">
+    <section class="py-24 bg-primary-light" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
         <div class="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
             <div class="text-center mb-16">
-                <p class="text-sm font-semibold text-primary-dark/60 uppercase tracking-widest mb-4">Reviews</p>
+                <p class="text-sm font-semibold text-primary-dark/60 uppercase tracking-widest mb-4">{{ __('home.section_reviews') }}</p>
                 <h2 class="text-4xl md:text-5xl font-bold text-primary-dark mb-4">
-                    Voices of Elegance
+                    {{ __('home.testimonials_title') }}
                 </h2>
                 <p class="text-primary-dark/70 text-lg">
-                    What our customers say about their experience with Rukn Shop
+                    {{ __('home.testimonials_subtitle') }}
                 </p>
             </div>
 
@@ -311,59 +308,59 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Testimonial 1 -->
                 <div class="bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-shadow duration-300">
-                    <div class="flex gap-1 mb-4">
+                    <div class="flex gap-1 mb-4 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
                         @for($i = 0; $i < 5; $i++)
                             <svg class="w-5 h-5 text-primary-dark fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
                         @endfor
                     </div>
                     <p class="text-primary-dark/80 mb-6 leading-relaxed">
-                        "The quality is exceptional. I've never felt anything quite like it. Definitely worth every penny and I've already ordered twice more!"
+                        {{ __('home.testimonial_1_text') }}
                     </p>
-                    <p class="font-semibold text-primary-dark">Sarah Anderson</p>
-                    <p class="text-sm text-primary-dark/60">New York, USA</p>
+                    <p class="font-semibold text-primary-dark">{{ __('home.testimonial_1_author') }}</p>
+                    <p class="text-sm text-primary-dark/60">{{ __('home.testimonial_1_location') }}</p>
                 </div>
 
                 <!-- Testimonial 2 -->
                 <div class="bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-shadow duration-300">
-                    <div class="flex gap-1 mb-4">
+                    <div class="flex gap-1 mb-4 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
                         @for($i = 0; $i < 5; $i++)
                             <svg class="w-5 h-5 text-primary-dark fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
                         @endfor
                     </div>
                     <p class="text-primary-dark/80 mb-6 leading-relaxed">
-                        "I'm impressed by the attention to detail. It's clear that these pieces are made with passion and expertise. Highly recommended!"
+                        {{ __('home.testimonial_2_text') }}
                     </p>
-                    <p class="font-semibold text-primary-dark">James Mitchell</p>
-                    <p class="text-sm text-primary-dark/60">London, UK</p>
+                    <p class="font-semibold text-primary-dark">{{ __('home.testimonial_2_author') }}</p>
+                    <p class="text-sm text-primary-dark/60">{{ __('home.testimonial_2_location') }}</p>
                 </div>
 
                 <!-- Testimonial 3 -->
                 <div class="bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-shadow duration-300">
-                    <div class="flex gap-1 mb-4">
+                    <div class="flex gap-1 mb-4 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
                         @for($i = 0; $i < 5; $i++)
                             <svg class="w-5 h-5 text-primary-dark fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
                         @endfor
                     </div>
                     <p class="text-primary-dark/80 mb-6 leading-relaxed">
-                        "What I love about Rukn Shop is the consistency of quality. Every piece feels special and lasts for years."
+                        {{ __('home.testimonial_3_text') }}
                     </p>
-                    <p class="font-semibold text-primary-dark">Emma Rodriguez</p>
-                    <p class="text-sm text-primary-dark/60">Barcelona, Spain</p>
+                    <p class="font-semibold text-primary-dark">{{ __('home.testimonial_3_author') }}</p>
+                    <p class="text-sm text-primary-dark/60">{{ __('home.testimonial_3_location') }}</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- 7. INSTAGRAM SECTION -->
-    <section class="py-24 bg-primary-gray">
+    <section class="py-24 bg-primary-gray" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
         <div class="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
             <div class="text-center mb-12">
-                <p class="text-sm font-semibold text-primary-dark/60 uppercase tracking-widest mb-4">Follow Us</p>
+                <p class="text-sm font-semibold text-primary-dark/60 uppercase tracking-widest mb-4">{{ __('home.section_follow_us') }}</p>
                 <h2 class="text-4xl md:text-5xl font-bold text-primary-dark mb-4">
-                    On Instagram
+                    {{ __('home.instagram_title') }}
                 </h2>
                 <p class="text-primary-dark/70 text-lg">
-                    @ruknshop • Join our community and share your elegance
+                    {{ __('home.instagram_subtitle') }}
                 </p>
             </div>
 

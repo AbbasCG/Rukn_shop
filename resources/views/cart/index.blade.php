@@ -8,9 +8,9 @@
                 <div class="mx-auto w-24 h-24 rounded-full bg-primary-gray/60 flex items-center justify-center shadow-lg">
                     <svg class="w-12 h-12 text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                 </div>
-                <h2 class="mt-6 text-2xl font-bold text-primary-dark">Your cart is empty</h2>
-                <p class="mt-2 text-neutral-700">Browse products and add your favorites to the cart.</p>
-                <a href="{{ route('products.index') }}" class="mt-6 inline-flex items-center px-6 py-3 rounded-xl bg-primary-dark text-white font-semibold shadow-lg hover:bg-primary-dark/90 transition">Continue Shopping</a>
+                <h2 class="mt-6 text-2xl font-bold text-primary-dark">{{ __('Your cart is empty') }}</h2>
+                <p class="mt-2 text-neutral-700">{{ __('Browse products and add your favorites to the cart.') }}</p>
+                <a href="{{ route('products.index') }}" class="mt-6 inline-flex items-center px-6 py-3 rounded-xl bg-primary-dark text-white font-semibold shadow-lg hover:bg-primary-dark/90 transition">{{ __('Continue Shopping') }}</a>
             </div>
         @else
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -42,10 +42,10 @@
                                                 <button type="button" @click="qty = qty+1; $refs.q.value = qty; $refs.form.submit(); glow=true; setTimeout(()=>glow=false,600)" class="w-9 h-9 flex items-center justify-center rounded-lg border border-primary-gray bg-white text-primary-dark hover:bg-primary-gray transition">+</button>
                                             </div>
                                         </form>
-                                        <form method="POST" action="{{ route('cart.destroy', $item) }}" onsubmit="return confirm('Remove this item?')">
+                                        <form method="POST" action="{{ route('cart.destroy', $item) }}" onsubmit="return confirm('{{ __('Remove this item?') }}')">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="ms-4 inline-flex items-center justify-center w-9 h-9 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 shadow-sm transition" title="Remove">
+                                            <button type="submit" class="ms-4 inline-flex items-center justify-center w-9 h-9 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 shadow-sm transition" title="{{ __('Remove') }}">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4m-4 0a1 1 0 00-1 1v1h6V4a1 1 0 00-1-1m-4 0h4"/></svg>
                                             </button>
                                         </form>
@@ -65,23 +65,23 @@
                         <form method="POST" action="{{ route('cart.clear') }}" class="pt-2">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="inline-flex items-center px-4 py-2 rounded-xl border border-primary-gray text-primary-dark bg-white hover:bg-primary-gray transition">Clear Cart</button>
+                            <button type="submit" class="inline-flex items-center px-4 py-2 rounded-xl border border-primary-gray text-primary-dark bg-white hover:bg-primary-gray transition">{{ __('Clear Cart') }}</button>
                         </form>
                     @endauth
                 </div>
 
                 <!-- Right: Order Summary -->
                 <div class="rounded-3xl bg-primary-dark text-white shadow-2xl p-8 space-y-6">
-                    <h2 class="text-xl font-bold">Order Summary</h2>
+                    <h2 class="text-xl font-bold">{{ __('Order Summary') }}</h2>
                     <div class="space-y-2 text-sm">
-                        <div class="flex items-center justify-between"><span>Subtotal</span><span>€{{ number_format($subtotal, 2, ',', '.') }}</span></div>
-                        <div class="flex items-center justify-between"><span>Shipping</span><span>€{{ number_format($shipping, 2, ',', '.') }}</span></div>
-                        <div class="flex items-center justify-between text-base font-semibold"><span>Total</span><span>€{{ number_format($total, 2, ',', '.') }}</span></div>
+                        <div class="flex items-center justify-between"><span>{{ __('Subtotal') }}</span><span>€{{ number_format($subtotal, 2, ',', '.') }}</span></div>
+                        <div class="flex items-center justify-between"><span>{{ __('Shipping') }}</span><span>€{{ number_format($shipping, 2, ',', '.') }}</span></div>
+                        <div class="flex items-center justify-between text-base font-semibold"><span>{{ __('Total') }}</span><span>€{{ number_format($total, 2, ',', '.') }}</span></div>
                     </div>
                     @auth
-                        <a href="{{ route('checkout.index') }}" class="block w-full px-6 py-4 rounded-2xl bg-white text-primary-dark font-semibold shadow-lg hover:bg-white/80 transition text-center">Proceed to Checkout</a>
+                        <a href="{{ route('checkout.index') }}" class="block w-full px-6 py-4 rounded-2xl bg-white text-primary-dark font-semibold shadow-lg hover:bg-white/80 transition text-center">{{ __('Proceed to Checkout') }}</a>
                     @else
-                        <a href="{{ route('login') }}" class="block w-full px-6 py-4 rounded-2xl bg-white text-primary-dark font-semibold shadow-lg hover:bg-white/80 transition text-center">Sign in to Checkout</a>
+                        <a href="{{ route('login') }}" class="block w-full px-6 py-4 rounded-2xl bg-white text-primary-dark font-semibold shadow-lg hover:bg-white/80 transition text-center">{{ __('Sign in to Checkout') }}</a>
                     @endauth
                 </div>
             </div>

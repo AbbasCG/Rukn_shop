@@ -24,12 +24,12 @@ class ProductSeeder extends Seeder
         // }
 
         // Create 50 products
-        Product::factory()->count(50)->create();
+        // Product::factory()->count(50)->create();
 
         // Create 5 out of stock products
-        Product::factory()->outOfStock()->count(5)->create();
+        // Product::factory()->outOfStock()->count(5)->create();
 
         // Create 3 inactive products
-        Product::factory()->inactive()->count(3)->create();
+        // Product::factory()->inactive()->count(3)->create();
     }
 }
