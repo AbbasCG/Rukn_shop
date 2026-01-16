@@ -1,0 +1,91 @@
+<?php
+
+return [
+    'failed' => 'Deze inloggegevens komen niet overeen met onze gegevens.',
+    'password' => 'Het opgegeven wachtwoord is onjuist.',
+    'throttle' => 'Te veel inlogpogingen. Probeer het opnieuw over :seconds seconden.',
+
+    'login' => [
+        'title' => 'Welkom terug',
+        'subtitle' => 'Log in op je account om verder te winkelen',
+        'email_label' => 'E-mailadres',
+        'email_placeholder' => 'jij@voorbeeld.nl',
+        'password_label' => 'Wachtwoord',
+        'password_placeholder' => '••••••••',
+        'remember' => 'Ingelogd blijven',
+        'forgot' => 'Wachtwoord vergeten?',
+        'submit' => 'Inloggen',
+        'no_account' => 'Nog geen account?',
+        'create_one' => 'Maak er een aan',
+    ],
+
+    'register' => [
+        'title' => 'Account aanmaken',
+        'subtitle' => 'Word lid en profiteer van exclusieve aanbiedingen',
+        'name_label' => 'Volledige naam',
+        'name_placeholder' => 'Jan Jansen',
+        'email_label' => 'E-mailadres',
+        'email_placeholder' => 'jij@voorbeeld.nl',
+        'password_label' => 'Wachtwoord',
+        'password_placeholder' => '••••••••',
+        'password_hint' => 'Minimaal 8 tekens met hoofd-/kleine letters en cijfers',
+        'confirm_label' => 'Bevestig wachtwoord',
+        'terms_prefix' => 'Ik ga akkoord met de',
+        'terms_of_service' => 'Servicevoorwaarden',
+        'privacy_policy' => 'Privacyverklaring',
+        'and' => 'en',
+        'submit' => 'Account aanmaken',
+        'have_account' => 'Heb je al een account?',
+        'sign_in' => 'Log in',
+    ],
+
+    'forgot' => [
+        'title' => 'Wachtwoord vergeten',
+        'subtitle' => 'We helpen je je wachtwoord te herstellen',
+        'helper' => 'Geen zorgen! Vul je e-mailadres in en we sturen je een link om je wachtwoord te resetten.',
+        'email_label' => 'E-mailadres',
+        'email_placeholder' => 'jij@voorbeeld.nl',
+        'submit' => 'Resetlink versturen',
+        'back_to_login' => 'Terug naar inloggen',
+    ],
+
+    'reset' => [
+        'title' => 'Wachtwoord resetten',
+        'subtitle' => 'Maak een nieuw wachtwoord aan voor je account',
+        'email_label' => 'E-mailadres',
+        'email_placeholder' => 'jij@voorbeeld.nl',
+        'password_label' => 'Nieuw wachtwoord',
+        'password_placeholder' => '••••••••',
+        'confirm_label' => 'Bevestig wachtwoord',
+        'submit' => 'Wachtwoord resetten',
+    ],
+
+    'verify' => [
+        'title' => 'E-mail verifiëren',
+        'subtitle' => 'Verifieer je e-mail om de registratie te voltooien',
+        'message' => 'Bedankt voor je registratie! We hebben een verificatielink naar je e-mailadres gestuurd. Controleer je inbox en klik op de link om je account te bevestigen.',
+        'resent' => 'Er is een nieuwe verificatielink verzonden naar het opgegeven e-mailadres.',
+        'resend' => 'Verificatiemail opnieuw sturen',
+        'logout' => 'Uitloggen',
+        'not_received' => 'Geen e-mail ontvangen?',
+        'help' => 'Controleer je spammap of neem contact op met support.',
+    ],
+
+    'confirm' => [
+        'title' => 'Wachtwoord bevestigen',
+        'subtitle' => 'Dit is een beveiligde omgeving. Verifieer je identiteit.',
+        'helper' => 'Dit is een beveiligd gedeelte van de applicatie. Bevestig je wachtwoord om verder te gaan.',
+        'password_label' => 'Wachtwoord',
+        'password_placeholder' => '••••••••',
+        'submit' => 'Wachtwoord bevestigen',
+        'back' => 'Ga terug',
+    ],
+
+    'messages' => [
+        'invalid_credentials' => 'Ongeldige inloggegevens.',
+        'password_reset_sent' => 'Link voor wachtwoordherstel verzonden.',
+        'password_reset' => 'Je wachtwoord is ingesteld.',
+        'email_verified' => 'Je e-mail is geverifieerd.',
+        'verification_link_sent' => 'Verificatielink is verzonden naar je e-mail.',
+    ],
+];

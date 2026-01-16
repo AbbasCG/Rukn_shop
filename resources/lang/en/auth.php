@@ -1,0 +1,91 @@
+<?php
+
+return [
+    'failed' => 'These credentials do not match our records.',
+    'password' => 'The provided password is incorrect.',
+    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+
+    'login' => [
+        'title' => 'Welcome back',
+        'subtitle' => 'Sign in to your account to continue shopping',
+        'email_label' => 'Email Address',
+        'email_placeholder' => 'you@example.com',
+        'password_label' => 'Password',
+        'password_placeholder' => '••••••••',
+        'remember' => 'Remember me',
+        'forgot' => 'Forgot password?',
+        'submit' => 'Sign In',
+        'no_account' => "Don't have an account?",
+        'create_one' => 'Create one',
+    ],
+
+    'register' => [
+        'title' => 'Create Account',
+        'subtitle' => 'Join us and start shopping with exclusive deals',
+        'name_label' => 'Full Name',
+        'name_placeholder' => 'John Doe',
+        'email_label' => 'Email Address',
+        'email_placeholder' => 'you@example.com',
+        'password_label' => 'Password',
+        'password_placeholder' => '••••••••',
+        'password_hint' => 'At least 8 characters with mixed case and numbers',
+        'confirm_label' => 'Confirm Password',
+        'terms_prefix' => 'I agree to the',
+        'terms_of_service' => 'Terms of Service',
+        'privacy_policy' => 'Privacy Policy',
+        'and' => 'and',
+        'submit' => 'Create Account',
+        'have_account' => 'Already have an account?',
+        'sign_in' => 'Sign in',
+    ],
+
+    'forgot' => [
+        'title' => 'Forgot Password',
+        'subtitle' => "We'll help you reset your password and regain access",
+        'helper' => "No worries! Enter your email address and we'll send you a link to reset your password.",
+        'email_label' => 'Email Address',
+        'email_placeholder' => 'you@example.com',
+        'submit' => 'Send Reset Link',
+        'back_to_login' => 'Back to login',
+    ],
+
+    'reset' => [
+        'title' => 'Reset Password',
+        'subtitle' => 'Create a new password for your account',
+        'email_label' => 'Email Address',
+        'email_placeholder' => 'you@example.com',
+        'password_label' => 'New Password',
+        'password_placeholder' => '••••••••',
+        'confirm_label' => 'Confirm Password',
+        'submit' => 'Reset Password',
+    ],
+
+    'verify' => [
+        'title' => 'Verify Email',
+        'subtitle' => 'Please verify your email to complete registration',
+        'message' => "Thanks for signing up! We've sent a verification link to your email address. Please check your inbox and click the link to verify your account.",
+        'resent' => 'A new verification link has been sent to the email address you provided during registration.',
+        'resend' => 'Resend Verification Link',
+        'logout' => 'Log Out',
+        'not_received' => "Didn't receive the email?",
+        'help' => 'Check your spam folder or contact support.',
+    ],
+
+    'confirm' => [
+        'title' => 'Confirm Password',
+        'subtitle' => 'This is a secure area. Please verify your identity',
+        'helper' => 'This is a secure area of the application. Please confirm your password before continuing.',
+        'password_label' => 'Password',
+        'password_placeholder' => '••••••••',
+        'submit' => 'Confirm Password',
+        'back' => 'Go Back',
+    ],
+
+    'messages' => [
+        'invalid_credentials' => 'Invalid credentials provided.',
+        'password_reset_sent' => 'Password reset link sent.',
+        'password_reset' => 'Your password has been reset.',
+        'email_verified' => 'Your email has been verified.',
+        'verification_link_sent' => 'Verification link sent to your email.',
+    ],
+];

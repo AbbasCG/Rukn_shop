@@ -16,16 +16,16 @@ class CheckoutController extends Controller
         $userId = Auth::id();
         $cartItems = Cart::where('user_id', $userId)->with('product')->get();
         if ($cartItems->isEmpty()) {
-            return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
+            return redirect()->route('cart.index')->with('error', __('checkout.flash.empty_cart'));
         }
-        $subtotal = $cartItems->sum(function($item){
+        $subtotal = $cartItems->sum(function ($item) {
             $price = $item->price_at_time ?? $item->product->price;
             $qtyCol = isset($item->quantity) ? 'quantity' : (property_exists($item, 'quanttty') ? 'quanttty' : 'quantity');
             return $price * ($item->$qtyCol ?? 1);
         });
         $shipping = 0.00; // flat rate placeholder
         $total = $subtotal + $shipping;
-        return view('checkout.index', compact('cartItems','subtotal','shipping','total'));
+        return view('checkout.index', compact('cartItems', 'subtotal', 'shipping', 'total'));
     }
 
     public function store(Request $request)
@@ -46,12 +46,12 @@ class CheckoutController extends Controller
         $userId = Auth::id();
         $cartItems = Cart::where('user_id', $userId)->with('product')->get();
         if ($cartItems->isEmpty()) {
-            return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
+            return redirect()->route('cart.index')->with('error', __('checkout.flash.empty_cart'));
         }
 
         DB::beginTransaction();
         try {
-            $subtotal = $cartItems->sum(function($item){
+            $subtotal = $cartItems->sum(function ($item) {
                 $price = $item->price_at_time ?? $item->product->price;
                 $qtyCol = isset($item->quantity) ? 'quantity' : (property_exists($item, 'quanttty') ? 'quanttty' : 'quantity');
                 return $price * ($item->$qtyCol ?? 1);
@@ -96,7 +96,7 @@ class CheckoutController extends Controller
             return redirect()->route('orders.confirmation', $order);
         } catch (\Throwable $e) {
             DB::rollBack();
-            return back()->with('error', 'Failed to place order. Please try again.');
+            return back()->with('error', __('checkout.flash.failed'));
         }
     }
 

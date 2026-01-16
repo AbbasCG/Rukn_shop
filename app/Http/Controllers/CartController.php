@@ -21,7 +21,7 @@ class CartController extends Controller
                 ->get();
         } else {
             $sessionItems = collect(session('cart.items', [])); // [product_id => quantity]
-            $cartItems = $sessionItems->map(function($qty, $productId){
+            $cartItems = $sessionItems->map(function ($qty, $productId) {
                 $obj = new \stdClass();
                 $obj->product = \App\Models\Product::find($productId);
                 $obj->quantity = (int)$qty;
@@ -30,7 +30,7 @@ class CartController extends Controller
             });
         }
 
-        $subtotal = $cartItems->sum(function($item){
+        $subtotal = $cartItems->sum(function ($item) {
             $price = $item->price_at_time ?? optional($item->product)->price ?? 0;
             $qtyCol = Schema::hasColumn('carts', 'quantity') ? 'quantity' : 'quanttty';
             $qty = isset($item->$qtyCol) ? $item->$qtyCol : ($item->quantity ?? 1);
@@ -39,7 +39,7 @@ class CartController extends Controller
         $shipping = 0.00; // placeholder
         $total = $subtotal + $shipping;
 
-        return view('cart.index', compact('cartItems','subtotal','shipping','total'));
+        return view('cart.index', compact('cartItems', 'subtotal', 'shipping', 'total'));
     }
 
     /**
@@ -82,7 +82,7 @@ class CartController extends Controller
                     'price_at_time' => optional($product)->price,
                 ]);
             }
-            $qtyCol = Schema::hasColumn('carts','quantity') ? 'quantity' : 'quanttty';
+            $qtyCol = Schema::hasColumn('carts', 'quantity') ? 'quantity' : 'quanttty';
             $count = Cart::where('user_id', Auth::id())->sum($qtyCol);
         } else {
             // Session-based cart for guests
@@ -96,7 +96,7 @@ class CartController extends Controller
         if ($request->expectsJson()) {
             return response()->json(['ok' => true, 'count' => (int)$count]);
         }
-        return redirect()->back()->with('success', 'Product added to cart!');
+        return redirect()->back()->with('success', __('cart.flash.added'));
     }
 
     /**
@@ -135,7 +135,7 @@ class CartController extends Controller
             $price = $cart->price_at_time ?? optional($cart->product)->price ?? 0;
             $itemTotal = $price * $cart->$quantityColumn;
             $items = Cart::where('user_id', Auth::id())->with('product')->get();
-            $subtotal = $items->sum(function($item){
+            $subtotal = $items->sum(function ($item) {
                 $price = $item->price_at_time ?? optional($item->product)->price ?? 0;
                 $qtyCol = Schema::hasColumn('carts', 'quantity') ? 'quantity' : 'quanttty';
                 return $price * ($item->$qtyCol ?? 1);
@@ -150,7 +150,7 @@ class CartController extends Controller
                 'total' => $total,
             ]);
         }
-        return back()->with('success', 'Cart updated.');
+        return back()->with('success', __('cart.flash.updated'));
     }
 
     /**
@@ -162,7 +162,7 @@ class CartController extends Controller
             abort(403);
         }
         $cart->delete();
-        return back()->with('success', 'Item removed from cart.');
+        return back()->with('success', __('cart.flash.removed'));
     }
 
     /**
@@ -170,7 +170,7 @@ class CartController extends Controller
      */
     public function clear(Request $request)
     {
-        Cart::where('user_id', Auth::id())->where('status','active')->delete();
-        return back()->with('success', 'Cart cleared.');
+        Cart::where('user_id', Auth::id())->where('status', 'active')->delete();
+        return back()->with('success', __('cart.flash.cleared'));
     }
 }
