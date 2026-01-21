@@ -67,7 +67,6 @@ return [
     'shop_now' => 'تسوق الآن',
     'view_collection' => 'عرض المجموعة',
     'view_all' => 'عرض الكل',
-    'view_details' => 'عرض التفاصيل',
 
     // Navigation & Header
     'nav_home' => 'الرئيسية',

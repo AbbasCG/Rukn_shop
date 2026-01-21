@@ -63,7 +63,7 @@ Route::get('/products/{product}', [ProductController::class, 'show'])->name('pro
 
 // Admin-only CRUD routes
 Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/admin.dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Product Management
     Route::resource('products', AdminProductController::class);

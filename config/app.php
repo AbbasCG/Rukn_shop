@@ -82,7 +82,7 @@ return [
 
     'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
 
-    'supported_locales' => ['en', 'ar', 'nl'],
+    'supported_locales' => ['en', 'ar'],
 
     'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
