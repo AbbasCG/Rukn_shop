@@ -1,0 +1,11 @@
+[build]
+  command = "composer install --no-dev --optimize-autoloader"
+  publish = "public"
+
+[functions]
+  directory = "netlify/functions"
+
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/index"
+  status = 200

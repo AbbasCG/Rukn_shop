@@ -29,7 +29,7 @@ class SetLocale
                 app()->setLocale($sessionLocale);
             } else {
                 // Use browser language or app default
-                $appDefault = config('app.locale', 'en');
+                $appDefault = config('app.locale', 'nl');
                 app()->setLocale($appDefault);
             }
         }
