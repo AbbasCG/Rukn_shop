@@ -21,9 +21,12 @@ WORKDIR /var/www
 COPY . .
 
 RUN composer install --no-dev --optimize-autoloader
+RUN php artisan storage:link || true
 
 RUN npm install
 RUN npm run build
+RUN php artisan config:clear
+RUN php artisan view:clear
 
 EXPOSE 10000
 
