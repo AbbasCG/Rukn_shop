@@ -5,7 +5,7 @@
                 <!-- Brand -->
                 <div>
                     <a href="{{ route('home') }}" class="inline-block mb-4 hover:opacity-80 transition-opacity duration-300">
-                        <img src="{{ asset('storage/images/Voll logo.svg') }}" alt="Rukn Shop" class="h-12 w-auto">
+                        <img src="{{ asset('images/Voll logo.svg') }}" alt="Rukn Shop" class="h-12 w-auto">
                     </a>
                     <p class="text-primary-light/70 text-sm leading-relaxed">
                         Elegance woven into every moment. Discover timeless pieces crafted with passion and authenticity.

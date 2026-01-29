@@ -21,7 +21,12 @@ WORKDIR /var/www
 COPY . .
 
 RUN composer install --no-dev --optimize-autoloader
-RUN php artisan storage:link || true
+
+# Verplaats statische images van storage naar public/images
+RUN mkdir -p public/images && \
+    if [ -d "storage/app/public/images" ]; then \
+        cp -r storage/app/public/images/* public/images/ 2>/dev/null || true; \
+    fi
 
 RUN npm install
 RUN npm run build
