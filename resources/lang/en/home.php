@@ -67,7 +67,6 @@ return [
     'shop_now' => 'Shop Now',
     'view_collection' => 'View Collection',
     'view_all' => 'View all',
-    'view_details' => 'View Details',
 
     // Navigation & Header
     'nav_home' => 'Home',
