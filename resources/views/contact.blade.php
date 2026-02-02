@@ -8,6 +8,7 @@
         </style>
 
         <!-- 1) Hero / Intro -->
+         <!-- TEST COMMIT -->
         <section class="rounded-3xl bg-gradient-to-br from-primary-light to-white p-12 text-center md:text-left animate-fade-in-up">
             <div class="space-y-4">
                 <h1 class="text-4xl font-bold text-primary-dark">{{ __('contact.title') }}</h1>
