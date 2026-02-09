@@ -66,7 +66,7 @@
                     id="price_min"
                     name="price_min"
                     value="{{ request('price_min') }}"
-                    placeholder="$0"
+                    placeholder="€0"
                     step="0.01"
                     class="w-full px-4 py-2 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
             </div>
@@ -79,7 +79,7 @@
                     id="price_max"
                     name="price_max"
                     value="{{ request('price_max') }}"
-                    placeholder="$999"
+                    placeholder="€999"
                     step="0.01"
                     class="w-full px-4 py-2 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
             </div>
@@ -204,7 +204,7 @@
                                     <span class="text-sm text-primary-dark/70">{{ $product->category->name ?? '-' }}</span>
                                 </td>
                                 <td class="px-6 py-4 align-middle">
-                                    <span class="text-sm font-semibold text-primary-dark">${{ number_format($product->price, 2) }}</span>
+                                    <span class="text-sm font-semibold text-primary-dark">€{{ number_format($product->price, 2) }}</span>
                                 </td>
                                 <td class="px-6 py-4 align-middle">
                                     @if($product->stock <= 0)

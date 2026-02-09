@@ -67,11 +67,11 @@
                             </div>
                             <div class="text-right">
                                 <p class="text-sm text-primary-dark/60">Price per item</p>
-                                <p class="font-semibold text-primary-dark">${{ number_format($item->price, 2) }}</p>
+                                <p class="font-semibold text-primary-dark">€{{ number_format($item->price, 2) }}</p>
                             </div>
                             <div class="text-right ml-4">
                                 <p class="text-sm text-primary-dark/60">Subtotal</p>
-                                <p class="font-semibold text-primary-dark">${{ number_format($item->price * $item->quantity, 2) }}</p>
+                                <p class="font-semibold text-primary-dark">€{{ number_format($item->price * $item->quantity, 2) }}</p>
                             </div>
                         </div>
                     @endforeach
@@ -87,15 +87,15 @@
                 <div class="space-y-3">
                     <div class="flex justify-between items-center">
                         <span class="text-sm text-primary-dark/60">Subtotal</span>
-                        <span class="font-semibold text-primary-dark">${{ number_format($order->orderItems->sum(fn($item) => $item->price * $item->quantity), 2) }}</span>
+                        <span class="font-semibold text-primary-dark">€{{ number_format($order->orderItems->sum(fn($item) => $item->price * $item->quantity), 2) }}</span>
                     </div>
                     <div class="flex justify-between items-center">
                         <span class="text-sm text-primary-dark/60">Shipping</span>
-                        <span class="font-semibold text-primary-dark">$0.00</span>
+                        <span class="font-semibold text-primary-dark">€0.00</span>
                     </div>
                     <div class="pt-3 border-t border-primary-gray flex justify-between items-center">
                         <span class="text-base font-semibold text-primary-dark">Total</span>
-                        <span class="text-lg font-bold text-primary-dark">${{ number_format($order->orderItems->sum(fn($item) => $item->price * $item->quantity), 2) }}</span>
+                        <span class="text-lg font-bold text-primary-dark">€{{ number_format($order->orderItems->sum(fn($item) => $item->price * $item->quantity), 2) }}</span>
                     </div>
                 </div>
             </div>

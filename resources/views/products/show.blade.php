@@ -1,11 +1,12 @@
 <x-app-layout>
+    @php $dir = app()->getLocale() === 'ar' ? 'rtl' : 'ltr'; @endphp
     <!-- Breadcrumbs -->
-    <div class="bg-primary-50 dark:bg-primary-900 border-b border-primary-200 dark:border-primary-700">
+    <div class="bg-primary-50 dark:bg-primary-900 border-b border-primary-200 dark:border-primary-700" dir="{{ $dir }}">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <nav class="flex text-sm text-neutral-500 dark:text-primary-300">
-                <a href="{{ route('home') }}" class="hover:text-primary-800 transition-colors font-medium">Home</a>
+                <a href="{{ route('home') }}" class="hover:text-primary-800 transition-colors font-medium">{{ __('product.breadcrumb_home') }}</a>
                 <span class="mx-2">/</span>
-                <a href="{{ route('products.index') }}" class="hover:text-primary-800 transition-colors font-medium">Products</a>
+                <a href="{{ route('products.index') }}" class="hover:text-primary-800 transition-colors font-medium">{{ __('product.breadcrumb_products') }}</a>
                 @if($product->category)
                     <span class="mx-2">/</span>
                     <span class="hover:text-primary-800 transition-colors font-medium">{{ $product->category->name }}</span>
@@ -17,7 +18,7 @@
     </div>
 
     <!-- Main Product Section -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12" dir="{{ $dir }}">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
             <!-- Left Column - Image Gallery -->
             <div class="space-y-4 h-full">
@@ -55,8 +56,15 @@
                     </div>
                 @endif
 
-                <!-- Product Name -->
-                <h1 class="text-4xl lg:text-5xl font-bold text-primary-800 dark:text-primary-800 leading-tight">{{ $product->name }}</h1>
+                <!-- Product Name & Share Button -->
+                <div class="flex flex-wrap items-start justify-between gap-3">
+                    <h1 class="text-4xl lg:text-5xl font-bold text-primary-800 dark:text-primary-800 leading-tight flex-1 min-w-0">{{ $product->name }}</h1>
+                    
+                    <!-- Share Button (compact variant) -->
+                    <div class="flex-shrink-0">
+                        <x-product-share :product="$product" variant="compact" />
+                    </div>
+                </div>
 
                 <!-- Rating -->
                 <div class="flex items-center gap-4">
@@ -83,7 +91,7 @@
                             @endif
                         @endfor
                     </div>
-                    <span class="text-base text-neutral-500 dark:text-primary-300 font-medium">{{ number_format($product->rating, 1) }} <span class="text-neutral-400">({{ $reviews->count() }} reviews)</span></span>
+                    <span class="text-base text-neutral-500 dark:text-primary-300 font-medium">{{ number_format($product->rating, 1) }} <span class="text-neutral-400">({{ __('product.reviews_count', ['count' => $reviews->count()]) }})</span></span>
                 </div>
 
                 <!-- Price -->
@@ -95,14 +103,14 @@
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                         </svg>
-                        <span class="font-bold">In Stock — {{ $product->stock }} available</span>
+                        <span class="font-bold">{{ __('product.in_stock_available', ['count' => $product->stock]) }}</span>
                     </div>
                 @else
                     <div class="flex items-center gap-2 text-error dark:text-error bg-error-light/20 dark:bg-error-dark/20 px-4 py-1.5 rounded-lg">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
                         </svg>
-                        <span class="font-bold">Out of Stock</span>
+                        <span class="font-bold">{{ __('product.out_of_stock') }}</span>
                     </div>
                 @endif
 
@@ -132,7 +140,7 @@
                 <!-- Options -->
                 <div class="space-y-5">
                     <!-- Color Selector -->
-                    <div>
+                    <!-- <div>
                         <div class="flex items-center gap-4">
                             <label class="cursor-pointer group">
                                 <input type="radio" name="color" value="black" checked class="hidden">
@@ -151,10 +159,10 @@
                                 <div class="w-8 h-8 bg-amber-100 rounded-full border-2 border-neutral-300 hover:border-primary-800 transition-all group-has-[:checked]:ring-2 group-has-[:checked]:ring-primary-800 group-has-[:checked]:ring-offset-2"></div>
                             </label>
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- Size Selector -->
-                    <div>
+                    <!-- <div>
                         <div class="flex items-center gap-3">
                             <label class="cursor-pointer group">
                                 <input type="radio" name="size" value="small" checked class="hidden">
@@ -181,56 +189,59 @@
                                 </div>
                             </label>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
+                
 
                 <!-- Quantity + Actions -->
-                <div class="flex flex-wrap items-center justify-start gap-3 pt-4">
-                    <form action="{{ route('cart.store') }}" method="POST" class="flex flex-wrap items-center justify-center gap-3">
-                        @csrf
-                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-
-                        <div class="inline-flex items-center gap-2">
-                            <button type="button" onclick="decrementQuantity()" class="w-8 h-8 flex items-center justify-center text-primary-800 dark:text-primary-800 hover:opacity-70 transition-opacity active:scale-90">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
-                                </svg>
-                            </button>
-                            <input 
-                                type="number" 
-                                id="quantity" 
-                                name="quantity" 
-                                value="1" 
-                                min="1" 
-                                max="{{ $product->stock }}" 
-                                aria-label="Quantity"
-                                class="w-12 h-8 text-center px-2 py-0 bg-transparent text-sm font-bold text-primary-800 dark:text-primary-800 focus:outline-none transition-all [&::-webkit-outer-spin-button]:[appearance:none] [&::-webkit-inner-spin-button]:[appearance:none] [&::-webkit-inner-spin-button]:[margin:0] [&::-webkit-outer-spin-button]:[margin:0]"
-                            >
-                            <button type="button" onclick="incrementQuantity()" class="w-8 h-8 flex items-center justify-center text-primary-800 dark:text-primary-800 hover:opacity-70 transition-opacity active:scale-90">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
-                                </svg>
-                            </button>
-                        </div>
-
-                        <button 
-                            type="submit" 
-                            @if($product->stock <= 0) disabled @endif
-                            class="w-full sm:w-auto sm:flex-1 py-3 px-6 bg-primary-800 hover:bg-primary-700 active:bg-primary-900 text-white text-base font-semibold rounded-xl shadow-md hover:shadow-xl transition-all transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-md disabled:hover:translate-y-0">
-                            <span class="flex items-center justify-center gap-2">
-                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
-                                </svg>
-                                Add to Cart
-                            </span>
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-start gap-3 pt-4 w-full">
+                    <!-- Quantity Selector -->
+                    <div class="inline-flex items-center gap-2 flex-shrink-0">
+                        <button type="button" onclick="decrementQuantity()" class="w-8 h-8 flex items-center justify-center text-primary-800 dark:text-primary-800 hover:opacity-70 transition-opacity active:scale-90">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                            </svg>
                         </button>
-                    </form>
+                        <input 
+                            type="number" 
+                            id="quantity" 
+                            name="quantity" 
+                            value="1" 
+                            min="1" 
+                            max="{{ $product->stock }}" 
+                            :aria-label="__('product.quantity_label')"
+                            class="w-12 h-8 text-center px-2 py-0 bg-transparent text-sm font-bold text-primary-800 dark:text-primary-800 focus:outline-none transition-all [&::-webkit-outer-spin-button]:[appearance:none] [&::-webkit-inner-spin-button]:[appearance:none] [&::-webkit-inner-spin-button]:[margin:0] [&::-webkit-outer-spin-button]:[margin:0]"
+                        >
+                        <button type="button" onclick="incrementQuantity()" class="w-8 h-8 flex items-center justify-center text-primary-800 dark:text-primary-800 hover:opacity-70 transition-opacity active:scale-90">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                    </div>
 
-                    <button class="w-12 h-12 border-2 border-primary-800 dark:border-primary-800 text-primary-800 dark:text-primary-800 rounded-xl hover:bg-primary-800 hover:text-white dark:hover:bg-primary-800 dark:hover:text-white transition-all transform hover:-translate-y-0.5" aria-label="Add to Wishlist">
-                        <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
-                        </svg>
-                    </button>
+                    <!-- Action Buttons Container -->
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-1 w-full sm:w-auto">
+                        <!-- Add to Cart Button -->
+                        <form action="{{ route('cart.store') }}" method="POST" class="flex-1 sm:flex-1 min-w-0">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+
+                            <button 
+                                type="submit" 
+                                @if($product->stock <= 0) disabled @endif
+                                class="w-full h-full py-3 px-4 bg-primary-800 hover:bg-primary-700 active:bg-primary-900 text-white text-base font-semibold rounded-xl shadow-md hover:shadow-xl transition-all transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-md disabled:hover:translate-y-0 whitespace-nowrap">
+                                <span class="flex items-center justify-center gap-2">
+                                    <svg class="w-6 h-6 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+                                    </svg>
+                                    <span class="truncate">{{ __('product.add_to_cart') }}</span>
+                                </span>
+                            </button>
+                        </form>
+
+                        <!-- WhatsApp Buy Now Button Component -->
+                        <x-whatsapp-buy-now :product="$product" :quantity="1" />
+                    </div>
                 </div>
 
                 <!-- Extra Info -->
@@ -240,19 +251,19 @@
                             <svg class="w-4 h-4 text-primary-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
                             </svg>
-                            <span class="font-medium">Free shipping €50+</span>
+                            <span class="font-medium">{{ __('product.free_shipping_threshold') }}</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-primary-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                             </svg>
-                            <span class="font-medium">Secure payment</span>
+                            <span class="font-medium">{{ __('product.secure_payment') }}</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-primary-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                             </svg>
-                            <span class="font-medium">30-day returns</span>
+                            <span class="font-medium">{{ __('product.return_policy') }}</span>
                         </div>
                     </div>
                 </div>
@@ -261,19 +272,19 @@
     </div>
 
     <!-- Product Details Tabs -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" dir="{{ $dir }}">
         <div class="bg-white dark:bg-white rounded-2xl shadow-xl border border-neutral-200 dark:border-neutral-300 overflow-hidden">
             <!-- Tab Navigation -->
             <div class="border-b border-primary-200 dark:border-neutral-300">
                 <nav class="flex gap-6 px-7" aria-label="Tabs">
                     <button onclick="switchTab('description')" class="tab-button py-4 px-3 border-b-3 border-primary-800 text-primary-800 dark:text-primary-800 font-bold text-base">
-                        Description
+                        {{ __('product.tab_description') }}
                     </button>
                     <button onclick="switchTab('specifications')" class="tab-button py-4 px-3 border-b-3 border-transparent text-neutral-600 dark:text-neutral-600 hover:text-primary-800 dark:hover:text-primary-800 hover:border-primary-700 font-medium text-base transition-all">
-                        Specifications
+                        {{ __('product.tab_specifications') }}
                     </button>
                     <button onclick="switchTab('shipping')" class="tab-button py-4 px-3 border-b-3 border-transparent text-neutral-600 dark:text-neutral-600 hover:text-primary-800 dark:hover:text-primary-800 hover:border-primary-700 font-medium text-base transition-all">
-                        Shipping & Returns
+                        {{ __('product.tab_shipping') }}
                     </button>
                 </nav>
             </div>
@@ -293,23 +304,23 @@
                         <table class="w-full text-base">
                             <tbody class="divide-y divide-primary-200 dark:divide-neutral-300">
                                 <tr>
-                                    <td class="py-3 text-neutral-500 dark:text-primary-300 font-bold w-1/3">Material</td>
+                                    <td class="py-3 text-neutral-500 dark:text-primary-300 font-bold w-1/3">{{ __('product.spec_material') }}</td>
                                     <td class="py-3 text-primary-800 dark:text-primary-800">Premium Cotton Blend</td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 text-neutral-500 dark:text-primary-300 font-bold">Dimensions</td>
+                                    <td class="py-3 text-neutral-500 dark:text-primary-300 font-bold">{{ __('product.spec_dimensions') }}</td>
                                     <td class="py-3 text-primary-800 dark:text-primary-800">30cm x 40cm x 10cm</td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 text-neutral-500 dark:text-primary-300 font-bold">Weight</td>
+                                    <td class="py-3 text-neutral-500 dark:text-primary-300 font-bold">{{ __('product.spec_weight') }}</td>
                                     <td class="py-3 text-primary-800 dark:text-primary-800">0.5 kg</td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 text-neutral-500 dark:text-primary-300 font-bold">Care Instructions</td>
+                                    <td class="py-3 text-neutral-500 dark:text-primary-300 font-bold">{{ __('product.spec_care') }}</td>
                                     <td class="py-3 text-primary-800 dark:text-primary-800">Machine washable at 30°C</td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 text-neutral-500 dark:text-primary-300 font-bold">Country of Origin</td>
+                                    <td class="py-3 text-neutral-500 dark:text-primary-300 font-bold">{{ __('product.spec_origin') }}</td>
                                     <td class="py-3 text-primary-800 dark:text-primary-800">Made in Europe</td>
                                 </tr>
                             </tbody>
@@ -321,12 +332,12 @@
                 <div id="shipping-tab" class="tab-content hidden">
                     <div class="space-y-5 text-primary-800 dark:text-primary-800">
                         <div>
-                            <h3 class="font-bold text-xl mb-2 text-primary-800 dark:text-primary-800">Shipping Information</h3>
-                            <p class="text-neutral-600 dark:text-primary-300 leading-relaxed">We offer free standard shipping on orders over €50. Orders are typically processed within 1-2 business days and delivered within 3-5 business days.</p>
+                            <h3 class="font-bold text-xl mb-2 text-primary-800 dark:text-primary-800">{{ __('product.shipping_title') }}</h3>
+                            <p class="text-neutral-600 dark:text-primary-300 leading-relaxed">{{ __('product.shipping_info') }}</p>
                         </div>
                         <div>
-                            <h3 class="font-bold text-xl mb-2 text-primary-800 dark:text-primary-800">Return Policy</h3>
-                            <p class="text-neutral-600 dark:text-primary-300 leading-relaxed">We accept returns within 30 days of delivery. Items must be unused and in original packaging. Return shipping costs are the responsibility of the customer unless the item is defective.</p>
+                            <h3 class="font-bold text-xl mb-2 text-primary-800 dark:text-primary-800">{{ __('product.returns_title') }}</h3>
+                            <p class="text-neutral-600 dark:text-primary-300 leading-relaxed">{{ __('product.returns_info') }}</p>
                         </div>
                     </div>
                 </div>
@@ -414,8 +425,8 @@
 
     <!-- Related Products -->
     @if($relatedProducts && $relatedProducts->count() > 0)
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <h2 class="text-4xl font-bold text-primary-800 dark:text-primary-800 mb-8">You May Also Like</h2>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" dir="{{ $dir }}">
+            <h2 class="text-4xl font-bold text-primary-800 dark:text-primary-800 mb-8">{{ __('product.related_products_title') }}</h2>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
                 @foreach($relatedProducts as $relatedProduct)
                     <div class="bg-white dark:bg-white rounded-2xl shadow-md border border-neutral-200 dark:border-neutral-300 overflow-hidden hover:shadow-2xl hover:border-primary-800 hover:-translate-y-2 transition-all duration-300">
@@ -427,7 +438,7 @@
                                 <h3 class="font-bold text-primary-800 dark:text-primary-800 mb-2.5 line-clamp-2 hover:text-primary-700 transition-colors">{{ $relatedProduct->name }}</h3>
                                 <div class="text-2xl font-bold text-primary-800 dark:text-primary-800 mb-3">€{{ number_format($relatedProduct->price, 2) }}</div>
                                 <button class="w-full py-2 px-4 border-2 border-primary-800 dark:border-primary-800 text-primary-800 dark:text-primary-800 rounded-xl hover:bg-primary-800 hover:text-white dark:hover:bg-primary-800 dark:hover:text-white transition-all text-sm font-bold">
-                                    View Details
+                                    {{ __('product.view_details') }}
                                 </button>
                             </div>
                         </a>

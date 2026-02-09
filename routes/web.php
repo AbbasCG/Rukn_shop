@@ -87,5 +87,13 @@ Route::get('/faq', function () {
     return view('faq');
 })->name('faq');
 
+// Legal pages
+Route::get('/privacy-policy', function () {
+    return view('legal.privacy-policy');
+})->name('privacy-policy');
+Route::get('/terms-of-service', function () {
+    return view('legal.terms-of-service');
+})->name('terms-of-service');
+
 require __DIR__.'/auth.php';
                         

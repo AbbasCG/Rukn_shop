@@ -59,7 +59,7 @@
 
             <!-- Price -->
             <div>
-                <label for="price" class="block text-sm font-medium text-primary-dark mb-2">Price ($)</label>
+                <label for="price" class="block text-sm font-medium text-primary-dark mb-2">Price (€)</label>
                 <input 
                     id="price"
                     type="number" 

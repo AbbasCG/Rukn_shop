@@ -108,7 +108,7 @@
                                             return $item->price * $item->quantity;
                                         });
                                     @endphp
-                                    <span class="text-sm font-semibold text-primary-dark">${{ number_format($orderTotal, 2) }}</span>
+                                    <span class="text-sm font-semibold text-primary-dark">€{{ number_format($orderTotal, 2) }}</span>
                                 </td>
                                 <td class="py-4 px-6">
                                     @php

@@ -73,8 +73,8 @@
             <div class="border-t border-primary-light/20 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-primary-light/70">
                 <p>© 2025 Rukn Shop. All rights reserved.</p>
                 <div class="flex gap-6 mt-4 md:mt-0">
-                    <a href="#" class="hover:text-primary-light transition-colors duration-300">Privacy Policy</a>
-                    <a href="#" class="hover:text-primary-light transition-colors duration-300">Terms of Service</a>
+                    <a href="{{ route('privacy-policy') }}" class="hover:text-primary-light transition-colors duration-300">Privacy Policy</a>
+                    <a href="{{ route('terms-of-service') }}" class="hover:text-primary-light transition-colors duration-300">Terms of Service</a>
                     <a href="#" class="hover:text-primary-light transition-colors duration-300">Cookies</a>
                 </div>
             </div>
