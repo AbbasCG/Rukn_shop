@@ -2,7 +2,7 @@
     @php $dir = app()->getLocale() === 'ar' ? 'rtl' : 'ltr'; @endphp
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8" dir="{{ $dir }}">
         <!-- Back Link -->
-        <a href="{{ route('orders.index') }}" class="inline-flex items-center text-sm text-primary-dark hover:text-primary-dark/70 font-semibold transition mb-4">
+        <a href="{{ r('orders.index') }}" class="inline-flex items-center text-sm text-primary-dark hover:text-primary-dark/70 font-semibold transition mb-4">
             <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
             </svg>
@@ -131,7 +131,7 @@
                     <!-- Product Details -->
                     <div class="flex-1">
                         <a
-                            href="{{ route('products.show', $item->product) }}"
+                            href="{{ r('products.show', $item->product) }}"
                             class="text-lg font-semibold text-primary-dark hover:text-primary-dark/70 transition">
                             {{ $item->product->name }}
                         </a>

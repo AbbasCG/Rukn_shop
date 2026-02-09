@@ -4,9 +4,9 @@
     <div class="bg-primary-50 dark:bg-primary-900 border-b border-primary-200 dark:border-primary-700" dir="{{ $dir }}">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <nav class="flex text-sm text-neutral-500 dark:text-primary-300">
-                <a href="{{ route('home') }}" class="hover:text-primary-800 transition-colors font-medium">{{ __('product.breadcrumb_home') }}</a>
+                <a href="{{ r('home') }}" class="hover:text-primary-800 transition-colors font-medium">{{ __('product.breadcrumb_home') }}</a>
                 <span class="mx-2">/</span>
-                <a href="{{ route('products.index') }}" class="hover:text-primary-800 transition-colors font-medium">{{ __('product.breadcrumb_products') }}</a>
+                <a href="{{ r('products.index') }}" class="hover:text-primary-800 transition-colors font-medium">{{ __('product.breadcrumb_products') }}</a>
                 @if($product->category)
                     <span class="mx-2">/</span>
                     <span class="hover:text-primary-800 transition-colors font-medium">{{ $product->category->name }}</span>
@@ -222,7 +222,7 @@
                     <!-- Action Buttons Container -->
                     <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-1 w-full sm:w-auto">
                         <!-- Add to Cart Button -->
-                        <form action="{{ route('cart.store') }}" method="POST" class="flex-1 sm:flex-1 min-w-0">
+                        <form action="{{ r('cart.store') }}" method="POST" class="flex-1 sm:flex-1 min-w-0">
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
 
@@ -430,7 +430,7 @@
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
                 @foreach($relatedProducts as $relatedProduct)
                     <div class="bg-white dark:bg-white rounded-2xl shadow-md border border-neutral-200 dark:border-neutral-300 overflow-hidden hover:shadow-2xl hover:border-primary-800 hover:-translate-y-2 transition-all duration-300">
-                        <a href="{{ route('products.show', $relatedProduct) }}">
+                        <a href="{{ r('products.show', $relatedProduct) }}">
                             <div class="aspect-square bg-primary-100 dark:bg-primary-100 overflow-hidden">
                                 <img src="{{ $relatedProduct->primaryImage() ? asset('storage/' . $relatedProduct->primaryImage()->path) : asset('storage/images/placeholder.jpg') }}" alt="{{ $relatedProduct->name }}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
                             </div>

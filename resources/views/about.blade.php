@@ -94,8 +94,8 @@
                         <p class="text-sm text-white/80">{{ __('about.cta_description') }}</p>
                     </div>
                     <div class="flex items-center gap-3 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
-                        <a href="{{ route('products.index') }}" class="inline-flex items-center px-5 py-3 rounded-xl bg-white text-primary-dark text-sm font-semibold shadow-lg hover:bg-white/90 transition">{{ __('about.cta_shop_now') }}</a>
-                        <a href="{{ route('contact') }}" class="inline-flex items-center px-5 py-3 rounded-xl border border-white text-white text-sm font-semibold hover:bg-white/10 transition">{{ __('about.cta_contact_us') }}</a>
+                        <a href="{{ r('products.index') }}" class="inline-flex items-center px-5 py-3 rounded-xl bg-white text-primary-dark text-sm font-semibold shadow-lg hover:bg-white/90 transition">{{ __('about.cta_shop_now') }}</a>
+                        <a href="{{ r('contact') }}" class="inline-flex items-center px-5 py-3 rounded-xl border border-white text-white text-sm font-semibold hover:bg-white/10 transition">{{ __('about.cta_contact_us') }}</a>
                     </div>
                 </div>
             </div>

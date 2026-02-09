@@ -10,7 +10,7 @@
             <p class="text-sm text-primary-dark/60 mt-1">Manage your catalog, availability, and pricing</p>
         </div>
         <a 
-            href="{{ route('admin.products.create') }}"
+            href="{{ r('admin.products.create') }}"
             class="inline-flex items-center px-4 py-2 rounded-lg bg-primary-dark text-white text-sm font-semibold hover:bg-primary-dark/90 transition-all duration-300">
             + Add New Product
         </a>
@@ -93,7 +93,7 @@
                 Search
             </button>
             <a 
-                href="{{ route('admin.products.index') }}"
+                href="{{ r('admin.products.index') }}"
                 class="px-4 py-2 bg-white border border-primary-gray text-primary-dark font-medium rounded-lg hover:bg-primary-dark/5 transition-all duration-300">
                 Reset
             </a>
@@ -236,12 +236,12 @@
                                 <td class="px-6 py-4 align-middle text-right">
                                     <div class="flex items-center justify-end gap-2">
                                         <a 
-                                            href="{{ route('admin.products.edit', $product) }}"
+                                            href="{{ r('admin.products.edit', $product) }}"
                                             class="inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-lg bg-primary-dark text-white hover:bg-primary-dark/90 transition-all duration-300">
                                             Edit
                                         </a>
                                         <a 
-                                            href="{{ route('products.show', $product) }}"
+                                            href="{{ r('products.show', $product) }}"
                                             target="_blank"
                                             class="inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-lg border border-primary-gray text-primary-dark hover:bg-primary-dark/5 transition-all duration-300">
                                             View
@@ -273,7 +273,7 @@
                 <p class="text-lg font-medium text-primary-dark mb-2">No products found</p>
                 <p class="text-sm text-primary-dark/60 text-center mb-6">Try adjusting your filters or add a new product to get started</p>
                 <a 
-                    href="{{ route('admin.products.create') }}"
+                    href="{{ r('admin.products.create') }}"
                     class="px-4 py-2 bg-primary-dark text-white font-medium rounded-lg hover:bg-primary-dark/90 transition-all duration-300">
                     Add New Product
                 </a>

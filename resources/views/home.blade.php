@@ -13,10 +13,10 @@
                         {{ __('home.hero_subtitle') }}
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
-                        <a href="{{ route('products.index') }}" class="nav-link-underline inline-flex items-center justify-center px-8 py-3 bg-primary-dark text-primary-light font-semibold hover:bg-primary-dark/90 hover:scale-105 transition-all duration-300 ease-in-out">
+                        <a href="{{ r('products.index') }}" class="nav-link-underline inline-flex items-center justify-center px-8 py-3 bg-primary-dark text-primary-light font-semibold hover:bg-primary-dark/90 hover:scale-105 transition-all duration-300 ease-in-out">
                             {{ __('home.shop_now') }}
                         </a>
-                        <a href="{{ route('about') }}" class="nav-link-underline inline-flex items-center justify-center px-8 py-3 border-2 border-primary-dark text-primary-dark font-semibold hover:bg-primary-dark/5 hover:scale-105 transition-all duration-300 ease-in-out">
+                        <a href="{{ r('about') }}" class="nav-link-underline inline-flex items-center justify-center px-8 py-3 border-2 border-primary-dark text-primary-dark font-semibold hover:bg-primary-dark/5 hover:scale-105 transition-all duration-300 ease-in-out">
                             {{ __('home.view_collection') }}
                         </a>
                     </div>
@@ -46,7 +46,7 @@
                         {{ __('home.new_arrivals_subtitle') }}
                     </p>
                 </div>
-                <a href="{{ route('products.index') }}" class="nav-link-underline text-primary-dark font-semibold hover:text-primary-dark/70 transition-colors duration-300 hidden lg:inline-block">
+                <a href="{{ r('products.index') }}" class="nav-link-underline text-primary-dark font-semibold hover:text-primary-dark/70 transition-colors duration-300 hidden lg:inline-block">
                     {{ __('home.view_all') }} →
                 </a>
             </div>
@@ -89,7 +89,7 @@
                         </p>
 
                         <a
-                            href="{{ route('products.show', $product) }}"
+                            href="{{ r('products.show', $product) }}"
                             class="nav-link-underline w-full inline-flex items-center justify-center px-4 py-3 border-2 border-primary-dark text-primary-dark font-semibold hover:bg-primary-dark hover:text-primary-light transition-all duration-300 ease-in-out rounded-lg">
                             {{ __('home.view_details') }}
                         </a>
@@ -116,7 +116,7 @@
                         {{ __('home.bestsellers_subtitle') }}
                     </p>
                 </div>
-                <a href="{{ route('products.index') }}" class="nav-link-underline text-primary-dark font-semibold hover:text-primary-dark/70 transition-colors duration-300 hidden lg:inline-block">
+                <a href="{{ r('products.index') }}" class="nav-link-underline text-primary-dark font-semibold hover:text-primary-dark/70 transition-colors duration-300 hidden lg:inline-block">
                     {{ __('home.view_all') }} →
                 </a>
             </div>
@@ -159,7 +159,7 @@
                         </p>
 
                         <a
-                            href="{{ route('products.show', $product) }}"
+                            href="{{ r('products.show', $product) }}"
                             class="nav-link-underline w-full inline-flex items-center justify-center px-4 py-3 border-2 border-primary-dark text-primary-dark font-semibold hover:bg-primary-dark hover:text-primary-light transition-all duration-300 ease-in-out rounded-lg">
                             {{ __('home.view_details') }}
                         </a>
@@ -266,7 +266,7 @@
                     <p class="text-primary-dark/70 mb-8 text-lg leading-relaxed">
                         {{ __('home.story_paragraph_2') }}
                     </p>
-                    <a href="{{ route('about') }}" class="nav-link-underline inline-flex items-center text-primary-dark font-semibold hover:text-primary-dark/70 transition-colors duration-300 w-fit">
+                    <a href="{{ r('about') }}" class="nav-link-underline inline-flex items-center text-primary-dark font-semibold hover:text-primary-dark/70 transition-colors duration-300 w-fit">
                         {{ __('home.learn_more') }} →
                     </a>
                 </div>

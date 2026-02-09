@@ -9,7 +9,7 @@
     </div>
 
     <!-- Form Card -->
-    <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data" class="bg-white rounded-xl shadow-lg p-8 space-y-6">
+    <form action="{{ r('admin.products.store') }}" method="POST" enctype="multipart/form-data" class="bg-white rounded-xl shadow-lg p-8 space-y-6">
         @csrf
 
         <!-- Grid Layout: 2 columns -->
@@ -233,7 +233,7 @@
                 Create Product
             </button>
             <a 
-                href="{{ route('admin.products.index') }}"
+                href="{{ r('admin.products.index') }}"
                 class="flex-1 px-6 py-2.5 border border-primary-gray text-primary-dark rounded-lg font-semibold hover:bg-primary-gray transition-all duration-300 text-center">
                 Cancel
             </a>

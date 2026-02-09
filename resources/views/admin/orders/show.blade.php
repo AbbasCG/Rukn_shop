@@ -11,7 +11,7 @@
             </div>
             
             <!-- Quick Status Update -->
-            <form action="{{ route('admin.orders.update', $order) }}" method="POST" class="flex items-center gap-3 bg-white rounded-xl shadow-lg p-4">
+            <form action="{{ r('admin.orders.update', $order) }}" method="POST" class="flex items-center gap-3 bg-white rounded-xl shadow-lg p-4">
                 @csrf
                 @method('PATCH')
                 <label for="status" class="text-sm font-medium text-primary-dark">Status:</label>
@@ -133,7 +133,7 @@
             <!-- Action Buttons -->
             <div class="flex gap-3">
                 <a 
-                    href="{{ route('admin.orders.index') }}"
+                    href="{{ r('admin.orders.index') }}"
                     class="flex-1 px-6 py-2.5 border border-primary-gray text-primary-dark rounded-lg font-semibold hover:bg-primary-gray transition-all duration-300 text-center">
                     Back
                 </a>

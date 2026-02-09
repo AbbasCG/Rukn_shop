@@ -131,25 +131,25 @@
                 <p class="text-sm text-primary-dark/60 mt-1">Common tasks</p>
             </div>
             <div class="space-y-3">
-                <a href="{{ route('admin.products.create') }}" class="flex items-center justify-between w-full px-4 py-3 bg-primary-dark text-white font-semibold rounded-lg hover:bg-primary-dark/90 transition-all duration-300">
+                <a href="{{ r('admin.products.create') }}" class="flex items-center justify-between w-full px-4 py-3 bg-primary-dark text-white font-semibold rounded-lg hover:bg-primary-dark/90 transition-all duration-300">
                     <span>Add New Product</span>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
                 </a>
-                <a href="{{ route('admin.categories.create') }}" class="flex items-center justify-between w-full px-4 py-3 bg-primary-dark text-white font-semibold rounded-lg hover:bg-primary-dark/90 transition-all duration-300">
+                <a href="{{ r('admin.categories.create') }}" class="flex items-center justify-between w-full px-4 py-3 bg-primary-dark text-white font-semibold rounded-lg hover:bg-primary-dark/90 transition-all duration-300">
                     <span>Add New Category</span>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
                 </a>
-                <a href="{{ route('admin.users.create') }}" class="flex items-center justify-between w-full px-4 py-3 bg-white border border-primary-dark text-primary-dark font-semibold rounded-lg hover:bg-primary-dark/5 transition-all duration-300">
+                <a href="{{ r('admin.users.create') }}" class="flex items-center justify-between w-full px-4 py-3 bg-white border border-primary-dark text-primary-dark font-semibold rounded-lg hover:bg-primary-dark/5 transition-all duration-300">
                     <span>Add New User</span>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
                 </a>
-                <a href="{{ route('admin.orders.index') }}" class="flex items-center justify-between w-full px-4 py-3 bg-white border border-primary-dark text-primary-dark font-semibold rounded-lg hover:bg-primary-dark/5 transition-all duration-300">
+                <a href="{{ r('admin.orders.index') }}" class="flex items-center justify-between w-full px-4 py-3 bg-white border border-primary-dark text-primary-dark font-semibold rounded-lg hover:bg-primary-dark/5 transition-all duration-300">
                     <span>View All Orders</span>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -248,7 +248,7 @@
                             <span class="text-sm text-primary-dark/70">{{ $order->created_at->format('M d, Y') }}</span>
                         </td>
                         <td class="py-3 px-4">
-                            <a href="{{ route('admin.orders.show', $order) }}" class="text-sm font-medium text-primary-dark hover:text-primary-dark/70 transition-colors duration-200">
+                            <a href="{{ r('admin.orders.show', $order) }}" class="text-sm font-medium text-primary-dark hover:text-primary-dark/70 transition-colors duration-200">
                                 View →
                             </a>
                         </td>

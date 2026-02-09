@@ -15,7 +15,7 @@
             <p class="text-sm text-primary-dark/60 mt-1">Organize your product catalog into clear categories</p>
         </div>
         <a 
-            href="{{ route('admin.categories.create') }}"
+            href="{{ r('admin.categories.create') }}"
             class="inline-flex items-center px-4 py-2 rounded-lg bg-primary-dark text-white text-sm font-semibold hover:bg-primary-dark/90 transition-all duration-300">
             + Add New Category
         </a>
@@ -72,7 +72,7 @@
                     Search
                 </button>
                 <a 
-                    href="{{ route('admin.categories.index') }}"
+                    href="{{ r('admin.categories.index') }}"
                     class="flex-1 px-4 py-2 bg-white border border-primary-gray text-primary-dark font-medium rounded-lg hover:bg-primary-dark/5 transition-all duration-300">
                     Reset
                 </a>
@@ -187,7 +187,7 @@
                                 <td class="px-6 py-4 align-middle text-right">
                                     <div class="flex items-center justify-end gap-2">
                                         <a 
-                                            href="{{ route('admin.categories.edit', $category) }}"
+                                            href="{{ r('admin.categories.edit', $category) }}"
                                             class="inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-lg bg-primary-dark text-white hover:bg-primary-dark/90 transition-all duration-300">
                                             Edit
                                         </a>
@@ -218,7 +218,7 @@
                 <p class="text-lg font-medium text-primary-dark mb-2">No categories found</p>
                 <p class="text-sm text-primary-dark/60 text-center mb-6">Create your first category to organize your products</p>
                 <a 
-                    href="{{ route('admin.categories.create') }}"
+                    href="{{ r('admin.categories.create') }}"
                     class="px-4 py-2 bg-primary-dark text-white font-medium rounded-lg hover:bg-primary-dark/90 transition-all duration-300">
                     Add New Category
                 </a>

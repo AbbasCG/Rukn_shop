@@ -1,0 +1,103 @@
+<?php
+
+if (!function_exists('r')) {
+    /**
+     * Generate a URL to a named route with automatic locale parameter injection.
+     * This is wrapper around Laravel's route() helper that auto-injects the current locale.
+     * Use this instead of route() in blade templates: {{ r('products.index') }}
+     * 
+     * @param string $name The route name
+     * @param mixed $parameters Optional route parameters
+     * @param bool $absolute Whether to generate absolute URL
+     * @return string The generated route URL
+     */
+    function r($name, $parameters = [], $absolute = true)
+    {
+        // Ensure parameters is an array
+        if (!is_array($parameters)) {
+            $parameters = [$parameters];
+        }
+
+        // Auto-inject locale if not provided and the route needs it
+        try {
+            $router = \Illuminate\Support\Facades\Route::getRoutes();
+            $route = $router->getByName($name);
+
+            if ($route && in_array('locale', $route->parameterNames()) && !isset($parameters['locale'])) {
+                $parameters['locale'] = app()->getLocale();
+            }
+        } catch (\Throwable $e) {
+            // Route not found, let Laravel handle the error
+        }
+
+        // Use Laravel's URL::route() to generate the URL
+        return \Illuminate\Support\Facades\URL::route($name, $parameters, $absolute);
+    }
+}
+
+if (!function_exists('localizePath')) {
+    /**
+     * Generate a URL for the given route with the specified locale.
+     * Preserves the current path while replacing the locale prefix.
+     * 
+     * @param string $locale The target locale (en, nl, ar)
+     * @param string|null $path Optional path to use instead of current request path
+     * @return string The localized URL
+     */
+    function localizePath($locale, $path = null)
+    {
+        if ($path === null) {
+            $path = request()->path();
+        }
+
+        // Remove the current locale prefix from the path if it exists
+        $supportedLocales = config('app.supported_locales', ['ar', 'en', 'nl']);
+        $currentPath = trim($path, '/');
+
+        foreach ($supportedLocales as $existingLocale) {
+            if (strpos($currentPath, $existingLocale . '/') === 0) {
+                // Remove the locale prefix
+                $currentPath = substr($currentPath, strlen($existingLocale) + 1);
+                break;
+            }
+            if ($currentPath === $existingLocale) {
+                // Remove the locale if it's the only segment
+                $currentPath = '';
+                break;
+            }
+        }
+
+        // Build the new path with the new locale
+        $newPath = '/' . $locale;
+        if (!empty($currentPath)) {
+            $newPath .= '/' . $currentPath;
+        }
+
+        return url($newPath);
+    }
+}
+
+if (!function_exists('isCurrentLocale')) {
+    /**
+     * Check if the given locale is the current application locale.
+     * 
+     * @param string $locale The locale to check
+     * @return bool True if the locale matches the current application locale
+     */
+    function isCurrentLocale($locale)
+    {
+        return app()->getLocale() === $locale;
+    }
+}
+
+if (!function_exists('getActiveLocale')) {
+    /**
+     * Get the currently active locale.
+     * 
+     * @return string The current locale
+     */
+    function getActiveLocale()
+    {
+        return app()->getLocale();
+    }
+}

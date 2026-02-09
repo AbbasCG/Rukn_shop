@@ -9,7 +9,7 @@
     </div>
 
     <!-- Edit Form -->
-    <form action="{{ route('admin.users.update', $user) }}" method="POST" class="space-y-6 bg-white p-8 rounded-xl shadow-lg">
+    <form action="{{ r('admin.users.update', $user) }}" method="POST" class="space-y-6 bg-white p-8 rounded-xl shadow-lg">
         @csrf
         @method('PUT')
 
@@ -85,7 +85,7 @@
             <button type="submit" class="flex-1 py-3 px-4 bg-primary-dark text-white font-semibold rounded-lg hover:bg-primary-dark/90 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:ring-offset-2">
                 {{ __('Update User') }}
             </button>
-            <a href="{{ route('admin.users.index') }}" class="flex-1 py-3 px-4 bg-white border border-primary-gray text-primary-dark font-semibold rounded-lg hover:bg-gray-50 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:ring-offset-2 text-center">
+            <a href="{{ r('admin.users.index') }}" class="flex-1 py-3 px-4 bg-white border border-primary-gray text-primary-dark font-semibold rounded-lg hover:bg-gray-50 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:ring-offset-2 text-center">
                 {{ __('Cancel') }}
             </a>
         </div>

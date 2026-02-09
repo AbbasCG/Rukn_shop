@@ -13,7 +13,7 @@
             </div>
             <h2 class="mt-6 text-2xl font-bold text-primary-dark">{{ __('cart.empty.title') }}</h2>
             <p class="mt-2 text-neutral-700">{{ __('cart.empty.subtitle') }}</p>
-            <a href="{{ route('products.index') }}" class="mt-6 inline-flex items-center px-6 py-3 rounded-xl bg-primary-dark text-white font-semibold shadow-lg hover:bg-primary-dark/90 transition">{{ __('cart.actions.continue') }}</a>
+            <a href="{{ r('products.index') }}" class="mt-6 inline-flex items-center px-6 py-3 rounded-xl bg-primary-dark text-white font-semibold shadow-lg hover:bg-primary-dark/90 transition">{{ __('cart.actions.continue') }}</a>
         </div>
         @else
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -35,7 +35,7 @@
                         <div class="mt-1 text-neutral-700">€{{ number_format($price, 2, ',', '.') }}</div>
                         <div class="mt-4 flex items-center gap-3">
                             @auth
-                            <form method="POST" action="{{ route('cart.update', $item) }}" x-ref="form">
+                            <form method="POST" action="{{ r('cart.update', $item) }}" x-ref="form">
                                 @csrf
                                 @method('PATCH')
                                 <div class="flex items-center gap-2">
@@ -45,7 +45,7 @@
                                     <button type="button" @click="qty = qty+1; $refs.q.value = qty; $refs.form.submit(); glow=true; setTimeout(()=>glow=false,600)" class="w-9 h-9 flex items-center justify-center rounded-lg border border-primary-gray bg-white text-primary-dark hover:bg-primary-gray transition">+</button>
                                 </div>
                             </form>
-                            <form method="POST" action="{{ route('cart.destroy', $item) }}" onsubmit="return confirm('{{ __('cart.item.remove_confirm') }}')">
+                            <form method="POST" action="{{ r('cart.destroy', $item) }}" onsubmit="return confirm('{{ __('cart.item.remove_confirm') }}')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="ms-4 inline-flex items-center justify-center w-9 h-9 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 shadow-sm transition" title="{{ __('cart.item.remove') }}">
@@ -67,7 +67,7 @@
                 </div>
                 @endforeach
                 @auth
-                <form method="POST" action="{{ route('cart.clear') }}" class="pt-2">
+                <form method="POST" action="{{ r('cart.clear') }}" class="pt-2">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="inline-flex items-center px-4 py-2 rounded-xl border border-primary-gray text-primary-dark bg-white hover:bg-primary-gray transition">{{ __('cart.actions.clear') }}</button>
@@ -84,9 +84,9 @@
                     <div class="flex items-center justify-between text-base font-semibold"><span>{{ __('cart.summary.total') }}</span><span>€{{ number_format($total, 2, ',', '.') }}</span></div>
                 </div>
                 @auth
-                <a href="{{ route('checkout.index') }}" class="block w-full px-6 py-4 rounded-2xl bg-white text-primary-dark font-semibold shadow-lg hover:bg-white/80 transition text-center">{{ __('cart.actions.proceed') }}</a>
+                <a href="{{ r('checkout.index') }}" class="block w-full px-6 py-4 rounded-2xl bg-white text-primary-dark font-semibold shadow-lg hover:bg-white/80 transition text-center">{{ __('cart.actions.proceed') }}</a>
                 @else
-                <a href="{{ route('login') }}" class="block w-full px-6 py-4 rounded-2xl bg-white text-primary-dark font-semibold shadow-lg hover:bg-white/80 transition text-center">{{ __('cart.actions.signin') }}</a>
+                <a href="{{ r('login') }}" class="block w-full px-6 py-4 rounded-2xl bg-white text-primary-dark font-semibold shadow-lg hover:bg-white/80 transition text-center">{{ __('cart.actions.signin') }}</a>
                 @endauth
             </div>
         </div>

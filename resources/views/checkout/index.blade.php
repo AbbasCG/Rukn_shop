@@ -30,7 +30,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Left: Customer info form -->
             <div class="lg:col-span-2 backdrop-blur-xl bg-white/70 shadow-xl rounded-3xl border border-white/20 p-8">
-                <form method="POST" action="{{ route('checkout.store') }}" class="space-y-6">
+                <form method="POST" action="{{ r('checkout.store') }}" class="space-y-6">
                     @csrf
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
@@ -122,7 +122,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="{{ route('cart.index') }}" class="inline-flex items-center px-5 py-3 rounded-xl border border-primary-gray text-primary-dark hover:bg-primary-gray transition">{{ __('checkout.summary.back_to_cart') }}</a>
+                <a href="{{ r('cart.index') }}" class="inline-flex items-center px-5 py-3 rounded-xl border border-primary-gray text-primary-dark hover:bg-primary-gray transition">{{ __('checkout.summary.back_to_cart') }}</a>
             </div>
         </div>
     </div>

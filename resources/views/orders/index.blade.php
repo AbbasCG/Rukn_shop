@@ -18,7 +18,7 @@
             <h2 class="text-2xl font-bold text-primary-dark mb-2">{{ __('orders.empty.title') }}</h2>
             <p class="text-neutral-600 mb-8">{{ __('orders.empty.subtitle') }}</p>
             <a
-                href="{{ route('products.index') }}"
+                href="{{ r('products.index') }}"
                 class="inline-flex items-center px-8 py-3 bg-primary-dark text-white text-sm font-semibold rounded-xl hover:bg-primary-dark/90 transition transform hover:-translate-y-0.5 shadow-md hover:shadow-lg">
                 <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
@@ -63,7 +63,7 @@
 
                     <!-- View Details Button -->
                     <a
-                        href="{{ route('orders.show', $order) }}"
+                        href="{{ r('orders.show', $order) }}"
                         class="inline-flex items-center px-4 py-2 text-sm font-semibold rounded-xl border border-neutral-300 text-neutral-800 hover:bg-neutral-100 transition whitespace-nowrap">
                         {{ __('orders.actions.view_details') }}
                         <svg class="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20">
@@ -82,7 +82,7 @@
 
         <!-- Back to Account -->
         <div class="text-center pt-8 border-t border-neutral-200 pb-4">
-            <a href="{{ route('profile.edit') }}" class="inline-flex items-center text-primary-dark hover:text-primary-dark/70 font-semibold transition">
+            <a href="{{ r('profile.edit') }}" class="inline-flex items-center text-primary-dark hover:text-primary-dark/70 font-semibold transition">
                 <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
                 </svg>

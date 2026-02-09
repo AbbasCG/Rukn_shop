@@ -5,7 +5,7 @@
 
         <!-- Header Section -->
         <div class="mb-8 text-center">
-            <a href="{{ route('home') }}" class="inline-block">
+            <a href="{{ r('home') }}" class="inline-block">
                 <x-application-logo class="h-12 w-auto text-primary-dark" />
             </a>
             <h1 class="mt-6 text-3xl font-bold text-primary-dark">{{ __('auth.login.title') }}</h1>
@@ -13,7 +13,7 @@
         </div>
 
         <!-- Login Form -->
-        <form method="POST" action="{{ route('login') }}" class="space-y-6">
+        <form method="POST" action="{{ r('login') }}" class="space-y-6">
             @csrf
 
             <!-- Email Address -->
@@ -58,7 +58,7 @@
                 </label>
 
                 @if (Route::has('password.request'))
-                <a class="text-sm text-primary-dark/70 hover:text-primary-dark transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-dark" href="{{ route('password.request') }}">
+                <a class="text-sm text-primary-dark/70 hover:text-primary-dark transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-dark" href="{{ r('password.request') }}">
                     {{ __('auth.login.forgot') }}
                 </a>
                 @endif
@@ -73,7 +73,7 @@
             <div class="text-center">
                 <p class="text-sm text-primary-dark/70">
                     {{ __('auth.login.no_account') }}
-                    <a href="{{ route('register') }}" class="font-semibold text-primary-dark hover:text-primary-dark/80 transition-colors duration-300">
+                    <a href="{{ r('register') }}" class="font-semibold text-primary-dark hover:text-primary-dark/80 transition-colors duration-300">
                         {{ __('auth.login.create_one') }}
                     </a>
                 </p>

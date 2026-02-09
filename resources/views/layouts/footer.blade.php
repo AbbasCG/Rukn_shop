@@ -4,7 +4,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
                 <!-- Brand -->
                 <div>
-                    <a href="{{ route('home') }}" class="inline-block mb-4 hover:opacity-80 transition-opacity duration-300">
+                    <a href="{{ r('home') }}" class="inline-block mb-4 hover:opacity-80 transition-opacity duration-300">
                         <img src="{{ asset('images/Voll logo.svg') }}" alt="Rukn Shop" class="h-12 w-auto">
                     </a>
                     <p class="text-primary-light/70 text-sm leading-relaxed">
@@ -16,7 +16,7 @@
                 <div>
                     <h4 class="font-semibold text-primary-light mb-4">Shop</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="{{ route('products.index') }}" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">All Products</a></li>
+                        <li><a href="{{ r('products.index') }}" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">All Products</a></li>
                         <li><a href="#" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">New Arrivals</a></li>
                         <li><a href="#" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">Bestsellers</a></li>
                         <li><a href="#" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">Sale</a></li>
@@ -27,10 +27,10 @@
                 <div>
                     <h4 class="font-semibold text-primary-light mb-4">Support</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="{{ route('contact') }}" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">Contact Us</a></li>
+                        <li><a href="{{ r('contact') }}" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">Contact Us</a></li>
                         <li><a href="#" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">Shipping Info</a></li>
                         <li><a href="#" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">Returns</a></li>
-                        <li><a href="{{ route('faq') }}" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">FAQ</a></li>
+                        <li><a href="{{ r('faq') }}" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">FAQ</a></li>
                     </ul>
                 </div>
 
@@ -73,8 +73,8 @@
             <div class="border-t border-primary-light/20 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-primary-light/70">
                 <p>© 2025 Rukn Shop. All rights reserved.</p>
                 <div class="flex gap-6 mt-4 md:mt-0">
-                    <a href="{{ route('privacy-policy') }}" class="hover:text-primary-light transition-colors duration-300">Privacy Policy</a>
-                    <a href="{{ route('terms-of-service') }}" class="hover:text-primary-light transition-colors duration-300">Terms of Service</a>
+                    <a href="{{ r('privacy-policy') }}" class="hover:text-primary-light transition-colors duration-300">Privacy Policy</a>
+                    <a href="{{ r('terms-of-service') }}" class="hover:text-primary-light transition-colors duration-300">Terms of Service</a>
                     <a href="#" class="hover:text-primary-light transition-colors duration-300">Cookies</a>
                 </div>
             </div>

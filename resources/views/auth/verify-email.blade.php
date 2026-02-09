@@ -3,7 +3,7 @@
     <div dir="{{ $dir }}">
         <!-- Header Section -->
         <div class="mb-8 text-center">
-            <a href="{{ route('home') }}" class="inline-block">
+            <a href="{{ r('home') }}" class="inline-block">
                 <x-application-logo class="h-12 w-auto text-primary-dark" />
             </a>
             <h1 class="mt-6 text-3xl font-bold text-primary-dark">{{ __('auth.verify.title') }}</h1>
@@ -28,7 +28,7 @@
         <!-- Action Buttons -->
         <div class="space-y-4">
             <!-- Resend Link Button -->
-            <form method="POST" action="{{ route('verification.send') }}" class="w-full">
+            <form method="POST" action="{{ r('verification.send') }}" class="w-full">
                 @csrf
                 <button type="submit" class="w-full py-3 px-4 bg-primary-dark text-white font-semibold rounded-lg hover:bg-primary-dark/90 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:ring-offset-2 focus:ring-offset-primary-light">
                     {{ __('auth.verify.resend') }}
@@ -36,7 +36,7 @@
             </form>
 
             <!-- Logout Button -->
-            <form method="POST" action="{{ route('logout') }}" class="w-full">
+            <form method="POST" action="{{ r('logout') }}" class="w-full">
                 @csrf
                 <button type="submit" class="w-full py-3 px-4 bg-primary-gray text-primary-dark font-semibold rounded-lg hover:bg-primary-gray/80 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:ring-offset-2 focus:ring-offset-primary-light">
                     {{ __('auth.verify.logout') }}

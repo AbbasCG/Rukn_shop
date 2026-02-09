@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Register a Blade directive for routes that automatically includes locale
+        Blade::directive('route', function ($expression) {
+            // Use our r() helper which auto-injects locale
+            return "<?php echo r({$expression}); ?>";
+        });
     }
 }

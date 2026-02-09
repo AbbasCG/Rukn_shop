@@ -58,7 +58,7 @@
 
         <!-- Back to Home -->
         <div class="text-center">
-            <a href="{{ route('home') }}" class="inline-flex items-center gap-2 text-primary-dark hover:text-primary-dark/70 transition-colors duration-300">
+            <a href="{{ r('home') }}" class="inline-flex items-center gap-2 text-primary-dark hover:text-primary-dark/70 transition-colors duration-300">
                 <svg class="w-5 h-5 {{ app()->getLocale() === 'ar' ? 'rotate-180' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>

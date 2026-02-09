@@ -10,26 +10,22 @@ class SetLocale
 {
     /**
      * Handle an incoming request.
+     * This middleware is kept for backward compatibility.
+     * LocalizeRoutes middleware now handles locale setting from route parameter.
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Get locale from query parameter, session, or config default
-        $locale = $request->query('locale');
+        // The locale should already be set by LocalizeRoutes middleware
+        // This serves as a fallback for routes not under locale prefix
+        $locale = app()->getLocale();
+        $supportedLocales = config('app.supported_locales', ['ar', 'en', 'nl']);
 
-        if ($locale && in_array($locale, config('app.supported_locales', ['en', 'ar', 'nl']))) {
-            // Set the application locale
-            app()->setLocale($locale);
-            
-            // Store in session for persistence
-            session(['locale' => $locale]);
-        } else {
-            // Use session locale if available
+        if (!in_array($locale, $supportedLocales)) {
             $sessionLocale = session('locale');
-            if ($sessionLocale && in_array($sessionLocale, config('app.supported_locales', ['en', 'ar', 'nl']))) {
+            if ($sessionLocale && in_array($sessionLocale, $supportedLocales)) {
                 app()->setLocale($sessionLocale);
             } else {
-                // Use browser language or app default
-                $appDefault = config('app.locale', 'nl');
+                $appDefault = config('app.locale', 'ar');
                 app()->setLocale($appDefault);
             }
         }

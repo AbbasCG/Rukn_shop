@@ -9,7 +9,7 @@
     </div>
 
     <!-- Form Card -->
-    <form action="{{ route('admin.categories.store') }}" method="POST" class="bg-white rounded-xl shadow-lg p-8 space-y-6">
+    <form action="{{ r('admin.categories.store') }}" method="POST" class="bg-white rounded-xl shadow-lg p-8 space-y-6">
         @csrf
 
         <!-- Name -->
@@ -73,7 +73,7 @@
                 Create Category
             </button>
             <a 
-                href="{{ route('admin.categories.index') }}"
+                href="{{ r('admin.categories.index') }}"
                 class="flex-1 px-6 py-2.5 border border-primary-gray text-primary-dark rounded-lg font-semibold hover:bg-primary-gray transition-all duration-300 text-center">
                 Cancel
             </a>

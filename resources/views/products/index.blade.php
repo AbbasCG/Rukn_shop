@@ -53,7 +53,7 @@
                 <!-- Top Row: Search + Filters Button + Sort -->
                 <div class="flex flex-col sm:flex-row gap-3 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
                     <!-- Search Input (Prominent) -->
-                    <form method="GET" action="{{ route('products.index') }}" class="flex-1">
+                    <form method="GET" action="{{ r('products.index') }}" class="flex-1">
                         <label for="q" class="sr-only">{{ __('shop.search_products') }}</label>
                         <div class="relative">
                             <input 
@@ -102,7 +102,7 @@
                         </button>
 
                         <!-- Sort Dropdown -->
-                        <form method="GET" action="{{ route('products.index') }}" class="inline-block">
+                        <form method="GET" action="{{ r('products.index') }}" class="inline-block">
                             <select 
                                 name="sort" 
                                 onchange="this.form.submit()"
@@ -143,7 +143,7 @@
                     class="bg-white rounded-2xl border border-primary-gray/60 shadow-md p-6"
                     style="display: none;"
                 >
-                    <form method="GET" action="{{ route('products.index') }}" class="space-y-5">
+                    <form method="GET" action="{{ r('products.index') }}" class="space-y-5">
                         <div class="flex items-center justify-between mb-4 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
                             <h3 class="text-lg font-bold text-primary-dark">{{ __('shop.filters') }}</h3>
                             <button type="button" @click="filtersOpen = false" class="text-neutral-400 hover:text-neutral-600 transition">
@@ -211,7 +211,7 @@
                                 {{ __('shop.apply_filters') }}
                             </button>
                             <a 
-                                href="{{ route('products.index') }}" 
+                                href="{{ r('products.index') }}" 
                                 class="px-6 py-3 rounded-xl border border-primary-gray/60 text-primary-dark hover:bg-primary-gray/30 font-semibold text-sm transition duration-200"
                             >
                                 {{ __('shop.reset') }}
@@ -247,7 +247,7 @@
                 </div>
                 @if(request('q') || request('category') || request('min_price') || request('max_price'))
                     <a 
-                        href="{{ route('products.index') }}" 
+                        href="{{ r('products.index') }}" 
                         class="inline-flex items-center gap-1.5 text-sm font-medium text-primary-dark hover:text-primary-dark/70 transition {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}"
                     >
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -274,7 +274,7 @@
                     <div class="flex flex-col sm:flex-row items-center justify-center gap-3 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
                         @if(request()->hasAny(['q', 'category', 'min_price', 'max_price']))
                             <a 
-                                href="{{ route('products.index') }}" 
+                                href="{{ r('products.index') }}" 
                                 class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary-dark hover:bg-primary-dark/90 text-white font-semibold text-sm shadow-sm transition duration-200 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}"
                             >
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -284,7 +284,7 @@
                             </a>
                         @endif
                         <a 
-                            href="{{ route('products.index') }}" 
+                            href="{{ r('products.index') }}" 
                             class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-primary-gray/60 text-primary-dark hover:bg-primary-gray/30 font-semibold text-sm transition duration-200 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}"
                         >
                             {{ __('shop.back_to_shop') }}
@@ -300,7 +300,7 @@
                             $imageUrl = $thumb ? asset('storage/' . $thumb) : asset('images/placeholder.jpg');
                             $productCategory = $categories->firstWhere('id', $product->category_id);
                         @endphp
-                        <a href="{{ route('products.show', $product) }}" class="group flex flex-col bg-white rounded-3xl border border-primary-gray/40 overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer">
+                        <a href="{{ r('products.show', $product) }}" class="group flex flex-col bg-white rounded-3xl border border-primary-gray/40 overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer">
                             <!-- Image with Soft Frame -->
                             <div class="block relative overflow-hidden bg-neutral-50">
                                 <div class="relative aspect-[3/4]">
@@ -334,7 +334,7 @@
                                                 type="button"
                                                 @click.stop.prevent="
                                                     const token = document.querySelector('meta[name=csrf-token]')?.getAttribute('content');
-                                                    fetch('{{ route('cart.store') }}', {
+                                                    fetch('{{ r('cart.store') }}', {
                                                         method: 'POST',
                                                         headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': token, 'Accept': 'application/json' },
                                                         body: JSON.stringify({ product_id: {{ $product->id }}, quantity: 1 })
@@ -360,7 +360,7 @@
                                         <!-- View Product -->
                                         <button 
                                             type="button"
-                                            @click.stop="window.location.href='{{ route('products.show', $product) }}'"
+                                            @click.stop="window.location.href='{{ r('products.show', $product) }}'"
                                             class="inline-flex items-center justify-center h-10 w-10 rounded-full border border-primary-gray/60 bg-white text-primary-dark shadow-md transition-all duration-200 hover:bg-primary-dark hover:border-primary-dark hover:text-white hover:scale-105 hover:shadow-lg active:scale-95"
                                             title="{{ __('shop.view_product') }}"
                                         >
@@ -421,7 +421,7 @@
                                         type="button"
                                         @click.stop.prevent="
                                             const token = document.querySelector('meta[name=csrf-token]')?.getAttribute('content');
-                                            fetch('{{ route('cart.store') }}', {
+                                            fetch('{{ r('cart.store') }}', {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': token, 'Accept': 'application/json' },
                                                 body: JSON.stringify({ product_id: {{ $product->id }}, quantity: 1 })

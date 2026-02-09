@@ -3,7 +3,7 @@
     <div dir="{{ $dir }}">
         <!-- Header Section -->
         <div class="mb-8 text-center">
-            <a href="{{ route('home') }}" class="inline-block">
+            <a href="{{ r('home') }}" class="inline-block">
                 <x-application-logo class="h-12 w-auto text-primary-dark" />
             </a>
             <h1 class="mt-6 text-3xl font-bold text-primary-dark">{{ __('auth.register.title') }}</h1>
@@ -11,7 +11,7 @@
         </div>
 
         <!-- Registration Form -->
-        <form method="POST" action="{{ route('register') }}" class="space-y-6">
+        <form method="POST" action="{{ r('register') }}" class="space-y-6">
             @csrf
 
             <!-- Name -->
@@ -172,7 +172,7 @@
             <div class="text-center">
                 <p class="text-sm text-primary-dark/70">
                     {{ __('auth.register.have_account') }}
-                    <a href="{{ route('login') }}" class="font-semibold text-primary-dark hover:text-primary-dark/80 transition-colors duration-300">
+                    <a href="{{ r('login') }}" class="font-semibold text-primary-dark hover:text-primary-dark/80 transition-colors duration-300">
                         {{ __('auth.register.sign_in') }}
                     </a>
                 </p>

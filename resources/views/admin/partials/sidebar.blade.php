@@ -2,7 +2,7 @@
     
     <!-- Sidebar Header -->
     <div class="h-24 px-6 flex items-center justify-between border-b border-primary-gray dark:border-primary-gray">
-        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2">
+        <a href="{{ r('admin.dashboard') }}" class="flex items-center gap-2">
             <x-application-logo class="block h-12 w-auto fill-current text-primary-dark" />
         </a>
         <button class="md:hidden p-2 rounded-lg hover:bg-primary-gray transition-all duration-200" @click="sidebarOpen=false" title="Close sidebar">
@@ -32,7 +32,7 @@
             @php
                 $isActive = request()->routeIs(str_replace('index','*',$item['route']));
             @endphp
-            <x-admin.nav-link :href="route($item['route'])" :active="$isActive">
+            <x-admin.nav-link :href="r($item['route'])" :active="$isActive">
                 <x-slot name="icon">
                     @include('admin.partials.icon', ['name' => $item['icon']])
                 </x-slot>
@@ -85,7 +85,7 @@
 
         <!-- Quick Links -->
         <a 
-            href="{{ route('home') }}" 
+            href="{{ r('home') }}" 
             class="flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-primary-gray dark:bg-primary-gray text-primary-dark hover:bg-primary-gray/80 transition-all duration-200">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>

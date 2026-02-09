@@ -65,7 +65,7 @@
                     Search
                 </button>
                 <a 
-                    href="{{ route('admin.orders.index') }}"
+                    href="{{ r('admin.orders.index') }}"
                     class="px-4 py-2 bg-white border border-primary-gray text-primary-dark font-medium rounded-lg hover:bg-primary-dark/5 transition-all duration-300">
                     Reset
                 </a>
@@ -144,7 +144,7 @@
                                 </td>
                                 <td class="py-4 px-6 text-right">
                                     <a 
-                                        href="{{ route('admin.orders.show', $order) }}"
+                                        href="{{ r('admin.orders.show', $order) }}"
                                         class="inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-lg bg-primary-dark text-white hover:bg-primary-dark/90 transition-all duration-300">
                                         View →
                                     </a>
@@ -168,7 +168,7 @@
                 <p class="text-lg font-medium text-primary-dark mb-2">No orders found</p>
                 <p class="text-sm text-primary-dark/60 text-center mb-6">Try adjusting your search or filter criteria</p>
                 <a 
-                    href="{{ route('admin.orders.index') }}"
+                    href="{{ r('admin.orders.index') }}"
                     class="px-4 py-2 bg-primary-dark text-white font-medium rounded-lg hover:bg-primary-dark/90 transition-all duration-300">
                     Clear Filters
                 </a>

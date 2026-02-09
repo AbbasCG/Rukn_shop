@@ -14,7 +14,7 @@
                     <p class="text-sm text-neutral-600">{{ __('profile.subtitle') }}</p>
                 </div>
 
-                <form method="post" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="space-y-8">
+                <form method="post" action="{{ r('profile.update') }}" enctype="multipart/form-data" class="space-y-8">
                     @csrf
                     @method('patch')
 
@@ -106,7 +106,7 @@
 
                     <div class="flex flex-wrap items-center gap-3">
                         <button type="submit" class="inline-flex items-center px-6 py-2.5 bg-primary-dark text-white font-semibold rounded-lg hover:bg-primary-dark/90 transition">{{ __('profile.actions.save_changes') }}</button>
-                        <a href="{{ route('profile.edit') }}" class="inline-flex items-center px-4 py-2 border border-neutral-300 text-sm font-medium rounded-lg text-neutral-700 hover:border-primary-dark hover:text-primary-dark transition">{{ __('profile.actions.cancel') }}</a>
+                        <a href="{{ r('profile.edit') }}" class="inline-flex items-center px-4 py-2 border border-neutral-300 text-sm font-medium rounded-lg text-neutral-700 hover:border-primary-dark hover:text-primary-dark transition">{{ __('profile.actions.cancel') }}</a>
                     </div>
                 </form>
             </div>
@@ -118,7 +118,7 @@
                     <h3 class="text-lg font-semibold text-primary-dark">{{ __('profile.password.title') }}</h3>
                     <p class="text-sm text-neutral-600">{{ __('profile.password.subtitle') }}</p>
                 </div>
-                <form method="post" action="{{ route('password.update') }}" class="space-y-4">
+                <form method="post" action="{{ r('password.update') }}" class="space-y-4">
                     @csrf
                     @method('put')
 
@@ -159,7 +159,7 @@
                     x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')">{{ __('profile.actions.delete_account') }}</x-danger-button>
 
                 <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
-                    <form method="post" action="{{ route('profile.destroy') }}" class="p-6 space-y-4">
+                    <form method="post" action="{{ r('profile.destroy') }}" class="p-6 space-y-4">
                         @csrf
                         @method('delete')
 

@@ -3,7 +3,7 @@
     <div dir="{{ $dir }}">
         <!-- Header Section -->
         <div class="mb-8 text-center">
-            <a href="{{ route('home') }}" class="inline-block">
+            <a href="{{ r('home') }}" class="inline-block">
                 <x-application-logo class="h-12 w-auto text-primary-dark" />
             </a>
             <h1 class="mt-6 text-3xl font-bold text-primary-dark">{{ __('auth.reset.title') }}</h1>
@@ -11,7 +11,7 @@
         </div>
 
         <!-- Reset Password Form -->
-        <form method="POST" action="{{ route('password.store') }}" class="space-y-6">
+        <form method="POST" action="{{ r('password.store') }}" class="space-y-6">
             @csrf
 
             <!-- Password Reset Token -->

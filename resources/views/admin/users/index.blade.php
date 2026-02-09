@@ -10,7 +10,7 @@
             <p class="text-sm text-primary-dark/60 mt-1">Manage users, roles, and account access</p>
         </div>
         <a 
-            href="{{ route('admin.users.create') }}"
+            href="{{ r('admin.users.create') }}"
             class="px-4 py-2 bg-primary-dark text-white font-medium rounded-lg hover:bg-primary-dark/90 transition-all duration-300">
             + Create User
         </a>
@@ -52,7 +52,7 @@
                     Search
                 </button>
                 <a 
-                    href="{{ route('admin.users.index') }}"
+                    href="{{ r('admin.users.index') }}"
                     class="flex-1 px-4 py-2 bg-white border border-primary-gray text-primary-dark font-medium rounded-lg hover:bg-primary-dark/5 transition-all duration-300">
                     Reset
                 </a>
@@ -161,7 +161,7 @@
                                 <td class="py-4 px-6">
                                     <div class="flex items-center justify-end gap-2">
                                         <a 
-                                            href="{{ route('admin.users.edit', $user) }}"
+                                            href="{{ r('admin.users.edit', $user) }}"
                                             class="inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-lg bg-primary-dark text-white hover:bg-primary-dark/90 transition-all duration-300">
                                             Edit
                                         </a>
@@ -192,7 +192,7 @@
                 <p class="text-lg font-medium text-primary-dark mb-2">No users found</p>
                 <p class="text-sm text-primary-dark/60 text-center mb-6">Try adjusting your search or filter criteria</p>
                 <a 
-                    href="{{ route('admin.users.create') }}"
+                    href="{{ r('admin.users.create') }}"
                     class="px-4 py-2 bg-primary-dark text-white font-medium rounded-lg hover:bg-primary-dark/90 transition-all duration-300">
                     Create First User
                 </a>

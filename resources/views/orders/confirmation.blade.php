@@ -46,7 +46,7 @@
                 <div class="flex items-center justify-between text-base"><span class="text-primary-dark font-semibold">{{ __('orders.summary.total') }}</span><span class="text-primary-dark font-semibold">€{{ number_format($order->total, 2, ',', '.') }}</span></div>
             </div>
             <div class="mt-6 text-center">
-                <a href="{{ route('products.index') }}" class="inline-flex items-center px-6 py-3 rounded-xl bg-primary-dark text-white font-semibold shadow-lg hover:bg-primary-dark/90 transition">{{ __('orders.actions.continue_shopping') }}</a>
+                <a href="{{ r('products.index') }}" class="inline-flex items-center px-6 py-3 rounded-xl bg-primary-dark text-white font-semibold shadow-lg hover:bg-primary-dark/90 transition">{{ __('orders.actions.continue_shopping') }}</a>
             </div>
         </div>
     </div>

@@ -63,7 +63,7 @@
         <section>
             <div class="flex items-center justify-between bg-primary-gray/40 rounded-2xl p-6">
                 <p class="text-primary-dark/80 text-sm">{{ __('faq.still_need_help') }}</p>
-                <a href="{{ route('contact') }}" class="inline-flex items-center px-4 py-2 rounded-lg bg-primary-dark text-white text-sm font-semibold hover:bg-primary-dark/90 transition">{{ __('faq.contact_us') }}</a>
+                <a href="{{ r('contact') }}" class="inline-flex items-center px-4 py-2 rounded-lg bg-primary-dark text-white text-sm font-semibold hover:bg-primary-dark/90 transition">{{ __('faq.contact_us') }}</a>
             </div>
         </section>
     </div>
