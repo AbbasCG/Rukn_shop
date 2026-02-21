@@ -108,24 +108,24 @@ class AdminProductController extends Controller
             $this->storeProductImages($product, $request->file('images'));
         }
 
-        return redirect()->route('admin.products.index')->with('success', 'Product created successfully');
+        return redirect()->route('admin.products.index')->with('success', __('admin_products.created_success'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $locale, string $product)
     {
-        $product = Product::with('category', 'images')->findOrFail($id);
+        $product = Product::with('category', 'images')->findOrFail($product);
         return view('admin.products.show', compact('product'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $locale, string $product)
     {
-        $product = Product::with('images')->findOrFail($id);
+        $product = Product::with('images')->findOrFail($product);
         $categories = Category::select('id', 'name')->orderBy('name')->get();
         return view('admin.products.edit', compact('product', 'categories'));
     }
@@ -133,9 +133,9 @@ class AdminProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $locale, string $product)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::findOrFail($product);
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -168,18 +168,30 @@ class AdminProductController extends Controller
 
         $product->update($validated);
 
-        // Handle image deletions
+        // Handle image deletions (only images that belong to current product)
         if ($request->has('images_to_delete') && !empty($request->input('images_to_delete'))) {
-            $this->deleteProductImages($request->input('images_to_delete'));
+            $imageIdsToDelete = ProductImage::where('product_id', $product->id)
+                ->whereIn('id', $request->input('images_to_delete'))
+                ->pluck('id')
+                ->all();
+
+            if (!empty($imageIdsToDelete)) {
+                $this->deleteProductImages($imageIdsToDelete);
+            }
+
             $product->load('images');
         }
 
-        // Handle primary image selection
+        // Handle primary image selection (must belong to current product)
         if ($request->filled('primary_image_id')) {
-            ProductImage::where('product_id', $product->id)->update(['is_primary' => false]);
-            ProductImage::where('id', $request->input('primary_image_id'))
+            $primaryImage = ProductImage::where('id', $request->input('primary_image_id'))
                 ->where('product_id', $product->id)
-                ->update(['is_primary' => true]);
+                ->first();
+
+            if ($primaryImage) {
+                ProductImage::where('product_id', $product->id)->update(['is_primary' => false]);
+                $primaryImage->update(['is_primary' => true]);
+            }
         }
 
         // Handle new image uploads
@@ -193,15 +205,15 @@ class AdminProductController extends Controller
             $product->images()->orderBy('id')->first()->update(['is_primary' => true]);
         }
 
-        return redirect()->route('admin.products.index')->with('success', 'Product updated successfully');
+        return redirect()->route('admin.products.index')->with('success', __('admin_products.updated_success'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $locale, string $product)
     {
-        $product = Product::with('images')->findOrFail($id);
+        $product = Product::with('images')->findOrFail($product);
         
         // Delete all associated images from storage
         foreach ($product->images as $image) {
@@ -212,7 +224,7 @@ class AdminProductController extends Controller
         
         $product->delete();
 
-        return redirect()->route('admin.products.index')->with('success', 'Product deleted successfully');
+        return redirect()->route('admin.products.index')->with('success', __('admin_products.deleted_success'));
     }
 
     /**

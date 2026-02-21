@@ -9,7 +9,7 @@
     </div>
 
     <!-- Form Card -->
-    <form action="{{ r('admin.products.update', $product) }}" method="POST" enctype="multipart/form-data" class="bg-white rounded-xl shadow-lg p-8 space-y-6">
+    <form action="{{ route('admin.products.update', ['locale' => app()->getLocale(), 'product' => $product]) }}" method="POST" enctype="multipart/form-data" class="bg-white rounded-xl shadow-lg p-8 space-y-6">
         @csrf
         @method('PATCH')
 
@@ -137,7 +137,7 @@
                 </div>
             </template>
 
-            <div class="flex gap-2">
+            <div>
                 <input 
                     id="image_url"
                     name="image_url" 
@@ -145,36 +145,8 @@
                     value="{{ old('image_url', $product->image_url) }}"
                     placeholder="https://example.com/image.jpg"
                     class="flex-1 px-4 py-2.5 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
-                <button 
-                    type="button"
-                    @click="$refs.legacyImageInput.click()"
-                    class="px-4 py-2.5 bg-primary-dark text-white rounded-lg font-semibold hover:bg-primary-dark/90 transition-all duration-300">
-                    Upload
-                </button>
-                <input 
-                    type="file"
-                    x-ref="legacyImageInput"
-                    accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
-                    @change="
-                        const file = $refs.legacyImageInput.files[0];
-                        if (file && file.type.startsWith('image/')) {
-                            const reader = new FileReader();
-                            reader.onload = (e) => {
-                                previewUrl = e.target.result;
-                                document.getElementById('image_url').value = '';
-                            };
-                            reader.readAsDataURL(file);
-                            // Store file in a temporary field for form submission
-                            const input = document.createElement('input');
-                            input.type = 'hidden';
-                            input.name = 'legacy_image_file';
-                            input.value = file.name;
-                            document.querySelector('form').appendChild(input);
-                        }
-                    "
-                    class="hidden">
             </div>
-            <p class="text-xs text-primary-dark/60 mt-2">Upload a new image or paste a URL. The uploaded file will replace the legacy URL.</p>
+            <p class="text-xs text-primary-dark/60 mt-2">Paste an image URL for legacy image support. Use “Add More Images” below for file uploads.</p>
             @error('image_url')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
 
@@ -314,6 +286,7 @@
 <script>
 function imageUploader() {
     return {
+        selectedFiles: [],
         selectedImages: [],
         dragover: false,
         
@@ -331,6 +304,7 @@ function imageUploader() {
         processFiles(files) {
             files.forEach(file => {
                 if (file.type.startsWith('image/') && file.size <= 5120 * 1024) {
+                    this.selectedFiles.push(file);
                     const reader = new FileReader();
                     reader.onload = (e) => {
                         this.selectedImages.push({
@@ -341,11 +315,20 @@ function imageUploader() {
                     reader.readAsDataURL(file);
                 }
             });
+
+            this.syncInputFiles();
         },
 
         removeImage(index) {
+            this.selectedFiles.splice(index, 1);
             this.selectedImages.splice(index, 1);
-            this.$refs.fileInput.value = '';
+            this.syncInputFiles();
+        },
+
+        syncInputFiles() {
+            const dataTransfer = new DataTransfer();
+            this.selectedFiles.forEach((file) => dataTransfer.items.add(file));
+            this.$refs.fileInput.files = dataTransfer.files;
         },
 
         formatFileSize(bytes) {

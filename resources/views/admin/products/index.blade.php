@@ -1,7 +1,15 @@
 @extends('layouts.admin', ['title' => 'Products'])
 
 @section('content')
-<div class="w-full max-w-7xl mx-auto space-y-6">
+@php
+    $productDeleteActionTemplate = route('admin.products.destroy', ['locale' => app()->getLocale(), 'product' => '__PRODUCT__']);
+@endphp
+
+<div x-data="{ 
+    deleteModalOpen: false, 
+    deleteProductId: null, 
+    deleteProductName: '' 
+}" @keydown.escape="deleteModalOpen = false" class="w-full max-w-7xl mx-auto space-y-6">
     
     <!-- Header Section -->
     <div class="flex items-center justify-between">
@@ -223,19 +231,19 @@
                                 <td class="px-6 py-4 align-middle text-right">
                                     <div class="flex items-center justify-end gap-2">
                                         <a 
-                                            href="{{ r('admin.products.edit', $product) }}"
+                                            href="{{ route('admin.products.edit', ['locale' => app()->getLocale(), 'product' => $product]) }}"
                                             class="inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-lg bg-primary-dark text-white hover:bg-primary-dark/90 transition-all duration-300">
                                             Edit
                                         </a>
                                         <a 
-                                            href="{{ r('products.show', $product) }}"
+                                            href="{{ route('products.show', ['locale' => app()->getLocale(), 'product' => $product]) }}"
                                             target="_blank"
                                             class="inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-lg border border-primary-gray text-primary-dark hover:bg-primary-dark/5 transition-all duration-300">
                                             View
                                         </a>
                                         <button 
                                             type="button"
-                                            onclick="deleteProduct('{{ $product->id }}', '{{ $product->name }}')"
+                                            @click="deleteModalOpen = true; deleteProductId = '{{ $product->id }}'; deleteProductName = @js($product->name)"
                                             class="inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-lg bg-red-600 text-white hover:bg-red-700 transition-all duration-300">
                                             Delete
                                         </button>
@@ -270,20 +278,70 @@
 
 </div>
 
-<!-- Delete Product Modal/Confirmation -->
-<script>
-function deleteProduct(productId, productName) {
-    if (confirm(`Are you sure you want to delete "${productName}"? This action cannot be undone.`)) {
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = `/admin/products/${productId}`;
-        form.innerHTML = `
-            @csrf
-            @method('DELETE')
-        `;
-        document.body.appendChild(form);
-        form.submit();
-    }
-}
-</script>
+<!-- Delete Product Modal -->
+<div
+    x-show="deleteModalOpen"
+    @click.self="deleteModalOpen = false"
+    x-transition:enter="transition ease-out duration-200"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-150"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+    style="display: none;"
+>
+    <div
+        @click.stop
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 scale-95"
+        x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-95"
+        class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-6"
+    >
+        <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M5.062 19h13.876c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.33 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+            </div>
+            <div class="flex-1">
+                <h3 class="text-lg font-bold text-primary-dark">{{ __('admin_products.delete_title') }}</h3>
+                <p class="text-sm text-primary-dark/70 mt-1">
+                    {{ __('admin_products.delete_message') }}
+                </p>
+                <p class="mt-2 text-sm font-semibold text-primary-dark" x-text="deleteProductName"></p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-3 pt-4">
+            <button
+                type="button"
+                @click="deleteModalOpen = false"
+                class="flex-1 px-4 py-2.5 rounded-lg border border-neutral-300 text-neutral-700 font-semibold text-sm hover:bg-neutral-50 transition-all duration-200"
+            >
+                {{ __('admin_products.cancel') }}
+            </button>
+            <form
+                id="deleteProductForm"
+                :action="'{{ $productDeleteActionTemplate }}'.replace('__PRODUCT__', deleteProductId)"
+                method="POST"
+                style="display: none;"
+                @keydown.enter.window="if (deleteModalOpen) $el.submit()"
+            >
+                @csrf
+                @method('DELETE')
+            </form>
+            <button
+                type="button"
+                @click="if (deleteProductId) { document.getElementById('deleteProductForm').submit(); deleteModalOpen = false; }"
+                class="flex-1 px-4 py-2.5 rounded-lg bg-red-600 text-white font-semibold text-sm hover:bg-red-700 transition-all duration-200 active:scale-95"
+            >
+                {{ __('admin_products.confirm_delete') }}
+            </button>
+        </div>
+    </div>
+</div>
 @endsection
