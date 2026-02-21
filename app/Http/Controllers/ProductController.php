@@ -79,7 +79,7 @@ class ProductController extends Controller
     /**
      * Display the specified resource (public).
      */
-    public function show(Product $product)
+    public function show(string $locale, Product $product)
     {
         $product->load(['category', 'reviews.user']);
         $reviews = $product->reviews;

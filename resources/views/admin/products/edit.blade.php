@@ -127,7 +127,7 @@
         </div>
 
         <!-- Image URL (Full width) - Legacy field -->
-        <div x-data="{ previewUrl: '{{ $product->image_url ? asset($product->image_url) : '' }}' }">
+        <div x-data="{ previewUrl: '{{ $product->legacyImageUrl() ?? '' }}' }">
             <label for="image_url" class="block text-sm font-medium text-primary-dark mb-2">Image URL (Legacy)</label>
             
             <!-- Preview -->
@@ -186,9 +186,10 @@
                 @foreach($product->images as $image)
                 <div class="relative group">
                     <img 
-                        src="{{ asset('storage/' . $image->path) }}" 
+                        src="{{ $product->imageUrlFromPath($image->path) }}" 
                         alt="Product image"
-                        class="w-full h-32 rounded-lg object-cover shadow-md border border-primary-gray">
+                        class="w-full h-32 rounded-lg object-cover shadow-md border border-primary-gray"
+                        onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
                     
                     <label class="absolute top-1 left-1 bg-primary-dark/80 hover:bg-primary-dark text-white rounded-full p-1.5 transition-all duration-200 shadow-lg cursor-pointer group-hover:bg-primary-dark"
                         title="Set as primary">

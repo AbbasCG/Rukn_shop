@@ -182,20 +182,7 @@
                                     <span class="text-sm font-semibold text-primary-dark">#{{ str_pad($product->id, 5, '0', STR_PAD_LEFT) }}</span>
                                 </td>
                                 <td class="px-6 py-4 align-middle">
-                                    @php
-                                        $primaryImage = $product->images->firstWhere('is_primary', true) ?? $product->images->first();
-                                    @endphp
-                                    @if($primaryImage)
-                                        <img src="{{ asset('storage/' . $primaryImage->path) }}" alt="{{ $product->name }}" class="w-10 h-10 rounded-lg object-cover border border-primary-gray">
-                                    @elseif($product->image_url)
-                                        <img src="{{ asset($product->image_url) }}" alt="{{ $product->name }}" class="w-10 h-10 rounded-lg object-cover border border-primary-gray">
-                                    @else
-                                        <div class="w-10 h-10 rounded-lg bg-primary-dark/10 border border-primary-gray flex items-center justify-center">
-                                            <svg class="w-5 h-5 text-primary-dark/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                            </svg>
-                                        </div>
-                                    @endif
+                                    <img src="{{ $product->primaryImageUrl() }}" alt="{{ $product->name }}" class="w-10 h-10 rounded-lg object-cover border border-primary-gray" onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
                                 </td>
                                 <td class="px-6 py-4 align-middle">
                                     <span class="text-sm font-medium text-primary-dark">{{ $product->name }}</span>

@@ -123,9 +123,10 @@
                     <!-- Product Image -->
                     <div class="flex-shrink-0">
                         <img
-                            src="{{ $item->product->images[0] ?? asset('images/placeholder.jpg') }}"
+                            src="{{ optional($item->product)->primaryImageUrl() ?? asset(\App\Models\Product::FALLBACK_IMAGE) }}"
                             alt="{{ $item->product->name }}"
-                            class="w-20 h-20 rounded-lg object-cover border border-neutral-200">
+                            class="w-20 h-20 rounded-lg object-cover border border-neutral-200"
+                            onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
                     </div>
 
                     <!-- Product Details -->

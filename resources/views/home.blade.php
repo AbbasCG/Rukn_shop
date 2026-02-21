@@ -58,11 +58,12 @@
                 <div class="group flex flex-col h-full">
                     <!-- Product Image -->
                     <div class="relative h-80 bg-primary-gray rounded-2xl overflow-hidden mb-6 flex-shrink-0">
-                        @if($product->primaryImage())
+                        @if($product->primaryImage() || $product->legacyImageUrl())
                         <img
-                            src="{{ asset($product->primaryImage()->path) }}"
+                            src="{{ $product->primaryImageUrl() }}"
                             alt="{{ $product->name }}"
-                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out">
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
+                            onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
                         @else
                         <div class="w-full h-full flex items-center justify-center">
                             <svg class="w-20 h-20 text-primary-dark/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -128,11 +129,12 @@
                 <div class="group flex flex-col h-full">
                     <!-- Product Image -->
                     <div class="relative h-80 bg-primary-light rounded-2xl overflow-hidden mb-6 flex-shrink-0">
-                        @if($product->primaryImage())
+                        @if($product->primaryImage() || $product->legacyImageUrl())
                         <img
-                            src="{{ asset($product->primaryImage()->path) }}"
+                            src="{{ $product->primaryImageUrl() }}"
                             alt="{{ $product->name }}"
-                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out">
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
+                            onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
                         @else
                         <div class="w-full h-full flex items-center justify-center">
                             <svg class="w-20 h-20 text-primary-dark/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">

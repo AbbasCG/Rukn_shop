@@ -26,9 +26,10 @@
                 <div class="w-full bg-primary-100 dark:bg-primary-100 rounded-2xl overflow-hidden shadow-xl border border-neutral-200 dark:border-neutral-300" style="aspect-ratio: 4/5;">
                     <img 
                         id="mainProductImage" 
-                        src="{{ $product->primaryImage() ? asset('storage/' . $product->primaryImage()->path) : asset('storage/images/placeholder.jpg') }}" 
+                        src="{{ $product->primaryImageUrl() }}" 
                         alt="{{ $product->name }}" 
                         class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                        onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'"
                     >
                 </div>
 
@@ -37,10 +38,10 @@
                     <div class="grid grid-cols-4 gap-3">
                         @foreach($product->images as $index => $image)
                             <button 
-                                data-image="{{ asset('storage/' . $image->path) }}"
+                                data-image="{{ $product->imageUrlFromPath($image->path) }}"
                                 onclick="changeMainImage(this.dataset.image)" 
                                 class="aspect-square bg-primary-100 dark:bg-primary-100 rounded-xl overflow-hidden border-2 {{ $image->is_primary ? 'border-primary-800' : 'border-neutral-200 dark:border-neutral-300' }} hover:border-primary-800 dark:hover:border-primary-800 transition-all cursor-pointer">
-                                <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $product->name }} - Image {{ $index + 1 }}" class="w-full h-full object-cover">
+                                <img src="{{ $product->imageUrlFromPath($image->path) }}" alt="{{ $product->name }} - Image {{ $index + 1 }}" class="w-full h-full object-cover" onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
                             </button>
                         @endforeach
                     </div>
@@ -432,7 +433,7 @@
                     <div class="bg-white dark:bg-white rounded-2xl shadow-md border border-neutral-200 dark:border-neutral-300 overflow-hidden hover:shadow-2xl hover:border-primary-800 hover:-translate-y-2 transition-all duration-300">
                         <a href="{{ r('products.show', $relatedProduct) }}">
                             <div class="aspect-square bg-primary-100 dark:bg-primary-100 overflow-hidden">
-                                <img src="{{ $relatedProduct->primaryImage() ? asset('storage/' . $relatedProduct->primaryImage()->path) : asset('storage/images/placeholder.jpg') }}" alt="{{ $relatedProduct->name }}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                                <img src="{{ $relatedProduct->primaryImageUrl() }}" alt="{{ $relatedProduct->name }}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
                             </div>
                             <div class="p-4">
                                 <h3 class="font-bold text-primary-800 dark:text-primary-800 mb-2.5 line-clamp-2 hover:text-primary-700 transition-colors">{{ $relatedProduct->name }}</h3>

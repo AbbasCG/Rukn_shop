@@ -296,8 +296,7 @@
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
                     @foreach($products as $product)
                         @php
-                            $thumb = optional($product->images->first())->path;
-                            $imageUrl = $thumb ? asset('storage/' . $thumb) : asset('images/placeholder.jpg');
+                            $imageUrl = $product->primaryImageUrl();
                             $productCategory = $categories->firstWhere('id', $product->category_id);
                         @endphp
                         <a href="{{ r('products.show', $product) }}" class="group flex flex-col bg-white rounded-3xl border border-primary-gray/40 overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer">
@@ -308,6 +307,7 @@
                                         src="{{ $imageUrl }}" 
                                         alt="{{ $product->name }}" 
                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                        onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'"
                                     />
                                     
                                     <!-- Stock Badge Overlay -->

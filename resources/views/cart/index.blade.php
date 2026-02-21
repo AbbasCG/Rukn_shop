@@ -22,14 +22,13 @@
                 @foreach($cartItems as $item)
                 @php
                 $product = $item->product;
-                $thumb = optional(optional($product->images)->first())->path ?? null;
-                $imageUrl = $thumb ? asset('storage/' . $thumb) : asset('images/placeholder.jpg');
+                $imageUrl = $product->primaryImageUrl();
                 $price = $item->price_at_time ?? ($product->price ?? 0);
                 $qty = $item->$qtyCol ?? 1;
                 $itemTotal = $price * $qty;
                 @endphp
                 <div x-data="{ qty: {{ $qty }}, glow: false }" class="rounded-3xl backdrop-blur-xl bg-white/70 shadow-lg border border-white/20 p-6 flex gap-6 items-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                    <img src="{{ $imageUrl }}" alt="{{ $product->name }}" class="w-24 h-24 rounded-2xl object-cover border border-white/30">
+                    <img src="{{ $imageUrl }}" alt="{{ $product->name }}" class="w-24 h-24 rounded-2xl object-cover border border-white/30" onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
                     <div class="flex-1">
                         <h3 class="text-lg font-semibold text-primary-dark">{{ $product->name }}</h3>
                         <div class="mt-1 text-neutral-700">€{{ number_format($price, 2, ',', '.') }}</div>
