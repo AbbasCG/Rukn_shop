@@ -15,30 +15,15 @@ use App\Http\Controllers\PagesController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
-// Redirect legacy query parameter URLs to new locale prefix format
+// Visiting '/' must redirect to default locale (NL)
 Route::get('/', function () {
-    // Default to Arabic if no locale is set
-    return redirect('/ar');
+    return redirect('/nl');
 })->name('root');
 
-// Legacy redirect: /?locale=en -> /en, etc.
-Route::get('/legacy-locale-redirect', function (\Illuminate\Http\Request $request) {
-    $locale = $request->query('locale');
-    $supportedLocales = config('app.supported_locales', ['ar', 'en', 'nl']);
-
-    if ($locale && in_array($locale, $supportedLocales)) {
-        // Get the current path without query parameters
-        $path = $request->path();
-        return redirect('/' . $locale . ($path !== '/' ? '/' . ltrim($path, '/') : ''));
-    }
-
-    // Default to Arabic if no valid locale provided
-    return redirect('/ar');
-});
-
-// Localized Routes Group
+// Localized routes: prefix /{locale}, allowed nl, ar, en
 Route::prefix('{locale}')
-    ->middleware(['locale.validate'])
+    ->where(['locale' => 'nl|en|ar'])
+    ->middleware([\App\Http\Middleware\SetLocale::class])
     ->group(function () {
 
         // Home page
@@ -117,6 +102,6 @@ Route::prefix('{locale}')
         Route::get('/terms-of-service', function () {
             return view('legal.terms-of-service');
         })->name('terms-of-service');
-    });
 
-require __DIR__ . '/auth.php';
+        require __DIR__ . '/auth.php';
+    });

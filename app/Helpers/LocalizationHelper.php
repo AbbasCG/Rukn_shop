@@ -51,7 +51,7 @@ if (!function_exists('localizePath')) {
         }
 
         // Remove the current locale prefix from the path if it exists
-        $supportedLocales = config('app.supported_locales', ['ar', 'en', 'nl']);
+        $supportedLocales = config('app.supported_locales', ['nl', 'ar', 'en']);
         $currentPath = trim($path, '/');
 
         foreach ($supportedLocales as $existingLocale) {

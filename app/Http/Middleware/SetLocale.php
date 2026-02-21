@@ -4,31 +4,33 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Symfony\Component\HttpFoundation\Response;
 
 class SetLocale
 {
     /**
      * Handle an incoming request.
-     * This middleware is kept for backward compatibility.
-     * LocalizeRoutes middleware now handles locale setting from route parameter.
+     * Reads locale from URL (route parameter) only; falls back to session then config.
+     * No query string (?locale=) to prevent broken routes and 500 errors.
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // The locale should already be set by LocalizeRoutes middleware
-        // This serves as a fallback for routes not under locale prefix
-        $locale = app()->getLocale();
-        $supportedLocales = config('app.supported_locales', ['ar', 'en', 'nl']);
+        $supportedLocales = config('app.supported_locales', ['nl', 'ar', 'en']);
+        $routeLocale = $request->route('locale');
+        $sessionLocale = session('locale');
 
-        if (!in_array($locale, $supportedLocales)) {
-            $sessionLocale = session('locale');
-            if ($sessionLocale && in_array($sessionLocale, $supportedLocales)) {
-                app()->setLocale($sessionLocale);
-            } else {
-                $appDefault = config('app.locale', 'ar');
-                app()->setLocale($appDefault);
-            }
+        if ($routeLocale && in_array($routeLocale, $supportedLocales, true)) {
+            $locale = $routeLocale;
+        } elseif ($sessionLocale && in_array($sessionLocale, $supportedLocales, true)) {
+            $locale = $sessionLocale;
+        } else {
+            $locale = config('app.locale', 'nl');
         }
+
+        app()->setLocale($locale);
+        session(['locale' => $locale]);
+        URL::defaults(['locale' => $locale]);
 
         return $next($request);
     }

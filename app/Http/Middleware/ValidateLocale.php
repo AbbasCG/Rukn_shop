@@ -15,11 +15,11 @@ class ValidateLocale
     public function handle(Request $request, Closure $next): Response
     {
         $locale = $request->route('locale');
-        $supportedLocales = config('app.supported_locales', ['ar', 'en', 'nl']);
+        $supportedLocales = config('app.supported_locales', ['nl', 'ar', 'en']);
 
         // If locale is not valid, redirect to default locale
         if (!$locale || !in_array($locale, $supportedLocales)) {
-            $defaultLocale = config('app.locale', 'ar');
+            $defaultLocale = config('app.locale', 'nl');
             $path = $request->path();
             // Remove the invalid locale from the path
             $pathSegments = explode('/', trim($path, '/'));
