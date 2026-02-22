@@ -8,6 +8,8 @@ use App\Models\ProductImage;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class AdminProductController extends Controller
@@ -211,18 +213,27 @@ class AdminProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $locale, string $product)
+    public function destroy(string $locale, Product $product)
     {
-        $product = Product::with('images')->findOrFail($product);
-        
-        // Delete all associated images from storage
-        foreach ($product->images as $image) {
-            if (Storage::disk('public')->exists($image->path)) {
-                Storage::disk('public')->delete($image->path);
+        $product->load('images');
+
+        try {
+            // Delete all associated images from storage
+            foreach ($product->images as $image) {
+                if (Storage::disk('public')->exists($image->path)) {
+                    Storage::disk('public')->delete($image->path);
+                }
             }
+
+            $product->delete();
+        } catch (QueryException $exception) {
+            Log::error('Product delete failed due to database constraint.', [
+                'product_id' => $product->id,
+                'error' => $exception->getMessage(),
+            ]);
+
+            return back()->with('error', __('admin_products.delete_failed'));
         }
-        
-        $product->delete();
 
         return redirect()->route('admin.products.index')->with('success', __('admin_products.deleted_success'));
     }
@@ -263,7 +274,7 @@ class AdminProductController extends Controller
             if (Storage::disk('public')->exists($image->path)) {
                 Storage::disk('public')->delete($image->path);
             }
-            // Delete from database
+            
             $image->delete();
         }
     }

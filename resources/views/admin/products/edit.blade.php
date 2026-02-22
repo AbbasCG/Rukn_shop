@@ -1,11 +1,20 @@
 @extends('layouts.admin', ['title' => 'Edit Product'])
 
 @section('content')
-<div class="w-full max-w-3xl mx-auto space-y-6">
+<div x-data="{ deleteModalOpen: false }" @keydown.escape="deleteModalOpen = false" class="w-full max-w-3xl mx-auto space-y-6">
     <!-- Header Section -->
-    <div>
-        <h1 class="text-3xl font-bold text-primary-dark">Edit Product</h1>
-        <p class="text-sm text-primary-dark/60 mt-1">Update product information and availability</p>
+    <div class="flex items-start justify-between gap-3">
+        <div>
+            <h1 class="text-3xl font-bold text-primary-dark">Edit Product</h1>
+            <p class="text-sm text-primary-dark/60 mt-1">Update product information and availability</p>
+        </div>
+        <button
+            type="button"
+            @click="deleteModalOpen = true"
+            class="inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-lg bg-red-600 text-white hover:bg-red-700 transition-all duration-300"
+        >
+            Delete
+        </button>
     </div>
 
     <!-- Form Card -->
@@ -281,6 +290,63 @@
             </a>
         </div>
     </form>
+
+    <!-- Delete Confirmation Modal -->
+    <div 
+        x-show="deleteModalOpen" 
+        @click.self="deleteModalOpen = false"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        style="display: none;"
+    >
+        <div 
+            @click.stop
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 scale-95"
+            x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95"
+            class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-6"
+        >
+            <div>
+                <h3 class="text-2xl font-bold text-primary-dark">{{ __('admin_products.delete_title') }}</h3>
+            </div>
+            <div class="space-y-2">
+                <p class="text-sm text-neutral-600">
+                    {{ __('admin_products.delete_message') }} <span class="font-semibold text-primary-dark">{{ $product->name }}</span>?
+                </p>
+            </div>
+            <div class="flex items-center gap-3 pt-4">
+                <button 
+                    type="button"
+                    @click="deleteModalOpen = false"
+                    class="flex-1 px-4 py-2.5 rounded-lg border border-neutral-300 text-neutral-700 font-semibold text-sm hover:bg-neutral-50 transition-all duration-200">
+                    {{ __('admin_products.cancel') }}
+                </button>
+                <form
+                    action="{{ route('admin.products.destroy', ['locale' => app()->getLocale(), 'product' => $product]) }}"
+                    method="POST"
+                    style="display: none;"
+                    id="deleteProductForm"
+                >
+                    @csrf
+                    @method('DELETE')
+                </form>
+                <button 
+                    type="button"
+                    @click="document.getElementById('deleteProductForm').submit(); deleteModalOpen = false;"
+                    class="flex-1 px-4 py-2.5 rounded-lg bg-red-600 text-white font-semibold text-sm hover:bg-red-700 transition-all duration-200 active:scale-95">
+                    {{ __('admin_products.confirm_delete') }}
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
