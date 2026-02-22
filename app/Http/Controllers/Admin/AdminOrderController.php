@@ -21,13 +21,13 @@ class AdminOrderController extends Controller
         return view('admin.orders.index', compact('orders'));
     }
 
-    public function show(Order $order)
+    public function show(string $locale, string $order)
     {
-        $order->load(['user', 'orderItems.product']);
+        $order = Order::with(['user', 'orderItems.product'])->findOrFail($order);
         return view('admin.orders.show', compact('order'));
     }
 
-    public function update(Request $request, Order $order)
+    public function update(Request $request, string $locale, string $order)
     {
         $validated = $request->validate([
             'status' => 'required|string|in:pending,processing,shipped,delivered,cancelled',
@@ -36,6 +36,7 @@ class AdminOrderController extends Controller
             'notes' => 'nullable|string',
         ]);
 
+        $order = Order::findOrFail($order);
         $order->update($validated);
 
         return redirect()->route('admin.orders.show', $order)->with('success', 'Order updated successfully');

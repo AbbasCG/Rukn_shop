@@ -72,8 +72,9 @@ class OrderController extends Controller
      * Display the specified order.
      * Customers can only view their own orders, admins can view all orders.
      */
-    public function show(Order $order)
+    public function show(string $locale, string $order)
     {
+        $order = Order::with(['user', 'orderItems.product'])->findOrFail($order);
         // Customer view - can only view their own orders
         if (Auth::check() && !Auth::user()->isAdmin()) {
             if ($order->user_id !== Auth::id()) {

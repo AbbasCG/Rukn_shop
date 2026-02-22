@@ -65,6 +65,7 @@ return [
 
     'items' => [
         'product' => 'Product',
+        'product_unavailable' => 'Product unavailable',
         'sku' => 'SKU',
         'quantity' => 'Quantity',
         'price_per_unit' => 'Price per unit',

@@ -65,6 +65,7 @@ return [
 
     'items' => [
         'product' => 'المنتج',
+        'product_unavailable' => 'المنتج غير متوفر',
         'sku' => 'رمز المنتج',
         'quantity' => 'الكمية',
         'price_per_unit' => 'السعر لكل وحدة',

@@ -65,6 +65,7 @@ return [
 
     'items' => [
         'product' => 'Product',
+        'product_unavailable' => 'Product niet beschikbaar',
         'sku' => 'Artikelcode',
         'quantity' => 'Hoeveelheid',
         'price_per_unit' => 'Prijs per stuk',
