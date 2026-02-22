@@ -141,7 +141,7 @@
 
                     <div x-show="openProfile" @click.outside="openProfile = false" x-transition class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-primary-gray py-2 z-50">
                         <a href="{{ r('profile.edit') }}" class="block px-4 py-2 text-sm text-primary-dark hover:bg-primary-dark hover:text-white transition-all duration-200">{{ __('home.nav_profile') }}</a>
-                        @if(Route::has('orders.index'))
+                        @if(Route::has('orders.index') && !$user->isAdmin())
                         <a href="{{ r('orders.index') }}" class="block px-4 py-2 text-sm text-primary-dark hover:bg-primary-dark hover:text-white transition-all duration-200">{{ __('home.nav_orders') }}</a>
                         @endif
                         @if($user->isAdmin())

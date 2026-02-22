@@ -102,7 +102,7 @@ class CartController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Cart $cart)
+    public function show(string $locale, Cart $cart)
     {
         //
     }
@@ -110,7 +110,7 @@ class CartController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Cart $cart)
+    public function edit(string $locale, Cart $cart)
     {
         //
     }
@@ -118,7 +118,7 @@ class CartController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Cart $cart)
+    public function update(Request $request, string $locale, Cart $cart)
     {
         if ($cart->user_id !== Auth::id()) {
             abort(403);
@@ -156,7 +156,7 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cart $cart)
+    public function destroy(string $locale, Cart $cart)
     {
         if ($cart->user_id !== Auth::id()) {
             abort(403);

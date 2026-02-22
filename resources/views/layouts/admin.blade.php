@@ -29,7 +29,46 @@
                     </button>
                     <h1 class="text-lg font-semibold">{{ $title }}</h1>
                 </div>
-                <div class="flex items-center gap-4" x-data="{ openAdminProfile: false }">
+                <div class="flex items-center gap-3" x-data="{ openAdminProfile: false, openAdminLanguage: false }">
+                    <div class="relative">
+                        <button
+                            @click="openAdminLanguage = !openAdminLanguage"
+                            @keydown.escape.window="openAdminLanguage = false"
+                            class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-neutral-200 bg-white text-primary-800 hover:bg-neutral-100 transition-all"
+                            title="Language"
+                        >
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="text-sm font-medium hidden sm:inline">{{ app()->getLocale() === 'ar' ? 'العربية' : (app()->getLocale() === 'en' ? 'English' : 'Nederlands') }}</span>
+                            <span class="text-xs font-semibold uppercase sm:hidden">{{ app()->getLocale() }}</span>
+                            <svg class="h-4 w-4 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        <div
+                            x-show="openAdminLanguage"
+                            @click.outside="openAdminLanguage = false"
+                            x-transition
+                            class="absolute {{ app()->getLocale() === 'ar' ? 'left-0' : 'right-0' }} mt-2 w-44 bg-white rounded-xl shadow-lg border border-neutral-200 py-2 z-50"
+                            style="display: none;"
+                        >
+                            <a href="{{ localizePath('nl') }}" class="flex items-center gap-2 px-3 py-2 text-sm {{ app()->getLocale() === 'nl' ? 'bg-primary-800 text-white font-semibold' : 'text-primary-800 hover:bg-neutral-100' }} transition-colors">
+                                <span class="text-base">🇳🇱</span>
+                                <span>Nederlands</span>
+                            </a>
+                            <a href="{{ localizePath('ar') }}" class="flex items-center gap-2 px-3 py-2 text-sm {{ app()->getLocale() === 'ar' ? 'bg-primary-800 text-white font-semibold' : 'text-primary-800 hover:bg-neutral-100' }} transition-colors">
+                                <span class="text-base">🇸🇦</span>
+                                <span>العربية</span>
+                            </a>
+                            <a href="{{ localizePath('en') }}" class="flex items-center gap-2 px-3 py-2 text-sm {{ app()->getLocale() === 'en' ? 'bg-primary-800 text-white font-semibold' : 'text-primary-800 hover:bg-neutral-100' }} transition-colors">
+                                <span class="text-base">🇬🇧</span>
+                                <span>English</span>
+                            </a>
+                        </div>
+                    </div>
+
                     <button class="p-3 rounded-lg border border-neutral-200 dark:border-neutral-200 hover:bg-primary-50 transition-all" @click="darkMode = !darkMode">
                         <svg x-show="!darkMode" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
