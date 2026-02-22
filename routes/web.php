@@ -68,6 +68,7 @@ Route::prefix('{locale}')
         // Public Product routes (browse and view)
         Route::get('/products', [ProductController::class, 'index'])->name('products.index');
         Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+        Route::get('/categories/{category:slug}', [CategoryController::class, 'publicShow'])->name('categories.show');
 
         // Admin-only CRUD routes
         Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {

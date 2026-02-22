@@ -3,16 +3,30 @@
     <!-- Breadcrumbs -->
     <div class="bg-primary-50 dark:bg-primary-900 border-b border-primary-200 dark:border-primary-700" dir="{{ $dir }}">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <nav class="flex text-sm text-neutral-500 dark:text-primary-300">
-                <a href="{{ r('home') }}" class="hover:text-primary-800 transition-colors font-medium">{{ __('product.breadcrumb_home') }}</a>
-                <span class="mx-2">/</span>
-                <a href="{{ r('products.index') }}" class="hover:text-primary-800 transition-colors font-medium">{{ __('product.breadcrumb_products') }}</a>
-                @if($product->category)
-                    <span class="mx-2">/</span>
-                    <span class="hover:text-primary-800 transition-colors font-medium">{{ $product->category->name }}</span>
-                @endif
-                <span class="mx-2">/</span>
-                <span class="text-primary-800 dark:text-primary-50 font-bold">{{ $product->name }}</span>
+            <nav aria-label="Breadcrumb" class="text-sm text-neutral-600 dark:text-primary-200">
+                <ol class="flex flex-wrap items-center gap-1.5">
+                    <li>
+                        <a href="{{ r('home') }}" class="inline-flex items-center px-2 py-1 rounded-md text-primary-700 dark:text-primary-100 hover:bg-primary-100 dark:hover:bg-primary-700 hover:text-primary-900 dark:hover:text-white transition-all duration-200 font-medium focus:outline-none focus:ring-2 focus:ring-primary-300">
+                            {{ __('product.breadcrumb_home') }}
+                        </a>
+                    </li>
+                    <li class="text-neutral-400 dark:text-primary-300" aria-hidden="true">/</li>
+                    <li>
+                        <a href="{{ r('products.index') }}" class="inline-flex items-center px-2 py-1 rounded-md text-primary-700 dark:text-primary-100 hover:bg-primary-100 dark:hover:bg-primary-700 hover:text-primary-900 dark:hover:text-white transition-all duration-200 font-medium focus:outline-none focus:ring-2 focus:ring-primary-300">
+                            {{ __('product.breadcrumb_products') }}
+                        </a>
+                    </li>
+                    @if($product->category)
+                        <li class="text-neutral-400 dark:text-primary-300" aria-hidden="true">/</li>
+                        <li>
+                            <a href="{{ r('categories.show', ['category' => $product->category]) }}" class="inline-flex items-center px-2 py-1 rounded-md text-primary-700 dark:text-primary-100 hover:bg-primary-100 dark:hover:bg-primary-700 hover:text-primary-900 dark:hover:text-white hover:underline transition-all duration-200 font-medium cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary-300">
+                                {{ $product->category->name }}
+                            </a>
+                        </li>
+                    @endif
+                    <li class="text-neutral-400 dark:text-primary-300" aria-hidden="true">/</li>
+                    <li class="px-2 py-1 text-primary-900 dark:text-white font-semibold" aria-current="page">{{ $product->name }}</li>
+                </ol>
             </nav>
         </div>
     </div>

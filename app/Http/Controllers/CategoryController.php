@@ -8,6 +8,21 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     /**
+     * Display public category listing via products page filter.
+     */
+    public function publicShow(string $locale, Category $category)
+    {
+        if (!$category->is_active) {
+            abort(404);
+        }
+
+        return redirect()->route('products.index', [
+            'locale' => $locale,
+            'category' => $category->slug,
+        ]);
+    }
+
+    /**
      * Display a listing of the resource (admin only).
      */
     public function index()
