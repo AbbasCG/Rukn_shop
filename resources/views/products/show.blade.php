@@ -486,6 +486,41 @@
             }
         }
 
+        function openWhatsAppChat(event, button) {
+            if (!button || button.getAttribute('aria-disabled') === 'true') {
+                event.preventDefault();
+                return false;
+            }
+
+            const quantityInput = document.getElementById('quantity');
+            let quantity = quantityInput ? parseInt(quantityInput.value, 10) : 1;
+            if (!Number.isFinite(quantity) || quantity < 1) {
+                quantity = 1;
+            }
+
+            const phoneNumber = button.dataset.whatsappNumber;
+            if (!phoneNumber) {
+                event.preventDefault();
+                return false;
+            }
+
+            const productName = button.dataset.productName || '';
+            const productPrice = button.dataset.productPrice || '0,00';
+            const greetingLabel = button.dataset.labelGreeting || '';
+            const productLabel = button.dataset.labelProduct || 'Product';
+            const priceLabel = button.dataset.labelPrice || 'Price';
+            const quantityLabel = button.dataset.labelQuantity || 'Quantity';
+            const viewProductLabel = button.dataset.labelViewProduct || 'Product link:';
+            const productUrl = window.location.href;
+
+            const message = `*${greetingLabel}*\n\n*${productLabel}:* ${productName}\n*${priceLabel}:* €${productPrice}\n*${quantityLabel}:* ${quantity}\n\n${viewProductLabel}\n${productUrl}`;
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+            event.preventDefault();
+            return false;
+        }
+
         // Tab switching
         function switchTab(tabName) {
             // Hide all tabs

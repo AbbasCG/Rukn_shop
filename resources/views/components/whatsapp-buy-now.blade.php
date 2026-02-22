@@ -3,6 +3,7 @@
 @if(\App\Helpers\WhatsAppHelper::isEnabled())
     @php
         $whatsappUrl = \App\Helpers\WhatsAppHelper::generateProductLink($product, $quantity);
+        $phoneNumber = \App\Helpers\WhatsAppHelper::getPhoneNumber();
         $isDisabled = $product->stock <= 0;
     @endphp
 
@@ -13,7 +14,17 @@
         @if($isDisabled)
             onclick="event.preventDefault(); return false;"
             aria-disabled="true"
+        @else
+            onclick="return openWhatsAppChat(event, this);"
         @endif
+        data-whatsapp-number="{{ $phoneNumber }}"
+        data-product-name="{{ $product->name }}"
+        data-product-price="{{ number_format($product->price, 2, ',', '.') }}"
+        data-label-greeting="{{ __('product.whatsapp_greeting') }}"
+        data-label-product="{{ __('product.whatsapp_product') }}"
+        data-label-price="{{ __('product.whatsapp_price') }}"
+        data-label-quantity="{{ __('product.whatsapp_quantity') }}"
+        data-label-view-product="{{ __('product.whatsapp_view_product') }}"
         {{ $attributes->merge([
             'class' => 'flex-1 sm:flex-1 min-w-0 py-3 px-4 bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-base font-semibold rounded-xl shadow-md hover:shadow-xl transition-all transform hover:-translate-y-0.5 whitespace-nowrap inline-flex items-center justify-center gap-2 no-underline' . 
             ($isDisabled ? ' opacity-50 cursor-not-allowed pointer-events-none' : '')
