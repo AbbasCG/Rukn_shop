@@ -9,7 +9,7 @@
     </div>
 
     <!-- Form Card -->
-    <form action="{{ r('admin.categories.update', $category) }}" method="POST" class="bg-white rounded-xl shadow-lg p-8 space-y-6">
+    <form action="{{ route('admin.categories.update', ['locale' => app()->getLocale(), 'category' => $category]) }}" method="POST" class="bg-white rounded-xl shadow-lg p-8 space-y-6">
         @csrf
         @method('PATCH')
 
@@ -74,7 +74,7 @@
                 Update Category
             </button>
             <a 
-                href="{{ r('admin.categories.index') }}"
+                href="{{ route('admin.categories.index', ['locale' => app()->getLocale()]) }}"
                 class="flex-1 px-6 py-2.5 border border-primary-gray text-primary-dark rounded-lg font-semibold hover:bg-primary-gray transition-all duration-300 text-center">
                 Cancel
             </a>

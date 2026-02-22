@@ -1,7 +1,15 @@
 @extends('layouts.admin', ['title' => 'Users'])
 
 @section('content')
-<div class="w-full max-w-7xl mx-auto space-y-6">
+@php
+    $userDeleteActionTemplate = route('admin.users.destroy', ['locale' => app()->getLocale(), 'user' => '__USER__']);
+@endphp
+
+<div x-data="{ 
+    deleteModalOpen: false, 
+    deleteUserId: null, 
+    deleteUserName: '' 
+}" @keydown.escape="deleteModalOpen = false" class="w-full max-w-7xl mx-auto space-y-6">
     
     <!-- Header Section -->
     <div class="flex items-center justify-between">
@@ -161,14 +169,14 @@
                                 <td class="py-4 px-6">
                                     <div class="flex items-center justify-end gap-2">
                                         <a 
-                                            href="{{ r('admin.users.edit', $user) }}"
+                                            href="{{ route('admin.users.edit', ['locale' => app()->getLocale(), 'user' => $user]) }}"
                                             class="inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-lg bg-primary-dark text-white hover:bg-primary-dark/90 transition-all duration-300">
                                             Edit
                                         </a>
                                         <button 
                                             type="button"
-                                            onclick="deleteUser('{{ $user->id }}', '{{ $user->name }}')"
-                                            class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-red-600 text-white hover:bg-red-700 transition-all duration-300">
+                                            @click="deleteModalOpen = true; deleteUserId = '{{ $user->id }}'; deleteUserName = @js($user->name);"
+                                            class="inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-lg bg-red-600 text-white hover:bg-red-700 transition-all duration-300">
                                             Delete
                                         </button>
                                     </div>
@@ -200,23 +208,65 @@
         @endif
     </div>
 
-</div>
+    <!-- Delete Confirmation Modal -->
+    <div 
+        x-show="deleteModalOpen" 
+        @click.self="deleteModalOpen = false"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        style="display: none;"
+    >
+        <div 
+            @click.stop
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 scale-95"
+            x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95"
+            class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-6"
+        >
+            <div>
+                <h3 class="text-2xl font-bold text-primary-dark">Delete user?</h3>
+            </div>
 
-<!-- Delete User Modal/Confirmation -->
-<script>
-function deleteUser(userId, userName) {
-    if (confirm(`Are you sure you want to delete "${userName}"? This action cannot be undone.`)) {
-        // Create a hidden form and submit it
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = `/admin/users/${userId}`;
-        form.innerHTML = `
-            @csrf
-            @method('DELETE')
-        `;
-        document.body.appendChild(form);
-        form.submit();
-    }
-}
-</script>
+            <div class="space-y-2">
+                <p class="text-sm text-neutral-600">
+                    Are you sure you want to delete <span class="font-semibold text-primary-dark" x-text="deleteUserName"></span>? This action cannot be undone.
+                </p>
+            </div>
+
+            <div class="flex items-center gap-3 pt-4">
+                <button 
+                    type="button"
+                    @click="deleteModalOpen = false"
+                    class="flex-1 px-4 py-2.5 rounded-lg border border-neutral-300 text-neutral-700 font-semibold text-sm hover:bg-neutral-50 transition-all duration-200">
+                    Cancel
+                </button>
+                <form 
+                    :action="'{{ $userDeleteActionTemplate }}'.replace('__USER__', deleteUserId)"
+                    method="POST" 
+                    style="display: none;"
+                    @keydown.enter.window="if (deleteModalOpen) this.submit()"
+                    id="deleteUserForm"
+                >
+                    @csrf
+                    @method('DELETE')
+                </form>
+                <button 
+                    type="button"
+                    @click="document.getElementById('deleteUserForm').submit(); deleteModalOpen = false;"
+                    class="flex-1 px-4 py-2.5 rounded-lg bg-red-600 text-white font-semibold text-sm hover:bg-red-700 transition-all duration-200 active:scale-95">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
 @endsection

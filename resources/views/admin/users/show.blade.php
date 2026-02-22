@@ -3,7 +3,7 @@
 @section('content')
 <div class="max-w-5xl mx-auto flex items-center justify-between mb-4">
     <h2 class="text-2xl font-semibold text-primary-800 dark:text-primary-800">{{ $user->name }}</h2>
-    <a href="{{ r('admin.users.edit', $user) }}" class="px-4 py-2 bg-primary-800 text-white rounded-lg hover:bg-primary-700 active:bg-primary-900 transition-all">Edit</a>
+    <a href="{{ route('admin.users.edit', ['locale' => app()->getLocale(), 'user' => $user]) }}" class="px-4 py-2 bg-primary-800 text-white rounded-lg hover:bg-primary-700 active:bg-primary-900 transition-all">Edit</a>
 </div>
 
 <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">

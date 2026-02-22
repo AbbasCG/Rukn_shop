@@ -79,7 +79,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit(string $locale, User $user)
     {
         return view('admin.users.edit', compact('user'));
     }
@@ -87,7 +87,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, string $locale, User $user)
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -114,7 +114,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(string $locale, User $user)
     {
         // Prevent deleting yourself
         if ($user->id === auth()->id()) {

@@ -43,12 +43,12 @@ class AdminCategoryController extends Controller
         return redirect()->route('admin.categories.index')->with('success', 'Category created successfully');
     }
 
-    public function edit(Category $category)
+    public function edit(string $locale, Category $category)
     {
         return view('admin.categories.edit', compact('category'));
     }
 
-    public function update(Request $request, Category $category)
+    public function update(Request $request, string $locale, Category $category)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -65,7 +65,7 @@ class AdminCategoryController extends Controller
         return redirect()->route('admin.categories.index')->with('success', 'Category updated successfully');
     }
 
-    public function destroy(Category $category)
+    public function destroy(string $locale, Category $category)
     {
         if ($category->products()->count() > 0) {
             return back()->with('error', 'Cannot delete category with products.');

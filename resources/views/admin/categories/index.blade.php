@@ -1,6 +1,10 @@
 @extends('layouts.admin', ['title' => 'Categories'])
 
 @section('content')
+@php
+    $categoryDeleteActionTemplate = route('admin.categories.destroy', ['locale' => app()->getLocale(), 'category' => '__CATEGORY__']);
+@endphp
+
 <div x-data="{ 
     deleteModalOpen: false, 
     deleteCategoryId: null, 
@@ -187,7 +191,7 @@
                                 <td class="px-6 py-4 align-middle text-right">
                                     <div class="flex items-center justify-end gap-2">
                                         <a 
-                                            href="{{ r('admin.categories.edit', $category) }}"
+                                            href="{{ route('admin.categories.edit', ['locale' => app()->getLocale(), 'category' => $category]) }}"
                                             class="inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-lg bg-primary-dark text-white hover:bg-primary-dark/90 transition-all duration-300">
                                             Edit
                                         </a>
@@ -273,7 +277,7 @@
                     Cancel
                 </button>
                 <form 
-                    :action="`/admin/categories/${deleteCategoryId}`"
+                    :action="'{{ $categoryDeleteActionTemplate }}'.replace('__CATEGORY__', deleteCategoryId)"
                     method="POST" 
                     style="display: none;"
                     @keydown.enter.window="if (deleteModalOpen) this.submit()"
