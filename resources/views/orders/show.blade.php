@@ -1,233 +1,203 @@
 <x-app-layout>
-    @php $dir = app()->getLocale() === 'ar' ? 'rtl' : 'ltr'; @endphp
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8" dir="{{ $dir }}">
-        <!-- Back Link -->
-        <a href="{{ r('orders.index') }}" class="inline-flex items-center text-sm text-primary-dark hover:text-primary-dark/70 font-semibold transition mb-4">
-            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
-            </svg>
-            {{ __('orders.actions.back_to_orders') }}
-        </a>
+    @php
+        $dir = app()->getLocale() === 'ar' ? 'rtl' : 'ltr';
+        $isRtl = $dir === 'rtl';
+        $status = strtolower((string) $order->status);
+        $statusColors = [
+            'pending' => 'bg-yellow-100 text-yellow-800',
+            'completed' => 'bg-green-100 text-green-800',
+            'delivered' => 'bg-green-100 text-green-800',
+            'cancelled' => 'bg-red-100 text-red-800',
+            'processing' => 'bg-blue-100 text-blue-800',
+            'paid' => 'bg-blue-100 text-blue-800',
+            'shipped' => 'bg-blue-100 text-blue-800',
+            'refunded' => 'bg-red-100 text-red-800',
+        ];
+        $statusClass = $statusColors[$status] ?? 'bg-gray-100 text-gray-800';
+    @endphp
 
-        <!-- Page Header -->
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
-                <h1 class="text-4xl md:text-5xl font-bold text-primary-dark" style="font-family: 'Signika', sans-serif;">{{ __('orders.table.order_number') }} #{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</h1>
-                <p class="text-neutral-600 mt-2">{{ $order->created_at->format('F d, Y \a\t g:i A') }}</p>
+    <div class="bg-gray-50/70 min-h-screen" dir="{{ $dir }}">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10 space-y-6 text-start">
+            <div class="print:hidden">
+                <a href="{{ r('orders.index') }}" class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-primary-dark shadow-sm transition hover:bg-gray-50">
+                    <svg class="h-4 w-4 {{ $isRtl ? 'rotate-180' : '' }}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                    </svg>
+                    <span>{{ __('orders.actions.back_to_orders') }}</span>
+                </a>
             </div>
 
-            <!-- Status Badge -->
-            <div>
-                @php
-                $statusColors = [
-                'pending' => 'bg-amber-50 text-amber-800 border-amber-200',
-                'paid' => 'bg-blue-50 text-blue-800 border-blue-200',
-                'processing' => 'bg-blue-50 text-blue-800 border-blue-200',
-                'shipped' => 'bg-emerald-50 text-emerald-800 border-emerald-200',
-                'delivered' => 'bg-green-100 text-green-800 border-green-300',
-                'cancelled' => 'bg-rose-50 text-rose-800 border-rose-200',
-                'refunded' => 'bg-rose-50 text-rose-800 border-rose-200',
-                ];
-                $statusClass = $statusColors[$order->status] ?? 'bg-gray-50 text-gray-800 border-gray-200';
-                @endphp
-                <span class="inline-block px-6 py-2 rounded-full text-lg font-bold border {{ $statusClass }}">
-                    {{ __('orders.status.' . $order->status) }}
-                </span>
-            </div>
-        </div>
+            <section class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8 print:shadow-none print:border-gray-300">
+                <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+                    <div class="space-y-2">
+                        <h1 class="text-2xl md:text-3xl font-bold text-primary-dark">
+                            {{ __('orders.table.order_number') }} #{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}
+                        </h1>
+                        <p class="text-sm text-neutral-600">{{ $order->created_at->format('F d, Y \a\t g:i A') }}</p>
+                    </div>
 
-        <!-- Order Summary Card -->
-        <div class="bg-white rounded-2xl shadow-sm p-6 space-y-6 border border-primary-gray/60">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Order Summary Section -->
-                <div>
-                    <h2 class="text-lg font-bold text-primary-dark mb-4" style="font-family: 'Signika', sans-serif;">{{ __('orders.details.summary') }}</h2>
-                    <div class="space-y-3">
-                        <div class="flex justify-between">
-                            <span class="text-neutral-600">{{ __('orders.summary.subtotal') }}:</span>
-                            <span class="font-semibold text-primary-dark">€{{ number_format($order->subtotal, 2, ',', '.') }}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-neutral-600">{{ __('orders.summary.shipping') }}:</span>
-                            <span class="font-semibold text-primary-dark">€{{ number_format($order->shipping_cost, 2, ',', '.') }}</span>
-                        </div>
-                        <div class="pt-3 border-t border-neutral-200 flex justify-between text-lg">
-                            <span class="font-bold text-primary-dark">{{ __('orders.summary.total') }}:</span>
-                            <span class="font-bold text-primary-dark">€{{ number_format($order->total, 2, ',', '.') }}</span>
-                        </div>
+                    <span class="inline-flex w-fit rounded-full px-3 py-1 text-sm font-medium {{ $statusClass }}">
+                        {{ __('orders.status.' . $order->status) }}
+                    </span>
+                </div>
 
-                        <div class="pt-4 space-y-2 border-t border-neutral-200">
-                            @if($order->payment_method)
-                            <div class="text-sm">
-                                <span class="text-neutral-600">{{ __('orders.summary.payment_method') }}:</span>
-                                <span class="font-semibold text-primary-dark block">{{ ucfirst(str_replace('_', ' ', $order->payment_method)) }}</span>
-                            </div>
-                            @endif
-                            <div class="text-sm">
-                                <span class="text-neutral-600">{{ __('orders.summary.payment_status') }}:</span>
-                                <x-payment-status class="mt-1" :status="$order->payment_status" :order-status="$order->status" />
-                            </div>
-                        </div>
+                <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
+                        <p class="text-xs uppercase tracking-wide text-neutral-500">{{ __('orders.summary.total') }}</p>
+                        <p class="mt-1 text-2xl font-bold text-primary-dark">€{{ number_format($order->total, 2, ',', '.') }}</p>
+                    </div>
+                    <div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
+                        <p class="text-xs uppercase tracking-wide text-neutral-500">{{ __('orders.summary.subtotal') }}</p>
+                        <p class="mt-1 text-lg font-semibold text-primary-dark">€{{ number_format($order->subtotal, 2, ',', '.') }}</p>
+                    </div>
+                    <div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
+                        <p class="text-xs uppercase tracking-wide text-neutral-500">{{ __('orders.summary.shipping') }}</p>
+                        <p class="mt-1 text-lg font-semibold text-primary-dark">€{{ number_format($order->shipping_cost, 2, ',', '.') }}</p>
+                    </div>
+                    <div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
+                        <p class="text-xs uppercase tracking-wide text-neutral-500">{{ __('orders.summary.payment_method') }}</p>
+                        <p class="mt-1 text-lg font-semibold text-primary-dark">{{ $order->payment_method ? ucfirst(str_replace('_', ' ', $order->payment_method)) : '-' }}</p>
                     </div>
                 </div>
 
-                <!-- Shipping Information Section -->
-                <div>
-                    <h2 class="text-lg font-bold text-primary-dark mb-4" style="font-family: 'Signika', sans-serif;">{{ __('orders.details.shipping_info') }}</h2>
-                    <div class="space-y-3 text-sm">
+                <div class="mt-6 pt-6 border-t border-gray-200">
+                    <h2 class="text-lg font-semibold text-primary-dark mb-3">{{ __('orders.details.shipping_info') }}</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                         <div>
-                            <span class="text-neutral-600">{{ __('orders.shipping.name') }}:</span>
-                            <span class="font-semibold text-primary-dark block">{{ $order->name }}</span>
+                            <p class="text-neutral-500">{{ __('orders.shipping.name') }}</p>
+                            <p class="font-medium text-primary-dark">{{ $order->name }}</p>
                         </div>
                         <div>
-                            <span class="text-neutral-600">{{ __('orders.shipping.address') }}:</span>
-                            <span class="font-semibold text-primary-dark block">
+                            <p class="text-neutral-500">{{ __('orders.shipping.phone') }}</p>
+                            <p class="font-medium text-primary-dark">{{ $order->phone ?: '-' }}</p>
+                        </div>
+                        <div>
+                            <p class="text-neutral-500">{{ __('orders.shipping.address') }}</p>
+                            <p class="font-medium text-primary-dark">
                                 {{ $order->address_line1 }}
                                 @if($order->address_line2)
-                                <br>{{ $order->address_line2 }}
+                                    <br>{{ $order->address_line2 }}
                                 @endif
-                            </span>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <span class="text-neutral-600">{{ __('orders.shipping.postal_code') }}:</span>
-                                <span class="font-semibold text-primary-dark block">{{ $order->postal_code }}</span>
-                            </div>
-                            <div>
-                                <span class="text-neutral-600">{{ __('orders.shipping.city') }}:</span>
-                                <span class="font-semibold text-primary-dark block">{{ $order->city }}</span>
-                            </div>
+                            </p>
                         </div>
                         <div>
-                            <span class="text-neutral-600">{{ __('orders.shipping.country') }}:</span>
-                            <span class="font-semibold text-primary-dark block">{{ $order->country }}</span>
+                            <p class="text-neutral-500">{{ __('orders.shipping.country') }}</p>
+                            <p class="font-medium text-primary-dark">{{ $order->country }}</p>
                         </div>
-                        @if($order->phone)
                         <div>
-                            <span class="text-neutral-600">{{ __('orders.shipping.phone') }}:</span>
-                            <span class="font-semibold text-primary-dark block">{{ $order->phone }}</span>
+                            <p class="text-neutral-500">{{ __('orders.shipping.city') }}</p>
+                            <p class="font-medium text-primary-dark">{{ $order->city }}</p>
                         </div>
-                        @endif
+                        <div>
+                            <p class="text-neutral-500">{{ __('orders.shipping.postal_code') }}</p>
+                            <p class="font-medium text-primary-dark">{{ $order->postal_code }}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </section>
 
-        <!-- Order Items Card -->
-        <div class="bg-white rounded-2xl shadow-sm p-6 border border-primary-gray/60">
-            <h2 class="text-lg font-bold text-primary-dark mb-6" style="font-family: 'Signika', sans-serif;">{{ __('orders.details.items') }}</h2>
+            <section class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8 print:shadow-none print:border-gray-300">
+                <h2 class="text-lg font-semibold text-primary-dark mb-4">{{ __('orders.details.items') }}</h2>
 
-            <div class="space-y-4">
-                @forelse($order->items as $item)
-                <div class="flex gap-4 pb-4 border-b border-neutral-200 last:border-b-0">
-                    <!-- Product Image -->
-                    <div class="flex-shrink-0">
-                        <img
-                            src="{{ optional($item->product)->primaryImageUrl() ?? asset(\App\Models\Product::FALLBACK_IMAGE) }}"
-                            alt="{{ $item->product->name }}"
-                            class="w-20 h-20 rounded-lg object-cover border border-neutral-200"
-                            onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
-                    </div>
+                <div class="hidden md:block overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="text-neutral-600 border-b border-gray-200">
+                                <th class="py-3 font-semibold text-start">{{ __('orders.details.items') }}</th>
+                                <th class="py-3 font-semibold text-start">{{ __('orders.items.quantity') }}</th>
+                                <th class="py-3 font-semibold text-start">{{ __('orders.items.price_per_unit') }}</th>
+                                <th class="py-3 font-semibold text-start">{{ __('orders.items.item_total') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($order->items as $item)
+                                @php $product = $item->product; @endphp
+                                <tr class="border-b border-gray-100 last:border-0 transition hover:bg-gray-50/70">
+                                    <td class="py-4">
+                                        <div class="flex items-center gap-3">
+                                            <img
+                                                src="{{ optional($product)->primaryImageUrl() ?? asset(\App\Models\Product::FALLBACK_IMAGE) }}"
+                                                alt="{{ optional($product)->name ?? 'Product' }}"
+                                                class="w-14 h-14 rounded-lg object-cover border border-gray-200"
+                                                onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
+                                            <div>
+                                                @if($product)
+                                                    <a href="{{ r('products.show', $product) }}" class="font-semibold text-primary-dark hover:text-primary-dark/70 transition">
+                                                        {{ $product->name }}
+                                                    </a>
+                                                @else
+                                                    <p class="font-semibold text-primary-dark">Product</p>
+                                                @endif
+                                                <p class="text-xs text-neutral-500 mt-1">{{ __('orders.items.sku') }}: {{ optional($product)->sku ?? 'N/A' }}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 font-medium text-primary-dark">{{ $item->quantity }}</td>
+                                    <td class="py-4 font-medium text-primary-dark">€{{ number_format($item->price, 2, ',', '.') }}</td>
+                                    <td class="py-4 font-semibold text-primary-dark">€{{ number_format($item->quantity * $item->price, 2, ',', '.') }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4" class="py-8 text-center text-neutral-600">{{ __('orders.items.no_items') }}</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
 
-                    <!-- Product Details -->
-                    <div class="flex-1">
-                        <a
-                            href="{{ r('products.show', $item->product) }}"
-                            class="text-lg font-semibold text-primary-dark hover:text-primary-dark/70 transition">
-                            {{ $item->product->name }}
-                        </a>
-                        <p class="text-sm text-neutral-600 mt-1">{{ __('orders.items.sku') }}: {{ $item->product->sku ?? 'N/A' }}</p>
+                <div class="space-y-4 md:hidden">
+                    @forelse($order->items as $item)
+                        @php $product = $item->product; @endphp
+                        <article class="rounded-xl border border-gray-200 p-4 bg-gray-50/60 transition hover:bg-gray-50">
+                            <div class="flex gap-3">
+                                <img
+                                    src="{{ optional($product)->primaryImageUrl() ?? asset(\App\Models\Product::FALLBACK_IMAGE) }}"
+                                    alt="{{ optional($product)->name ?? 'Product' }}"
+                                    class="w-16 h-16 rounded-lg object-cover border border-gray-200"
+                                    onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
 
-                        <!-- Quantity and Price -->
-                        <div class="flex gap-6 mt-3 text-sm">
-                            <div>
-                                <span class="text-neutral-600">{{ __('orders.items.quantity') }}:</span>
-                                <span class="font-semibold text-primary-dark ml-1">{{ $item->quantity }}x</span>
+                                <div class="flex-1 min-w-0 space-y-3">
+                                    <div>
+                                        @if($product)
+                                            <a href="{{ r('products.show', $product) }}" class="block font-semibold text-primary-dark hover:text-primary-dark/70 truncate transition">
+                                                {{ $product->name }}
+                                            </a>
+                                        @else
+                                            <p class="font-semibold text-primary-dark">Product</p>
+                                        @endif
+                                        <p class="text-xs text-neutral-500 mt-1">{{ __('orders.items.sku') }}: {{ optional($product)->sku ?? 'N/A' }}</p>
+                                    </div>
+
+                                    <div class="grid grid-cols-2 gap-3 text-sm">
+                                        <div>
+                                            <p class="text-neutral-500">{{ __('orders.items.quantity') }}</p>
+                                            <p class="font-medium text-primary-dark">{{ $item->quantity }}</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-neutral-500">{{ __('orders.items.price_per_unit') }}</p>
+                                            <p class="font-medium text-primary-dark">€{{ number_format($item->price, 2, ',', '.') }}</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <span class="text-neutral-600">{{ __('orders.items.price_per_unit') }}:</span>
-                                <span class="font-semibold text-primary-dark ml-1">€{{ number_format($item->price, 2, ',', '.') }}</span>
+
+                            <div class="mt-4 pt-3 border-t border-gray-200 flex items-center justify-between">
+                                <p class="text-sm text-neutral-600">{{ __('orders.items.item_total') }}</p>
+                                <p class="text-lg font-bold text-primary-dark">€{{ number_format($item->quantity * $item->price, 2, ',', '.') }}</p>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Item Total -->
-                    <div class="flex-shrink-0 text-right">
-                        <p class="text-sm text-neutral-600">{{ __('orders.items.item_total') }}</p>
-                        <p class="text-2xl font-bold text-primary-dark">€{{ number_format($item->quantity * $item->price, 2, ',', '.') }}</p>
-                    </div>
+                        </article>
+                    @empty
+                        <p class="text-center text-neutral-600 py-8">{{ __('orders.items.no_items') }}</p>
+                    @endforelse
                 </div>
-                @empty
-                <p class="text-center text-neutral-600 py-8">{{ __('orders.items.no_items') }}</p>
-                @endforelse
-            </div>
+            </section>
+
+            @if($order->notes)
+                <section class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8 print:shadow-none print:border-gray-300">
+                    <h2 class="text-lg font-semibold text-primary-dark mb-2">{{ __('orders.details.notes') }}</h2>
+                    <p class="text-neutral-700">{{ $order->notes }}</p>
+                </section>
+            @endif
         </div>
-
-        <!-- Order Timeline (Enhanced Status Steps) -->
-        <div class="bg-gradient-to-br from-primary-gray/40 via-white to-white rounded-2xl shadow-sm p-6 border border-primary-gray/70">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-lg font-bold text-primary-dark" style="font-family: 'Signika', sans-serif;">{{ __('orders.details.status_tracking') }}</h2>
-                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">{{ __('orders.tracking.live_tracking') }}</span>
-            </div>
-
-            @php
-            $steps = ['pending', 'paid', 'processing', 'shipped', 'delivered'];
-            $currentIndex = array_search($order->status, $steps);
-            if ($currentIndex === false) $currentIndex = 0;
-            $progressPercent = ($currentIndex) / (count($steps) - 1) * 100;
-            @endphp
-
-            <!-- Progress track -->
-            <div class="relative mb-8" style="--progress: {{ $progressPercent }}%;">
-                <div class="absolute inset-0 h-2 rounded-full bg-neutral-200"></div>
-                <div class="absolute inset-0 h-2 rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400" style="width: var(--progress);"></div>
-                <div class="relative flex justify-between">
-                    @foreach($steps as $index => $step)
-                    @php
-                    $isDone = $index <= $currentIndex;
-                        $isCurrent=$index===$currentIndex;
-                        @endphp
-                        <div class="flex flex-col items-center text-center w-24 -ml-3 first:ml-0 last:ml-0">
-                        <div class="w-10 h-10 rounded-full flex items-center justify-center border-2 {{ $isDone ? 'bg-white border-emerald-500 text-emerald-700 shadow-sm' : 'bg-white border-neutral-300 text-neutral-500' }}">
-                            @if($isDone && !$isCurrent)
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                            </svg>
-                            @elseif($isCurrent)
-                            <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
-                            @else
-                            <span class="text-xs font-bold">{{ $index + 1 }}</span>
-                            @endif
-                        </div>
-                        <div class="mt-2 text-xs font-semibold {{ $isDone ? 'text-emerald-800' : 'text-neutral-600' }} uppercase tracking-wide">
-                            {{ __('orders.tracking.steps.' . $step) }}
-                        </div>
-                        @if($isCurrent)
-                        <span class="mt-1 text-[11px] text-emerald-700 font-medium">{{ __('orders.tracking.in_progress') }}</span>
-                        @endif
-                </div>
-                @endforeach
-            </div>
-        </div>
-
-        <!-- Status hint -->
-        <div class="flex items-center gap-3 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800" role="status">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-            </svg>
-            <div>
-                <p class="text-sm font-semibold">{{ __('orders.tracking.current_status') }}: {{ __('orders.status.' . $order->status) }}</p>
-                <p class="text-xs text-emerald-700">{{ __('orders.tracking.update_message') }}</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Notes Section (if present) -->
-    @if($order->notes)
-    <div class="bg-blue-50 rounded-2xl border border-blue-200 p-6">
-        <h2 class="text-lg font-bold text-blue-900 mb-2" style="font-family: 'Signika', sans-serif;">{{ __('orders.details.notes') }}</h2>
-        <p class="text-blue-800">{{ $order->notes }}</p>
-    </div>
-    @endif
     </div>
 </x-app-layout>

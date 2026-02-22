@@ -37,4 +37,10 @@ return [
         'empty_cart' => 'Your cart is empty.',
         'failed' => 'Failed to place order. Please try again.',
     ],
+
+    'confirmation' => [
+        'view_order' => 'View My Order',
+        'continue_shopping' => 'Continue Shopping',
+        'placed_with_number' => 'Your order :number has been successfully placed.',
+    ],
 ];

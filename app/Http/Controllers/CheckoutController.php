@@ -100,8 +100,9 @@ class CheckoutController extends Controller
         }
     }
 
-    public function confirmation(Order $order)
+    public function confirmation(string $locale, string $order)
     {
+        $order = Order::findOrFail($order);
         if ($order->user_id !== Auth::id()) {
             abort(404);
         }

@@ -37,4 +37,10 @@ return [
         'empty_cart' => 'Je winkelwagen is leeg.',
         'failed' => 'Het plaatsen van de bestelling is mislukt. Probeer het opnieuw.',
     ],
+
+    'confirmation' => [
+        'view_order' => 'Bekijk mijn bestelling',
+        'continue_shopping' => 'Verder winkelen',
+        'placed_with_number' => 'Je bestelling :number is succesvol geplaatst.',
+    ],
 ];

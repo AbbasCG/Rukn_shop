@@ -37,4 +37,10 @@ return [
         'empty_cart' => 'سلة التسوق فارغة.',
         'failed' => 'تعذر إتمام الطلب. يرجى المحاولة مرة أخرى.',
     ],
+
+    'confirmation' => [
+        'view_order' => 'عرض طلبي',
+        'continue_shopping' => 'متابعة التسوق',
+        'placed_with_number' => 'تم تقديم طلبك :number بنجاح.',
+    ],
 ];

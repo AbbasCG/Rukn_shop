@@ -12,6 +12,9 @@
         </div>
         <div class="rounded-3xl bg-white shadow-xl p-6">
             <h2 class="text-lg font-semibold text-primary-dark">{{ __('orders.confirmation.summary') }}</h2>
+            <p class="mt-2 text-sm text-neutral-700">
+                {!! __('checkout.confirmation.placed_with_number', ['number' => '<span class="font-bold text-primary-dark">#' . str_pad($order->id, 6, '0', STR_PAD_LEFT) . '</span>']) !!}
+            </p>
             <dl class="mt-4 space-y-2 text-sm">
                 <div class="flex justify-between">
                     <dt class="text-neutral-700">{{ __('orders.confirmation.order_number') }}</dt>
@@ -45,8 +48,13 @@
                 <div class="flex items-center justify-between"><span class="text-neutral-700">{{ __('orders.summary.shipping') }}</span><span class="text-primary-dark font-semibold">€{{ number_format($order->shipping_cost, 2, ',', '.') }}</span></div>
                 <div class="flex items-center justify-between text-base"><span class="text-primary-dark font-semibold">{{ __('orders.summary.total') }}</span><span class="text-primary-dark font-semibold">€{{ number_format($order->total, 2, ',', '.') }}</span></div>
             </div>
-            <div class="mt-6 text-center">
-                <a href="{{ r('products.index') }}" class="inline-flex items-center px-6 py-3 rounded-xl bg-primary-dark text-white font-semibold shadow-lg hover:bg-primary-dark/90 transition">{{ __('orders.actions.continue_shopping') }}</a>
+            <div class="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-center gap-3">
+                <a href="{{ r('orders.show', $order) }}" class="inline-flex h-11 items-center justify-center px-6 rounded-xl bg-primary-dark text-white text-sm font-semibold shadow-lg hover:bg-primary-dark/90 transition">
+                    {{ __('checkout.confirmation.view_order') }}
+                </a>
+                <a href="{{ r('products.index') }}" class="inline-flex h-11 items-center justify-center px-6 rounded-xl bg-white border border-primary-gray text-primary-dark text-sm font-semibold shadow-sm hover:bg-primary-gray/30 transition">
+                    {{ __('checkout.confirmation.continue_shopping') }}
+                </a>
             </div>
         </div>
     </div>
