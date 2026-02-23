@@ -39,6 +39,9 @@ return [
     'tab_shipping' => 'الشحن والإرجاع',
     'tab_reviews' => 'التقييمات',
 
+    // Specifications
+    'specifications_empty' => 'لا توجد مواصفات متاحة لهذا المنتج.',
+
     // Shipping & Returns Information
     'shipping_title' => 'معلومات الشحن',
     'shipping_info' => 'نحن نقدم شحنًا قياسيًا مجانيًا للطلبات فوق 50 يورو. عادة ما تتم معالجة الطلبات خلال 1-2 يوم عمل وتسليمها خلال 3-5 أيام عمل.',

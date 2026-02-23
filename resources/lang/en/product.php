@@ -38,6 +38,9 @@ return [
     'tab_specifications' => 'Specifications',
     'tab_shipping' => 'Shipping & Returns',
     'tab_reviews' => 'Reviews',
+
+    // Specifications
+    'specifications_empty' => 'No specifications available for this product.',
     
     // Shipping & Returns Information
     'shipping_title' => 'Shipping Information',

@@ -135,6 +135,55 @@
             @error('long_description')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
 
+        <!-- Specifications (Full width) -->
+        @php
+            $initialSpecifications = old('specifications', $product->specifications ?? [['key' => '', 'value' => '']]);
+            if (empty($initialSpecifications)) {
+                $initialSpecifications = [['key' => '', 'value' => '']];
+            }
+        @endphp
+        <div class="space-y-3" x-data="{ specs: @js($initialSpecifications), addSpec() { this.specs.push({ key: '', value: '' }); }, removeSpec(index) { this.specs.splice(index, 1); if (this.specs.length === 0) { this.specs.push({ key: '', value: '' }); } } }">
+            <div class="flex items-center justify-between gap-3">
+                <div>
+                    <label class="block text-sm font-medium text-primary-dark">{{ __('admin.products.form.specifications') }}</label>
+                    <p class="text-xs text-primary-dark/60 mt-1">{{ __('admin.products.form.specifications_help') }}</p>
+                </div>
+                <button type="button" @click="addSpec" class="inline-flex items-center px-3 py-2 rounded-lg border border-primary-gray text-primary-dark text-xs font-semibold hover:bg-primary-gray/60 transition-all">
+                    {{ __('admin.products.form.spec_add') }}
+                </button>
+            </div>
+
+            <div class="space-y-3">
+                <template x-for="(spec, index) in specs" :key="index">
+                    <div class="grid grid-cols-1 md:grid-cols-[1fr,1.5fr,auto] gap-3 items-start">
+                        <div>
+                            <label class="block text-xs font-semibold text-primary-dark mb-1">{{ __('admin.products.form.spec_key') }}</label>
+                            <input
+                                type="text"
+                                :name="`specifications[${index}][key]`"
+                                x-model="spec.key"
+                                placeholder="{{ __('admin.products.form.placeholders.spec_key') }}"
+                                class="w-full px-4 py-2.5 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-primary-dark mb-1">{{ __('admin.products.form.spec_value') }}</label>
+                            <input
+                                type="text"
+                                :name="`specifications[${index}][value]`"
+                                x-model="spec.value"
+                                placeholder="{{ __('admin.products.form.placeholders.spec_value') }}"
+                                class="w-full px-4 py-2.5 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
+                        </div>
+                        <div class="md:pt-6">
+                            <button type="button" @click="removeSpec(index)" class="inline-flex items-center px-3 py-2 rounded-lg border border-red-200 text-red-600 text-xs font-semibold hover:bg-red-50 transition-all">
+                                {{ __('admin.products.form.spec_remove') }}
+                            </button>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
         <!-- Image URL (Full width) - Legacy field -->
         <div x-data="{ previewUrl: '{{ $product->legacyImageUrl() ?? '' }}' }">
             <label for="image_url" class="block text-sm font-medium text-primary-dark mb-2">{{ __('admin.products.form.image_url_legacy') }}</label>

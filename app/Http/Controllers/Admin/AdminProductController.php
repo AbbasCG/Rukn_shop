@@ -118,6 +118,9 @@ class AdminProductController extends Controller
             'stock' => 'required|integer|min:0',
             'short_description' => 'required|string',
             'long_description' => 'nullable|string',
+            'specifications' => 'nullable|array',
+            'specifications.*.key' => 'nullable|string|max:100',
+            'specifications.*.value' => 'nullable|string|max:1000',
             'image_url' => 'nullable|string|max:500',
             'images' => 'nullable|array',
             'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
@@ -135,6 +138,11 @@ class AdminProductController extends Controller
 
         // Remove images array from validated data before creating product
         unset($validated['images']);
+
+        $validated['specifications'] = $this->normalizeSpecifications($request->input('specifications', []));
+        if (empty($validated['specifications'])) {
+            $validated['specifications'] = null;
+        }
 
         $product = Product::create($validated);
 
@@ -180,6 +188,9 @@ class AdminProductController extends Controller
             'stock' => 'required|integer|min:0',
             'short_description' => 'required|string',
             'long_description' => 'nullable|string',
+            'specifications' => 'nullable|array',
+            'specifications.*.key' => 'nullable|string|max:100',
+            'specifications.*.value' => 'nullable|string|max:1000',
             'image_url' => 'nullable|string|max:500',
             'images' => 'nullable|array',
             'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
@@ -200,6 +211,11 @@ class AdminProductController extends Controller
 
         // Remove arrays from validated data
         unset($validated['images'], $validated['images_to_delete']);
+
+        $validated['specifications'] = $this->normalizeSpecifications($request->input('specifications', []));
+        if (empty($validated['specifications'])) {
+            $validated['specifications'] = null;
+        }
 
         $product->update($validated);
 
@@ -310,6 +326,25 @@ class AdminProductController extends Controller
             
             $image->delete();
         }
+    }
+
+    private function normalizeSpecifications(array $specifications): array
+    {
+        return collect($specifications)
+            ->map(function ($spec) {
+                $key = is_array($spec) ? trim((string) ($spec['key'] ?? '')) : '';
+                $value = is_array($spec) ? trim((string) ($spec['value'] ?? '')) : '';
+
+                return [
+                    'key' => $key,
+                    'value' => $value,
+                ];
+            })
+            ->filter(function ($spec) {
+                return $spec['key'] !== '' && $spec['value'] !== '';
+            })
+            ->values()
+            ->all();
     }
 }
 

@@ -291,14 +291,14 @@
         <div class="bg-white dark:bg-white rounded-2xl shadow-xl border border-neutral-200 dark:border-neutral-300 overflow-hidden">
             <!-- Tab Navigation -->
             <div class="border-b border-primary-200 dark:border-neutral-300">
-                <nav class="flex gap-6 px-7" aria-label="Tabs">
-                    <button onclick="switchTab('description')" class="tab-button py-4 px-3 border-b-3 border-primary-800 text-primary-800 dark:text-primary-800 font-bold text-base">
+                <nav class="flex flex-wrap gap-3 px-7" aria-label="Tabs">
+                    <button onclick="switchTab('description', event)" class="tab-button py-3 px-4 border-b-2 border-primary-800 text-primary-800 dark:text-primary-800 font-bold text-base transition-all">
                         {{ __('product.tab_description') }}
                     </button>
-                    <button onclick="switchTab('specifications')" class="tab-button py-4 px-3 border-b-3 border-transparent text-neutral-600 dark:text-neutral-600 hover:text-primary-800 dark:hover:text-primary-800 hover:border-primary-700 font-medium text-base transition-all">
+                    <button onclick="switchTab('specifications', event)" class="tab-button py-3 px-4 border-b-2 border-transparent text-neutral-600 dark:text-neutral-600 hover:text-primary-800 dark:hover:text-primary-800 hover:border-primary-700 font-medium text-base transition-all">
                         {{ __('product.tab_specifications') }}
                     </button>
-                    <button onclick="switchTab('shipping')" class="tab-button py-4 px-3 border-b-3 border-transparent text-neutral-600 dark:text-neutral-600 hover:text-primary-800 dark:hover:text-primary-800 hover:border-primary-700 font-medium text-base transition-all">
+                    <button onclick="switchTab('shipping', event)" class="tab-button py-3 px-4 border-b-2 border-transparent text-neutral-600 dark:text-neutral-600 hover:text-primary-800 dark:hover:text-primary-800 hover:border-primary-700 font-medium text-base transition-all">
                         {{ __('product.tab_shipping') }}
                     </button>
                 </nav>
@@ -307,44 +307,98 @@
             <!-- Tab Content -->
             <div class="p-8">
                 <!-- Description Tab -->
-                <div id="description-tab" class="tab-content">
+                <div id="description-tab" class="tab-content transition-opacity duration-300 opacity-100">
                     <div class="prose prose-lg max-w-none text-neutral-600 dark:text-primary-300 leading-relaxed">
                         {!! nl2br(e($product->long_description ?? $product->description)) !!}
                     </div>
                 </div>
 
                 <!-- Specifications Tab -->
-                <div id="specifications-tab" class="tab-content hidden">
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-base">
-                            <tbody class="divide-y divide-primary-200 dark:divide-neutral-300">
-                                <tr>
-                                    <td class="py-3 text-neutral-500 dark:text-primary-300 font-bold w-1/3">{{ __('product.spec_material') }}</td>
-                                    <td class="py-3 text-primary-800 dark:text-primary-800">Premium Cotton Blend</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3 text-neutral-500 dark:text-primary-300 font-bold">{{ __('product.spec_dimensions') }}</td>
-                                    <td class="py-3 text-primary-800 dark:text-primary-800">30cm x 40cm x 10cm</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3 text-neutral-500 dark:text-primary-300 font-bold">{{ __('product.spec_weight') }}</td>
-                                    <td class="py-3 text-primary-800 dark:text-primary-800">0.5 kg</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3 text-neutral-500 dark:text-primary-300 font-bold">{{ __('product.spec_care') }}</td>
-                                    <td class="py-3 text-primary-800 dark:text-primary-800">Machine washable at 30°C</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3 text-neutral-500 dark:text-primary-300 font-bold">{{ __('product.spec_origin') }}</td>
-                                    <td class="py-3 text-primary-800 dark:text-primary-800">Made in Europe</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <div id="specifications-tab" class="tab-content transition-opacity duration-300 opacity-0 hidden">
+                    @php
+                        $isRtl = $dir === 'rtl';
+                        $specifications = collect($product->specifications ?? [])
+                            ->filter(function ($spec) {
+                                return is_array($spec)
+                                    && isset($spec['key'], $spec['value'])
+                                    && trim((string) $spec['key']) !== ''
+                                    && trim((string) $spec['value']) !== '';
+                            })
+                            ->values();
+                    @endphp
+
+                    @if($specifications->isEmpty())
+                        <div class="rounded-2xl border border-primary-200 dark:border-neutral-300 bg-primary-50/60 dark:bg-primary-100/40 p-6 {{ $isRtl ? 'text-right' : 'text-left' }}">
+                            <p class="text-sm font-semibold text-primary-800 dark:text-primary-800">{{ __('product.specifications_empty') }}</p>
+                        </div>
+                    @else
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            @foreach($specifications as $spec)
+                                @php
+                                    $specKey = trim((string) $spec['key']);
+                                    $specValue = trim((string) $spec['value']);
+                                    $normalizedKey = \Illuminate\Support\Str::lower($specKey);
+
+                                    $iconType = 'default';
+                                    if (str_contains($normalizedKey, 'material') || str_contains($normalizedKey, 'fabric')) {
+                                        $iconType = 'material';
+                                    } elseif (str_contains($normalizedKey, 'weight')) {
+                                        $iconType = 'weight';
+                                    } elseif (str_contains($normalizedKey, 'dimension') || str_contains($normalizedKey, 'size')) {
+                                        $iconType = 'dimensions';
+                                    } elseif (str_contains($normalizedKey, 'care') || str_contains($normalizedKey, 'wash')) {
+                                        $iconType = 'care';
+                                    } elseif (str_contains($normalizedKey, 'origin') || str_contains($normalizedKey, 'country')) {
+                                        $iconType = 'origin';
+                                    }
+                                @endphp
+
+                                <div class="rounded-2xl border border-neutral-200 dark:border-neutral-300 bg-white dark:bg-white p-4 shadow-sm hover:shadow-md transition-shadow">
+                                    <div class="flex items-start gap-3 {{ $isRtl ? 'flex-row-reverse text-right' : '' }}">
+                                        <div class="h-10 w-10 rounded-xl bg-primary-100 dark:bg-primary-100 flex items-center justify-center text-primary-800 flex-shrink-0">
+                                            @if($iconType === 'material')
+                                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8l8-4 8 4-8 4-8-4zm0 8l8 4 8-4m-16-4l8 4 8-4" />
+                                                </svg>
+                                            @elseif($iconType === 'weight')
+                                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 7h12l-1 13H7L6 7zm3-3h6l1 3H8l1-3z" />
+                                                </svg>
+                                            @elseif($iconType === 'dimensions')
+                                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 17h18M7 3v18" />
+                                                </svg>
+                                            @elseif($iconType === 'care')
+                                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3l9 4.5-9 4.5-9-4.5L12 3zm0 9v9" />
+                                                </svg>
+                                            @elseif($iconType === 'origin')
+                                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2a7 7 0 00-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 00-7-7zm0 9a2 2 0 110-4 2 2 0 010 4z" />
+                                                </svg>
+                                            @else
+                                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m-8 4h10a2 2 0 002-2V6a2 2 0 00-2-2H7a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                </svg>
+                                            @endif
+                                        </div>
+                                        <div class="min-w-0">
+                                            <p class="text-xs uppercase tracking-wide text-neutral-500 dark:text-primary-300 font-semibold">
+                                                {{ $specKey }}
+                                            </p>
+                                            <p class="text-base font-semibold text-primary-800 dark:text-primary-800 break-words">
+                                                {{ $specValue }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
 
                 <!-- Shipping Tab -->
-                <div id="shipping-tab" class="tab-content hidden">
+                <div id="shipping-tab" class="tab-content transition-opacity duration-300 opacity-0 hidden">
                     <div class="space-y-5 text-primary-800 dark:text-primary-800">
                         <div>
                             <h3 class="font-bold text-xl mb-2 text-primary-800 dark:text-primary-800">{{ __('product.shipping_title') }}</h3>
@@ -522,19 +576,29 @@
         }
 
         // Tab switching
-        function switchTab(tabName) {
+        function switchTab(tabName, event) {
             // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('opacity-0');
+                tab.classList.add('hidden');
+            });
             // Remove active state from all buttons
             document.querySelectorAll('.tab-button').forEach(btn => {
                 btn.classList.remove('border-primary-800', 'text-primary-800', 'dark:text-primary-800', 'font-bold');
                 btn.classList.add('border-transparent', 'text-neutral-600', 'dark:text-neutral-600', 'font-medium');
             });
             // Show selected tab
-            document.getElementById(tabName + '-tab').classList.remove('hidden');
+            const selectedTab = document.getElementById(tabName + '-tab');
+            selectedTab.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                selectedTab.classList.remove('opacity-0');
+            });
             // Add active state to clicked button
-            event.target.classList.remove('border-transparent', 'text-neutral-600', 'dark:text-neutral-600', 'font-medium');
-            event.target.classList.add('border-primary-800', 'text-primary-800', 'dark:text-primary-800', 'font-bold');
+            const target = event?.currentTarget || event?.target;
+            if (target) {
+                target.classList.remove('border-transparent', 'text-neutral-600', 'dark:text-neutral-600', 'font-medium');
+                target.classList.add('border-primary-800', 'text-primary-800', 'dark:text-primary-800', 'font-bold');
+            }
         }
     </script>
 </x-app-layout>

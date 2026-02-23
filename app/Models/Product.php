@@ -25,11 +25,16 @@ class product extends Model
         'description',
         'short_description',
         'long_description',
+        'specifications',
         'price',
         'stock',
         'category_id',
         'image_url',
         'is_active',
+    ];
+
+    protected $casts = [
+        'specifications' => 'array',
     ];
 
     public function reviews()

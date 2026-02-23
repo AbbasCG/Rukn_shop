@@ -38,6 +38,9 @@ return [
     'tab_specifications' => 'Specificaties',
     'tab_shipping' => 'Verzending & Retournering',
     'tab_reviews' => 'Beoordelingen',
+
+    // Specifications
+    'specifications_empty' => 'Er zijn geen specificaties beschikbaar voor dit product.',
     
     // Shipping & Returns Information
     'shipping_title' => 'Verzendingsinformatie',
