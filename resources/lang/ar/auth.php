@@ -41,6 +41,7 @@ return [
         'password_placeholder' => '••••••••',
         'password_hint' => '8 أحرف على الأقل مع حروف كبيرة وصغيرة وأرقام',
         'confirm_label' => 'تأكيد كلمة المرور',
+        'add_more_details' => 'إضافة معلومات إضافية (اختياري)',
         'terms_prefix' => 'أوافق على',
         'terms_of_service' => 'شروط الخدمة',
         'privacy_policy' => 'سياسة الخصوصية',

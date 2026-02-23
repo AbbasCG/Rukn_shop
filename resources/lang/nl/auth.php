@@ -41,6 +41,7 @@ return [
         'password_placeholder' => '••••••••',
         'password_hint' => 'Minimaal 8 tekens met hoofd-/kleine letters en cijfers',
         'confirm_label' => 'Bevestig wachtwoord',
+        'add_more_details' => 'Extra gegevens toevoegen (optioneel)',
         'terms_prefix' => 'Ik ga akkoord met de',
         'terms_of_service' => 'Servicevoorwaarden',
         'privacy_policy' => 'Privacyverklaring',

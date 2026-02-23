@@ -41,6 +41,7 @@ return [
         'password_placeholder' => '••••••••',
         'password_hint' => 'At least 8 characters with mixed case and numbers',
         'confirm_label' => 'Confirm Password',
+        'add_more_details' => 'Add additional details (optional)',
         'terms_prefix' => 'I agree to the',
         'terms_of_service' => 'Terms of Service',
         'privacy_policy' => 'Privacy Policy',
