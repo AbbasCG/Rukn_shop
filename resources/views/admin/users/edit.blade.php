@@ -1,10 +1,10 @@
-@extends('layouts.admin', ['title' => 'Edit User'])
+@extends('layouts.admin', ['title' => __('admin.users.edit.title')])
 
 @section('content')
 <div class="w-full max-w-5xl mx-auto space-y-6" x-data="{ resetPassword: {{ old('password') ? 'true' : 'false' }}, showPassword: false, showConfirmPassword: false }">
     <div>
-        <h1 class="text-3xl font-bold text-primary-dark">{{ __('Edit User') }}</h1>
-        <p class="mt-2 text-sm text-primary-dark/60">{{ __('Manage account details, role, and security settings') }}</p>
+        <h1 class="text-3xl font-bold text-primary-dark">{{ __('admin.users.edit.title') }}</h1>
+        <p class="mt-2 text-sm text-primary-dark/60">{{ __('admin.users.edit.subtitle') }}</p>
     </div>
 
     <form action="{{ route('admin.users.update', ['locale' => app()->getLocale(), 'user' => $user]) }}" method="POST" class="space-y-6">
@@ -14,14 +14,14 @@
         <section class="bg-white rounded-2xl shadow-md p-6 md:p-8 space-y-6">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                    <h2 class="text-lg font-semibold text-primary-dark">{{ __('User Overview') }}</h2>
-                    <p class="text-sm text-primary-dark/60 mt-1">{{ __('Core profile information and account role') }}</p>
+                    <h2 class="text-lg font-semibold text-primary-dark">{{ __('admin.users.edit.sections.overview_title') }}</h2>
+                    <p class="text-sm text-primary-dark/60 mt-1">{{ __('admin.users.edit.sections.overview_subtitle') }}</p>
                 </div>
                 <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border {{ old('role', $user->role) === 'admin' ? 'bg-primary-dark/10 text-primary-dark border-primary-dark/30' : 'bg-neutral-100 text-neutral-700 border-neutral-300' }}">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3l7 4v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V7l7-4z"/>
                     </svg>
-                    {{ old('role', $user->role) === 'admin' ? __('Administrator') : __('Standard User') }}
+                    {{ old('role', $user->role) === 'admin' ? __('admin.users.roles.administrator') : __('admin.users.roles.standard_user') }}
                 </span>
             </div>
 
@@ -31,7 +31,7 @@
                         <svg class="w-4 h-4 text-primary-dark/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3l7 4v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V7l7-4z"/>
                         </svg>
-                        {{ __('User Role') }}
+                        {{ __('admin.users.form.role') }}
                     </label>
                     <div class="relative">
                         <select
@@ -40,8 +40,8 @@
                             required
                             class="w-full appearance-none px-4 py-3 pr-11 rounded-xl border border-primary-gray bg-white text-primary-dark transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50"
                         >
-                            <option value="user" @selected(old('role', $user->role) === 'user')>User</option>
-                            <option value="admin" @selected(old('role', $user->role) === 'admin')>Admin</option>
+                            <option value="user" @selected(old('role', $user->role) === 'user')>{{ __('admin.users.roles.user') }}</option>
+                            <option value="admin" @selected(old('role', $user->role) === 'admin')>{{ __('admin.users.roles.admin') }}</option>
                         </select>
                         <svg class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-primary-dark/60" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="space-y-2">
-                    <label for="name" class="text-sm font-medium text-primary-dark">{{ __('Full Name') }}</label>
+                    <label for="name" class="text-sm font-medium text-primary-dark">{{ __('admin.users.form.full_name') }}</label>
                     <input
                         id="name"
                         name="name"
@@ -59,21 +59,21 @@
                         value="{{ old('name', $user->name) }}"
                         required
                         autofocus
-                        placeholder="John Doe"
+                        placeholder="{{ __('admin.users.form.placeholders.full_name') }}"
                         class="w-full px-4 py-3 rounded-xl border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50"
                     >
                     @error('name')<p class="text-sm text-red-600">{{ $message }}</p>@enderror
                 </div>
 
                 <div class="space-y-2 lg:col-span-2">
-                    <label for="email" class="text-sm font-medium text-primary-dark">{{ __('Email Address') }}</label>
+                    <label for="email" class="text-sm font-medium text-primary-dark">{{ __('admin.users.form.email') }}</label>
                     <input
                         id="email"
                         type="email"
                         name="email"
                         value="{{ old('email', $user->email) }}"
                         required
-                        placeholder="user@example.com"
+                        placeholder="{{ __('admin.users.form.placeholders.email') }}"
                         class="w-full px-4 py-3 rounded-xl border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50"
                     >
                     @error('email')<p class="text-sm text-red-600">{{ $message }}</p>@enderror
@@ -84,11 +84,11 @@
         <section class="bg-white rounded-2xl shadow-md p-6 md:p-8 space-y-6">
             <div class="flex items-start justify-between gap-4">
                 <div>
-                    <h2 class="text-lg font-semibold text-primary-dark">{{ __('Security Settings') }}</h2>
-                    <p class="text-sm text-primary-dark/60 mt-1">{{ __('Choose whether to reset this user password') }}</p>
+                    <h2 class="text-lg font-semibold text-primary-dark">{{ __('admin.users.security.title') }}</h2>
+                    <p class="text-sm text-primary-dark/60 mt-1">{{ __('admin.users.security.subtitle') }}</p>
                 </div>
                 <label for="reset-password" class="inline-flex items-center gap-3 cursor-pointer select-none">
-                    <span class="text-sm font-medium text-primary-dark">{{ __('Reset Password') }}</span>
+                    <span class="text-sm font-medium text-primary-dark">{{ __('admin.users.security.reset_password') }}</span>
                     <button
                         id="reset-password"
                         type="button"
@@ -107,7 +107,7 @@
             </div>
 
             <p class="text-xs text-primary-dark/60">
-                {{ __('When disabled, current password remains unchanged. Enable to enter a new password.') }}
+                {{ __('admin.users.security.helper') }}
             </p>
 
             <div
@@ -121,20 +121,20 @@
                 class="grid grid-cols-1 lg:grid-cols-2 gap-6"
             >
                 <div class="space-y-2">
-                    <label for="password" class="text-sm font-medium text-primary-dark">{{ __('New Password') }}</label>
+                    <label for="password" class="text-sm font-medium text-primary-dark">{{ __('admin.users.security.new_password') }}</label>
                     <div class="relative">
                         <input
                             id="password"
                             :type="showPassword ? 'text' : 'password'"
                             name="password"
                             :disabled="!resetPassword"
-                            placeholder="••••••••"
+                            placeholder="{{ __('admin.users.form.placeholders.password') }}"
                             class="w-full px-4 py-3 pr-12 rounded-xl border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50 disabled:bg-neutral-100 disabled:cursor-not-allowed"
                         >
                         <button
                             type="button"
                             @click="showPassword = !showPassword"
-                            :aria-label="showPassword ? '{{ __('Hide password') }}' : '{{ __('Show password') }}'"
+                            :aria-label="showPassword ? '{{ __('admin.users.security.hide_password') }}' : '{{ __('admin.users.security.show_password') }}'"
                             class="absolute right-3 top-1/2 -translate-y-1/2 text-primary-dark/60 hover:text-primary-dark focus:outline-none"
                         >
                             <svg x-show="!showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -147,25 +147,25 @@
                             </svg>
                         </button>
                     </div>
-                    <p class="text-xs text-primary-dark/60">{{ __('Use a strong password with letters, numbers, and symbols.') }}</p>
+                    <p class="text-xs text-primary-dark/60">{{ __('admin.users.security.password_hint') }}</p>
                     @error('password')<p class="text-sm text-red-600">{{ $message }}</p>@enderror
                 </div>
 
                 <div class="space-y-2">
-                    <label for="password_confirmation" class="text-sm font-medium text-primary-dark">{{ __('Confirm New Password') }}</label>
+                    <label for="password_confirmation" class="text-sm font-medium text-primary-dark">{{ __('admin.users.security.confirm_new_password') }}</label>
                     <div class="relative">
                         <input
                             id="password_confirmation"
                             :type="showConfirmPassword ? 'text' : 'password'"
                             name="password_confirmation"
                             :disabled="!resetPassword"
-                            placeholder="••••••••"
+                            placeholder="{{ __('admin.users.form.placeholders.password') }}"
                             class="w-full px-4 py-3 pr-12 rounded-xl border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50 disabled:bg-neutral-100 disabled:cursor-not-allowed"
                         >
                         <button
                             type="button"
                             @click="showConfirmPassword = !showConfirmPassword"
-                            :aria-label="showConfirmPassword ? '{{ __('Hide password confirmation') }}' : '{{ __('Show password confirmation') }}'"
+                            :aria-label="showConfirmPassword ? '{{ __('admin.users.security.hide_password_confirmation') }}' : '{{ __('admin.users.security.show_password_confirmation') }}'"
                             class="absolute right-3 top-1/2 -translate-y-1/2 text-primary-dark/60 hover:text-primary-dark focus:outline-none"
                         >
                             <svg x-show="!showConfirmPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -184,10 +184,10 @@
 
         <div class="flex flex-col sm:flex-row gap-3 pt-2">
             <button type="submit" class="sm:flex-1 py-3 px-5 bg-primary-dark text-white font-semibold rounded-xl hover:bg-primary-dark/90 hover:-translate-y-0.5 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:ring-offset-2">
-                {{ __('Update User') }}
+                {{ __('admin.users.actions.update_user') }}
             </button>
             <a href="{{ route('admin.users.index', ['locale' => app()->getLocale()]) }}" class="sm:flex-1 py-3 px-5 bg-white border border-primary-gray text-primary-dark font-semibold rounded-xl hover:bg-neutral-50 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:ring-offset-2 text-center">
-                {{ __('Cancel') }}
+                {{ __('admin.users.actions.cancel') }}
             </a>
         </div>
     </form>

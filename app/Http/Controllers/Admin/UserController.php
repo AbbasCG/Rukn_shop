@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 
@@ -73,7 +74,7 @@ class UserController extends Controller
         ]);
 
         return redirect()->route('admin.users.index')
-            ->with('success', 'User created successfully.');
+            ->with('success', __('admin.users.messages.created'));
     }
 
     /**
@@ -117,7 +118,7 @@ class UserController extends Controller
         $user->save();
 
         return redirect()->route('admin.users.index')
-            ->with('success', 'User updated successfully.');
+            ->with('success', __('admin.users.messages.updated'));
     }
 
     /**
@@ -126,14 +127,14 @@ class UserController extends Controller
     public function destroy(string $locale, User $user)
     {
         // Prevent deleting yourself
-        if ($user->id === auth()->id()) {
+        if ($user->id === Auth::id()) {
             return redirect()->route('admin.users.index')
-                ->with('error', 'You cannot delete yourself.');
+                ->with('error', __('admin.users.messages.cannot_delete_self'));
         }
 
         $user->delete();
 
         return redirect()->route('admin.users.index')
-            ->with('success', 'User deleted successfully.');
+            ->with('success', __('admin.users.messages.deleted'));
     }
 }
