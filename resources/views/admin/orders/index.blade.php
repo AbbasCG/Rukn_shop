@@ -14,7 +14,7 @@
 @endphp
 
 <div class="w-full max-w-7xl mx-auto space-y-6" dir="{{ $dir }}">
-    <section class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8">
+    <section class="bg-white rounded-xl shadow-lg p-6 space-y-4">
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
                 <h1 class="text-2xl md:text-3xl font-bold text-primary-dark">Orders</h1>
@@ -25,7 +25,8 @@
             </span>
         </div>
 
-        <form method="GET" class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <form method="GET" class="mt-2 space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             <div>
                 <label for="q" class="block text-sm font-medium text-primary-dark mb-2">Search</label>
                 <input
@@ -34,7 +35,7 @@
                     name="q"
                     value="{{ request('q') }}"
                     placeholder="Order #, customer name, email"
-                    class="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-primary-dark placeholder:text-primary-dark/40 focus:border-primary-dark/30 focus:outline-none focus:ring-2 focus:ring-primary-dark/10">
+                    class="w-full px-4 py-2 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
             </div>
 
             <div>
@@ -42,7 +43,7 @@
                 <select
                     id="status"
                     name="status"
-                    class="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-primary-dark focus:border-primary-dark/30 focus:outline-none focus:ring-2 focus:ring-primary-dark/10">
+                    class="w-full px-4 py-2 rounded-lg border border-primary-gray bg-white text-primary-dark transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
                     <option value="">All statuses</option>
                     <option value="pending" @selected(request('status') === 'pending')>Pending</option>
                     <option value="processing" @selected(request('status') === 'processing')>Processing</option>
@@ -59,7 +60,7 @@
                     id="from"
                     name="from"
                     value="{{ request('from') }}"
-                    class="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-primary-dark placeholder:text-primary-dark/40 focus:border-primary-dark/30 focus:outline-none focus:ring-2 focus:ring-primary-dark/10">
+                    class="w-full px-4 py-2 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
             </div>
 
             <div>
@@ -69,15 +70,16 @@
                     id="to"
                     name="to"
                     value="{{ request('to') }}"
-                    class="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-primary-dark placeholder:text-primary-dark/40 focus:border-primary-dark/30 focus:outline-none focus:ring-2 focus:ring-primary-dark/10">
+                    class="w-full px-4 py-2 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
+            </div>
             </div>
 
-            <div class="flex items-end gap-2">
-                <button type="submit" class="flex-1 rounded-xl bg-primary-dark px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary-dark/90 transition">
+            <div class="flex gap-2">
+                <button type="submit" class="px-4 py-2 bg-primary-dark text-white font-medium rounded-lg hover:bg-primary-dark/90 transition-all duration-300">
                     Search
                 </button>
-                <a href="{{ r('admin.orders.index') }}" class="rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-semibold text-primary-dark hover:bg-gray-50 transition">
-                    Clear
+                <a href="{{ r('admin.orders.index') }}" class="px-4 py-2 bg-white border border-primary-gray text-primary-dark font-medium rounded-lg hover:bg-primary-dark/5 transition-all duration-300">
+                    Reset
                 </a>
             </div>
         </form>

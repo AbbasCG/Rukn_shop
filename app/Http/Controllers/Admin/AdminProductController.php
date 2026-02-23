@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 
 class AdminProductController extends Controller
@@ -17,28 +18,60 @@ class AdminProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $validated = $request->validate([
+            'q' => ['nullable', 'string', 'max:120'],
+            'category' => ['nullable', 'string', 'max:255'],
+            'status' => ['nullable', 'in:active,inactive'],
+            'sort' => ['nullable', 'in:newest,price_asc,price_desc,name'],
+            'price_min' => ['nullable', 'numeric', 'min:0'],
+            'price_max' => ['nullable', 'numeric', 'min:0'],
+        ]);
+
         $query = Product::with('category', 'images');
 
-        if (request('q')) {
-            $query->where(function ($q) {
-                $q->where('name', 'like', '%' . request('q') . '%')
-                    ->orWhere('slug', 'like', '%' . request('q') . '%');
+        $hasSkuColumn = Schema::hasColumn('products', 'sku');
+
+        if (!empty($validated['q'])) {
+            $tokens = preg_split('/\s+/u', trim($validated['q'])) ?: [];
+
+            foreach ($tokens as $token) {
+                $query->where(function ($subQuery) use ($token, $hasSkuColumn) {
+                    $likeToken = '%' . $token . '%';
+
+                    $subQuery->where('name', 'like', $likeToken)
+                        ->orWhere('slug', 'like', $likeToken)
+                        ->orWhereHas('category', function ($categoryQuery) use ($likeToken) {
+                            $categoryQuery->where('name', 'like', $likeToken);
+                        });
+
+                    if ($hasSkuColumn) {
+                        $subQuery->orWhere('sku', 'like', $likeToken);
+                    }
+                });
+            }
+        }
+
+        if (!empty($validated['category'])) {
+            $query->whereHas('category', function ($q) use ($validated) {
+                $q->where('slug', $validated['category']);
             });
         }
 
-        if (request('category')) {
-            $query->whereHas('category', function ($q) {
-                $q->where('slug', request('category'));
-            });
+        if (!empty($validated['status'])) {
+            $query->where('is_active', $validated['status'] === 'active');
         }
 
-        if (request('status') !== null) {
-            $query->where('is_active', request('status') === 'active');
+        if (isset($validated['price_min'])) {
+            $query->where('price', '>=', $validated['price_min']);
         }
 
-        $sort = request('sort', 'newest');
+        if (isset($validated['price_max'])) {
+            $query->where('price', '<=', $validated['price_max']);
+        }
+
+        $sort = $validated['sort'] ?? 'newest';
         switch ($sort) {
             case 'price_asc':
                 $query->orderBy('price', 'asc');
@@ -53,7 +86,7 @@ class AdminProductController extends Controller
                 $query->latest();
         }
 
-        $products = $query->paginate(12)->withQueryString();
+        $products = $query->paginate(12)->appends($request->query());
         $categories = Category::select('id', 'name', 'slug')->orderBy('name')->get();
 
         return view('admin.products.index', compact('products', 'categories'));

@@ -20,19 +20,22 @@ class AdminOrderController extends Controller
         $query = Order::with(['user', 'orderItems.product'])->latest();
 
         if (!empty($validated['q'])) {
-            $searchTerm = trim($validated['q']);
+            $tokens = preg_split('/\s+/u', trim($validated['q'])) ?: [];
 
-            $query->where(function ($builder) use ($searchTerm) {
-                if (ctype_digit($searchTerm)) {
-                    $builder->orWhere('id', (int) $searchTerm)
-                        ->orWhere('phone', 'like', "%{$searchTerm}%");
-                }
+            foreach ($tokens as $token) {
+                $query->where(function ($builder) use ($token) {
+                    $likeToken = "%{$token}%";
 
-                $builder->orWhereHas('user', function ($userQuery) use ($searchTerm) {
-                    $userQuery->where('name', 'like', "%{$searchTerm}%")
-                        ->orWhere('email', 'like', "%{$searchTerm}%");
+                    $builder->where('phone', 'like', $likeToken)
+                        ->orWhere('name', 'like', $likeToken)
+                        ->orWhere('email', 'like', $likeToken)
+                        ->orWhere('id', 'like', $likeToken)
+                        ->orWhereHas('user', function ($userQuery) use ($likeToken) {
+                            $userQuery->where('name', 'like', $likeToken)
+                                ->orWhere('email', 'like', $likeToken);
+                        });
                 });
-            });
+            }
         }
 
         if (!empty($validated['status'])) {

@@ -30,12 +30,12 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <!-- Search Input -->
             <div>
-                <label for="search" class="block text-sm font-medium text-primary-dark mb-2">Search</label>
+                <label for="q" class="block text-sm font-medium text-primary-dark mb-2">Search</label>
                 <input 
                     type="text"
-                    id="search"
-                    name="search"
-                    value="{{ request('search') }}"
+                    id="q"
+                    name="q"
+                    value="{{ request('q') }}"
                     placeholder="Category name or slug..."
                     class="w-full px-4 py-2 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
             </div>
@@ -67,20 +67,20 @@
                     <option value="products" @selected(request('sort') === 'products')>Most Products</option>
                 </select>
             </div>
+        </div>
 
-            <!-- Action Buttons -->
-            <div class="flex items-end gap-2">
-                <button 
-                    type="submit"
-                    class="flex-1 px-4 py-2 bg-primary-dark text-white font-medium rounded-lg hover:bg-primary-dark/90 transition-all duration-300">
-                    Search
-                </button>
-                <a 
-                    href="{{ r('admin.categories.index') }}"
-                    class="flex-1 px-4 py-2 bg-white border border-primary-gray text-primary-dark font-medium rounded-lg hover:bg-primary-dark/5 transition-all duration-300">
-                    Reset
-                </a>
-            </div>
+        <!-- Action Buttons -->
+        <div class="flex gap-2">
+            <button 
+                type="submit"
+                class="px-4 py-2 bg-primary-dark text-white font-medium rounded-lg hover:bg-primary-dark/90 transition-all duration-300">
+                Search
+            </button>
+            <a 
+                href="{{ r('admin.categories.index') }}"
+                class="px-4 py-2 bg-white border border-primary-gray text-primary-dark font-medium rounded-lg hover:bg-primary-dark/5 transition-all duration-300">
+                Reset
+            </a>
         </div>
     </form>
 

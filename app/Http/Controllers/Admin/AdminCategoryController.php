@@ -15,9 +15,44 @@ class AdminCategoryController extends Controller
     //     $this->middleware(['auth', 'isAdmin']);
     // }
 
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::withCount('products')->orderBy('name')->paginate(15);
+        $validated = $request->validate([
+            'q' => ['nullable', 'string', 'max:120'],
+            'status' => ['nullable', 'in:active,inactive'],
+            'sort' => ['nullable', 'in:newest,oldest,name_asc,name_desc,products'],
+        ]);
+
+        $query = Category::query()->withCount('products');
+
+        if (!empty($validated['q'])) {
+            $tokens = preg_split('/\s+/u', trim($validated['q'])) ?: [];
+
+            foreach ($tokens as $token) {
+                $query->where(function ($subQuery) use ($token) {
+                    $likeToken = '%' . $token . '%';
+
+                    $subQuery->where('name', 'like', $likeToken)
+                        ->orWhere('slug', 'like', $likeToken);
+                });
+            }
+        }
+
+        if (!empty($validated['status'])) {
+            $query->where('is_active', $validated['status'] === 'active');
+        }
+
+        $sort = $validated['sort'] ?? 'name_asc';
+        match ($sort) {
+            'newest' => $query->latest(),
+            'oldest' => $query->oldest(),
+            'name_desc' => $query->orderBy('name', 'desc'),
+            'products' => $query->orderBy('products_count', 'desc'),
+            default => $query->orderBy('name', 'asc'),
+        };
+
+        $categories = $query->paginate(15)->appends($request->query());
+
         return view('admin.categories.index', compact('categories'));
     }
 

@@ -15,23 +15,32 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        $validated = $request->validate([
+            'q' => ['nullable', 'string', 'max:120'],
+            'role' => ['nullable', 'in:admin,customer'],
+        ]);
+
         $query = User::query();
 
-        // Search by name or email
-        if ($request->filled('q')) {
-            $search = $request->q;
-            $query->where(function($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%");
-            });
+        if (!empty($validated['q'])) {
+            $tokens = preg_split('/\s+/u', trim($validated['q'])) ?: [];
+
+            foreach ($tokens as $token) {
+                $query->where(function ($subQuery) use ($token) {
+                    $likeToken = '%' . $token . '%';
+
+                    $subQuery->where('name', 'like', $likeToken)
+                        ->orWhere('email', 'like', $likeToken)
+                        ->orWhere('phone', 'like', $likeToken);
+                });
+            }
         }
 
-        // Filter by role
-        if ($request->filled('role')) {
-            $query->where('role', $request->role);
+        if (!empty($validated['role'])) {
+            $query->where('role', $validated['role']);
         }
 
-        $users = $query->latest()->paginate(15);
+        $users = $query->latest()->paginate(15)->appends($request->query());
 
         return view('admin.users.index', compact('users'));
     }

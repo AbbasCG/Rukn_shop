@@ -26,15 +26,15 @@
 
     <!-- Search & Filter Toolbar -->
     <form method="GET" class="bg-white rounded-xl shadow-lg p-6 space-y-4">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             <!-- Search Input -->
             <div>
-                <label for="search" class="block text-sm font-medium text-primary-dark mb-2">Search</label>
+                <label for="q" class="block text-sm font-medium text-primary-dark mb-2">Search</label>
                 <input 
                     type="text"
-                    id="search"
-                    name="search"
-                    value="{{ request('search') }}"
+                    id="q"
+                    name="q"
+                    value="{{ request('q') }}"
                     placeholder="Name or email..."
                     class="w-full px-4 py-2 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
             </div>
@@ -48,23 +48,23 @@
                     class="w-full px-4 py-2 rounded-lg border border-primary-gray bg-white text-primary-dark transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
                     <option value="">All Roles</option>
                     <option value="admin" @selected(request('role') === 'admin')>Admin</option>
-                    <option value="user" @selected(request('role') === 'user')>User</option>
+                    <option value="customer" @selected(request('role') === 'customer')>Customer</option>
                 </select>
             </div>
+        </div>
 
-            <!-- Action Buttons -->
-            <div class="flex items-end gap-2 lg:col-span-2">
-                <button 
-                    type="submit"
-                    class="flex-1 px-4 py-2 bg-primary-dark text-white font-medium rounded-lg hover:bg-primary-dark/90 transition-all duration-300">
-                    Search
-                </button>
-                <a 
-                    href="{{ r('admin.users.index') }}"
-                    class="flex-1 px-4 py-2 bg-white border border-primary-gray text-primary-dark font-medium rounded-lg hover:bg-primary-dark/5 transition-all duration-300">
-                    Reset
-                </a>
-            </div>
+        <!-- Action Buttons -->
+        <div class="flex gap-2">
+            <button 
+                type="submit"
+                class="px-4 py-2 bg-primary-dark text-white font-medium rounded-lg hover:bg-primary-dark/90 transition-all duration-300">
+                Search
+            </button>
+            <a 
+                href="{{ r('admin.users.index') }}"
+                class="px-4 py-2 bg-white border border-primary-gray text-primary-dark font-medium rounded-lg hover:bg-primary-dark/5 transition-all duration-300">
+                Reset
+            </a>
         </div>
     </form>
 
@@ -72,7 +72,7 @@
     @php
         $totalUsers = \App\Models\User::count();
         $adminUsers = \App\Models\User::where('role', 'admin')->count();
-        $normalUsers = \App\Models\User::where('role', 'user')->count();
+        $normalUsers = \App\Models\User::where('role', 'customer')->count();
     @endphp
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <!-- Total Users Card -->
@@ -84,8 +84,8 @@
                     <p class="text-xs text-primary-dark/50 mt-1">Active accounts</p>
                 </div>
                 <div class="bg-primary-dark/10 rounded-full p-3">
-                    <svg class="w-8 h-8 text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3.075A6.75 6.75 0 0121 12.75V3m0 0h-6m6 0v6m0-6L9 21"/>
+                    <svg class="w-7 h-7 text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M18 20a3 3 0 00-3-3H9a3 3 0 00-3 3m12 0h3v-1a3 3 0 00-2.2-2.9M18 20H6m-3 0v-1a3 3 0 012.2-2.9M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 2a2 2 0 11-4 0 2 2 0 014 0zM7 9a2 2 0 11-4 0 2 2 0 014 0z"/>
                     </svg>
                 </div>
             </div>
@@ -100,7 +100,7 @@
                     <p class="text-xs text-primary-dark/50 mt-1">Admin accounts</p>
                 </div>
                 <div class="bg-primary-dark/10 rounded-full p-3">
-                    <svg class="w-8 h-8 text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-7 h-7 text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                     </svg>
                 </div>
@@ -116,7 +116,7 @@
                     <p class="text-xs text-primary-dark/50 mt-1">Customer accounts</p>
                 </div>
                 <div class="bg-primary-dark/10 rounded-full p-3">
-                    <svg class="w-8 h-8 text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-7 h-7 text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.856-1.487M15 10a3 3 0 11-6 0 3 3 0 016 0zM18 20a6 6 0 00-12 0v2h12v-2z"/>
                     </svg>
                 </div>
