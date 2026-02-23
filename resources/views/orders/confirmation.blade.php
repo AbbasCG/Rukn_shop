@@ -49,6 +49,11 @@
                 <div class="flex items-center justify-between text-base"><span class="text-primary-dark font-semibold">{{ __('orders.summary.total') }}</span><span class="text-primary-dark font-semibold">€{{ number_format($order->total, 2, ',', '.') }}</span></div>
             </div>
             <div class="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-center gap-3">
+                @if(!empty($whatsAppUrl))
+                <a href="{{ $whatsAppUrl }}" target="_blank" rel="noopener noreferrer" class="inline-flex h-11 items-center justify-center px-6 rounded-xl bg-emerald-600 text-white text-sm font-semibold shadow-lg hover:bg-emerald-700 transition">
+                    {{ __('checkout.confirmation.whatsapp_button') }}
+                </a>
+                @endif
                 <a href="{{ r('orders.show', $order) }}" class="inline-flex h-11 items-center justify-center px-6 rounded-xl bg-primary-dark text-white text-sm font-semibold shadow-lg hover:bg-primary-dark/90 transition">
                     {{ __('checkout.confirmation.view_order') }}
                 </a>

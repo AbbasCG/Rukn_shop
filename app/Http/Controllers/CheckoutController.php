@@ -102,10 +102,69 @@ class CheckoutController extends Controller
 
     public function confirmation(string $locale, string $order)
     {
-        $order = Order::findOrFail($order);
+        $order = Order::with(['orderItems.product'])->findOrFail($order);
         if ($order->user_id !== Auth::id()) {
             abort(404);
         }
-        return view('orders.confirmation', compact('order'));
+
+        $whatsAppNumber = preg_replace('/\D+/', '', (string) config('services.whatsapp.number'));
+        $whatsAppUrl = null;
+
+        if (!empty($whatsAppNumber)) {
+            $orderNumber = '#' . str_pad($order->id, 6, '0', STR_PAD_LEFT);
+            $orderUrl = route('orders.show', ['locale' => $locale, 'order' => $order->id]);
+
+            $messageLines = [
+                __('checkout.confirmation.whatsapp.greeting'),
+                '',
+                __('checkout.confirmation.whatsapp.order_number', ['number' => $orderNumber]),
+                __('checkout.confirmation.whatsapp.customer_name', ['value' => $order->name]),
+                __('checkout.confirmation.whatsapp.customer_email', ['value' => $order->email]),
+            ];
+
+            if (!empty($order->phone)) {
+                $messageLines[] = __('checkout.confirmation.whatsapp.customer_phone', ['value' => $order->phone]);
+            }
+
+            $fullAddress = collect([
+                $order->address_line1,
+                $order->address_line2,
+                trim(($order->postal_code ?? '') . ' ' . ($order->city ?? '')),
+                $order->country,
+            ])->filter()->implode(', ');
+
+            $messageLines[] = __('checkout.confirmation.whatsapp.delivery_address', ['value' => $fullAddress]);
+            $messageLines[] = '';
+            $messageLines[] = __('checkout.confirmation.whatsapp.items_title');
+
+            foreach ($order->orderItems as $item) {
+                $productName = optional($item->product)->name ?? __('orders.items.product_unavailable');
+                $unitPrice = '€' . number_format($item->price, 2, ',', '.');
+                $lineSubtotal = '€' . number_format($item->price * $item->quantity, 2, ',', '.');
+
+                $messageLines[] = __('checkout.confirmation.whatsapp.item_line', [
+                    'name' => $productName,
+                    'qty' => $item->quantity,
+                    'unit' => $unitPrice,
+                    'subtotal' => $lineSubtotal,
+                ]);
+            }
+
+            $messageLines[] = '';
+            $messageLines[] = __('checkout.confirmation.whatsapp.total', ['value' => '€' . number_format($order->total, 2, ',', '.')]);
+
+            if (!empty($order->payment_method)) {
+                $paymentMethod = ucfirst(str_replace('_', ' ', $order->payment_method));
+                $messageLines[] = __('checkout.confirmation.whatsapp.payment_method', ['value' => $paymentMethod]);
+            }
+
+            $messageLines[] = __('checkout.confirmation.whatsapp.order_link_label');
+            $messageLines[] = $orderUrl;
+
+            $message = implode("\n", $messageLines);
+            $whatsAppUrl = "https://wa.me/{$whatsAppNumber}?text=" . urlencode($message);
+        }
+
+        return view('orders.confirmation', compact('order', 'whatsAppUrl'));
     }
 }
