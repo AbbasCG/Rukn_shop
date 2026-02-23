@@ -1,14 +1,14 @@
-@extends('layouts.admin', ['title' => 'Dashboard'])
+@extends('layouts.admin', ['title' => __('admin.dashboard.page_title')])
 
 @section('content')
-<div class="w-full max-w-7xl mx-auto space-y-6">
+<div class="w-full max-w-7xl mx-auto space-y-6" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 
     <!-- Welcome Section -->
-    <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-primary-dark">
+    <div class="bg-white rounded-xl shadow-lg p-6 border-primary-dark {{ app()->getLocale() === 'ar' ? 'border-r-4' : 'border-l-4' }}">
         <div class="flex items-center justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-primary-dark">Welcome back, {{ auth()->user()->name }} 👋</h1>
-                <p class="text-sm text-primary-dark/60 mt-1">{{ \Carbon\Carbon::now()->format('l, F j, Y') }}</p>
+                <h1 class="text-2xl font-bold text-primary-dark">{{ __('admin.dashboard.title', ['name' => auth()->user()->name]) }}</h1>
+                <p class="text-sm text-primary-dark/60 mt-1">{{ \Carbon\Carbon::now()->translatedFormat('l, F j, Y') }}</p>
             </div>
             <div class="hidden md:block">
                 <svg class="w-16 h-16 text-primary-dark/10" fill="currentColor" viewBox="0 0 24 24">
@@ -24,9 +24,9 @@
         <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-primary-dark/60">Total Products</p>
+                    <p class="text-sm font-medium text-primary-dark/60">{{ __('admin.dashboard.cards.total_products') }}</p>
                     <p class="text-3xl font-bold text-primary-dark mt-2">{{ \App\Models\Product::count() }}</p>
-                    <p class="text-xs text-primary-dark/50 mt-1">In inventory</p>
+                    <p class="text-xs text-primary-dark/50 mt-1">{{ __('admin.dashboard.cards.in_inventory') }}</p>
                 </div>
                 <div class="bg-primary-dark/10 rounded-full p-3">
                     <svg class="w-8 h-8 text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,9 +40,9 @@
         <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-primary-dark/60">Total Categories</p>
+                    <p class="text-sm font-medium text-primary-dark/60">{{ __('admin.dashboard.cards.total_categories') }}</p>
                     <p class="text-3xl font-bold text-primary-dark mt-2">{{ \App\Models\Category::count() }}</p>
-                    <p class="text-xs text-primary-dark/50 mt-1">Active categories</p>
+                    <p class="text-xs text-primary-dark/50 mt-1">{{ __('admin.dashboard.cards.active_categories') }}</p>
                 </div>
                 <div class="bg-primary-dark/10 rounded-full p-3">
                     <svg class="w-8 h-8 text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -56,9 +56,9 @@
         <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-primary-dark/60">Total Orders</p>
+                    <p class="text-sm font-medium text-primary-dark/60">{{ __('admin.dashboard.cards.total_orders') }}</p>
                     <p class="text-3xl font-bold text-primary-dark mt-2">{{ \App\Models\Order::count() }}</p>
-                    <p class="text-xs text-primary-dark/50 mt-1">All time</p>
+                    <p class="text-xs text-primary-dark/50 mt-1">{{ __('admin.dashboard.cards.all_time') }}</p>
                 </div>
                 <div class="bg-primary-dark/10 rounded-full p-3">
                     <svg class="w-8 h-8 text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -72,13 +72,13 @@
         <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-primary-dark/60">Total Revenue</p>
+                    <p class="text-sm font-medium text-primary-dark/60">{{ __('admin.dashboard.cards.total_revenue') }}</p>
                     @php
                     $completedOrderIds = \App\Models\Order::where('payment_status', 'paid')->pluck('id');
                     $revenue = \App\Models\order_items::whereIn('order_id', $completedOrderIds)->sum(\DB::raw('price * quantity'));
                     @endphp
                     <p class="text-3xl font-bold text-primary-dark mt-2">€{{ number_format($revenue, 2) }}</p>
-                    <p class="text-xs text-primary-dark/50 mt-1">From paid orders</p>
+                    <p class="text-xs text-primary-dark/50 mt-1">{{ __('admin.dashboard.cards.from_paid_orders') }}</p>
                 </div>
                 <div class="bg-primary-dark/10 rounded-full p-3">
                     <svg
@@ -113,13 +113,13 @@
         <!-- Sales Chart (2 columns) -->
         <div class="lg:col-span-2 bg-white rounded-xl shadow-lg p-6">
             <div class="mb-6">
-                <h2 class="text-xl font-bold text-primary-dark">Sales Last 12 Months</h2>
-                <p class="text-sm text-primary-dark/60 mt-1">Revenue overview and trends</p>
+                <h2 class="text-xl font-bold text-primary-dark">{{ __('admin.dashboard.sales.title') }}</h2>
+                <p class="text-sm text-primary-dark/60 mt-1">{{ __('admin.dashboard.sales.subtitle') }}</p>
             </div>
             <div class="bg-primary-dark/5 rounded-lg p-8 flex items-center justify-center" style="height: 300px;">
                 <div class="text-center">
                     <canvas id="salesChart" width="600" height="250"></canvas>
-                    <p class="text-sm text-primary-dark/60 mt-4">Chart will be rendered here</p>
+                    <p class="text-sm text-primary-dark/60 mt-4">{{ __('admin.dashboard.sales.chart_placeholder') }}</p>
                 </div>
             </div>
         </div>
@@ -127,30 +127,30 @@
         <!-- Quick Actions -->
         <div class="bg-white rounded-xl shadow-lg p-6">
             <div class="mb-6">
-                <h2 class="text-xl font-bold text-primary-dark">Quick Actions</h2>
-                <p class="text-sm text-primary-dark/60 mt-1">Common tasks</p>
+                <h2 class="text-xl font-bold text-primary-dark">{{ __('admin.dashboard.quick_actions.title') }}</h2>
+                <p class="text-sm text-primary-dark/60 mt-1">{{ __('admin.dashboard.quick_actions.subtitle') }}</p>
             </div>
             <div class="space-y-3">
                 <a href="{{ r('admin.products.create') }}" class="flex items-center justify-between w-full px-4 py-3 bg-primary-dark text-white font-semibold rounded-lg hover:bg-primary-dark/90 transition-all duration-300">
-                    <span>Add New Product</span>
+                    <span>{{ __('admin.dashboard.quick_actions.add_new_product') }}</span>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
                 </a>
                 <a href="{{ r('admin.categories.create') }}" class="flex items-center justify-between w-full px-4 py-3 bg-primary-dark text-white font-semibold rounded-lg hover:bg-primary-dark/90 transition-all duration-300">
-                    <span>Add New Category</span>
+                    <span>{{ __('admin.dashboard.quick_actions.add_new_category') }}</span>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
                 </a>
                 <a href="{{ r('admin.users.create') }}" class="flex items-center justify-between w-full px-4 py-3 bg-white border border-primary-dark text-primary-dark font-semibold rounded-lg hover:bg-primary-dark/5 transition-all duration-300">
-                    <span>Add New User</span>
+                    <span>{{ __('admin.dashboard.quick_actions.add_new_user') }}</span>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
                 </a>
                 <a href="{{ r('admin.orders.index') }}" class="flex items-center justify-between w-full px-4 py-3 bg-white border border-primary-dark text-primary-dark font-semibold rounded-lg hover:bg-primary-dark/5 transition-all duration-300">
-                    <span>View All Orders</span>
+                    <span>{{ __('admin.dashboard.quick_actions.view_all_orders') }}</span>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
@@ -160,10 +160,10 @@
             <!-- Low Stock Alerts -->
             <div class="mt-8">
                 <h3 class="text-lg font-bold text-primary-dark mb-4 flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 me-2 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
-                    Low Stock Alerts
+                    {{ __('admin.dashboard.low_stock.title') }}
                 </h3>
                 @php
                 $lowStockProducts = \App\Models\Product::where('stock', '<', 5)->orderBy('stock', 'asc')->limit(5)->get();
@@ -175,15 +175,15 @@
                             <div class="flex-1">
                                 <p class="text-sm font-medium {{ $product->stock <= 1 ? 'text-red-900' : 'text-yellow-900' }}">{{ Str::limit($product->name, 25) }}</p>
                             </div>
-                            <span class="ml-2 px-2 py-1 text-xs font-bold rounded {{ $product->stock <= 1 ? 'bg-red-600 text-white' : 'bg-yellow-600 text-white' }}">
-                                {{ $product->stock }} left
+                            <span class="ms-2 px-2 py-1 text-xs font-bold rounded {{ $product->stock <= 1 ? 'bg-red-600 text-white' : 'bg-yellow-600 text-white' }}">
+                                {{ __('admin.dashboard.low_stock.items_left', ['count' => $product->stock]) }}
                             </span>
                         </div>
                         @endforeach
                     </div>
                     @else
                     <p class="text-sm text-primary-dark/60 bg-green-50 p-3 rounded-lg border border-green-200">
-                        ✓ All products are well stocked
+                        {{ __('admin.dashboard.low_stock.all_well_stocked') }}
                     </p>
                     @endif
             </div>
@@ -193,8 +193,8 @@
     <!-- Recent Orders Table -->
     <div class="bg-white rounded-xl shadow-lg p-6">
         <div class="mb-6">
-            <h2 class="text-xl font-bold text-primary-dark">Recent Orders</h2>
-            <p class="text-sm text-primary-dark/60 mt-1">Latest customer orders</p>
+            <h2 class="text-xl font-bold text-primary-dark">{{ __('admin.dashboard.recent_orders.title') }}</h2>
+            <p class="text-sm text-primary-dark/60 mt-1">{{ __('admin.dashboard.recent_orders.subtitle') }}</p>
         </div>
         @php
         $recentOrders = \App\Models\Order::with(['user', 'orderItems'])->latest()->limit(5)->get();
@@ -204,12 +204,12 @@
             <table class="w-full">
                 <thead>
                     <tr class="border-b border-primary-gray">
-                        <th class="text-left py-3 px-4 text-sm font-semibold text-primary-dark">Order ID</th>
-                        <th class="text-left py-3 px-4 text-sm font-semibold text-primary-dark">Customer</th>
-                        <th class="text-left py-3 px-4 text-sm font-semibold text-primary-dark">Total</th>
-                        <th class="text-left py-3 px-4 text-sm font-semibold text-primary-dark">Status</th>
-                        <th class="text-left py-3 px-4 text-sm font-semibold text-primary-dark">Date</th>
-                        <th class="text-left py-3 px-4 text-sm font-semibold text-primary-dark">Action</th>
+                        <th class="text-start py-3 px-4 text-sm font-semibold text-primary-dark">{{ __('admin.dashboard.recent_orders.table.order_id') }}</th>
+                        <th class="text-start py-3 px-4 text-sm font-semibold text-primary-dark">{{ __('admin.dashboard.recent_orders.table.customer') }}</th>
+                        <th class="text-start py-3 px-4 text-sm font-semibold text-primary-dark">{{ __('admin.dashboard.recent_orders.table.total') }}</th>
+                        <th class="text-start py-3 px-4 text-sm font-semibold text-primary-dark">{{ __('admin.dashboard.recent_orders.table.status') }}</th>
+                        <th class="text-start py-3 px-4 text-sm font-semibold text-primary-dark">{{ __('admin.dashboard.recent_orders.table.date') }}</th>
+                        <th class="text-start py-3 px-4 text-sm font-semibold text-primary-dark">{{ __('admin.dashboard.recent_orders.table.action') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -219,7 +219,7 @@
                             <span class="text-sm font-medium text-primary-dark">#{{ $order->id }}</span>
                         </td>
                         <td class="py-3 px-4">
-                            <span class="text-sm text-primary-dark">{{ $order->user->name ?? 'Guest' }}</span>
+                            <span class="text-sm text-primary-dark">{{ $order->user->name ?? __('admin.dashboard.recent_orders.guest') }}</span>
                         </td>
                         <td class="py-3 px-4">
                             @php
@@ -239,17 +239,18 @@
                             'cancelled' => 'bg-red-100 text-red-800 border-red-200',
                             ];
                             $colorClass = $statusColors[$order->status] ?? 'bg-gray-100 text-gray-800 border-gray-200';
+                            $statusLabel = __('admin.dashboard.statuses.' . $order->status);
                             @endphp
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border {{ $colorClass }}">
-                                {{ ucfirst($order->status) }}
+                                {{ $statusLabel !== 'admin.dashboard.statuses.' . $order->status ? $statusLabel : ucfirst($order->status) }}
                             </span>
                         </td>
                         <td class="py-3 px-4">
-                            <span class="text-sm text-primary-dark/70">{{ $order->created_at->format('M d, Y') }}</span>
+                            <span class="text-sm text-primary-dark/70">{{ $order->created_at->translatedFormat('M d, Y') }}</span>
                         </td>
                         <td class="py-3 px-4">
                             <a href="{{ r('admin.orders.show', $order) }}" class="text-sm font-medium text-primary-dark hover:text-primary-dark/70 transition-colors duration-200">
-                                View →
+                                {{ __('admin.dashboard.recent_orders.view_action') }}
                             </a>
                         </td>
                     </tr>
@@ -262,7 +263,7 @@
             <svg class="w-16 h-16 text-primary-dark/20 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
-            <p class="text-primary-dark/60">No orders yet</p>
+            <p class="text-primary-dark/60">{{ __('admin.dashboard.recent_orders.empty') }}</p>
         </div>
         @endif
     </div>

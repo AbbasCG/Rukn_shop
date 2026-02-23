@@ -1,11 +1,11 @@
-<aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'" class="fixed md:static inset-y-0 left-0 w-64 bg-white dark:bg-white border-r border-primary-gray dark:border-primary-gray transform transition-transform duration-300 ease-in-out z-40" style="font-family: 'Signika', sans-serif;">
+<aside :class="sidebarOpen ? 'translate-x-0' : '{{ app()->getLocale() === 'ar' ? 'translate-x-full md:translate-x-0' : '-translate-x-full md:translate-x-0' }}'" class="fixed md:static inset-y-0 {{ app()->getLocale() === 'ar' ? 'right-0 border-l' : 'left-0 border-r' }} w-64 bg-white dark:bg-white border-primary-gray dark:border-primary-gray transform transition-transform duration-300 ease-in-out z-40" style="font-family: 'Signika', sans-serif;">
     
     <!-- Sidebar Header -->
     <div class="h-24 px-6 flex items-center justify-between border-b border-primary-gray dark:border-primary-gray">
         <a href="{{ r('admin.dashboard') }}" class="flex items-center gap-2">
             <x-application-logo class="block h-12 w-auto fill-current text-primary-dark" />
         </a>
-        <button class="md:hidden p-2 rounded-lg hover:bg-primary-gray transition-all duration-200" @click="sidebarOpen=false" title="Close sidebar">
+        <button class="md:hidden p-2 rounded-lg hover:bg-primary-gray transition-all duration-200" @click="sidebarOpen=false" title="{{ __('admin.sidebar.tooltips.close_sidebar') }}">
             <svg class="w-6 h-6 text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
             </svg>
@@ -16,16 +16,16 @@
     <nav class="p-4 space-y-1 flex-1">
         <!-- Navigation label -->
         <div class="px-3 py-2 text-xs font-semibold uppercase tracking-wider text-primary-dark/50 dark:text-primary-dark/50 mb-3">
-            Menu
+            {{ __('admin.sidebar.sections.menu') }}
         </div>
 
         @php
             $links = [
-                ['label' => 'Dashboard', 'route' => 'admin.dashboard', 'icon' => 'home'],
-                ['label' => 'Products', 'route' => 'admin.products.index', 'icon' => 'archive-box'],
-                ['label' => 'Categories', 'route' => 'admin.categories.index', 'icon' => 'tag'],
-                ['label' => 'Orders', 'route' => 'admin.orders.index', 'icon' => 'shopping-bag'],
-                ['label' => 'Users', 'route' => 'admin.users.index', 'icon' => 'users'],
+                ['label' => __('admin.sidebar.items.dashboard'), 'route' => 'admin.dashboard', 'icon' => 'home'],
+                ['label' => __('admin.sidebar.items.products'), 'route' => 'admin.products.index', 'icon' => 'archive-box'],
+                ['label' => __('admin.sidebar.items.categories'), 'route' => 'admin.categories.index', 'icon' => 'tag'],
+                ['label' => __('admin.sidebar.items.orders'), 'route' => 'admin.orders.index', 'icon' => 'shopping-bag'],
+                ['label' => __('admin.sidebar.items.users'), 'route' => 'admin.users.index', 'icon' => 'users'],
             ];
         @endphp
         @foreach($links as $item)
@@ -43,12 +43,12 @@
         <!-- Soon Section -->
         <div class="px-3 py-4 mt-6">
             <div class="text-xs font-semibold uppercase tracking-wider text-primary-dark/50 dark:text-primary-dark/50 mb-3">
-                Coming Soon
+                {{ __('admin.sidebar.sections.coming_soon') }}
             </div>
             @php
                 $soonLinks = [
-                    ['label' => 'Settings', 'icon' => 'cog'],
-                    ['label' => 'Reports', 'icon' => 'chart-bar'],
+                    ['label' => __('admin.sidebar.items.settings'), 'icon' => 'cog'],
+                    ['label' => __('admin.sidebar.items.reports'), 'icon' => 'chart-bar'],
                 ];
             @endphp
             @foreach($soonLinks as $item)
@@ -78,7 +78,7 @@
                 @endif
             </div>
             <div>
-                <p class="text-xs font-semibold uppercase tracking-wider text-primary-dark/50 dark:text-primary-dark/50 mb-0.5">Logged in as</p>
+                <p class="text-xs font-semibold uppercase tracking-wider text-primary-dark/50 dark:text-primary-dark/50 mb-0.5">{{ __('admin.footer.logged_in_as') }}</p>
                 <p class="text-sm font-medium text-primary-dark dark:text-primary-dark truncate">{{ $sidebarUser->name }}</p>
             </div>
         </div>
@@ -90,7 +90,7 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
             </svg>
-            Back to Shop
+            {{ __('admin.footer.back_to_shop') }}
         </a>
     </div>
 
