@@ -19,6 +19,8 @@
 </head>
 
 <body class="font-sans antialiased">
+    @include('layouts.partials.toasts')
+
     <div class="min-h-screen">
         <!-- Page Heading -->
   

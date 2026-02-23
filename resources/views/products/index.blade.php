@@ -341,9 +341,29 @@
                                                     }).then(r => r.json()).then(d => { 
                                                         if (d && d.ok) { 
                                                             $store.cart.count = d.count; 
+                                                            window.dispatchEvent(new CustomEvent('toast', {
+                                                                detail: {
+                                                                    type: 'success',
+                                                                    message: d.message || '{{ __('shop.added') }}'
+                                                                }
+                                                            }));
                                                             added = true; 
                                                             setTimeout(() => added = false, 1200); 
-                                                        } 
+                                                        } else {
+                                                            window.dispatchEvent(new CustomEvent('toast', {
+                                                                detail: {
+                                                                    type: 'error',
+                                                                    message: d?.message || '{{ __('Something went wrong. Please try again.') }}'
+                                                                }
+                                                            }));
+                                                        }
+                                                    }).catch(() => {
+                                                        window.dispatchEvent(new CustomEvent('toast', {
+                                                            detail: {
+                                                                type: 'error',
+                                                                message: '{{ __('Something went wrong. Please try again.') }}'
+                                                            }
+                                                        }));
                                                     });
                                                 "
                                                 :class="added ? 'bg-emerald-600 border-emerald-600 text-white' : 'bg-white border-primary-gray/60 text-primary-dark hover:bg-primary-dark hover:border-primary-dark hover:text-white'"
@@ -428,9 +448,29 @@
                                             }).then(r => r.json()).then(d => { 
                                                 if (d && d.ok) { 
                                                     $store.cart.count = d.count; 
+                                                    window.dispatchEvent(new CustomEvent('toast', {
+                                                        detail: {
+                                                            type: 'success',
+                                                            message: d.message || '{{ __('shop.added') }}'
+                                                        }
+                                                    }));
                                                     added = true; 
                                                     setTimeout(() => added = false, 1500); 
-                                                } 
+                                                } else {
+                                                    window.dispatchEvent(new CustomEvent('toast', {
+                                                        detail: {
+                                                            type: 'error',
+                                                            message: d?.message || '{{ __('Something went wrong. Please try again.') }}'
+                                                        }
+                                                    }));
+                                                }
+                                            }).catch(() => {
+                                                window.dispatchEvent(new CustomEvent('toast', {
+                                                    detail: {
+                                                        type: 'error',
+                                                        message: '{{ __('Something went wrong. Please try again.') }}'
+                                                    }
+                                                }));
                                             });
                                         "
                                         :class="added ? 'bg-emerald-600' : 'bg-primary-dark hover:bg-primary-dark/90'"

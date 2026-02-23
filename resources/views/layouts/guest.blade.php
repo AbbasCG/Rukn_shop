@@ -19,6 +19,8 @@
 </head>
 
 <body class="min-h-screen bg-primary-50 dark:bg-primary-50 text-primary-800 dark:text-primary-800 flex flex-col h-[100vh]">
+    @include('layouts.partials.toasts')
+
     {{-- Header altijd full width --}}
     <header class="w-full">
         @include('layouts.navigation')

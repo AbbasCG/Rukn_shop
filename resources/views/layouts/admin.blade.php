@@ -13,6 +13,8 @@
 </head>
 
 <body class="bg-primary-50 dark:bg-primary-50 text-primary-800 dark:text-primary-800 min-h-screen" style="font-family: 'Signika', sans-serif;">
+    @include('layouts.partials.toasts')
+
     <div class="flex min-h-screen">
         <!-- Sidebar -->
         @include('admin.partials.sidebar')
@@ -114,12 +116,6 @@
             </header>
 
             <main class="p-6 bg-primary-50 dark:bg-primary-50 min-h-full">
-                @if(session('success'))
-                <div class="mb-4 px-4 py-3 bg-success-light/20 text-success dark:bg-success-light/20 dark:text-success-dark rounded-lg">{{ session('success') }}</div>
-                @endif
-                @if(session('error'))
-                <div class="mb-4 px-4 py-3 bg-error-light/20 text-error dark:bg-error-light/20 dark:text-error-dark rounded-lg">{{ session('error') }}</div>
-                @endif
                 @yield('content')
             </main>
         </div>
