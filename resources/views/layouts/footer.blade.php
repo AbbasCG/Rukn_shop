@@ -1,43 +1,43 @@
     <!-- 8. FOOTER -->
     <footer class="bg-primary-dark text-primary-light py-16">
-        <div class="w-full px-4 sm:px-6 lg:px-8 max-w-full mx-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
                 <!-- Brand -->
-                <div>
+                <div class="{{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">
                     <a href="{{ r('home') }}" class="inline-block mb-4 hover:opacity-80 transition-opacity duration-300">
                         <img src="{{ asset('images/Voll logo.svg') }}" alt="Rukn Shop" class="h-12 w-auto">
                     </a>
                     <p class="text-primary-light/70 text-sm leading-relaxed">
-                        Elegance woven into every moment. Discover timeless pieces crafted with passion and authenticity.
+                        {{ __('footer.brand.description') }}
                     </p>
                 </div>
 
                 <!-- Shop -->
-                <div>
-                    <h4 class="font-semibold text-primary-light mb-4">Shop</h4>
+                <div class="{{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">
+                    <h4 class="font-semibold text-primary-light mb-4">{{ __('footer.sections.shop') }}</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="{{ r('products.index') }}" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">All Products</a></li>
-                        <li><a href="#" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">New Arrivals</a></li>
-                        <li><a href="#" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">Bestsellers</a></li>
-                        <li><a href="#" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">Sale</a></li>
+                        <li><a href="{{ r('products.index') }}" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">{{ __('footer.links.all_products') }}</a></li>
+                        <li><a href="#" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">{{ __('footer.links.new_arrivals') }}</a></li>
+                        <li><a href="#" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">{{ __('footer.links.bestsellers') }}</a></li>
+                        <li><a href="#" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">{{ __('footer.links.sale') }}</a></li>
                     </ul>
                 </div>
 
                 <!-- Support -->
-                <div>
-                    <h4 class="font-semibold text-primary-light mb-4">Support</h4>
+                <div class="{{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">
+                    <h4 class="font-semibold text-primary-light mb-4">{{ __('footer.sections.support') }}</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="{{ r('contact') }}" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">Contact Us</a></li>
-                        <li><a href="#" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">Shipping Info</a></li>
-                        <li><a href="#" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">Returns</a></li>
-                        <li><a href="{{ r('faq') }}" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">FAQ</a></li>
+                        <li><a href="{{ r('contact') }}" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">{{ __('footer.links.contact') }}</a></li>
+                        <li><a href="#" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">{{ __('footer.links.shipping') }}</a></li>
+                        <li><a href="#" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">{{ __('footer.links.returns') }}</a></li>
+                        <li><a href="{{ r('faq') }}" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">{{ __('footer.links.faq') }}</a></li>
                     </ul>
                 </div>
 
                 <!-- Social Media -->
-                <div>
-                    <h4 class="font-semibold text-primary-light mb-4">Follow Us</h4>
-                    <div class="flex gap-4">
+                <div class="{{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">
+                    <h4 class="font-semibold text-primary-light mb-4">{{ __('footer.sections.follow') }}</h4>
+                    <div class="flex gap-4 {{ app()->getLocale() === 'ar' ? 'flex-row-reverse' : '' }}">
                         <!-- Facebook -->
                         <a href="#" class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary-light/10 hover:bg-primary-light/20 transition-colors duration-300" aria-label="Facebook">
                             <svg class="w-5 h-5 text-primary-light" fill="currentColor" viewBox="0 0 24 24">
@@ -70,12 +70,12 @@
             </div>
 
             <!-- Bottom Section -->
-            <div class="border-t border-primary-light/20 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-primary-light/70">
-                <p>© 2025 Rukn Shop. All rights reserved.</p>
-                <div class="flex gap-6 mt-4 md:mt-0">
-                    <a href="{{ r('privacy-policy') }}" class="hover:text-primary-light transition-colors duration-300">Privacy Policy</a>
-                    <a href="{{ r('terms-of-service') }}" class="hover:text-primary-light transition-colors duration-300">Terms of Service</a>
-                    <a href="#" class="hover:text-primary-light transition-colors duration-300">Cookies</a>
+            <div class="border-t border-primary-light/20 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-primary-light/70 {{ app()->getLocale() === 'ar' ? 'md:flex-row-reverse' : '' }}">
+                <p>{{ __('footer.copyright', ['year' => date('Y')]) }}</p>
+                <div class="flex gap-6 mt-4 md:mt-0 {{ app()->getLocale() === 'ar' ? 'md:flex-row-reverse' : '' }}">
+                    <a href="{{ r('privacy-policy') }}" class="hover:text-primary-light transition-colors duration-300">{{ __('footer.links.privacy') }}</a>
+                    <a href="{{ r('terms-of-service') }}" class="hover:text-primary-light transition-colors duration-300">{{ __('footer.links.terms') }}</a>
+                    <a href="#" class="hover:text-primary-light transition-colors duration-300">{{ __('footer.links.cookies') }}</a>
                 </div>
             </div>
         </div>
