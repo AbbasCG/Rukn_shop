@@ -34,5 +34,7 @@ return [
         'removed' => 'Item removed from cart.',
         'cleared' => 'Cart cleared.',
         'empty' => 'Your cart is empty.',
+        'restored' => 'Your cart was restored.',
+        'restored_partial' => 'Some items were unavailable and removed.',
     ],
 ];

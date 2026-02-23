@@ -34,5 +34,7 @@ return [
         'removed' => 'Artikel verwijderd uit de winkelwagen.',
         'cleared' => 'Winkelwagen geleegd.',
         'empty' => 'Je winkelwagen is leeg.',
+        'restored' => 'Je winkelwagen is hersteld.',
+        'restored_partial' => 'Sommige producten waren niet beschikbaar en zijn verwijderd.',
     ],
 ];
