@@ -1,11 +1,11 @@
-@extends('layouts.admin', ['title' => 'Create Product'])
+@extends('layouts.admin', ['title' => __('admin.products.create.title')])
 
 @section('content')
 <div class="w-full max-w-3xl mx-auto space-y-6">
     <!-- Header Section -->
     <div>
-        <h1 class="text-3xl font-bold text-primary-dark">Create Product</h1>
-        <p class="text-sm text-primary-dark/60 mt-1">Fill in the details below to add a new product to your catalog</p>
+        <h1 class="text-3xl font-bold text-primary-dark">{{ __('admin.products.create.title') }}</h1>
+        <p class="text-sm text-primary-dark/60 mt-1">{{ __('admin.products.create.subtitle') }}</p>
     </div>
 
     <!-- Form Card -->
@@ -16,40 +16,40 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Name -->
             <div>
-                <label for="name" class="block text-sm font-medium text-primary-dark mb-2">Product Name</label>
+                <label for="name" class="block text-sm font-medium text-primary-dark mb-2">{{ __('admin.products.form.name') }}</label>
                 <input 
                     id="name"
                     name="name" 
                     type="text"
                     value="{{ old('name') }}" 
                     required
-                    placeholder="Enter product name"
+                    placeholder="{{ __('admin.products.form.placeholders.name') }}"
                     class="w-full px-4 py-2.5 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
                 @error('name')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
             </div>
 
             <!-- Slug -->
             <div>
-                <label for="slug" class="block text-sm font-medium text-primary-dark mb-2">Slug (Optional)</label>
+                <label for="slug" class="block text-sm font-medium text-primary-dark mb-2">{{ __('admin.products.form.slug_optional') }}</label>
                 <input 
                     id="slug"
                     name="slug" 
                     type="text"
                     value="{{ old('slug') }}"
-                    placeholder="product-slug"
+                    placeholder="{{ __('admin.products.form.placeholders.slug') }}"
                     class="w-full px-4 py-2.5 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
                 @error('slug')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
             </div>
 
             <!-- Category -->
             <div>
-                <label for="category_id" class="block text-sm font-medium text-primary-dark mb-2">Category</label>
+                <label for="category_id" class="block text-sm font-medium text-primary-dark mb-2">{{ __('admin.products.form.category') }}</label>
                 <select 
                     id="category_id"
                     name="category_id" 
                     required
                     class="w-full px-4 py-2.5 rounded-lg border border-primary-gray bg-white text-primary-dark transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
-                    <option value="">Select a category</option>
+                    <option value="">{{ __('admin.products.form.select_category') }}</option>
                     @foreach($categories as $category)
                         <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>
                     @endforeach
@@ -59,7 +59,7 @@
 
             <!-- Price -->
             <div>
-                <label for="price" class="block text-sm font-medium text-primary-dark mb-2">Price (€)</label>
+                <label for="price" class="block text-sm font-medium text-primary-dark mb-2">{{ __('admin.products.form.price', ['currency' => '€']) }}</label>
                 <input 
                     id="price"
                     type="number" 
@@ -67,28 +67,28 @@
                     name="price" 
                     value="{{ old('price') }}" 
                     required
-                    placeholder="0.00"
+                    placeholder="{{ __('admin.products.form.placeholders.price') }}"
                     class="w-full px-4 py-2.5 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
                 @error('price')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
             </div>
 
             <!-- Stock -->
             <div>
-                <label for="stock" class="block text-sm font-medium text-primary-dark mb-2">Stock Quantity</label>
+                <label for="stock" class="block text-sm font-medium text-primary-dark mb-2">{{ __('admin.products.form.stock') }}</label>
                 <input 
                     id="stock"
                     type="number" 
                     name="stock" 
                     value="{{ old('stock') }}" 
                     required
-                    placeholder="0"
+                    placeholder="{{ __('admin.products.form.placeholders.stock') }}"
                     class="w-full px-4 py-2.5 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
                 @error('stock')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
             </div>
 
             <!-- Status -->
             <div>
-                <label class="block text-sm font-medium text-primary-dark mb-2">Status</label>
+                <label class="block text-sm font-medium text-primary-dark mb-2">{{ __('admin.products.form.status') }}</label>
                 <label class="inline-flex items-center gap-3 px-4 py-2.5 rounded-lg border border-primary-gray cursor-pointer hover:bg-primary-gray/50 transition-all">
                     <input 
                         type="checkbox" 
@@ -96,51 +96,51 @@
                         value="1" 
                         {{ old('is_active', true) ? 'checked' : '' }}
                         class="w-4 h-4 rounded border-primary-gray text-primary-dark focus:ring-2 focus:ring-primary-dark/20">
-                    <span class="text-sm font-medium text-primary-dark">Active</span>
+                    <span class="text-sm font-medium text-primary-dark">{{ __('admin.products.status.active') }}</span>
                 </label>
             </div>
         </div>
 
         <!-- Short Description (Full width) -->
         <div>
-            <label for="short_description" class="block text-sm font-medium text-primary-dark mb-2">Short Description</label>
+            <label for="short_description" class="block text-sm font-medium text-primary-dark mb-2">{{ __('admin.products.form.short_description') }}</label>
             <textarea 
                 id="short_description"
                 name="short_description" 
                 rows="2"
-                placeholder="A brief description of the product"
+                placeholder="{{ __('admin.products.form.placeholders.short_description') }}"
                 class="w-full px-4 py-2.5 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">{{ old('short_description') }}</textarea>
             @error('short_description')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
 
         <!-- Long Description (Full width) -->
         <div>
-            <label for="long_description" class="block text-sm font-medium text-primary-dark mb-2">Full Description</label>
+            <label for="long_description" class="block text-sm font-medium text-primary-dark mb-2">{{ __('admin.products.form.long_description') }}</label>
             <textarea 
                 id="long_description"
                 name="long_description" 
                 rows="4"
-                placeholder="Detailed product description"
+                placeholder="{{ __('admin.products.form.placeholders.long_description') }}"
                 class="w-full px-4 py-2.5 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">{{ old('long_description') }}</textarea>
             @error('long_description')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
 
         <!-- Image URL (Full width) - Legacy field -->
         <div x-data="{ imageUrlUpload: false }">
-            <label for="image_url" class="block text-sm font-medium text-primary-dark mb-2">Image URL (Legacy)</label>
+            <label for="image_url" class="block text-sm font-medium text-primary-dark mb-2">{{ __('admin.products.form.image_url_legacy') }}</label>
             <div class="flex gap-2">
                 <input 
                     id="image_url"
                     name="image_url" 
                     type="text"
                     value="{{ old('image_url') }}"
-                    placeholder="https://example.com/image.jpg"
+                    placeholder="{{ __('admin.products.form.placeholders.image_url') }}"
                     class="flex-1 px-4 py-2.5 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
                 <button 
                     type="button"
                     @click="$refs.imageUrlInput.click()"
                     class="px-4 py-2.5 bg-primary-dark text-white rounded-lg font-semibold hover:bg-primary-dark/90 transition-all duration-300">
-                    Upload
+                    {{ __('admin.products.actions.upload') }}
                 </button>
                 <input 
                     type="file"
@@ -163,7 +163,7 @@
 
         <!-- Drag & Drop Image Upload (Full width) -->
         <div x-data="imageUploader()" class="space-y-4">
-            <label class="block text-sm font-medium text-primary-dark mb-2">Product Images</label>
+            <label class="block text-sm font-medium text-primary-dark mb-2">{{ __('admin.products.form.images') }}</label>
             
             <!-- Dropzone -->
             <div 
@@ -188,8 +188,8 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                 </svg>
 
-                <p class="text-base font-medium text-primary-dark">Drag & drop images here</p>
-                <p class="text-sm text-primary-dark/60 mt-1">or click to browse (JPG, PNG, WebP up to 5MB)</p>
+                <p class="text-base font-medium text-primary-dark">{{ __('admin.products.images.drag_drop') }}</p>
+                <p class="text-sm text-primary-dark/60 mt-1">{{ __('admin.products.images.click_to_browse') }}</p>
             </div>
 
             @error('images')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
@@ -197,7 +197,7 @@
 
             <!-- Preview Grid -->
             <div x-show="selectedImages.length > 0" class="mt-6">
-                <h3 class="text-sm font-semibold text-primary-dark mb-3">Selected Images (<span x-text="selectedImages.length"></span>)</h3>
+                <h3 class="text-sm font-semibold text-primary-dark mb-3">{{ __('admin.products.images.selected_images') }} (<span x-text="selectedImages.length"></span>)</h3>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                     <template x-for="(image, index) in selectedImages" :key="index">
                         <div class="relative group">
@@ -230,16 +230,23 @@
             <button 
                 type="submit"
                 class="flex-1 px-6 py-2.5 bg-primary-dark text-white rounded-lg font-semibold hover:bg-primary-dark/90 transition-all duration-300">
-                Create Product
+                {{ __('admin.products.actions.create') }}
             </button>
             <a 
                 href="{{ r('admin.products.index') }}"
                 class="flex-1 px-6 py-2.5 border border-primary-gray text-primary-dark rounded-lg font-semibold hover:bg-primary-gray transition-all duration-300 text-center">
-                Cancel
+                {{ __('admin.products.actions.cancel') }}
             </a>
         </div>
     </form>
 </div>
+
+<div
+    id="create-file-size-labels"
+    class="hidden"
+    data-bytes="{{ __('admin.products.file_sizes.bytes') }}"
+    data-kb="{{ __('admin.products.file_sizes.kb') }}"
+    data-mb="{{ __('admin.products.file_sizes.mb') }}"></div>
 
 <script>
 function imageUploader() {
@@ -279,9 +286,14 @@ function imageUploader() {
         },
 
         formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
+            const sizeLabels = document.getElementById('create-file-size-labels');
+            const sizes = [
+                sizeLabels?.dataset?.bytes ?? '',
+                sizeLabels?.dataset?.kb ?? '',
+                sizeLabels?.dataset?.mb ?? '',
+            ];
+            if (bytes === 0) return '0 ' + sizes[0];
             const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB'];
             const i = Math.floor(Math.log(bytes) / Math.log(k));
             return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
         }

@@ -143,7 +143,7 @@ class AdminProductController extends Controller
             $this->storeProductImages($product, $request->file('images'));
         }
 
-        return redirect()->route('admin.products.index')->with('success', __('admin_products.created_success'));
+        return redirect()->route('admin.products.index')->with('success', __('admin.products.messages.created'));
     }
 
     /**
@@ -240,7 +240,7 @@ class AdminProductController extends Controller
             $product->images()->orderBy('id')->first()->update(['is_primary' => true]);
         }
 
-        return redirect()->route('admin.products.index')->with('success', __('admin_products.updated_success'));
+        return redirect()->route('admin.products.index')->with('success', __('admin.products.messages.updated'));
     }
 
     /**
@@ -265,10 +265,10 @@ class AdminProductController extends Controller
                 'error' => $exception->getMessage(),
             ]);
 
-            return back()->with('error', __('admin_products.delete_failed'));
+            return back()->with('error', __('admin.products.messages.delete_failed'));
         }
 
-        return redirect()->route('admin.products.index')->with('success', __('admin_products.deleted_success'));
+        return redirect()->route('admin.products.index')->with('success', __('admin.products.messages.deleted'));
     }
 
     /**
