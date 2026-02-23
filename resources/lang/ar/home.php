@@ -36,15 +36,15 @@ return [
     // Brand Story Section
     'section_our_story' => 'قصتنا',
     'story_title' => 'فن الأناقة',
-    'story_paragraph_1' => 'تم تأسيسها على مبدأ عدم المساومة بالجودة، تجمع rukn Shop بين الأفضل في الحرفية التقليدية والتصميم المعاصر.',
+    'story_paragraph_1' => 'تم تأسيسها على مبدأ عدم المساومة بالجودة، تجمع  متجر ركـن بين الأفضل في الحرفية التقليدية والتصميم المعاصر.',
     'story_paragraph_2' => 'نختار بعناية كل مجموعة للتأكد من أن كل قطعة تعكس التزامنا بالأناقة والاستدامة والجمال الخالد.',
-    'story_image_alt' => 'قصة rukn Shop',
+    'story_image_alt' => 'قصة  متجر ركـن',
     'learn_more' => 'تعرف علينا أكثر',
     
     // Testimonials Section
     'section_reviews' => 'التقييمات',
     'testimonials_title' => 'أصوات الأناقة',
-    'testimonials_subtitle' => 'ما يقوله عملاؤنا عن تجربتهم مع rukn Shop',
+    'testimonials_subtitle' => 'ما يقوله عملاؤنا عن تجربتهم مع  متجر ركـن',
     
     'testimonial_1_text' => 'الجودة استثنائية. لم أشعر بأي شيء مثلها من قبل. بالتأكيد يستحق كل فلس وقد طلبت مرتين أخريين بالفعل!',
     'testimonial_1_author' => 'سارة أندرسون',
@@ -54,14 +54,14 @@ return [
     'testimonial_2_author' => 'جيمس ميتشل',
     'testimonial_2_location' => 'لندن، المملكة المتحدة',
     
-    'testimonial_3_text' => 'ما أحبه في rukn Shop هو تناسق الجودة. كل قطعة تشعر بأنها خاصة وتستمر لسنوات.',
+    'testimonial_3_text' => 'ما أحبه في  متجر ركـن هو تناسق الجودة. كل قطعة تشعر بأنها خاصة وتستمر لسنوات.',
     'testimonial_3_author' => 'إيما رودريغيز',
     'testimonial_3_location' => 'برشلونة، إسبانيا',
     
     // Instagram Section
     'section_follow_us' => 'تابعنا',
     'instagram_title' => 'على إنستاجرام',
-    'instagram_subtitle' => '@ruknshop • انضم إلى مجتمعنا وشارك أناقتك',
+    'instagram_subtitle' => ' متجر ركـن • انضم إلى مجتمعنا وشارك أناقتك',
     
     // Buttons & Links
     'shop_now' => 'تسوق الآن',

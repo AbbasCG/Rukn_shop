@@ -4,7 +4,7 @@
         <div class="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
                 <!-- Left: Content -->
-                <div class="flex flex-col justify-center py-12 {{ app()->getLocale() === 'ar' ? 'lg:order-last' : '' }}">
+                <div class="flex flex-col justify-center py-12 {{ app()->getLocale() === 'ar' ? 'lg:order-last text-right' : 'text-left' }}">
                     <p class="text-sm font-semibold text-primary-dark/60 uppercase tracking-widest mb-4">{{ __('home.hero_tagline') }}</p>
                     <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-primary-dark mb-6 leading-tight">
                         {{ __('home.hero_title') }}
@@ -12,7 +12,7 @@
                     <p class="text-lg text-primary-dark/70 mb-8 leading-relaxed max-w-lg">
                         {{ __('home.hero_subtitle') }}
                     </p>
-                    <div class="flex flex-col sm:flex-row gap-4 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
+                    <div class="flex flex-col sm:flex-row gap-4 {{ app()->getLocale() === 'ar' ? ' sm:space-x-reverse' : '' }}">
                         <a href="{{ r('products.index') }}" class="nav-link-underline inline-flex items-center justify-center px-8 py-3 bg-primary-dark text-primary-light font-semibold hover:bg-primary-dark/90 hover:scale-105 transition-all duration-300 ease-in-out">
                             {{ __('home.shop_now') }}
                         </a>
@@ -38,16 +38,19 @@
     <!-- 2. NEW COLLECTION SECTION -->
     <section class="py-24 bg-primary-light" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
         <div class="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-            <div class="flex justify-between items-end mb-12 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
-                <div>
+            <div class="flex justify-between items-end mb-12 {{ app()->getLocale() === 'ar' ? 'flex-row' : '' }}">
+                <div class="{{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">
                     <p class="text-sm font-semibold text-primary-dark/60 uppercase tracking-widest mb-3">{{ __('home.section_collection') }}</p>
                     <h2 class="text-4xl md:text-5xl font-bold text-primary-dark">{{ __('home.new_arrivals_title') }}</h2>
                     <p class="text-primary-dark/70 mt-3 max-w-xl">
                         {{ __('home.new_arrivals_subtitle') }}
                     </p>
                 </div>
-                <a href="{{ r('products.index') }}" class="nav-link-underline text-primary-dark font-semibold hover:text-primary-dark/70 transition-colors duration-300 hidden lg:inline-block">
-                    {{ __('home.view_all') }} →
+                <a href="{{ r('products.index') }}" class="nav-link-underline text-primary-dark font-semibold hover:text-primary-dark/70 transition-colors duration-300 hidden lg:inline-flex items-center gap-2 {{ app()->getLocale() === 'ar' ? 'flex-row-reverse' : '' }}">
+                    <span>{{ __('home.view_all') }}</span>
+                    <svg class="h-4 w-4 {{ app()->getLocale() === 'ar' ? 'rotate-180' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
                 </a>
             </div>
 
@@ -74,23 +77,24 @@
                     </div>
 
                     <!-- Product Info -->
-                    <h3 class="text-lg font-semibold text-primary-dark mb-2 line-clamp-2">
+                    <h3 class="text-lg font-semibold text-primary-dark mb-2 line-clamp-2 {{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">
                         {{ $product->name }}
                     </h3>
 
                     @if($product->description)
-                    <p class="text-sm text-primary-dark/60 mb-4 line-clamp-2">
+                    <p class="text-sm text-primary-dark/60 mb-4 line-clamp-2 {{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">
                         {{ $product->description }}
                     </p>
                     @endif
 
                     <div class="mt-auto">
-                        <p class="text-lg font-semibold text-primary-dark mb-4">
+                        <p class="text-lg font-semibold text-primary-dark mb-4 {{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">
                             €{{ number_format($product->price, 2) }}
                         </p>
 
                         <a
                             href="{{ r('products.show', $product) }}"
+                            dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}"
                             class="nav-link-underline w-full inline-flex items-center justify-center px-4 py-3 border-2 border-primary-dark text-primary-dark font-semibold hover:bg-primary-dark hover:text-primary-light transition-all duration-300 ease-in-out rounded-lg">
                             {{ __('home.view_details') }}
                         </a>
@@ -109,7 +113,7 @@
     <!-- 3. BESTSELLERS SECTION -->
     <section class="py-24 bg-primary-gray" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
         <div class="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-            <div class="flex justify-between items-end mb-12 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
+            <div class="flex justify-between items-end mb-12 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row' : '' }}">
                 <div>
                     <p class="text-sm font-semibold text-primary-dark/60 uppercase tracking-widest mb-3">{{ __('home.section_most_loved') }}</p>
                     <h2 class="text-4xl md:text-5xl font-bold text-primary-dark">{{ __('home.bestsellers_title') }}</h2>
@@ -192,7 +196,7 @@
                 </div>
 
                 <!-- Text + Features -->
-                <div class="flex flex-col justify-center">
+                <div class="flex flex-col justify-center {{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">
                     <h2 class="text-4xl md:text-5xl font-bold text-primary-dark mb-6 leading-tight">
                         {{ __('home.tradition_meets_modern_title') }}
                     </h2>
@@ -203,7 +207,7 @@
                     <!-- Features -->
                     <div class="space-y-8">
                         <!-- Feature 1 -->
-                        <div class="flex gap-4 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
+                        <div class="flex gap-4 {{ app()->getLocale() === 'ar' ? 'flex-row' : '' }}">
                             <div class="flex-shrink-0">
                                 <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-primary-dark/10">
                                     <svg class="h-6 w-6 text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -212,13 +216,13 @@
                                 </div>
                             </div>
                             <div>
-                                <h3 class="text-lg font-semibold text-primary-dark mb-2">{{ __('home.feature_premium_fabrics_title') }}</h3>
-                                <p class="text-primary-dark/70">{{ __('home.feature_premium_fabrics_desc') }}</p>
+                                <h3 class="text-lg font-semibold text-primary-dark mb-2 {{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">{{ __('home.feature_premium_fabrics_title') }}</h3>
+                                <p class="text-primary-dark/70 {{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">{{ __('home.feature_premium_fabrics_desc') }}</p>
                             </div>
                         </div>
 
                         <!-- Feature 2 -->
-                        <div class="flex gap-4 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
+                        <div class="flex gap-4 {{ app()->getLocale() === 'ar' ? 'flex-row' : '' }}">
                             <div class="flex-shrink-0">
                                 <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-primary-dark/10">
                                     <svg class="h-6 w-6 text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -227,13 +231,13 @@
                                 </div>
                             </div>
                             <div>
-                                <h3 class="text-lg font-semibold text-primary-dark mb-2">{{ __('home.feature_craftsmanship_title') }}</h3>
-                                <p class="text-primary-dark/70">{{ __('home.feature_craftsmanship_desc') }}</p>
+                                <h3 class="text-lg font-semibold text-primary-dark mb-2 {{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">{{ __('home.feature_craftsmanship_title') }}</h3>
+                                <p class="text-primary-dark/70 {{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">{{ __('home.feature_craftsmanship_desc') }}</p>
                             </div>
                         </div>
 
                         <!-- Feature 3 -->
-                        <div class="flex gap-4 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
+                        <div class="flex gap-4 {{ app()->getLocale() === 'ar' ? 'flex-row' : '' }}">
                             <div class="flex-shrink-0">
                                 <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-primary-dark/10">
                                     <svg class="h-6 w-6 text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -242,8 +246,8 @@
                                 </div>
                             </div>
                             <div>
-                                <h3 class="text-lg font-semibold text-primary-dark mb-2">{{ __('home.feature_timeless_design_title') }}</h3>
-                                <p class="text-primary-dark/70">{{ __('home.feature_timeless_design_desc') }}</p>
+                                <h3 class="text-lg font-semibold text-primary-dark mb-2 {{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">{{ __('home.feature_timeless_design_title') }}</h3>
+                                <p class="text-primary-dark/70 {{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">{{ __('home.feature_timeless_design_desc') }}</p>
                             </div>
                         </div>
                     </div>
