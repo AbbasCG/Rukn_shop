@@ -73,6 +73,6 @@ class AdminOrderController extends Controller
         $order = Order::findOrFail($order);
         $order->update($validated);
 
-        return redirect()->route('admin.orders.show', $order)->with('success', 'Order updated successfully');
+        return redirect()->route('admin.orders.show', $order)->with('success', __('admin.orders.messages.updated'));
     }
 }

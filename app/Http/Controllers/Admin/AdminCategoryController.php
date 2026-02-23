@@ -75,7 +75,7 @@ class AdminCategoryController extends Controller
 
         Category::create($validated);
 
-        return redirect()->route('admin.categories.index')->with('success', 'Category created successfully');
+        return redirect()->route('admin.categories.index')->with('success', __('admin.categories.messages.created'));
     }
 
     public function edit(string $locale, Category $category)
@@ -97,17 +97,17 @@ class AdminCategoryController extends Controller
 
         $category->update($validated);
 
-        return redirect()->route('admin.categories.index')->with('success', 'Category updated successfully');
+        return redirect()->route('admin.categories.index')->with('success', __('admin.categories.messages.updated'));
     }
 
     public function destroy(string $locale, Category $category)
     {
         if ($category->products()->count() > 0) {
-            return back()->with('error', 'Cannot delete category with products.');
+            return back()->with('error', __('admin.categories.messages.delete_has_products'));
         }
 
         $category->delete();
 
-        return redirect()->route('admin.categories.index')->with('success', 'Category deleted successfully');
+        return redirect()->route('admin.categories.index')->with('success', __('admin.categories.messages.deleted'));
     }
 }
