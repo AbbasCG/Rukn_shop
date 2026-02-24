@@ -291,7 +291,7 @@
     </section>
 
     <!-- 6. TESTIMONIALS SECTION -->
-    <section class="py-24 bg-primary-light" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+    <!-- <section class="py-24 bg-primary-light" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
         <div class="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
             <div class="text-center mb-16">
                 <p class="text-sm font-semibold text-primary-dark/60 uppercase tracking-widest mb-4">{{ __('home.section_reviews') }}</p>
@@ -303,9 +303,8 @@
                 </p>
             </div>
 
-            <!-- Testimonials Grid -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Testimonial 1 -->
+                
                 <div class="bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-shadow duration-300">
                     <div class="flex gap-1 mb-4 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
                         @for($i = 0; $i < 5; $i++)
@@ -320,7 +319,7 @@
                     <p class="text-sm text-primary-dark/60">{{ __('home.testimonial_1_location') }}</p>
                 </div>
 
-                <!-- Testimonial 2 -->
+                
                 <div class="bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-shadow duration-300">
                     <div class="flex gap-1 mb-4 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
                         @for($i = 0; $i < 5; $i++)
@@ -335,7 +334,7 @@
                     <p class="text-sm text-primary-dark/60">{{ __('home.testimonial_2_location') }}</p>
                 </div>
 
-                <!-- Testimonial 3 -->
+
                 <div class="bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-shadow duration-300">
                     <div class="flex gap-1 mb-4 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
                         @for($i = 0; $i < 5; $i++)
@@ -351,10 +350,10 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- 7. INSTAGRAM SECTION -->
-    <section class="py-24 bg-primary-gray" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+    <!-- <section class="py-24 bg-primary-gray" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
         <div class="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
             <div class="text-center mb-12">
                 <p class="text-sm font-semibold text-primary-dark/60 uppercase tracking-widest mb-4">{{ __('home.section_follow_us') }}</p>
@@ -366,7 +365,7 @@
                 </p>
             </div>
 
-            <!-- Instagram Grid -->
+            
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                 @for($i = 0; $i < 6; $i++)
                     <a href="#" class="relative h-64 md:h-80 bg-primary-light rounded-2xl overflow-hidden group cursor-pointer">
@@ -384,13 +383,13 @@
                     @endfor
             </div>
 
-            <!-- Slider Dots -->
+            
             <div class="flex justify-center gap-2 mt-8">
                 <button class="w-2 h-2 rounded-full bg-primary-dark transition-all duration-300"></button>
                 <button class="w-2 h-2 rounded-full bg-primary-dark/30 hover:bg-primary-dark/60 transition-all duration-300"></button>
             </div>
         </div>
-    </section>
+    </section> -->
 
 
 </x-app-layout>
