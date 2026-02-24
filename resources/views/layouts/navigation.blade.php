@@ -1,6 +1,6 @@
 <header x-data="{ open: false }" class="relative z-40 bg-primary-light/95 backdrop-blur border-b border-primary-gray shadow-md">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="h-20 flex items-center justify-between">
             <!-- Logo -->
             <div class="shrink-0 flex items-center">
@@ -10,7 +10,7 @@
             </div>
             <!-- Navigation Links - Centered -->
             <div class="hidden sm:flex items-center justify-center flex-1">
-                <div class="flex items-center space-x-8">
+                <div class="flex items-center gap-8">
 
                     <x-nav-link :href="r('home')" :active="request()->routeIs('home')">{{ __('home.nav_home') }}</x-nav-link>
 

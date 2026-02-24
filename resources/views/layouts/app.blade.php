@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" style="scrollbar-gutter: stable;">
 
 <head>
     <meta charset="utf-8">
@@ -23,19 +23,14 @@
 
     <div class="min-h-screen">
         <!-- Page Heading -->
-  
-        <header class="" style="height: 80px;">
-            @include('layouts.navigation')
-        </header>
+        @include('layouts.navigation')
 
         <!-- Page Content -->
         <main>
             {{ $slot }}
         </main>
         <!-- Page Footer -->
-        <footer>
-            @include('layouts.footer')
-        </footer>
+        @include('layouts.footer')
 
     </div>
 
