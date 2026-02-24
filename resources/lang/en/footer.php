@@ -22,5 +22,5 @@ return [
         'terms' => 'Terms of Service',
         'cookies' => 'Cookies',
     ],
-    'copyright' => '© :year Rukn Shop. All rights reserved.',
+    'copyright' => '© :year Rukn. All rights reserved.',
 ];

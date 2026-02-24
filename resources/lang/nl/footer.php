@@ -22,5 +22,5 @@ return [
         'terms' => 'Algemene voorwaarden',
         'cookies' => 'Cookies',
     ],
-    'copyright' => '© :year Rukn Shop. Alle rechten voorbehouden.',
+    'copyright' => '© :year Rukn. Alle rechten voorbehouden.',
 ];
