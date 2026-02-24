@@ -261,7 +261,7 @@ return [
     'Can I change or cancel my order?' => 'Kan ik mijn bestelling wijzigen of annuleren?',
     'We can modify or cancel orders before they ship. Contact support as soon as possible to request changes.' => 'We kunnen bestellingen wijzigen of annuleren voordat ze verzonden worden. Neem zo snel mogelijk contact op met ondersteuning om wijzigingen aan te vragen.',
     'How do I contact support?' => 'Hoe neem ik contact op met ondersteuning?',
-    'You can reach us via the contact form above or email us at support@ruknshop.example. We typically respond within 24 hours.' => 'Je kunt ons bereiken via het contactformulier hierboven of e-mail ons op support@ruknshop.example. We reageren meestal binnen 24 uur.',
+    'You can reach us via the contact form above or email us at info@rukn.nl. We typically respond within 24 hours.' => 'Je kunt ons bereiken via het contactformulier hierboven of e-mail ons op info@rukn.nl. We reageren meestal binnen 24 uur.',
     
     // Profile
     'My Profile' => 'Mijn Profiel',

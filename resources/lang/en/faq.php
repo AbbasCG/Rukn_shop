@@ -27,7 +27,7 @@ return [
         ],
         'support' => [
             'q' => 'How do I contact support?',
-            'a' => 'You can reach us via the contact form or email us at support@ruknshop.example. We typically respond within 24 hours.',
+            'a' => 'You can reach us via the contact form or email us at info@rukn.nl. We typically respond within 24 hours.',
         ],
     ],
 

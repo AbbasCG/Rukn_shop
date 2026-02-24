@@ -21,9 +21,9 @@ return [
     // Contact Info Section
     'info' => [
         'email_label' => 'E-mail',
-        'email_value' => 'support@ruknshop.example',
+        'email_value' => 'info@rukn.nl',
         'phone_label' => 'Telefoon',
-        'phone_value' => '+1 (555) 123-4567',
+        'phone_value' => '0687722197',
         'address_label' => 'Adres',
         'address_value' => '123 Rukn Straat, Winkel Stad, Land',
         'opening_hours_label' => 'Openingstijden',
@@ -45,6 +45,6 @@ return [
         'question_5' => 'Kan ik mijn bestelling wijzigen of annuleren?',
         'answer_5' => 'We kunnen bestellingen wijzigen of annuleren voordat ze worden verzonden. Neem zo snel mogelijk contact op met de ondersteuning om wijzigingen aan te vragen.',
         'question_6' => 'Hoe neem ik contact op met de ondersteuning?',
-        'answer_6' => 'U kunt ons bereiken via het contactformulier hierboven of e-mail ons op support@ruknshop.example. We reageren meestal binnen 24 uur.',
+        'answer_6' => 'U kunt ons bereiken via het contactformulier hierboven of e-mail ons op info@rukn.nl. We reageren meestal binnen 24 uur.',
     ],
 ];

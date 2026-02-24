@@ -27,7 +27,7 @@ return [
         'email_label' => 'Email Address',
         'email_placeholder' => 'you@example.com',
         'phone_label' => 'Phone Number',
-        'phone_placeholder' => '+1 (555) 123-4567',
+        'phone_placeholder' => '0687722197',
         'address_label' => 'Street Address',
         'address_placeholder' => '123 Main Street',
         'postal_code_label' => 'Postal Code',

@@ -25,7 +25,7 @@ return [
     'placeholders' => [
         'full_name' => 'Enter your full name',
         'email_address' => 'your.email@example.com',
-        'phone' => '+1 (555) 123-4567',
+        'phone' => '0687722197',
         'customer_type' => 'Select type',
         'address_line_1' => 'Street address',
         'address_line_2' => 'Apartment, floor, etc. (optional)',

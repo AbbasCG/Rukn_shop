@@ -21,9 +21,9 @@ return [
     // Contact Info Section
     'info' => [
         'email_label' => 'البريد الإلكتروني',
-        'email_value' => 'support@ruknshop.example',
+        'email_value' => 'info@rukn.nl',
         'phone_label' => 'الهاتف',
-        'phone_value' => '+1 (555) 123-4567',
+        'phone_value' => '0687722197',
         'address_label' => 'العنوان',
         'address_value' => '123 شارع Rukn، مدينة المتجر، البلد',
         'opening_hours_label' => 'ساعات العمل',
@@ -45,6 +45,6 @@ return [
         'question_5' => 'هل يمكنني تغيير أو إلغاء طلبي؟',
         'answer_5' => 'يمكننا تعديل أو إلغاء الطلبات قبل شحنها. اتصل بالدعم في أقرب وقت ممكن لطلب التغييرات.',
         'question_6' => 'كيف أتواصل مع الدعم؟',
-        'answer_6' => 'يمكنك الوصول إلينا عبر نموذج الاتصال أعلاه أو إرسال بريد إلكتروني إلينا على support@ruknshop.example. نرد عادة خلال 24 ساعة.',
+        'answer_6' => 'يمكنك الوصول إلينا عبر نموذج الاتصال أعلاه أو إرسال بريد إلكتروني إلينا على info@rukn.nl. نرد عادة خلال 24 ساعة.',
     ],
 ];

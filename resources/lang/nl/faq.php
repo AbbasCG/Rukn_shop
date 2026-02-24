@@ -27,7 +27,7 @@ return [
         ],
         'support' => [
             'q' => 'Hoe neem ik contact op met de klantenservice?',
-            'a' => 'U kunt ons bereiken via het contactformulier of e-mail ons op support@ruknshop.example. We reageren meestal binnen 24 uur.',
+            'a' => 'U kunt ons bereiken via het contactformulier of e-mail ons op info@rukn.nl. We reageren meestal binnen 24 uur.',
         ],
     ],
 

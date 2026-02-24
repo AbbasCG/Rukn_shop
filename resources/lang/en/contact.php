@@ -21,9 +21,9 @@ return [
     // Contact Info Section
     'info' => [
         'email_label' => 'Email',
-        'email_value' => 'support@ruknshop.example',
+        'email_value' => 'info@rukn.nl',
         'phone_label' => 'Phone',
-        'phone_value' => '+1 (555) 123-4567',
+        'phone_value' => '0687722197',
         'address_label' => 'Address',
         'address_value' => '123 Rukn Street, Shop City, Country',
         'opening_hours_label' => 'Opening Hours',
@@ -45,6 +45,6 @@ return [
         'question_5' => 'Can I change or cancel my order?',
         'answer_5' => 'We can modify or cancel orders before they ship. Contact support as soon as possible to request changes.',
         'question_6' => 'How do I contact support?',
-        'answer_6' => 'You can reach us via the contact form above or email us at support@ruknshop.example. We typically respond within 24 hours.',
+        'answer_6' => 'You can reach us via the contact form above or email us at info@rukn.nl. We typically respond within 24 hours.',
     ],
 ];
