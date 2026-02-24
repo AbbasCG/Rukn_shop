@@ -63,6 +63,6 @@ return [
         'section_9_content' => 'These Terms of Service are governed by and construed in accordance with the laws of the Netherlands. Any disputes shall be subject to the exclusive jurisdiction of the courts in the Netherlands.',
         
         'section_10_title' => 'Contact Information',
-        'section_10_content' => 'For questions about these Terms of Service, please contact us at support@ruknshop.com or visit our contact page.',
+        'section_10_content' => 'For questions about these Terms of Service, please contact us atinfo@rukn.nl or visit our contact page.',
     ],
 ];

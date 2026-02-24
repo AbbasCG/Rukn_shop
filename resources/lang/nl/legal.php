@@ -63,6 +63,6 @@ return [
         'section_9_content' => 'Deze Algemene Voorwaarden worden beheerst door en geïnterpreteerd in overeenstemming met de wetten van Nederland. Eventuele geschillen vallen onder de exclusieve jurisdictie van de rechtbanken in Nederland.',
         
         'section_10_title' => 'Contactinformatie',
-        'section_10_content' => 'Voor vragen over deze Algemene Voorwaarden kunt u contact met ons opnemen via support@ruknshop.com of onze contactpagina.',
+        'section_10_content' => 'Voor vragen over deze Algemene Voorwaarden kunt u contact met ons opnemen viainfo@rukn.nl of onze contactpagina.',
     ],
 ];
