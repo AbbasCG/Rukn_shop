@@ -1,7 +1,7 @@
-<header x-data="{ open: false }" class="relative z-40 bg-primary-light/95 backdrop-blur border-b border-primary-gray shadow-md">
+<header x-data="{ open: false }" class="relative z-40 bg-primary-light/95 backdrop-blur border-b border-black/10 shadow-sm">
     <!-- Primary Navigation Menu -->
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="h-20 flex items-center justify-between">
+        <div class="sm:h-20 h-16 flex items-center justify-between">
             <!-- Logo -->
             <div class="shrink-0 flex items-center">
                 <a href="{{ r('home') }}" class="transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-110 hover:opacity-80">
@@ -34,7 +34,7 @@
 
             </div>
 
-            <!-- Settings Dropdown / Auth Links -->
+            <!-- Settings Dropdown / Auth Links - Desktop Only -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 @php
                 $initialCartCount = 0;
@@ -60,7 +60,7 @@
                     });
                 </script>
 
-                <!-- Language Selector -->
+                <!-- Language Selector - Desktop -->
                 <div class="relative" x-data="{ openLanguage: false }">
                     <button @click="openLanguage = !openLanguage" @keydown.escape.window="openLanguage = false" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-primary-dark hover:bg-primary-dark hover:text-white focus:outline-none focus:ring-2 focus:ring-primary-dark/20 transition-all duration-300 ease-out transform hover:scale-110 hover:shadow-lg" title="{{ __('home.nav_language') }}">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -106,7 +106,7 @@
                     </div>
                 </div>
 
-                <!-- Cart Icon with Badge -->
+                <!-- Cart Icon with Badge - Desktop -->
                 <div class="relative flex items-center me-4">
                     <a href="{{ r('cart.index') }}" class="inline-flex items-center justify-center p-2 rounded-lg text-primary-dark hover:bg-primary-dark hover:text-white focus:outline-none focus:ring-2 focus:ring-primary-dark/20 transition-all duration-300 ease-out transform hover:scale-110 hover:shadow-lg {{ request()->routeIs('cart.*') ? 'bg-primary-dark text-white' : '' }}" title="{{ __('home.nav_cart') }}">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -166,12 +166,104 @@
                 @endauth
             </div>
 
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-lg text-primary-dark hover:bg-primary-dark hover:text-white focus:outline-none focus:ring-2 focus:ring-primary-dark/20 transition-all duration-300 ease-out transform hover:scale-110 hover:shadow-lg">
-                    <svg class="h-6 w-6 transition-transform duration-200" :class="{'rotate-90': open}" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            <!-- Mobile Header Icons - Visible only on mobile (sm:hidden) -->
+            <div class="flex sm:hidden items-center gap-1 {{ app()->getLocale() === 'ar' ? 'flex-row-reverse' : '' }}">
+                <!-- Language Selector - Mobile -->
+                <div class="relative" x-data="{ openLanguage: false }">
+                    <button @click="openLanguage = !openLanguage" @keydown.escape.window="openLanguage = false" class="w-10 h-10 flex items-center justify-center rounded-xl text-primary-dark hover:bg-black/5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 transition-all duration-200" title="{{ __('home.nav_language') }}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </button>
+
+                    <div x-show="openLanguage" @click.outside="openLanguage = false" x-transition class="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg border border-primary-gray py-2 z-50">
+                        <a href="{{ localizePath('nl') }}" class="flex items-center gap-2 px-4 py-2 text-sm {{ app()->getLocale() === 'nl' ? 'bg-primary-dark text-white font-semibold' : 'text-primary-dark hover:bg-primary-dark hover:text-white' }} transition-all duration-200">
+                            <span class="text-lg">🇳🇱</span>
+                            <span>Nederlands</span>
+                            @if(app()->getLocale() === 'nl')
+                            <svg class="h-4 w-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </path>
+                            </svg>
+                            @endif
+                        </a>
+                        <a href="{{ localizePath('ar') }}" class="flex items-center gap-2 px-4 py-2 text-sm {{ app()->getLocale() === 'ar' ? 'bg-primary-dark text-white font-semibold' : 'text-primary-dark hover:bg-primary-dark hover:text-white' }} transition-all duration-200">
+                            <span class="text-lg">🇸🇦</span>
+                            <span>العربية</span>
+                            @if(app()->getLocale() === 'ar')
+                            <svg class="h-4 w-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </path>
+                            </svg>
+                            @endif
+                        </a>
+                        <a href="{{ localizePath('en') }}" class="flex items-center gap-2 px-4 py-2 text-sm {{ app()->getLocale() === 'en' ? 'bg-primary-dark text-white font-semibold' : 'text-primary-dark hover:bg-primary-dark hover:text-white' }} transition-all duration-200">
+                            <span class="text-lg">🇬🇧</span>
+                            <span>English</span>
+                            @if(app()->getLocale() === 'en')
+                            <svg class="h-4 w-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </path>
+                            </svg>
+                            @endif
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Cart Icon with Badge - Mobile -->
+                <div class="relative">
+                    <a href="{{ r('cart.index') }}" class="w-10 h-10 flex items-center justify-center rounded-xl text-primary-dark hover:bg-black/5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 transition-all duration-200 {{ request()->routeIs('cart.*') ? 'bg-primary-dark text-white' : '' }}" title="{{ __('home.nav_cart') }}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                    </a>
+                    <span x-cloak x-show="$store.cart.count > 0" x-text="$store.cart.count" class="absolute -top-1 -right-1 bg-primary-dark text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-md"></span>
+                </div>
+
+                <!-- Account - Mobile - Auth/Guest -->
+                @auth
+                @php
+                $user = Auth::user();
+                $initial = strtoupper(substr($user->name ?? 'U', 0, 1));
+                @endphp
+                <div class="relative" x-data="{ openProfile: false }">
+                    <button @click="openProfile = !openProfile" @keydown.escape.window="openProfile = false" class="w-10 h-10 flex items-center justify-center rounded-xl border border-primary-gray text-primary-dark hover:bg-black/5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 transition-all duration-200 overflow-hidden bg-white">
+                        @if($user->avatar)
+                        <img src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}" class="h-full w-full object-cover">
+                        @else
+                        <span class="text-xs font-bold bg-primary-dark text-white w-full h-full flex items-center justify-center">{{ $initial }}</span>
+                        @endif
+                    </button>
+
+                    <div x-show="openProfile" @click.outside="openProfile = false" x-transition class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-primary-gray py-2 z-50">
+                        <a href="{{ r('profile.edit') }}" class="block px-4 py-2 text-sm text-primary-dark hover:bg-primary-dark hover:text-white transition-all duration-200">{{ __('home.nav_profile') }}</a>
+                        @if(Route::has('orders.index') && !$user->isAdmin())
+                        <a href="{{ r('orders.index') }}" class="block px-4 py-2 text-sm text-primary-dark hover:bg-primary-dark hover:text-white transition-all duration-200">{{ __('home.nav_orders') }}</a>
+                        @endif
+                        @if($user->isAdmin())
+                        <div class="border-t border-primary-gray my-1"></div>
+                        <a href="{{ r('admin.dashboard') }}" class="block px-4 py-2 text-sm text-primary-dark hover:bg-primary-dark hover:text-white transition-all duration-200">{{ __('home.nav_admin') }}</a>
+                        @endif
+                        <div class="border-t border-primary-gray my-1"></div>
+                        <form method="POST" action="{{ r('logout') }}">
+                            @csrf
+                            <button type="submit" class="w-full text-left px-4 py-2 text-sm text-primary-dark hover:bg-red-500 hover:text-white transition-all duration-200">{{ __('home.nav_logout') }}</button>
+                        </form>
+                    </div>
+                </div>
+                @else
+                <a href="{{ r('login') }}" class="w-10 h-10 flex items-center justify-center rounded-xl text-primary-dark hover:bg-black/5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 transition-all duration-200" title="{{ __('home.nav_login') }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </a>
+                @endauth
+
+                <!-- Hamburger Menu -->
+                <button @click="open = !open" class="w-10 h-10 flex items-center justify-center rounded-xl text-primary-dark hover:bg-black/5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 transition-all duration-200">
+                    <svg class="w-5 h-5 transition-transform duration-200" :class="{'rotate-90': open}" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                        <path :class="{'hidden': open, 'inline-flex': !open}" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        <path :class="{'hidden': !open, 'inline-flex': open}" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
@@ -190,7 +282,7 @@
             @endif
         </div>
 
-        <!-- Responsive Settings Options -->
+        <!-- Responsive Settings Options - Auth Only -->
         @auth
         <div class="pt-4 pb-1 border-t border-primary-gray">
             <div class="px-4">
@@ -209,55 +301,6 @@
                 </form>
             </div>
         </div>
-        @else
-        <div class="pt-4 pb-1 border-t border-primary-gray">
-            <div class="mt-3 space-y-1">
-                <a href="{{ r('login') }}" class="block px-4 py-3 text-sm font-medium text-primary-dark hover:bg-primary-dark hover:text-white transition-all duration-200 {{ request()->routeIs('login') ? 'bg-primary-dark text-white' : '' }}">{{ __('home.nav_login') }}</a>
-                @if(\Illuminate\Support\Facades\Route::has('register'))
-                <a href="{{ r('register') }}" class="block px-4 py-3 text-sm font-medium text-primary-dark hover:bg-primary-dark hover:text-white transition-all duration-200 {{ request()->routeIs('register') ? 'bg-primary-dark text-white' : '' }}">{{ __('home.nav_register') }}</a>
-                @endif
-            </div>
-        </div>
         @endauth
-
-        <!-- Cart Link in Mobile Menu -->
-        <div class="pt-2 pb-3 border-t border-primary-gray">
-            <a href="{{ r('cart.index') }}" class="block px-4 py-3 text-sm font-medium text-primary-dark hover:bg-primary-dark hover:text-white transition-all duration-200">{{ __('home.nav_cart') }}</a>
-        </div>
-
-        <!-- Language Selector in Mobile Menu -->
-        <div class="pt-2 pb-3 border-t border-primary-gray">
-            <div class="px-4 py-2 text-xs font-semibold text-primary-dark/60 uppercase tracking-widest mb-2">{{ __('home.nav_language') }}</div>
-            <a href="{{ localizePath('nl') }}" class="flex items-center gap-2 px-4 py-3 text-sm font-medium {{ app()->getLocale() === 'nl' ? 'bg-primary-dark text-white' : 'text-primary-dark hover:bg-primary-dark hover:text-white' }} transition-all duration-200">
-                <span class="text-lg">🇳🇱</span>
-                <span>Nederlands</span>
-                @if(app()->getLocale() === 'nl')
-                <svg class="h-4 w-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </path>
-                </svg>
-                @endif
-            </a>
-            <a href="{{ localizePath('ar') }}" class="flex items-center gap-2 px-4 py-3 text-sm font-medium {{ app()->getLocale() === 'ar' ? 'bg-primary-dark text-white' : 'text-primary-dark hover:bg-primary-dark hover:text-white' }} transition-all duration-200">
-                <span class="text-lg">🇸🇦</span>
-                <span>العربية</span>
-                @if(app()->getLocale() === 'ar')
-                <svg class="h-4 w-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </path>
-                </svg>
-                @endif
-            </a>
-            <a href="{{ localizePath('en') }}" class="flex items-center gap-2 px-4 py-3 text-sm font-medium {{ app()->getLocale() === 'en' ? 'bg-primary-dark text-white' : 'text-primary-dark hover:bg-primary-dark hover:text-white' }} transition-all duration-200">
-                <span class="text-lg">🇬🇧</span>
-                <span>English</span>
-                @if(app()->getLocale() === 'en')
-                <svg class="h-4 w-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </path>
-                </svg>
-                @endif
-            </a>
-        </div>
     </div>
 </header>
