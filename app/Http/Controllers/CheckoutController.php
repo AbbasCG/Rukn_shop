@@ -7,6 +7,7 @@ use App\Models\order_items as OrderItem;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\ProductVariant;
+use App\Support\GuestCart;
 use App\Support\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,8 +21,7 @@ class CheckoutController extends Controller
 {
     public function index()
     {
-        $userId = Auth::id();
-        $cartItems = Cart::where('user_id', $userId)->with(['product.variants', 'variant.product'])->get();
+        $cartItems = $this->cartLines();
         if ($cartItems->isEmpty()) {
             return redirect()->route('cart.index')->with('error', __('checkout.flash.empty_cart'));
         }
@@ -48,8 +48,8 @@ class CheckoutController extends Controller
             'payment_method' => 'required|in:cod',
         ]);
 
-        $userId = Auth::id();
-        $cartItems = Cart::where('user_id', $userId)->with('product')->get();
+        $userId = Auth::id(); // null for guests
+        $cartItems = $this->cartLines();
         if ($cartItems->isEmpty()) {
             return redirect()->route('cart.index')->with('error', __('checkout.flash.empty_cart'));
         }
@@ -148,7 +148,11 @@ class CheckoutController extends Controller
             }
 
             // Clear cart
-            Cart::where('user_id', $userId)->delete();
+            if ($userId) {
+                Cart::where('user_id', $userId)->delete();
+            } else {
+                GuestCart::put([]);
+            }
 
             DB::commit();
         } catch (\Throwable $e) {
@@ -160,7 +164,11 @@ class CheckoutController extends Controller
         // never undo or hide an order that has been placed.
         $this->sendOrderEmails($order);
 
-        return redirect()->route('orders.confirmation', $order);
+        // Guests have no account: their confirmation page is behind the order's
+        // private link (also in the confirmation email).
+        return $userId
+            ? redirect()->route('orders.confirmation', $order)
+            : redirect()->route('orders.placed', ['order' => $order->id, 'token' => $order->access_token]);
     }
 
     /**
@@ -191,9 +199,22 @@ class CheckoutController extends Controller
     public function confirmation(string $locale, string $order)
     {
         $order = Order::findOrFail($order);
-        if ($order->user_id !== Auth::id()) {
+        // Guest orders are only reachable through their private link.
+        if ($order->user_id === null || $order->user_id !== Auth::id()) {
             abort(404);
         }
         return view('orders.confirmation', compact('order'));
+    }
+
+    /**
+     * Cart lines of a logged-in customer, or of a guest (from the session).
+     */
+    private function cartLines(): \Illuminate\Support\Collection
+    {
+        if (Auth::check()) {
+            return Cart::where('user_id', Auth::id())->with(['product.variants', 'variant.product'])->get();
+        }
+
+        return GuestCart::lines();
     }
 }

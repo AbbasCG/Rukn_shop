@@ -45,4 +45,5 @@ return [
         'continue_shopping' => 'Continue Shopping',
         'placed_with_number' => 'Your order :number has been successfully placed.',
     ],
+    'have_account' => 'Have an account? Log in',
 ];

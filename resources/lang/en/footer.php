@@ -17,6 +17,7 @@ return [
         'contact' => 'Contact Us',
         'shipping' => 'Shipping Info',
         'returns' => 'Returns',
+        'find_order' => 'Find my order',
         'faq' => 'FAQ',
         'privacy' => 'Privacy Policy',
         'terms' => 'Terms of Service',

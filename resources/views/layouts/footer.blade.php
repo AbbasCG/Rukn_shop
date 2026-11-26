@@ -30,6 +30,7 @@
                         <li><a href="{{ r('contact') }}" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">{{ __('footer.links.contact') }}</a></li>
                         <li><a href="{{ r('faq') }}#faq-shipping" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">{{ __('footer.links.shipping') }}</a></li>
                         <li><a href="{{ r('faq') }}#faq-returns" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">{{ __('footer.links.returns') }}</a></li>
+                        <li><a href="{{ r('orders.lookup') }}" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">{{ __('footer.links.find_order') }}</a></li>
                         <li><a href="{{ r('faq') }}" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">{{ __('footer.links.faq') }}</a></li>
                     </ul>
                 </div>

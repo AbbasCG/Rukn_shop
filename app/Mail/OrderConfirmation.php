@@ -39,7 +39,8 @@ class OrderConfirmation extends Mailable
             text: 'emails.orders.confirmation-text',
             with: [
                 'order' => $this->order,
-                'orderUrl' => route('orders.show', ['locale' => $this->locale, 'order' => $this->order]),
+                // Private link: opens the order with or without an account.
+                'orderUrl' => $this->order->privateUrl($this->locale),
                 'isRtl' => $this->locale === 'ar',
             ],
         );

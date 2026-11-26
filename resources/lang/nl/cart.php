@@ -19,6 +19,10 @@ return [
     ],
 
     'actions' => [
+
+        'checkout_guest' => 'Afrekenen als gast',
+
+        'login_checkout' => 'Inloggen om sneller af te rekenen',
         'continue' => 'Verder winkelen',
         'clear' => 'Winkelwagen leegmaken',
         'proceed' => 'Verder naar afrekenen',

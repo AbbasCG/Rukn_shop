@@ -45,4 +45,5 @@ return [
         'continue_shopping' => 'Verder winkelen',
         'placed_with_number' => 'Je bestelling :number is succesvol geplaatst.',
     ],
+    'have_account' => 'Heb je een account? Inloggen',
 ];

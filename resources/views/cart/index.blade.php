@@ -105,7 +105,8 @@
                 @auth
                 <a href="{{ r('checkout.index') }}" class="block w-full px-6 py-4 rounded-2xl bg-white text-primary-dark font-semibold shadow-lg hover:bg-white/80 transition text-center">{{ __('cart.actions.proceed') }}</a>
                 @else
-                <a href="{{ r('login') }}" class="block w-full px-6 py-4 rounded-2xl bg-white text-primary-dark font-semibold shadow-lg hover:bg-white/80 transition text-center">{{ __('cart.actions.signin') }}</a>
+                <a href="{{ r('checkout.index') }}" class="block w-full px-6 py-4 rounded-2xl bg-white text-primary-dark font-semibold shadow-lg hover:bg-white/80 transition text-center">{{ __('cart.actions.checkout_guest') }}</a>
+                <a href="{{ r('login') }}" class="block w-full text-center text-sm text-white/80 underline underline-offset-4 hover:text-white">{{ __('cart.actions.login_checkout') }}</a>
                 @endauth
             </div>
         </div>

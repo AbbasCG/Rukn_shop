@@ -27,6 +27,11 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Left: Customer info form -->
             <div class="lg:col-span-2 backdrop-blur-xl bg-white/70 shadow-xl rounded-3xl border border-white/20 p-8">
+                @guest
+                    <p class="mb-6 text-sm text-neutral-600">
+                        <a href="{{ r('login') }}" class="font-semibold text-primary-dark underline underline-offset-4">{{ __('checkout.have_account') }}</a>
+                    </p>
+                @endguest
                 <form method="POST" action="{{ r('checkout.store') }}" class="space-y-6">
                     @csrf
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

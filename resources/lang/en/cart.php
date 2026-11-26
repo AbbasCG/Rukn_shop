@@ -19,6 +19,10 @@ return [
     ],
 
     'actions' => [
+
+        'checkout_guest' => 'Checkout as guest',
+
+        'login_checkout' => 'Log in for faster checkout',
         'continue' => 'Continue Shopping',
         'clear' => 'Clear Cart',
         'proceed' => 'Proceed to Checkout',

@@ -17,23 +17,23 @@
             <dl class="mt-4 space-y-2 text-sm">
                 <div class="flex justify-between">
                     <dt class="text-neutral-700">{{ __('orders.confirmation.order_number') }}</dt>
-                    <dd class="text-primary-dark font-semibold">{{ $order->id }}</dd>
+                    <dd class="text-primary-dark font-semibold" dir="ltr">#{{ $order->number }}</dd>
                 </div>
                 <div class="flex justify-between">
                     <dt class="text-neutral-700">{{ __('orders.shipping.name') }}</dt>
-                    <dd class="text-primary-dark">{{ $order->name }}</dd>
+                    <dd class="text-primary-dark"><bdi>{{ $order->name }}</bdi></dd>
                 </div>
                 <div class="flex justify-between">
-                    <dt class="text-neutral-700">{{ __('orders.details.shipping_info') }}</dt>
-                    <dd class="text-primary-dark">{{ $order->email }}</dd>
+                    <dt class="text-neutral-700">{{ __('checkout.form.email') }}</dt>
+                    <dd class="text-primary-dark"><bdi>{{ $order->email }}</bdi></dd>
                 </div>
                 <div class="flex justify-between">
                     <dt class="text-neutral-700">{{ __('orders.shipping.address') }}</dt>
-                    <dd class="text-primary-dark">{{ $order->address_line1 }} {{ $order->address_line2 }}</dd>
+                    <dd class="text-primary-dark"><bdi>{{ trim($order->address_line1 . ' ' . $order->address_line2) }}</bdi></dd>
                 </div>
                 <div class="flex justify-between">
                     <dt class="text-neutral-700">{{ __('orders.shipping.city') }}</dt>
-                    <dd class="text-primary-dark">{{ $order->postal_code }} {{ $order->city }}, {{ $order->country }}</dd>
+                    <dd class="text-primary-dark"><bdi>{{ $order->postal_code }} {{ $order->city }}, {{ $order->country }}</bdi></dd>
                 </div>
             </dl>
             <div class="mt-4 border-t border-primary-gray pt-4 space-y-2">
@@ -47,8 +47,16 @@
                 <div class="flex items-center justify-between"><span class="text-neutral-700">{{ __('orders.summary.shipping') }}</span><span class="text-primary-dark font-semibold">{{ money($order->shipping_cost) }}</span></div>
                 <div class="flex items-center justify-between text-base"><span class="text-primary-dark font-semibold">{{ __('orders.summary.total') }}</span><span class="text-primary-dark font-semibold">{{ money($order->total) }}</span></div>
             </div>
+            @if($order->isGuest())
+                {{-- No account: tell the buyer how to get back to this order. --}}
+                <div class="mt-6 rounded-xl bg-primary-50 border border-primary-200 p-4 text-sm text-primary-dark space-y-2 text-start">
+                    <p>{{ __('orders.guest.save_link', ['email' => $order->email]) }}</p>
+                    <p>{{ __('orders.guest.find_later') }} <a href="{{ r('orders.lookup') }}" class="font-semibold underline underline-offset-2">{{ __('orders.guest.find_link') }}</a></p>
+                    <p class="text-neutral-600">{{ __('orders.guest.create_account') }}</p>
+                </div>
+            @endif
             <div class="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-center gap-3">
-                <a href="{{ r('orders.show', $order) }}" class="btn-primary">
+                <a href="{{ $order->customerUrl() }}" class="btn-primary">
                     {{ __('checkout.confirmation.view_order') }}
                 </a>
                 <a href="{{ r('products.index') }}" class="inline-flex h-11 items-center justify-center px-6 rounded-xl bg-white border border-primary-gray text-primary-dark text-sm font-semibold shadow-sm hover:bg-primary-gray/30 transition">

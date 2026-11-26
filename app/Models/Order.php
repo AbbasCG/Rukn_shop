@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Order extends Model
 {
@@ -28,6 +29,45 @@ class Order extends Model
         'subtotal', 'shipping_cost', 'total',
         'notes',
     ];
+
+    protected $hidden = ['access_token'];
+
+    protected static function booted(): void
+    {
+        // Secret for the private order link (guests have no account).
+        static::creating(function (Order $order) {
+            $order->access_token ??= Str::random(40);
+        });
+    }
+
+    public function isGuest(): bool
+    {
+        return $this->user_id === null;
+    }
+
+    /**
+     * Private link to this order that works without logging in
+     * (sent in the confirmation email; used by guests).
+     */
+    public function privateUrl(?string $locale = null): string
+    {
+        return route('orders.view', [
+            'locale' => $locale ?? $this->locale ?? app()->getLocale(),
+            'order' => $this->id,
+            'token' => $this->access_token,
+        ]);
+    }
+
+    /**
+     * Where the current visitor should see this order: their account page
+     * when they own it while logged in, otherwise the private link.
+     */
+    public function customerUrl(): string
+    {
+        return $this->user_id !== null && auth()->id() === $this->user_id
+            ? route('orders.show', ['locale' => app()->getLocale(), 'order' => $this->id])
+            : $this->privateUrl(app()->getLocale());
+    }
 
     /**
      * Customer-facing order number, e.g. "000123".

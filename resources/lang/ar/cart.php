@@ -19,6 +19,10 @@ return [
     ],
 
     'actions' => [
+
+        'checkout_guest' => 'الشراء كضيف',
+
+        'login_checkout' => 'سجّل الدخول لشراء أسرع',
         'continue' => 'متابعة التسوق',
         'clear' => 'إفراغ السلة',
         'proceed' => 'المتابعة لإتمام الشراء',

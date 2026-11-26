@@ -74,7 +74,7 @@ class OrderConfirmationEmailTest extends TestCase
         $mail->assertSeeInHtml('€44.95');          // 2 × €20 + €4.95 shipping
         $mail->assertSeeInHtml('€4.95');
         $mail->assertSeeInHtml('You pay €44.95 when your order is delivered.');
-        $mail->assertSeeInHtml('/en/orders/' . $order->id);
+        $mail->assertSeeInHtml($order->privateUrl('en'), false); // private link: works without an account
         $mail->assertSeeInText('Black Abaya');
         $mail->assertDontSeeInText('&#039;');
     }
@@ -87,7 +87,7 @@ class OrderConfirmationEmailTest extends TestCase
         $mail->assertHasSubject('طلبك رقم #' . $order->number . ' من ركن');
         $mail->assertSeeInHtml('dir="rtl"', false);
         $mail->assertSeeInHtml('شكراً لطلبك!');
-        $mail->assertSeeInHtml('/ar/orders/' . $order->id);
+        $mail->assertSeeInHtml($order->privateUrl('ar'), false); // private link: works without an account
         $mail->assertDontSeeInHtml(':min_days');
     }
 

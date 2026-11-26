@@ -45,4 +45,5 @@ return [
         'continue_shopping' => 'متابعة التسوق',
         'placed_with_number' => 'تم تقديم طلبك :number بنجاح.',
     ],
+    'have_account' => 'لديك حساب؟ سجّل الدخول',
 ];

@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\SeoController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\GuestOrderController;
 use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
@@ -63,7 +64,7 @@ Route::prefix('{locale}')
 
             // Customer Orders
             Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-            Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+            Route::get('/orders/{order}', [OrderController::class, 'show'])->whereNumber('order')->name('orders.show');
 
             // Cart routes (auth-only actions)
             Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
@@ -72,12 +73,23 @@ Route::prefix('{locale}')
             Route::delete('/cart', [CartController::class, 'clear'])->name('cart.clear');
 
             // Checkout routes
-            Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-            Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 
             // Order confirmation
             Route::get('/orders/confirmation/{order}', [CheckoutController::class, 'confirmation'])->name('orders.confirmation');
         });
+
+        // Checkout: logged-in customers and guests.
+        Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+        Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+
+        // Orders without an account: private link + "find my order".
+        Route::get('/orders/view/{order}/{token}', [GuestOrderController::class, 'show'])
+            ->whereNumber('order')->where('token', '[A-Za-z0-9]{40}')->name('orders.view');
+        Route::get('/orders/placed/{order}/{token}', [GuestOrderController::class, 'confirmation'])
+            ->whereNumber('order')->where('token', '[A-Za-z0-9]{40}')->name('orders.placed');
+        Route::get('/orders/lookup', [GuestOrderController::class, 'lookupForm'])->name('orders.lookup');
+        Route::post('/orders/lookup', [GuestOrderController::class, 'lookup'])
+            ->middleware('throttle:5,1')->name('orders.lookup.submit');
 
         // Public cart add route and public cart page for guests
         Route::post('/cart', [CartController::class, 'store'])->name('cart.store');

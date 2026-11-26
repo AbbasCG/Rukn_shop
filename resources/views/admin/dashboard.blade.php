@@ -219,7 +219,7 @@
                             <span class="text-sm font-medium text-primary-dark">#{{ $order->id }}</span>
                         </td>
                         <td class="py-3 px-4">
-                            <span class="text-sm text-primary-dark">{{ $order->user->name ?? __('admin.dashboard.recent_orders.guest') }}</span>
+                            <span class="text-sm text-primary-dark">{{ $order->name ?? $order->user?->name ?? __('admin.dashboard.recent_orders.guest') }}</span>
                         </td>
                         <td class="py-3 px-4">
                             @php

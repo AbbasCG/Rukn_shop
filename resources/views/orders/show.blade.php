@@ -16,6 +16,7 @@
 
     <div class="bg-gray-50/70 min-h-screen">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10 space-y-6 text-start">
+            @if(auth()->check() && auth()->id() === $order->user_id)
             <div class="print:hidden">
                 <a href="{{ r('orders.index') }}" class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-primary-dark shadow-sm transition hover:bg-gray-50">
                     <svg class="h-4 w-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -24,6 +25,7 @@
                     <span>{{ __('orders.actions.back_to_orders') }}</span>
                 </a>
             </div>
+            @endif
 
             <section class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8 print:shadow-none print:border-gray-300">
                 <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">

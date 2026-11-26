@@ -113,8 +113,8 @@
                             <tr class="hover:bg-gray-50 transition">
                                 <td class="py-4 px-6 font-semibold text-primary-dark">#{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</td>
                                 <td class="py-4 px-6">
-                                    <p class="font-medium text-primary-dark">{{ $order->user->name ?? __('admin.orders.labels.guest') }}</p>
-                                    <p class="text-xs text-primary-dark/60">{{ $order->user->email ?? __('admin.orders.labels.not_available') }}</p>
+                                    <p class="font-medium text-primary-dark">{{ $order->name ?? $order->user?->name ?? __('admin.orders.labels.guest') }} @if($order->isGuest())<span class="ms-1 px-1.5 py-0.5 rounded bg-primary-gray text-[10px] font-semibold text-primary-dark/70">{{ __('admin.orders.labels.guest') }}</span>@endif</p>
+                                    <p class="text-xs text-primary-dark/60">{{ $order->email ?? $order->user?->email ?? __('admin.orders.labels.not_available') }}</p>
                                 </td>
                                 <td class="py-4 px-6 text-primary-dark/70">{{ $order->created_at->translatedFormat('M d, Y') }}</td>
                                 <td class="py-4 px-6">
@@ -174,8 +174,8 @@
                         </div>
 
                         <div class="text-sm">
-                            <p class="font-medium text-primary-dark">{{ $order->user->name ?? __('admin.orders.labels.guest') }}</p>
-                            <p class="text-primary-dark/60">{{ $order->user->email ?? __('admin.orders.labels.not_available') }}</p>
+                            <p class="font-medium text-primary-dark">{{ $order->name ?? $order->user?->name ?? __('admin.orders.labels.guest') }} @if($order->isGuest())<span class="ms-1 px-1.5 py-0.5 rounded bg-primary-gray text-[10px] font-semibold text-primary-dark/70">{{ __('admin.orders.labels.guest') }}</span>@endif</p>
+                            <p class="text-primary-dark/60">{{ $order->email ?? $order->user?->email ?? __('admin.orders.labels.not_available') }}</p>
                         </div>
 
                         <div class="grid grid-cols-2 gap-3 text-sm">

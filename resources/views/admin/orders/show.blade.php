@@ -57,11 +57,11 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                     <div>
                         <p class="text-primary-dark/60">{{ __('admin.orders.show.fields.name') }}</p>
-                        <p class="font-medium text-primary-dark">{{ $order->user->name ?? $order->name ?? __('admin.orders.labels.guest') }}</p>
+                        <p class="font-medium text-primary-dark">{{ $order->name ?? $order->user?->name ?? __('admin.orders.labels.guest') }} @if($order->isGuest())<span class="ms-1 px-1.5 py-0.5 rounded bg-primary-gray text-[10px] font-semibold text-primary-dark/70">{{ __('admin.orders.labels.guest') }}</span>@endif</p>
                     </div>
                     <div>
                         <p class="text-primary-dark/60">{{ __('admin.orders.show.fields.email') }}</p>
-                        <p class="font-medium text-primary-dark">{{ $order->user->email ?? '-' }}</p>
+                        <p class="font-medium text-primary-dark">{{ $order->email ?? $order->user?->email ?? '-' }}</p>
                     </div>
                     <div>
                         <p class="text-primary-dark/60">{{ __('admin.orders.show.fields.phone') }}</p>

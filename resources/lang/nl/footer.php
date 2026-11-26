@@ -17,6 +17,7 @@ return [
         'contact' => 'Contact',
         'shipping' => 'Verzendinformatie',
         'returns' => 'Retourneren',
+        'find_order' => 'Mijn bestelling vinden',
         'faq' => 'Veelgestelde vragen',
         'privacy' => 'Privacybeleid',
         'terms' => 'Algemene voorwaarden',
