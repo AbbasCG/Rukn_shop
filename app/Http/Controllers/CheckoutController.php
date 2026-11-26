@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
-use App\Models\order_items as OrderItem;
+use App\Models\OrderItem;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\ProductVariant;

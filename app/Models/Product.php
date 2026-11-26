@@ -79,7 +79,7 @@ class Product extends Model
     public function scopeOrderByUnitsSold($query)
     {
         return $query->orderByDesc(
-            order_items::query()
+            OrderItem::query()
                 ->selectRaw('coalesce(sum(order_items.quantity), 0)')
                 ->join('orders', 'orders.id', '=', 'order_items.order_id')
                 ->where('orders.status', '!=', 'cancelled')
@@ -209,7 +209,7 @@ class Product extends Model
 
     public function orderItems()
     {
-        return $this->hasMany(order_items::class, 'product_id');
+        return $this->hasMany(OrderItem::class, 'product_id');
     }
 
     public function images()

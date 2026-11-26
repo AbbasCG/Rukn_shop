@@ -75,7 +75,7 @@
                     <p class="text-sm font-medium text-primary-dark/60">{{ __('admin.dashboard.cards.total_revenue') }}</p>
                     @php
                     $completedOrderIds = \App\Models\Order::where('payment_status', 'paid')->pluck('id');
-                    $revenue = \App\Models\order_items::whereIn('order_id', $completedOrderIds)->sum(\DB::raw('price * quantity'));
+                    $revenue = \App\Models\OrderItem::whereIn('order_id', $completedOrderIds)->sum(\DB::raw('price * quantity'));
                     @endphp
                     <p class="text-3xl font-bold text-primary-dark mt-2">{{ money($revenue) }}</p>
                     <p class="text-xs text-primary-dark/50 mt-1">{{ __('admin.dashboard.cards.from_paid_orders') }}</p>
