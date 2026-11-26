@@ -157,4 +157,13 @@ class SeoTest extends TestCase
             ->assertSee('<link rel="canonical" href="https://rukn.nl/nl">', false)
             ->assertSee('hreflang="ar" href="https://rukn.nl/ar"', false);
     }
+
+    public function test_no_view_contains_a_literal_php_short_open_tag(): void
+    {
+        // With short_open_tag on (PHP's default without a php.ini, as in the
+        // Docker image before), "<?xml" in a template breaks the page.
+        foreach (\Illuminate\Support\Facades\File::allFiles(resource_path('views')) as $file) {
+            $this->assertDoesNotMatchRegularExpression('/<\?(?!php)/', $file->getContents(), $file->getRelativePathname());
+        }
+    }
 }

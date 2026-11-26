@@ -1,4 +1,5 @@
 .git
+.github
 .env
 .env_*
 .env.*
@@ -7,6 +8,15 @@ node_modules
 vendor
 public/build
 public/hot
+public/storage
+storage/logs/*
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/app/public/*
+bootstrap/cache/*.php
+tests
+.phpunit.result.cache
 *.sqlite
 *.sqlite3
 *.db

@@ -1,59 +1,80 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# ركن · Rukn
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+متجر إلكتروني لعبايات محتشمة ومباخر كهربائية في هولندا، بثلاث لغات: الهولندية والإنجليزية والعربية (من اليمين لليسار).
 
-## About Laravel
+**التقنيات:** Laravel 12 · PHP 8.3 · Blade + Alpine.js · Tailwind CSS 3 (Vite) · PostgreSQL في الإنتاج · الدفع عبر Mollie
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## ما في المتجر
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- روابط بكل لغة: `/nl/…` و `/en/…` و `/ar/…`. روابط المنتجات بالاسم، والروابط القديمة تُحوَّل تلقائياً.
+- مقاسات وألوان لكل منتج، ولكل منها سعر ومخزون.
+- الشراء بحساب أو بدون حساب (رابط خاص بالطلب + صفحة "ابحث عن طلبي").
+- الدفع أونلاين (Mollie) و/أو الدفع عند الاستلام.
+- إيميلات: ترحيب، تأكيد طلب للعميل، وإشعار بالطلبات الجديدة للمتجر.
+- لوحة تحكم: منتجات، أقسام، طلبات، رسائل "اتصل بنا".
+- صفحات قانونية: الشروط، الخصوصية، الكوكيز، ونموذج التراجع الأوروبي.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## التشغيل محلياً
 
-## Learning Laravel
+```bash
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
+touch database/database.sqlite
+php artisan migrate --seed
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+ثم في نافذتين:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+php artisan serve
+```
 
-## Laravel Sponsors
+```bash
+npm run dev
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## الاختبارات
 
-### Premium Partners
+```bash
+php vendor/bin/phpunit
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+تعمل على SQLite في الذاكرة. للتجربة على PostgreSQL مرّر `DB_CONNECTION=pgsql` مع بيانات الاتصال.
 
-## Contributing
+## النشر (Render بـ Docker)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+الـ `Dockerfile` يبني صورة إنتاج (Apache + PHP 8.3 مع intl و opcache و pdo_pgsql). عند كل تشغيل، `docker/start.sh`:
 
-## Code of Conduct
+1. يستمع على المنفذ `$PORT` الذي يعطيه Render.
+2. يطبّق تحديثات قاعدة البيانات (`migrate --force`). لإيقافها: `RUN_MIGRATIONS=false`.
+3. يجهّز الكاش (`php artisan optimize`).
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### متغيرات البيئة المهمة
 
-## Security Vulnerabilities
+| المتغير | الغرض |
+|---|---|
+| `APP_KEY`, `APP_URL`, `APP_DEBUG=false` | أساسية |
+| `DB_CONNECTION=pgsql`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` | قاعدة البيانات |
+| `MAIL_MAILER=smtp`, `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD`, `MAIL_FROM_ADDRESS` | إرسال الإيميلات |
+| `MOLLIE_KEY` | الدفع أونلاين (ابدأ بمفتاح `test_`) |
+| `SHOP_PAYMENT_COD` | الدفع عند الاستلام (`true`/`false`) |
+| `SHOP_CONTACT_EMAIL`, `SHOP_ORDER_NOTIFY_EMAILS` | بريد المتجر ومن يستلم إشعارات الطلبات |
+| `SHOP_BUSINESS_NAME`, `SHOP_BUSINESS_ADDRESS`, `SHOP_BUSINESS_KVK` | بيانات الشركة (تظهر في نموذج التراجع وصفحة الاتصال) |
+| `SHOP_SHIPPING_FLAT_RATE`, `SHOP_FREE_SHIPPING_THRESHOLD`, `SHOP_DELIVERY_DAYS_MIN/MAX`, `SHOP_RETURN_DAYS` | سياسة الشحن والإرجاع (كل نصوص المتجر تقرأ منها) |
+| `SHOP_SOCIAL_INSTAGRAM`, `SHOP_SOCIAL_FACEBOOK`, `SHOP_SOCIAL_X`, `SHOP_SOCIAL_TIKTOK` | روابط الفوتر. الفارغ يُخفى |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+القائمة الكاملة مع الشرح في `.env.example`.
 
-## License
+### تنبيه: صور المنتجات
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+الصور المرفوعة من لوحة التحكم تُحفظ في `storage/app/public`. على Render يُمسح هذا المجلد مع كل نشر، إلا إذا ربطت **Persistent Disk** على المسار `/var/www/html/storage/app/public`. الحل البديل تخزين خارجي (مثل S3)، ويحتاج تعديلاً بسيطاً في الكود.
+
+## هيكل مختصر
+
+- `app/Support/`: منطق المتجر (الشحن، السلة للزوار، المخزون، الدفع، Mollie، الإيميلات).
+- `config/shop.php`: كل إعدادات المتجر.
+- `resources/lang/{nl,en,ar}/`: النصوص بالثلاث لغات.
+- `resources/views/emails/`: قوالب الإيميلات.
+- `docker/`: إعدادات Apache و PHP وسكربت التشغيل.
