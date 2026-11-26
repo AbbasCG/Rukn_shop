@@ -2,13 +2,20 @@
 
 return [
     'welcome' => [
-        'subject' => 'Welkom bij Rukn Shop!',
-        'greeting' => 'Hallo :name!',
-        'message' => 'Uw account is succesvol aangemaakt.',
-        'description' => 'We zijn blij dat u deel uitmaakt van onze gemeenschap. U kunt nu onze producten bekijken, bestellingen plaatsen en uw account beheren.',
+        'subject' => 'Welkom bij Rukn, :name',
+        'preheader' => 'Uw account is klaar. Dit kunt u ermee.',
+        'greeting' => 'Welkom, :name!',
+        'intro' => 'Uw Rukn-account is klaar. Fijn dat u er bent: ontdek ingetogen abaya\'s en elektrische mabkhara\'s, met persoonlijke service in het Arabisch, Nederlands en Engels.',
+        'perk_orders_title' => 'Al uw bestellingen op één plek',
+        'perk_orders' => 'Volg de status van elke bestelling die u plaatst terwijl u bent ingelogd.',
+        'perk_checkout_title' => 'Sneller afrekenen',
+        'perk_checkout' => 'Sla uw adres op in uw account, dan wordt het bij het afrekenen voor u ingevuld.',
+        'perk_shipping_title' => 'Verzending en retour',
+        'perk_shipping' => 'Gratis verzending vanaf :threshold (anders :rate), in Nederland meestal binnen :min_days–:max_days werkdagen bezorgd. U kunt artikelen binnen :return_days dagen retourneren.',
         'action' => 'Begin met winkelen',
-        'thanks' => 'Bedankt dat u voor Rukn Shop heeft gekozen!',
-        'footer' => 'Als u vragen heeft, neem dan gerust contact op met ons ondersteuningsteam.',
+        'questions' => 'Vragen? Beantwoord deze e-mail of schrijf naar :email.',
+        'not_you' => 'Heeft u dit account niet aangemaakt? Laat het ons weten door op deze e-mail te reageren.',
+        'thanks' => 'Hartelijke groet, het team van Rukn',
     ],
     'order' => [
         'subject' => 'Je bestelling #:number bij Rukn',

@@ -2,13 +2,20 @@
 
 return [
     'welcome' => [
-        'subject' => 'Welcome to Rukn Shop!',
-        'greeting' => 'Hello :name!',
-        'message' => 'Your account has been created successfully.',
-        'description' => 'We\'re excited to have you as part of our community. You can now browse our products, place orders, and manage your account.',
-        'action' => 'Start Shopping',
-        'thanks' => 'Thank you for choosing Rukn Shop!',
-        'footer' => 'If you have any questions, feel free to contact our support team.',
+        'subject' => 'Welcome to Rukn, :name',
+        'preheader' => 'Your account is ready. Here is what it does for you.',
+        'greeting' => 'Welcome, :name!',
+        'intro' => 'Your Rukn account is ready. We are glad you are here: discover modest abayas and electric mabkharas, with personal service in Arabic, Dutch and English.',
+        'perk_orders_title' => 'All your orders in one place',
+        'perk_orders' => 'Follow the status of every order you place while signed in.',
+        'perk_checkout_title' => 'Faster checkout',
+        'perk_checkout' => 'Save your address in your account and it is filled in for you at checkout.',
+        'perk_shipping_title' => 'Shipping and returns',
+        'perk_shipping' => 'Free shipping from :threshold (otherwise :rate), usually delivered in :min_days–:max_days business days in the Netherlands. You can return items within :return_days days.',
+        'action' => 'Start shopping',
+        'questions' => 'Questions? Reply to this email or write to :email.',
+        'not_you' => 'Did you not create this account? Let us know by replying to this email.',
+        'thanks' => 'Warm regards, the Rukn team',
     ],
     'order' => [
         'subject' => 'Your order #:number at Rukn',
