@@ -51,10 +51,9 @@ Route::prefix('{locale}')
             // The section is hidden until there are enough sales to fill a row.
             $bestsellers = Product::where('is_active', true)
                 ->whereNotIn('id', $newArrivals->pluck('id'))
-                ->whereHas('orderItems')
-                ->withSum('orderItems as units_sold', 'quantity')
+                ->whereHas('orderItems.order', fn ($order) => $order->where('status', '!=', 'cancelled'))
                 ->with(['category', 'images', 'variants'])
-                ->orderByDesc('units_sold')
+                ->orderByUnitsSold()
                 ->take(4)
                 ->get();
 

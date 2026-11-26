@@ -24,7 +24,7 @@ return [
     'sort_newest' => 'الأحدث',
     'sort_price_low' => 'السعر: من الأقل إلى الأعلى',
     'sort_price_high' => 'السعر: من الأعلى إلى الأقل',
-    'sort_popular' => 'الأكثر شعبية',
+    'sort_popular' => 'الأكثر مبيعًا',
     'sort_name' => 'الاسم: أ-ي',
     
     // Filter Labels

@@ -71,6 +71,22 @@ class Product extends Model
         });
     }
 
+    /**
+     * Best sellers first: units ordered, cancelled orders not counted.
+     * A correlated subquery, so it works the same on SQLite, MySQL and
+     * Postgres (and products never ordered count as 0, not NULL).
+     */
+    public function scopeOrderByUnitsSold($query)
+    {
+        return $query->orderByDesc(
+            order_items::query()
+                ->selectRaw('coalesce(sum(order_items.quantity), 0)')
+                ->join('orders', 'orders.id', '=', 'order_items.order_id')
+                ->where('orders.status', '!=', 'cancelled')
+                ->whereColumn('order_items.product_id', 'products.id')
+        );
+    }
+
     public function variants()
     {
         return $this->hasMany(ProductVariant::class)->orderBy('id');

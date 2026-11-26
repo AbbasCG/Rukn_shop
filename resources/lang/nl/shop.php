@@ -24,7 +24,7 @@ return [
     'sort_newest' => 'Nieuwste',
     'sort_price_low' => 'Prijs: Laag naar Hoog',
     'sort_price_high' => 'Prijs: Hoog naar Laag',
-    'sort_popular' => 'Meest Populair',
+    'sort_popular' => 'Bestsellers',
     'sort_name' => 'Naam: A-Z',
     
     // Filter Labels

@@ -71,7 +71,8 @@ class ProductController extends Controller
                 $query->orderBy('price', 'desc');
                 break;
             case 'popular':
-                $query->inRandomOrder();
+                // Real best sellers (it used to be a random order).
+                $query->orderByUnitsSold()->latest();
                 break;
             case 'name':
                 $query->orderBy('name', 'asc');

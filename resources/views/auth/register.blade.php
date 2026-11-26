@@ -177,9 +177,9 @@
                     class="w-4 h-4 rounded border-primary-gray bg-white text-primary-dark shadow-sm cursor-pointer focus:ring-2 focus:ring-primary-dark/20 mt-1" />
                 <label for="terms" class="ms-2 text-sm text-primary-dark/70 cursor-pointer">
                     {{ __('auth.register.terms_prefix') }}
-                    <a href="#" class="text-primary-dark font-semibold hover:text-primary-dark/80 transition-colors duration-300">{{ __('auth.register.terms_of_service') }}</a>
+                    <a href="{{ r('terms-of-service') }}" target="_blank" rel="noopener" class="text-primary-dark font-semibold underline hover:text-primary-dark/80 transition-colors duration-300">{{ __('auth.register.terms_of_service') }}</a>
                     {{ __('auth.register.and') }}
-                    <a href="#" class="text-primary-dark font-semibold hover:text-primary-dark/80 transition-colors duration-300">{{ __('auth.register.privacy_policy') }}</a>
+                    <a href="{{ r('privacy-policy') }}" target="_blank" rel="noopener" class="text-primary-dark font-semibold underline hover:text-primary-dark/80 transition-colors duration-300">{{ __('auth.register.privacy_policy') }}</a>
                 </label>
             </div>
 

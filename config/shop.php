@@ -19,6 +19,14 @@ return [
     // Shown in emails and used as Reply-To, so customers can simply reply.
     'contact_email' => env('SHOP_CONTACT_EMAIL', 'info@rukn.nl'),
 
+    // Social accounts linked in the footer. Leave one empty to hide its icon.
+    'social' => [
+        'instagram' => env('SHOP_SOCIAL_INSTAGRAM', 'https://www.instagram.com/rukn_30/'),
+        'facebook' => env('SHOP_SOCIAL_FACEBOOK'),
+        'x' => env('SHOP_SOCIAL_X'),
+        'tiktok' => env('SHOP_SOCIAL_TIKTOK'),
+    ],
+
     // Store staff are emailed about every new order.
     'order_notifications' => [
         // Comma-separated in SHOP_ORDER_NOTIFY_EMAILS; defaults to the contact address.

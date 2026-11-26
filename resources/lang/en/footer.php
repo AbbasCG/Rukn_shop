@@ -13,7 +13,6 @@ return [
         'all_products' => 'All Products',
         'new_arrivals' => 'New Arrivals',
         'bestsellers' => 'Bestsellers',
-        'sale' => 'Sale',
         'contact' => 'Contact Us',
         'shipping' => 'Shipping Info',
         'returns' => 'Returns',

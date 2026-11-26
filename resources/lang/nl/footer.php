@@ -13,7 +13,6 @@ return [
         'all_products' => 'Alle producten',
         'new_arrivals' => 'Nieuwe collectie',
         'bestsellers' => 'Bestsellers',
-        'sale' => 'Sale',
         'contact' => 'Contact',
         'shipping' => 'Verzendinformatie',
         'returns' => 'Retourneren',

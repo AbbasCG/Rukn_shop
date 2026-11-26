@@ -24,7 +24,7 @@ return [
     'sort_newest' => 'Newest',
     'sort_price_low' => 'Price: Low to High',
     'sort_price_high' => 'Price: High to Low',
-    'sort_popular' => 'Most Popular',
+    'sort_popular' => 'Bestsellers',
     'sort_name' => 'Name: A-Z',
     
     // Filter Labels

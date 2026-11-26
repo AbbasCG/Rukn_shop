@@ -11,9 +11,8 @@ return [
     ],
     'links' => [
         'all_products' => 'كل المنتجات',
-        'new_arrivals' => 'الوافدات الجديدة',
+        'new_arrivals' => 'وصل حديثًا',
         'bestsellers' => 'الأكثر مبيعًا',
-        'sale' => 'تخفيضات',
         'contact' => 'تواصل معنا',
         'shipping' => 'معلومات الشحن',
         'returns' => 'المرتجعات',
