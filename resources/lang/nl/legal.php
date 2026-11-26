@@ -5,28 +5,64 @@ return [
     'privacy' => [
         'title' => 'Privacybeleid',
         'last_updated' => 'Laatst bijgewerkt',
-        'intro' => 'Bij Rukn Shop zijn we toegewijd aan het beschermen van uw privacy en het waarborgen van de veiligheid van uw persoonlijke informatie. Dit privacybeleid legt uit hoe we uw informatie verzamelen, gebruiken, openbaar maken en beschermen wanneer u onze website bezoekt.',
-        
-        'section_1_title' => 'Informatie die we verzamelen',
-        'section_1_content' => 'We verzamelen informatie die u rechtstreeks aan ons verstrekt, inclusief uw naam, e-mailadres, verzendadres, telefoonnummer en betaalinformatie wanneer u een aankoop doet. We verzamelen ook automatisch bepaalde informatie over uw apparaat, inclusief uw IP-adres, browsertype en surfgedrag op onze site.',
-        
-        'section_2_title' => 'Hoe we uw informatie gebruiken',
-        'section_2_content' => 'We gebruiken de verzamelde informatie om uw bestellingen te verwerken, met u te communiceren over uw aankopen, onze website en diensten te verbeteren, u marketingcommunicatie te sturen (met uw toestemming) en te beschermen tegen frauduleuze of ongeautoriseerde transacties.',
-        
-        'section_3_title' => 'Informatie delen',
-        'section_3_content' => 'We verkopen of verhuren uw persoonlijke informatie niet aan derden. We kunnen uw informatie delen met dienstverleners die ons helpen bij het beheren van onze website en het uitvoeren van ons bedrijf, zoals betalingsverwerkers en verzendmaatschappijen. Deze partijen zijn verplicht uw informatie vertrouwelijk te houden.',
-        
-        'section_4_title' => 'Gegevensbeveiliging',
-        'section_4_content' => 'We implementeren passende technische en organisatorische beveiligingsmaatregelen om uw persoonlijke informatie te beschermen tegen ongeautoriseerde toegang, wijziging, openbaarmaking of vernietiging. Geen enkele verzendmethode via internet is echter 100% veilig.',
-        
-        'section_5_title' => 'Uw rechten',
-        'section_5_content' => 'U heeft het recht om toegang te krijgen tot, te corrigeren of te verwijderen van uw persoonlijke informatie. U kunt ook bezwaar maken tegen of beperkingen stellen aan bepaalde verwerking van uw gegevens. Neem contact met ons op via de onderstaande informatie om deze rechten uit te oefenen.',
-        
-        'section_6_title' => 'Cookies',
-        'section_6_content' => 'We gebruiken cookies en vergelijkbare trackingtechnologieën om uw browse-ervaring te verbeteren, siteverkeer te analyseren en te begrijpen waar onze bezoekers vandaan komen. U kunt cookies beheren via uw browserinstellingen.',
-        
-        'section_7_title' => 'Neem contact op',
-        'section_7_content' => 'Als u vragen heeft over dit privacybeleid of onze gegevenspraktijken, neem dan contact met ons op via privacy@ruknshop.com of via onze contactpagina.',
+        'intro' => 'In dit privacybeleid lees je welke persoonsgegevens onze winkel verzamelt, waarom, wie ze ontvangt, hoe lang we ze bewaren en wat je rechten zijn. We verzamelen alleen wat nodig is om je bestelling te verkopen en te bezorgen en om je vragen te beantwoorden.',
+        'translation_note' => '',
+
+        'who_title' => '1. Wie is verantwoordelijk',
+        'who_text' => ':name is verantwoordelijk (de "verwerkingsverantwoordelijke") voor de persoonsgegevens die hier worden beschreven. Je kunt ons bereiken via:',
+
+        'what_title' => '2. Welke gegevens we verzamelen',
+        'what_order_title' => 'Als je bestelt (met of zonder account)',
+        'what_order' => 'Je naam, e-mailadres, telefoonnummer en bezorgadres, de producten die je bestelt, de bedragen, de betaalmethode, de taal van de bestelling, een eventuele opmerking en de track & trace-code van de zending.',
+        'what_account_title' => 'Als je een account aanmaakt',
+        'what_account' => 'Je naam, e-mailadres en wachtwoord (alleen versleuteld en onleesbaar opgeslagen), en als je dat wilt je telefoonnummer, adres en een profielfoto.',
+        'what_contact_title' => 'Als je het contactformulier gebruikt',
+        'what_contact' => 'Je naam, e-mailadres, het onderwerp en je bericht.',
+        'what_payment_title' => 'Betaling',
+        'what_payment_online' => 'Wij zien en bewaren nooit je kaart- of bankgegevens. Online betalingen worden afgehandeld door onze betaaldienst Mollie; wij ontvangen alleen de status van de betaling en een betaalreferentie.',
+        'what_payment_cod' => 'Je betaalt bij aflevering. Wij ontvangen en bewaren geen kaart- of bankgegevens.',
+        'what_technical_title' => 'Technische gegevens',
+        'what_technical' => 'Als je de winkel bezoekt, legt onze server je IP-adres, de opgevraagde pagina\'s en je browsertype vast in de logbestanden. Dit gebruiken we alleen om de winkel werkend en veilig te houden (bijvoorbeeld om te veel inlogpogingen te blokkeren).',
+        'what_cookies' => 'De winkel gebruikt alleen cookies die nodig zijn om te werken; zie ons',
+
+        'why_title' => '3. Waarom we je gegevens gebruiken (grondslag)',
+        'why_contract' => 'Om je bestelling te verwerken, te laten betalen, te verzenden en te bezorgen, je account te beheren en je de bijbehorende e-mails te sturen (orderbevestiging, verzending, wachtwoord herstellen): dit is nodig om onze overeenkomst met jou uit te voeren (artikel 6 lid 1 sub b AVG).',
+        'why_legal' => 'Voor onze administratie: de Nederlandse belastingwet verplicht ons bestel- en betaalgegevens te bewaren (artikel 6 lid 1 sub c AVG).',
+        'why_interest' => 'Om je vragen te beantwoorden, de winkel te beveiligen en misbruik te voorkomen: ons gerechtvaardigd belang (artikel 6 lid 1 sub f AVG).',
+        'why_not' => 'We sturen geen nieuwsbrieven of reclame, gebruiken geen analyse- of trackingdiensten, maken geen profielen, nemen geen geautomatiseerde besluiten over je en verkopen je gegevens nooit.',
+
+        'share_title' => '4. Wie je gegevens ontvangt',
+        'share_intro' => 'We delen gegevens alleen met bedrijven die ons helpen de winkel te laten draaien, en alleen wat zij nodig hebben. Dienstverleners die gegevens namens ons verwerken, mogen ze alleen daarvoor gebruiken.',
+        'share_hosting_title' => 'Hosting',
+        'share_hosting' => 'Onze website, database en serverlogs draaien bij onze hostingpartij Render.',
+        'share_email_title' => 'Verzending van e-mails',
+        'share_email' => 'De e-mails die we je sturen (orderbevestiging, verzending, wachtwoord herstellen) worden bezorgd via onze e-maildienst.',
+        'share_mollie' => 'Als je online betaalt, rond je de betaling af op de beveiligde pagina van Mollie. Mollie ontvangt de gegevens die nodig zijn voor de betaling en verwerkt die volgens haar eigen privacybeleid.',
+        'share_cloudflare' => 'Productfoto\'s en profielfoto\'s worden opgeslagen bij Cloudflare (R2). Als je een profielfoto uploadt, wordt die daar bewaard.',
+        'share_fonts' => 'De lettertypen van de winkel worden geladen via Bunny Fonts, dat daardoor je IP-adres ontvangt wanneer een pagina laadt. Hiervoor worden geen cookies geplaatst.',
+        'share_carrier_title' => 'Bezorging',
+        'share_carrier' => 'De vervoerder die je pakket bezorgt (bijvoorbeeld PostNL of DHL) ontvangt je naam en bezorgadres, en waar nodig je telefoonnummer of e-mailadres voor bezorgberichten.',
+        'share_links_title' => 'WhatsApp- en deelknoppen',
+        'share_links' => 'De WhatsApp-knop en de knoppen om een product te delen openen de betreffende dienst pas als je erop klikt; vanaf dat moment geldt het privacybeleid van die dienst.',
+        'transfer' => 'Sommige van deze dienstverleners zijn gevestigd buiten de Europese Economische Ruimte (bijvoorbeeld in de Verenigde Staten). In dat geval gebeurt de doorgifte op basis van het EU-VS Data Privacy Framework of de standaardcontractbepalingen van de Europese Commissie.',
+
+        'keep_title' => '5. Hoe lang we je gegevens bewaren',
+        'keep_orders' => 'Bestel- en betaalgegevens: 7 jaar, omdat de Nederlandse belastingwet dat verplicht.',
+        'keep_account' => 'Accountgegevens: tot je je account verwijdert. Dan worden je accountgegevens verwijderd; je bestellingen bewaren we de wettelijke termijn, zonder koppeling aan een account.',
+        'keep_contact' => 'Contactberichten: zolang nodig is om je vraag af te handelen.',
+        'keep_logs' => 'Serverlogs: korte tijd, bewaard door onze hostingpartij.',
+
+        'security_title' => '6. Beveiliging',
+        'security' => 'De winkel werkt alleen via een versleutelde verbinding (HTTPS), wachtwoorden worden versleuteld opgeslagen, links naar bestellingen zonder account zijn geheim en uniek, en alleen bevoegde medewerkers kunnen bestelgegevens inzien.',
+
+        'rights_title' => '7. Je rechten',
+        'rights' => 'Je hebt het recht om je gegevens in te zien, te laten corrigeren of verwijderen, het gebruik ervan te laten beperken of er bezwaar tegen te maken, en ze in een gangbaar formaat te ontvangen (dataportabiliteit).',
+        'rights_how' => 'Wil je een van deze rechten gebruiken? Mail ons via :email. We reageren binnen een maand. We kunnen je eerst vragen je identiteit te bevestigen, zodat we je gegevens niet aan een ander geven.',
+        'rights_account' => 'Heb je een account, dan kun je je gegevens zelf bekijken en wijzigen onder "Profiel", en daar ook je account verwijderen.',
+        'complaint' => 'Ben je niet tevreden over hoe we met je gegevens omgaan? Laat het ons eerst weten. Je hebt ook het recht een klacht in te dienen bij de Autoriteit Persoonsgegevens:',
+
+        'changes_title' => '8. Wijzigingen',
+        'changes' => 'Als onze werkwijze of de diensten die we gebruiken veranderen, passen we dit beleid aan. De datum bovenaan toont de laatste versie.',
     ],
     
     // Terms of Service

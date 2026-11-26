@@ -109,7 +109,7 @@ class LegalPagesTest extends TestCase
     public function test_legal_pages_show_a_fixed_localised_update_date(): void
     {
         $this->get('/nl/terms-of-service')->assertSee('26 november 2026');
-        $this->get('/nl/privacy-policy')->assertSee('7 februari 2026');
+        $this->get('/nl/privacy-policy')->assertSee('26 november 2026');
         $this->get('/en/privacy-policy')->assertDontSee(date('F j, Y')); // not "today" on every visit
     }
 
@@ -118,5 +118,56 @@ class LegalPagesTest extends TestCase
         $this->get('/sitemap.xml')->assertOk()
             ->assertSee(route('cookies', ['locale' => 'ar']))
             ->assertSee(route('withdrawal-form', ['locale' => 'nl']));
+    }
+
+    // ---- Privacy policy ----
+
+    public function test_privacy_policy_names_the_business_and_the_real_contact_address(): void
+    {
+        config(['shop.business' => ['name' => 'Rukn', 'address' => 'Damrak 1, 1012 LG Amsterdam', 'kvk' => '12345678'],
+                'shop.contact_email' => 'info@rukn.nl']);
+
+        $this->get('/en/privacy-policy')->assertOk()
+            ->assertSee('Rukn is responsible')
+            ->assertSee('Damrak 1, 1012 LG Amsterdam')
+            ->assertSee('12345678')
+            ->assertSee('mailto:info@rukn.nl', false)
+            ->assertSee('email us at info@rukn.nl')
+            ->assertDontSee('privacy@ruknshop.com');
+    }
+
+    public function test_privacy_policy_makes_no_false_claims(): void
+    {
+        config(['services.mollie.key' => 'test_x']);
+
+        $this->get('/en/privacy-policy')->assertOk()
+            ->assertDontSee('analyze site traffic')
+            ->assertDontSee('marketing communications')
+            ->assertSee('do not use analytics or tracking')
+            ->assertSee('We never see or store your card or bank details')
+            ->assertSee('7 years')
+            ->assertSee('Autoriteit Persoonsgegevens')
+            ->assertSee('Bunny Fonts')
+            ->assertSee('href="' . route('cookies', ['locale' => 'en']) . '"', false);
+    }
+
+    public function test_privacy_policy_lists_mollie_and_cloudflare_only_when_used(): void
+    {
+        config(['services.mollie.key' => null, 'shop.media_disk' => 'public']);
+        $this->get('/en/privacy-policy')->assertDontSee('Mollie')->assertDontSee('Cloudflare')
+            ->assertSee('You pay on delivery.');
+
+        config(['services.mollie.key' => 'test_x', 'shop.media_disk' => 'r2']);
+        $this->get('/en/privacy-policy')->assertSee('Mollie')->assertSee('Cloudflare (R2)');
+    }
+
+    public function test_privacy_policy_translations(): void
+    {
+        $this->get('/nl/privacy-policy')->assertOk()
+            ->assertSee('Welke gegevens we verzamelen')
+            ->assertDontSee('Dutch version applies');
+        $this->get('/ar/privacy-policy')->assertOk()
+            ->assertSee('البيانات التي نجمعها')
+            ->assertSee('فالنص الهولندي هو المعتمد');
     }
 }

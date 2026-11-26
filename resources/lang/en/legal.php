@@ -4,29 +4,65 @@ return [
     // Privacy Policy
     'privacy' => [
         'title' => 'Privacy Policy',
-        'last_updated' => 'Last Updated',
-        'intro' => 'At Rukn Shop, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website.',
-        
-        'section_1_title' => 'Information We Collect',
-        'section_1_content' => 'We collect information that you provide directly to us, including your name, email address, shipping address, phone number, and payment information when you make a purchase. We also automatically collect certain information about your device, including your IP address, browser type, and browsing behavior on our site.',
-        
-        'section_2_title' => 'How We Use Your Information',
-        'section_2_content' => 'We use the information we collect to process your orders, communicate with you about your purchases, improve our website and services, send you marketing communications (with your consent), and protect against fraudulent or unauthorized transactions.',
-        
-        'section_3_title' => 'Information Sharing',
-        'section_3_content' => 'We do not sell or rent your personal information to third parties. We may share your information with service providers who assist us in operating our website and conducting our business, such as payment processors and shipping companies. These parties are required to keep your information confidential.',
-        
-        'section_4_title' => 'Data Security',
-        'section_4_content' => 'We implement appropriate technical and organizational security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the Internet is 100% secure.',
-        
-        'section_5_title' => 'Your Rights',
-        'section_5_content' => 'You have the right to access, correct, or delete your personal information. You may also object to or restrict certain processing of your data. To exercise these rights, please contact us using the information provided below.',
-        
-        'section_6_title' => 'Cookies',
-        'section_6_content' => 'We use cookies and similar tracking technologies to enhance your browsing experience, analyze site traffic, and understand where our visitors are coming from. You can control cookies through your browser settings.',
-        
-        'section_7_title' => 'Contact Us',
-        'section_7_content' => 'If you have any questions about this Privacy Policy or our data practices, please contact us at privacy@ruknshop.com or through our contact page.',
+        'last_updated' => 'Last updated',
+        'intro' => 'This policy explains which personal data our shop collects, why, who receives it, how long we keep it and what your rights are. We only collect what we need to sell and deliver your order and to answer your questions.',
+        'translation_note' => 'This is a translation of our Dutch privacy policy. If the texts differ, the Dutch version applies.',
+
+        'who_title' => '1. Who is responsible',
+        'who_text' => ':name is responsible (the "controller") for the personal data described here. You can reach us at:',
+
+        'what_title' => '2. Which data we collect',
+        'what_order_title' => 'When you order (with or without an account)',
+        'what_order' => 'Your name, email address, phone number and delivery address, the products you order, the amounts, the payment method, the language of the order, any note you add, and the tracking number of the shipment.',
+        'what_account_title' => 'When you create an account',
+        'what_account' => 'Your name, email address and password (stored only in encrypted, non-readable form), and optionally your phone number, address and a profile photo.',
+        'what_contact_title' => 'When you use the contact form',
+        'what_contact' => 'Your name, email address, the subject and your message.',
+        'what_payment_title' => 'Payment',
+        'what_payment_online' => 'We never see or store your card or bank details. Online payments are handled by our payment provider Mollie; we only receive the payment status and a payment reference.',
+        'what_payment_cod' => 'You pay on delivery. We do not receive or store any card or bank details.',
+        'what_technical_title' => 'Technical data',
+        'what_technical' => 'When you visit the shop, our server records your IP address, the pages requested and your browser type in its logs. We use this only to keep the shop working and secure (for example to block too many login attempts).',
+        'what_cookies' => 'The shop only uses cookies that are needed for it to work; see our',
+
+        'why_title' => '3. Why we use your data (legal basis)',
+        'why_contract' => 'To process, pay, ship and deliver your order, to manage your account and to send you the related emails (order confirmation, shipping, password reset): this is needed to perform our agreement with you (article 6(1)(b) GDPR).',
+        'why_legal' => 'To keep our accounts: Dutch tax law requires us to keep order and payment records (article 6(1)(c) GDPR).',
+        'why_interest' => 'To answer your questions, to keep the shop secure and to prevent misuse: our legitimate interest (article 6(1)(f) GDPR).',
+        'why_not' => 'We do not send newsletters or advertising, do not use analytics or tracking, do not build profiles, do not make automated decisions about you and never sell your data.',
+
+        'share_title' => '4. Who receives your data',
+        'share_intro' => 'We only share data with companies that help us run the shop, and only what they need. Service providers that process data on our behalf may only use it for that purpose.',
+        'share_hosting_title' => 'Hosting',
+        'share_hosting' => 'Our website, database and server logs run at our hosting provider Render.',
+        'share_email_title' => 'Email delivery',
+        'share_email' => 'The emails we send you (order confirmation, shipping, password reset) are delivered through our email service provider.',
+        'share_mollie' => 'When you pay online, you complete the payment on Mollie\'s secure page. Mollie receives the data needed for the payment and processes it under its own privacy policy.',
+        'share_cloudflare' => 'Product photos and profile photos are stored with Cloudflare (R2). If you upload a profile photo, it is stored there.',
+        'share_fonts' => 'The fonts of the shop are loaded from Bunny Fonts, which therefore receives your IP address when a page loads. No cookies are set for this.',
+        'share_carrier_title' => 'Delivery',
+        'share_carrier' => 'The carrier that delivers your parcel (for example PostNL or DHL) receives your name and delivery address, and where needed your phone number or email address for delivery notifications.',
+        'share_links_title' => 'WhatsApp and sharing buttons',
+        'share_links' => 'The WhatsApp button and the buttons to share a product only open the service concerned when you click them; from then on that service\'s own privacy policy applies.',
+        'transfer' => 'Some of these providers are based outside the European Economic Area (for example in the United States). In that case the transfer is covered by the EU–US Data Privacy Framework or by the standard contractual clauses of the European Commission.',
+
+        'keep_title' => '5. How long we keep your data',
+        'keep_orders' => 'Order and payment data: 7 years, because Dutch tax law requires this.',
+        'keep_account' => 'Account data: until you delete your account. If you delete it, your account details are removed; your orders are kept for the legal period, without being linked to an account.',
+        'keep_contact' => 'Contact messages: as long as needed to handle your question.',
+        'keep_logs' => 'Server logs: for a short period, kept by our hosting provider.',
+
+        'security_title' => '6. Security',
+        'security' => 'The shop only works over an encrypted connection (HTTPS), passwords are stored in encrypted form, links to orders placed without an account are secret and unique, and only authorised staff can see order data.',
+
+        'rights_title' => '7. Your rights',
+        'rights' => 'You have the right to access the data we hold about you, to have it corrected or deleted, to restrict or object to its use, and to receive it in a commonly used format (data portability).',
+        'rights_how' => 'To use these rights, email us at :email. We will respond within one month. We may ask you to confirm your identity first, so that we do not give your data to someone else.',
+        'rights_account' => 'If you have an account, you can view and change your details yourself under "Profile", and delete your account there as well.',
+        'complaint' => 'Not satisfied with how we handle your data? Please tell us first. You also have the right to file a complaint with the Dutch Data Protection Authority (Autoriteit Persoonsgegevens):',
+
+        'changes_title' => '8. Changes',
+        'changes' => 'If our way of working or the services we use change, we update this policy. The date at the top shows the latest version.',
     ],
     
     // Terms of Service
