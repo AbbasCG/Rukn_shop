@@ -35,4 +35,7 @@ return [
         'title' => 'Veelgestelde Vragen',
         'subtitle' => 'Snelle antwoorden op veelgestelde vragen.',
     ],
+    'flash' => [
+        'sent' => 'Bedankt! Je bericht is verzonden. We antwoorden je per e-mail.',
+    ],
 ];

@@ -25,6 +25,7 @@
                 ['label' => __('admin.sidebar.items.products'), 'route' => 'admin.products.index', 'icon' => 'archive-box'],
                 ['label' => __('admin.sidebar.items.categories'), 'route' => 'admin.categories.index', 'icon' => 'tag'],
                 ['label' => __('admin.sidebar.items.orders'), 'route' => 'admin.orders.index', 'icon' => 'shopping-bag'],
+                ['label' => __('admin.sidebar.items.messages'), 'route' => 'admin.messages.index', 'icon' => 'envelope', 'badge' => \App\Models\ContactMessage::unread()->count()],
                 ['label' => __('admin.sidebar.items.users'), 'route' => 'admin.users.index', 'icon' => 'users'],
             ];
         @endphp
@@ -37,6 +38,9 @@
                     @include('admin.partials.icon', ['name' => $item['icon']])
                 </x-slot>
                 {{ $item['label'] }}
+                @if(!empty($item['badge']))
+                    <span class="ms-2 inline-flex min-w-5 h-5 px-1.5 items-center justify-center rounded-full bg-amber-500 text-white text-xs font-bold">{{ $item['badge'] }}</span>
+                @endif
             </x-admin.nav-link>
         @endforeach
 

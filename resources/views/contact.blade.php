@@ -8,7 +8,6 @@
         </style>
 
         <!-- 1) Hero / Intro -->
-         <!-- TEST COMMIT -->
         <section class="rounded-3xl bg-gradient-to-br from-primary-light to-white p-12 text-center md:text-start animate-fade-in-up">
             <div class="space-y-4">
                 <h1 class="text-4xl font-bold text-primary-dark text-start">{{ __('contact.title') }}</h1>
@@ -21,30 +20,37 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
                 <!-- LEFT (Form) -->
                 <div class="lg:col-span-2 backdrop-blur-xl bg-white/70 shadow-xl rounded-3xl border border-white/20 p-8 space-y-6">
-                    <form method="POST" action="#" onsubmit="return false;">
+                    <form method="POST" action="{{ r('contact.store') }}" class="space-y-6">
                         @csrf
+                        {{-- Honeypot: hidden from people (and screen readers); bots fill it in. --}}
+                        <div class="hidden" aria-hidden="true">
+                            <label for="contact-{{ \App\Http\Controllers\ContactController::HONEYPOT }}">Website</label>
+                            <input id="contact-{{ \App\Http\Controllers\ContactController::HONEYPOT }}" type="text" name="{{ \App\Http\Controllers\ContactController::HONEYPOT }}" value="" tabindex="-1" autocomplete="off">
+                        </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label for="name" class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('contact.form.name') }}</label>
-                                <input id="name" type="text" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" placeholder="{{ __('contact.form.name_placeholder') }}" />
+                                <label for="contact-name" class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('contact.form.name') }}</label>
+                                <input id="contact-name" name="name" type="text" value="{{ old('name', auth()->user()->name ?? '') }}" autocomplete="name" maxlength="100" required @error('name') aria-invalid="true" aria-describedby="contact-name-error" @enderror class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" placeholder="{{ __('contact.form.name_placeholder') }}" />
+                                @error('name')<p id="contact-name-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
                             </div>
                             <div>
-                                <label for="email" class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('contact.form.email') }}</label>
-                                <input id="email" type="email" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" placeholder="{{ __('contact.form.email_placeholder') }}" />
+                                <label for="contact-email" class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('contact.form.email') }}</label>
+                                <input id="contact-email" name="email" type="email" value="{{ old('email', auth()->user()->email ?? '') }}" autocomplete="email" maxlength="255" required @error('email') aria-invalid="true" aria-describedby="contact-email-error" @enderror class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" placeholder="{{ __('contact.form.email_placeholder') }}" />
+                                @error('email')<p id="contact-email-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
                             </div>
                         </div>
-                        <div class="grid grid-cols-1 gap-6">
-                            <div>
-                                <label for="subject" class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('contact.form.subject') }}</label>
-                                <input id="subject" type="text" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" placeholder="{{ __('contact.form.subject_placeholder') }}" />
-                            </div>
-                            <div>
-                                <label for="message" class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('contact.form.message') }}</label>
-                                <textarea id="message" rows="6" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" placeholder="{{ __('contact.form.message_placeholder') }}"></textarea>
-                            </div>
+                        <div>
+                            <label for="contact-subject" class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('contact.form.subject') }}</label>
+                            <input id="contact-subject" name="subject" type="text" value="{{ old('subject', '') }}" autocomplete="off" maxlength="150" @error('subject') aria-invalid="true" aria-describedby="contact-subject-error" @enderror class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" placeholder="{{ __('contact.form.subject_placeholder') }}" />
+                                @error('subject')<p id="contact-subject-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
                         </div>
-                        <div class="pt-2">
-                            <button type="submit" class="w-full md:w-auto inline-flex items-center px-6 py-3 rounded-xl bg-primary-dark text-white font-semibold shadow-lg hover:bg-primary-dark/90 transition">{{ __('contact.form.submit') }}</button>
+                        <div>
+                            <label for="contact-message" class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('contact.form.message') }}</label>
+                            <textarea id="contact-message" name="message" rows="6" minlength="10" maxlength="5000" required @error('message') aria-invalid="true" aria-describedby="contact-message-error" @enderror class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" placeholder="{{ __('contact.form.message_placeholder') }}">{{ old('message') }}</textarea>
+                            @error('message')<p id="contact-message-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
+                        </div>
+                        <div>
+                            <button type="submit" class="btn-primary w-full md:w-auto">{{ __('contact.form.submit') }}</button>
                         </div>
                     </form>
                 </div>

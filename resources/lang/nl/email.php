@@ -48,4 +48,11 @@ return [
         'out_of_stock_line' => ':product – uitverkocht',
         'reply_hint' => 'Beantwoord deze e-mail om de klant te antwoorden.',
     ],
+    'contact' => [
+        'title' => 'Nieuw bericht via het contactformulier',
+        'subject' => 'Bericht van :name: :subject',
+        'no_subject' => '(geen onderwerp)',
+        'open_in_admin' => 'Berichten openen in het beheer',
+        'reply_hint' => 'Beantwoord deze e-mail om de afzender te antwoorden.',
+    ],
 ];

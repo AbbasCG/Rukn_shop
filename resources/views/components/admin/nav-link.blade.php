@@ -29,6 +29,6 @@
         <div class="flex-1 min-w-0 truncate">
             {{ $slot }}
         </div>
-        <span class="ml-auto w-1 h-6 rounded-full bg-primary-dark/10 group-hover:bg-primary-dark/40 {{ $active ? 'bg-primary-dark/60' : '' }}"></span>
+        <span class="ms-auto w-1 h-6 rounded-full bg-primary-dark/10 group-hover:bg-primary-dark/40 {{ $active ? 'bg-primary-dark/60' : '' }}"></span>
     </a>
 @endif

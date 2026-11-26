@@ -12,6 +12,8 @@ use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
@@ -97,12 +99,17 @@ Route::prefix('{locale}')
             // User Management
             Route::resource('users', AdminUserController::class);
 
+            // Contact form messages
+            Route::resource('messages', AdminContactMessageController::class)->only(['index', 'update', 'destroy']);
+
             // Future modules: coupons, settings, reports
         });
 
         // Static pages
         Route::get('/about', [PagesController::class, 'about'])->name('about');
         Route::get('/contact', [PagesController::class, 'contact'])->name('contact');
+        // At most 5 messages per minute per visitor (spam protection, with the honeypot).
+        Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:5,1')->name('contact.store');
         Route::get('/faq', function () {
             return view('faq');
         })->name('faq');

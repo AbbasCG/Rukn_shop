@@ -38,7 +38,7 @@
             <span class="text-lg">🇳🇱</span>
             <span>Nederlands</span>
             @if($currentLocale === 'nl')
-                <svg class="h-4 w-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="h-4 w-4 ms-auto" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                 </svg>
             @endif
@@ -50,7 +50,7 @@
             <span class="text-lg">🇸🇦</span>
             <span>العربية</span>
             @if($currentLocale === 'ar')
-                <svg class="h-4 w-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="h-4 w-4 ms-auto" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                 </svg>
             @endif
@@ -62,7 +62,7 @@
             <span class="text-lg">🇬🇧</span>
             <span>English</span>
             @if($currentLocale === 'en')
-                <svg class="h-4 w-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="h-4 w-4 ms-auto" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                 </svg>
             @endif

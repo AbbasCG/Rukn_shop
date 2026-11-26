@@ -35,4 +35,7 @@ return [
         'title' => 'Frequently Asked Questions',
         'subtitle' => 'Quick answers to common questions.',
     ],
+    'flash' => [
+        'sent' => 'Thank you! Your message has been sent. We will reply by email.',
+    ],
 ];

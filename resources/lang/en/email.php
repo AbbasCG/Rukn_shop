@@ -48,4 +48,11 @@ return [
         'out_of_stock_line' => ':product – sold out',
         'reply_hint' => 'Reply to this email to answer the customer.',
     ],
+    'contact' => [
+        'title' => 'New message from the contact form',
+        'subject' => 'Message from :name: :subject',
+        'no_subject' => '(no subject)',
+        'open_in_admin' => 'Open messages in admin',
+        'reply_hint' => 'Reply to this email to answer the sender.',
+    ],
 ];
