@@ -22,6 +22,11 @@ return [
         'low_stock_threshold' => (int) env('SHOP_LOW_STOCK_THRESHOLD', 5),
     ],
 
+    'payments' => [
+        // Pay on delivery stays available next to online payment unless disabled.
+        'cod_enabled' => (bool) env('SHOP_PAYMENT_COD', true),
+    ],
+
     'shipping' => [
         // Flat shipping fee in EUR for orders below the free-shipping threshold.
         'flat_rate' => (float) env('SHOP_SHIPPING_FLAT_RATE', 4.95),

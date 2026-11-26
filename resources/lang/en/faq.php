@@ -20,6 +20,8 @@ return [
         'payment' => [
             'q' => 'What payment methods do you accept?',
             'a' => 'At the moment you pay on delivery.',
+            'a_online' => 'You pay online on a secure page of our payment provider Mollie: iDEAL, card, Bancontact and more.',
+            'a_both' => 'You can pay online (iDEAL, card, Bancontact and more, via our payment provider Mollie) or pay on delivery.',
         ],
         'modify' => [
             'q' => 'Can I change or cancel my order?',

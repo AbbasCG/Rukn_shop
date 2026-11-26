@@ -8,14 +8,16 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Support\GuestCart;
+use App\Support\OrderMails;
+use App\Support\OrderPayment;
+use App\Support\OrderStock;
+use App\Support\Payments;
 use App\Support\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\NewOrderNotification;
-use App\Mail\OrderConfirmation;
+use Illuminate\Validation\Rule;
 
 class CheckoutController extends Controller
 {
@@ -45,7 +47,7 @@ class CheckoutController extends Controller
             'city' => 'required|string|max:100',
             'country' => 'required|string|max:100',
             'shipping_method' => 'required|in:flat',
-            'payment_method' => 'required|in:cod',
+            'payment_method' => ['required', Rule::in(Payments::methods())],
         ]);
 
         $userId = Auth::id(); // null for guests
@@ -148,52 +150,27 @@ class CheckoutController extends Controller
             }
 
             // Clear cart
-            if ($userId) {
-                Cart::where('user_id', $userId)->delete();
-            } else {
-                GuestCart::put([]);
-            }
-
             DB::commit();
         } catch (\Throwable $e) {
             DB::rollBack();
             return back()->with('error', __('checkout.flash.failed'));
         }
 
+        if ($order->payment_method === 'mollie') {
+            return $this->startOnlinePayment($order, $userId);
+        }
+
+        $this->clearCart($userId);
+
         // After the commit, and outside the transaction: a mail problem must
         // never undo or hide an order that has been placed.
-        $this->sendOrderEmails($order);
+        OrderMails::sendPlaced($order);
 
         // Guests have no account: their confirmation page is behind the order's
         // private link (also in the confirmation email).
         return $userId
             ? redirect()->route('orders.confirmation', $order)
             : redirect()->route('orders.placed', ['order' => $order->id, 'token' => $order->access_token]);
-    }
-
-    /**
-     * Customer confirmation + staff notification. Each is sent separately so
-     * one failing does not stop the other; failures are logged only.
-     */
-    private function sendOrderEmails(Order $order): void
-    {
-        $this->sendSafely('Order confirmation email could not be sent.', $order,
-            fn () => Mail::to($order->email, $order->name)->send(new OrderConfirmation($order)));
-
-        $staff = config('shop.order_notifications.emails', []);
-        if (! empty($staff)) {
-            $this->sendSafely('New order notification could not be sent.', $order,
-                fn () => Mail::to($staff)->send(new NewOrderNotification($order)));
-        }
-    }
-
-    private function sendSafely(string $message, Order $order, callable $send): void
-    {
-        try {
-            $send();
-        } catch (\Throwable $e) {
-            Log::error($message, ['order_id' => $order->id, 'error' => $e->getMessage()]);
-        }
     }
 
     public function confirmation(string $locale, string $order)
@@ -216,5 +193,41 @@ class CheckoutController extends Controller
         }
 
         return GuestCart::lines();
+    }
+
+    /**
+     * Online payment: send the customer to Mollie. The cart is only emptied
+     * once the payment exists; if Mollie cannot be reached the order is
+     * cancelled, its stock released, and the customer keeps their cart.
+     * Emails are sent when the payment is confirmed (OrderPayment::apply).
+     */
+    private function startOnlinePayment(Order $order, ?int $userId)
+    {
+        try {
+            $checkoutUrl = OrderPayment::start($order);
+        } catch (\Throwable $e) {
+            Log::error('Mollie payment could not be created.', ['order_id' => $order->id, 'error' => $e->getMessage()]);
+
+            DB::transaction(function () use ($order) {
+                OrderStock::release($order);
+                $order->forceFill(['status' => 'cancelled', 'payment_status' => 'failed'])->save();
+            });
+
+            return redirect()->route('checkout.index')->withInput()
+                ->with('error', __('checkout.payment.start_failed'));
+        }
+
+        $this->clearCart($userId);
+
+        return redirect()->away($checkoutUrl);
+    }
+
+    private function clearCart(?int $userId): void
+    {
+        if ($userId) {
+            Cart::where('user_id', $userId)->delete();
+        } else {
+            GuestCart::put([]);
+        }
     }
 }

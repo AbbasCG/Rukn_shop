@@ -88,10 +88,23 @@
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label for="checkout-payment_method" class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('checkout.form.payment_method') }}</label>
-                            <select id="checkout-payment_method" @error('payment_method') aria-invalid="true" aria-describedby="checkout-payment_method-error" @enderror name="payment_method" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" required>
-                                <option value="cod">{{ __('checkout.form.payment_options.cod') }}</option>
-                            </select>
+                            @php $paymentMethods = \App\Support\Payments::methods(); @endphp
+                            <fieldset>
+                                <legend class="block text-xs font-semibold text-neutral-700 mb-2">{{ __('checkout.form.payment_method') }}</legend>
+                                <div class="space-y-2">
+                                    @foreach($paymentMethods as $method)
+                                        <label class="flex items-start gap-3 rounded-xl border border-neutral-300 bg-white/70 px-4 py-3 cursor-pointer has-[:checked]:border-primary-dark has-[:checked]:bg-primary-50">
+                                            <input type="radio" name="payment_method" value="{{ $method }}" class="mt-1" required
+                                                   @checked(old('payment_method', $paymentMethods[0]) === $method)>
+                                            <span>
+                                                <span class="block text-sm font-semibold text-primary-dark">{{ __('checkout.payment.' . ($method === 'mollie' ? 'online' : 'cod')) }}</span>
+                                                <span class="block text-xs text-neutral-600">{{ __('checkout.payment.' . ($method === 'mollie' ? 'online_desc' : 'cod_desc')) }}</span>
+                                            </span>
+                                        </label>
+                                    @endforeach
+                                </div>
+                                @error('payment_method')<p id="checkout-payment_method-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
+                            </fieldset>
                         </div>
                     </div>
                     <div class="pt-2">

@@ -35,4 +35,8 @@ return [
     'cta_description' => 'Browse our latest arrivals or get in touch — we\'re here to help.',
     'cta_shop_now' => 'Shop Now',
     'cta_contact_us' => 'Contact Us',
+    'value_secure_title_online' => 'Secure payment',
+    'value_secure_desc_online' => 'Pay online with iDEAL, card and more on a secure Mollie page.',
+    'value_secure_title_both' => 'Pay your way',
+    'value_secure_desc_both' => 'Pay online with iDEAL, card and more, or pay on delivery.',
 ];

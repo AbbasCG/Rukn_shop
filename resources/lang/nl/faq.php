@@ -20,6 +20,8 @@ return [
         'payment' => [
             'q' => 'Welke betaalmethoden accepteren jullie?',
             'a' => 'Op dit moment betaal je bij bezorging.',
+            'a_online' => 'Je betaalt online op een beveiligde pagina van onze betaalprovider Mollie: iDEAL, creditcard, Bancontact en meer.',
+            'a_both' => 'Je kunt online betalen (iDEAL, creditcard, Bancontact en meer, via onze betaalprovider Mollie) of bij bezorging.',
         ],
         'modify' => [
             'q' => 'Kan ik mijn bestelling wijzigen of annuleren?',

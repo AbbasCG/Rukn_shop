@@ -113,4 +113,6 @@ return [
     'color' => 'اللون',
     'size_hint_lengths' => 'طول العباية بالإنش، من الكتف إلى الكاحل.',
     'variant' => 'النوع',
+    'secure_payment_online' => 'دفع إلكتروني آمن',
+    'secure_payment_both' => 'ادفع إلكترونياً أو عند الاستلام',
 ];

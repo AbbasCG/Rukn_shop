@@ -82,6 +82,8 @@
                                             {{ $paymentLabel }}
                                             @if ($order->payment_method === 'cod')
                                                 <br>{{ __('email.new_order.payment_cod_note', ['total' => money($order->total)]) }}
+                                            @elseif ($order->payment_status === 'paid')
+                                                <br>{{ __('checkout.payment.paid_online') }}
                                             @endif
                                         </p>
                                     </td>

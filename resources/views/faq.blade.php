@@ -49,7 +49,7 @@
                             </svg>
                         </button>
                         <div id="faq-{{ $key }}-answer" x-show="open === '{{ $key }}'" x-cloak x-transition.opacity.duration.200ms class="px-5 pb-4 text-sm text-primary-dark/70 leading-relaxed">
-                            {{ policy_text("faq.items.$key.a") }}
+                            {{ policy_text($key === 'payment' ? \App\Support\Payments::textKey('faq.items.payment.a') : "faq.items.$key.a") }}
                         </div>
                     </div>
                 @endforeach

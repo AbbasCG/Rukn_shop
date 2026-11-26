@@ -141,7 +141,7 @@
                             <svg :class="open === 4 ? 'rotate-180' : ''" class="w-5 h-5 text-primary-dark transition-transform duration-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                         </button>
                         <div x-show="open === 4" x-transition.opacity.duration.200ms x-collapse class="px-5 pb-4 text-sm text-primary-dark/70 leading-relaxed">
-                            {{ policy_text('faq.items.payment.a') }}
+                            {{ policy_text(\App\Support\Payments::textKey('faq.items.payment.a')) }}
                         </div>
                     </div>
 

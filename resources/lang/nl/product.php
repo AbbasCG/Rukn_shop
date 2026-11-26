@@ -113,4 +113,6 @@ return [
     'color' => 'Kleur',
     'size_hint_lengths' => 'Lengte van de abaya in inches, gemeten van schouder tot enkel.',
     'variant' => 'Variant',
+    'secure_payment_online' => 'Veilig online betalen',
+    'secure_payment_both' => 'Online of bij bezorging betalen',
 ];

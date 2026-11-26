@@ -15,9 +15,14 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\SeoController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GuestOrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
+
+// Mollie calls this when a payment changes (no locale, no CSRF: see bootstrap/app.php).
+Route::post('/payments/mollie/webhook', [PaymentController::class, 'webhook'])
+    ->middleware('throttle:60,1')->name('payments.webhook');
 
 // Search engines: sitemap with every page in every language, and robots rules.
 Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
@@ -81,6 +86,12 @@ Route::prefix('{locale}')
         // Checkout: logged-in customers and guests.
         Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
         Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+
+        // Online payment: back from Mollie, and trying again after a failed payment.
+        Route::get('/payment/return/{order}/{token}', [PaymentController::class, 'return'])
+            ->whereNumber('order')->where('token', '[A-Za-z0-9]{40}')->name('payments.return');
+        Route::post('/payment/retry/{order}/{token}', [PaymentController::class, 'retry'])
+            ->whereNumber('order')->where('token', '[A-Za-z0-9]{40}')->middleware('throttle:10,1')->name('payments.retry');
 
         // Orders without an account: private link + "find my order".
         Route::get('/orders/view/{order}/{token}', [GuestOrderController::class, 'show'])

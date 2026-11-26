@@ -20,6 +20,10 @@ return Application::configure(basePath: dirname(__DIR__))
         // rate limits apply per visitor instead of per proxy.
         $middleware->trustProxies(at: '*');
 
+        // Mollie posts payment updates without a CSRF token; the controller
+        // fetches the payment from the Mollie API instead of trusting the post.
+        $middleware->validateCsrfTokens(except: ['payments/mollie/webhook']);
+
         $middleware->alias([
             'isAdmin' => \App\Http\Middleware\IsAdmin::class,
             'locale.validate' => \App\Http\Middleware\ValidateLocale::class,

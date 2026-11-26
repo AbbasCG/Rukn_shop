@@ -35,6 +35,8 @@
 {!! __('email.order.payment') !!}: {!! $paymentLabel !!}
 @if ($order->payment_method === 'cod')
 {!! __('email.new_order.payment_cod_note', ['total' => money($order->total)]) !!}
+@elseif ($order->payment_status === 'paid')
+{!! __('checkout.payment.paid_online') !!}
 @endif
 
 {!! __('email.order.shipping_address') !!}:

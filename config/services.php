@@ -39,4 +39,11 @@ return [
         'number' => env('WHATSAPP_NUMBER'),
     ],
 
+    // Online payments (iDEAL, cards, Bancontact…). Use a test_ key until the
+    // shop is live; the methods offered are those enabled in the Mollie dashboard.
+    'mollie' => [
+        'key' => env('MOLLIE_KEY'),
+        'api_url' => env('MOLLIE_API_URL', 'https://api.mollie.com/v2'),
+    ],
+
 ];

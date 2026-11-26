@@ -35,4 +35,8 @@ return [
     'cta_description' => 'تصفح أحدث وصولاتنا أو تواصل معنا — نحن هنا للمساعدة.',
     'cta_shop_now' => 'تسوق الآن',
     'cta_contact_us' => 'اتصل بنا',
+    'value_secure_title_online' => 'دفع آمن',
+    'value_secure_desc_online' => 'ادفع إلكترونياً بـ iDEAL والبطاقات وغيرها في صفحة Mollie الآمنة.',
+    'value_secure_title_both' => 'ادفع بالطريقة التي تناسبك',
+    'value_secure_desc_both' => 'ادفع إلكترونياً بـ iDEAL والبطاقات وغيرها، أو عند الاستلام.',
 ];

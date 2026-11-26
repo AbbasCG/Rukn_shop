@@ -113,4 +113,6 @@ return [
     'color' => 'Colour',
     'size_hint_lengths' => 'Abaya length in inches, measured from shoulder to ankle.',
     'variant' => 'Variant',
+    'secure_payment_online' => 'Secure online payment',
+    'secure_payment_both' => 'Pay online or on delivery',
 ];

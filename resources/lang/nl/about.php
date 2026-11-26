@@ -35,4 +35,8 @@ return [
     'cta_description' => 'Bekijk onze nieuwste aanwinsten of neem contact op — we zijn er om te helpen.',
     'cta_shop_now' => 'Winkel Nu',
     'cta_contact_us' => 'Neem Contact Op',
+    'value_secure_title_online' => 'Veilig betalen',
+    'value_secure_desc_online' => 'Betaal online met iDEAL, creditcard en meer op een beveiligde pagina van Mollie.',
+    'value_secure_title_both' => 'Betaal zoals jij wilt',
+    'value_secure_desc_both' => 'Betaal online met iDEAL, creditcard en meer, of bij bezorging.',
 ];
