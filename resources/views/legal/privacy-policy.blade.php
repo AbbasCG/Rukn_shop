@@ -20,7 +20,6 @@
         ['title' => $p('share_email_title'), 'text' => $p('share_email')],
         $online ? ['title' => 'Mollie', 'text' => $p('share_mollie')] : null,
         $r2 ? ['title' => 'Cloudflare', 'text' => $p('share_cloudflare')] : null,
-        ['title' => 'Bunny Fonts', 'text' => $p('share_fonts')],
         ['title' => $p('share_carrier_title'), 'text' => $p('share_carrier')],
         ['title' => $p('share_links_title'), 'text' => $p('share_links')],
     ]));

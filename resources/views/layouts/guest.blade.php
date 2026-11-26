@@ -9,8 +9,7 @@
     @include('layouts.partials.seo', ['noindex' => true, 'title' => __('seo.auth_title')])
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=tilt-warp:400&family=signika:300,400,500,600,700&display=swap" rel="stylesheet" />
+    @include('layouts.partials.fonts')
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="{{ asset('images/favicon.svg') }}">
 

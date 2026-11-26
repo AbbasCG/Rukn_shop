@@ -8,8 +8,7 @@
     <title>{{ $title }} | Rukn Admin</title>
     <meta name="robots" content="noindex, nofollow">
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=tilt-warp:400&family=signika:300,400,500,600,700&display=swap" rel="stylesheet" />
+    @include('layouts.partials.fonts')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @include('layouts.partials.arabic-fonts')
 </head>

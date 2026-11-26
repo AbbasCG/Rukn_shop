@@ -166,4 +166,23 @@ class SeoTest extends TestCase
             $this->assertDoesNotMatchRegularExpression('/<\?(?!php)/', $file->getContents(), $file->getRelativePathname());
         }
     }
+
+    public function test_fonts_are_served_from_our_own_server(): void
+    {
+        foreach (['/en', '/ar/products', '/nl/login', '/en/does-not-exist'] as $url) {
+            $html = $this->get($url)->getContent();
+            $this->assertStringNotContainsString('fonts.bunny.net', $html, $url);
+            $this->assertStringNotContainsString('fonts.googleapis.com', $html, $url);
+        }
+
+        $html = $this->get('/en')->getContent();
+        $this->assertStringContainsString("font-family: 'Signika'", $html);
+        $this->assertStringContainsString(asset('fonts/signika/signika-latin-400-normal.woff2'), $html);
+
+        foreach ([300, 400, 500, 600, 700] as $weight) {
+            $this->assertFileExists(public_path("fonts/signika/signika-latin-{$weight}-normal.woff2"));
+            $this->assertFileExists(public_path("fonts/signika/signika-latin-ext-{$weight}-normal.woff2"));
+        }
+        $this->assertFileExists(public_path('fonts/tilt-warp/tilt-warp-latin-400-normal.woff2'));
+    }
 }

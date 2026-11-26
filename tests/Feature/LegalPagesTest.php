@@ -147,7 +147,7 @@ class LegalPagesTest extends TestCase
             ->assertSee('We never see or store your card or bank details')
             ->assertSee('7 years')
             ->assertSee('Autoriteit Persoonsgegevens')
-            ->assertSee('Bunny Fonts')
+            ->assertDontSee('Bunny')
             ->assertSee('href="' . route('cookies', ['locale' => 'en']) . '"', false);
     }
 
