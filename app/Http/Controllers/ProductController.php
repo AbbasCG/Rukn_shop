@@ -17,9 +17,20 @@ class ProductController extends Controller
         $query = Product::where('is_active', true);
 
         // Search
-        if (request('q')) {
-            $query->where('name', 'like', '%' . request('q') . '%')
-                  ->orWhere('description', 'like', '%' . request('q') . '%');
+        $search = trim((string) request('q', ''));
+        if ($search !== '') {
+            // Case-insensitive on every driver (Postgres LIKE is case-sensitive),
+            // with "%" and "_" in the query matched literally. "!" is used as the
+            // escape character because a backslash is parsed differently by MySQL.
+            $escaped = str_replace(['!', '%', '_'], ['!!', '!%', '!_'], mb_strtolower($search));
+            $like = '%' . $escaped . '%';
+
+            // Grouped so the OR conditions cannot bypass the is_active filter.
+            $query->where(function ($q) use ($like) {
+                foreach (['name', 'short_description', 'long_description'] as $column) {
+                    $q->orWhereRaw("LOWER({$column}) LIKE ? ESCAPE '!'", [$like]);
+                }
+            });
         }
 
         // Category filter

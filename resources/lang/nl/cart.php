@@ -36,5 +36,7 @@ return [
         'empty' => 'Je winkelwagen is leeg.',
         'restored' => 'Je winkelwagen is hersteld.',
         'restored_partial' => 'Sommige producten waren niet beschikbaar en zijn verwijderd.',
+        'out_of_stock' => 'Sorry, dit product is uitverkocht.',
+        'stock_limited' => 'Nog maar :count op voorraad. De hoeveelheid in je winkelwagen is aangepast.',
     ],
 ];

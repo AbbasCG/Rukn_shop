@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,7 @@ class CartController extends Controller
             $sessionItems = collect(session('cart.items', [])); // [product_id => quantity]
             $cartItems = $sessionItems->map(function ($qty, $productId) {
                 $obj = new \stdClass();
-                $obj->product = \App\Models\Product::find($productId);
+                $obj->product = Product::find($productId);
                 $obj->quantity = (int)$qty;
                 $obj->price_at_time = null;
                 return $obj;
@@ -61,42 +62,79 @@ class CartController extends Controller
         ]);
 
         $quantity = (int)($request->quantity ?? 1);
+        $product = Product::find($request->product_id);
+
+        // Inactive or sold-out products cannot be added at all.
+        if (! $product->is_active || $product->stock <= 0) {
+            return $this->cartResponse($request, false, __('cart.flash.out_of_stock'));
+        }
+
+        $quantityColumn = Schema::hasColumn('carts', 'quantity') ? 'quantity' : 'quanttty';
+        $existingCartItem = null;
 
         if (Auth::check()) {
             $existingCartItem = Cart::where('user_id', Auth::id())
-                ->where('product_id', $request->product_id)
+                ->where('product_id', $product->id)
                 ->where('status', 'active')
                 ->first();
+            $alreadyInCart = (int) ($existingCartItem->$quantityColumn ?? 0);
+        } else {
+            $items = session('cart.items', []);
+            $alreadyInCart = (int) ($items[$product->id] ?? 0);
+        }
 
+        // Never let the cart hold more than what is in stock.
+        $newQuantity = min($alreadyInCart + $quantity, $product->stock);
+        $limited = $newQuantity < $alreadyInCart + $quantity;
+
+        if ($newQuantity <= $alreadyInCart) {
+            return $this->cartResponse($request, false, __('cart.flash.stock_limited', ['count' => $product->stock]));
+        }
+
+        if (Auth::check()) {
             if ($existingCartItem) {
-                $quantityColumn = Schema::hasColumn('carts', 'quantity') ? 'quantity' : 'quanttty';
-                $existingCartItem->$quantityColumn = ($existingCartItem->$quantityColumn ?? 0) + $quantity;
+                $existingCartItem->$quantityColumn = $newQuantity;
                 $existingCartItem->save();
             } else {
-                $product = \App\Models\Product::find($request->product_id);
                 Cart::create([
                     'user_id' => Auth::id(),
-                    'product_id' => $request->product_id,
-                    'quantity' => $quantity,
+                    'product_id' => $product->id,
+                    'quantity' => $newQuantity,
                     'status' => 'active',
-                    'price_at_time' => optional($product)->price,
+                    'price_at_time' => $product->price,
                 ]);
             }
-            $qtyCol = Schema::hasColumn('carts', 'quantity') ? 'quantity' : 'quanttty';
-            $count = Cart::where('user_id', Auth::id())->sum($qtyCol);
+            $count = Cart::where('user_id', Auth::id())->sum($quantityColumn);
         } else {
             // Session-based cart for guests
-            $items = session('cart.items', []);
-            $items[$request->product_id] = ($items[$request->product_id] ?? 0) + $quantity;
+            $items[$product->id] = $newQuantity;
             session(['cart.items' => $items]);
             $count = array_sum($items);
             session(['cart.count' => $count]);
         }
 
+        $message = $limited
+            ? __('cart.flash.stock_limited', ['count' => $product->stock])
+            : __('cart.flash.added');
+
+        return $this->cartResponse($request, true, $message, (int) $count, $limited);
+    }
+
+    /**
+     * Shared JSON / redirect response for add-to-cart.
+     */
+    private function cartResponse(Request $request, bool $ok, string $message, ?int $count = null, bool $warning = false)
+    {
         if ($request->expectsJson()) {
-            return response()->json(['ok' => true, 'count' => (int)$count]);
+            $payload = ['ok' => $ok, 'message' => $message];
+            if ($count !== null) {
+                $payload['count'] = $count;
+            }
+            return response()->json($payload, $ok ? 200 : 422);
         }
-        return redirect()->back()->with('success', __('cart.flash.added'));
+
+        $type = ! $ok ? 'error' : ($warning ? 'warning' : 'success');
+        return redirect()->back()->with($type, $message);
     }
 
     /**
@@ -127,8 +165,17 @@ class CartController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
         $quantityColumn = Schema::hasColumn('carts', 'quantity') ? 'quantity' : 'quanttty';
-        $cart->$quantityColumn = $request->quantity;
+
+        // Cap the requested quantity at what is actually in stock.
+        $stock = max(0, (int) optional($cart->product)->stock);
+        $requested = (int) $request->quantity;
+        $limited = $requested > $stock;
+        $cart->$quantityColumn = max(1, min($requested, $stock));
         $cart->save();
+
+        if ($limited && ! $request->expectsJson()) {
+            return back()->with('warning', __('cart.flash.stock_limited', ['count' => $stock]));
+        }
 
         if ($request->expectsJson()) {
             // return updated item total and cart totals
@@ -144,6 +191,8 @@ class CartController extends Controller
             $total = $subtotal + $shipping;
             return response()->json([
                 'ok' => true,
+                'quantity' => (int) $cart->$quantityColumn,
+                'message' => $limited ? __('cart.flash.stock_limited', ['count' => $stock]) : null,
                 'itemTotal' => $itemTotal,
                 'subtotal' => $subtotal,
                 'shipping' => $shipping,

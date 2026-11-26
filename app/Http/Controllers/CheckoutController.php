@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\order_items as OrderItem;
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -51,6 +52,33 @@ class CheckoutController extends Controller
 
         DB::beginTransaction();
         try {
+            // Lock the product rows so two simultaneous orders cannot both
+            // take the last items in stock.
+            $products = Product::whereIn('id', $cartItems->pluck('product_id'))
+                ->lockForUpdate()
+                ->get()
+                ->keyBy('id');
+
+            foreach ($cartItems as $item) {
+                $product = $products->get($item->product_id);
+                $qty = (int) ($item->quantity ?? 1);
+
+                if (! $product || ! $product->is_active) {
+                    DB::rollBack();
+                    return redirect()->route('cart.index')->with('error', __('checkout.flash.unavailable', [
+                        'product' => optional($item->product)->name ?? '#' . $item->product_id,
+                    ]));
+                }
+
+                if ($product->stock < $qty) {
+                    DB::rollBack();
+                    return redirect()->route('cart.index')->with('error', __('checkout.flash.stock_changed', [
+                        'product' => $product->name,
+                        'count' => max(0, $product->stock),
+                    ]));
+                }
+            }
+
             $subtotal = $cartItems->sum(function ($item) {
                 $price = $item->price_at_time ?? $item->product->price;
                 $qtyCol = isset($item->quantity) ? 'quantity' : (property_exists($item, 'quanttty') ? 'quanttty' : 'quantity');
@@ -87,6 +115,8 @@ class CheckoutController extends Controller
                     'quantity' => $qty,
                     'price' => $price,
                 ]);
+
+                $products->get($item->product_id)->decrement('stock', $qty);
             }
 
             // Clear cart

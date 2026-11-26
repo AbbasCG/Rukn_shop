@@ -41,7 +41,7 @@
                                     <button type="button" @click="qty = Math.max(1, qty-1); $refs.q.value = qty; $refs.form.submit(); glow=true; setTimeout(()=>glow=false,600)" class="w-9 h-9 flex items-center justify-center rounded-lg border border-primary-gray bg-white text-primary-dark hover:bg-primary-gray transition">–</button>
                                     <input x-ref="q" type="hidden" name="quantity" :value="qty">
                                     <span class="px-3 py-1 rounded-lg bg-primary-gray text-primary-dark text-sm">x <span x-text="qty"></span></span>
-                                    <button type="button" @click="qty = qty+1; $refs.q.value = qty; $refs.form.submit(); glow=true; setTimeout(()=>glow=false,600)" class="w-9 h-9 flex items-center justify-center rounded-lg border border-primary-gray bg-white text-primary-dark hover:bg-primary-gray transition">+</button>
+                                    <button type="button" @click="if (qty >= {{ (int) $product->stock }}) return; qty = qty+1; $refs.q.value = qty; $refs.form.submit(); glow=true; setTimeout(()=>glow=false,600)" @disabled($qty >= $product->stock) class="w-9 h-9 flex items-center justify-center rounded-lg border border-primary-gray bg-white text-primary-dark hover:bg-primary-gray transition disabled:opacity-40 disabled:cursor-not-allowed">+</button>
                                 </div>
                             </form>
                             <form method="POST" action="{{ r('cart.destroy', ['cart' => $item->id]) }}" x-data="{ removing: false }" @submit="removing = true">

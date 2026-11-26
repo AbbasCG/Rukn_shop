@@ -85,14 +85,15 @@ class AuthenticatedSessionController extends Controller
                 ->first();
 
             if ($cartItem) {
-                $cartItem->$quantityColumn = ($cartItem->$quantityColumn ?? 0) + $quantity;
+                // Never merge beyond what is in stock.
+                $cartItem->$quantityColumn = min(($cartItem->$quantityColumn ?? 0) + $quantity, $product->stock);
                 $cartItem->price_at_time = $cartItem->price_at_time ?? $product->price;
                 $cartItem->save();
             } else {
                 Cart::create([
                     'user_id' => $user->id,
                     'product_id' => $product->id,
-                    'quantity' => $quantity,
+                    'quantity' => min($quantity, $product->stock),
                     'status' => 'active',
                     'price_at_time' => $product->price,
                 ]);

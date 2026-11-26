@@ -36,6 +36,8 @@ return [
     'flash' => [
         'empty_cart' => 'Je winkelwagen is leeg.',
         'failed' => 'Het plaatsen van de bestelling is mislukt. Probeer het opnieuw.',
+        'stock_changed' => 'Van :product zijn er nog maar :count op voorraad. Pas je winkelwagen aan.',
+        'unavailable' => ':product is niet meer beschikbaar. Verwijder het uit je winkelwagen.',
     ],
 
     'confirmation' => [

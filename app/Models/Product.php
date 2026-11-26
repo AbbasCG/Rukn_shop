@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class product extends Model
+class Product extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductFactory> */
     use HasFactory;
@@ -22,7 +22,6 @@ class product extends Model
     protected $fillable = [
         'name',
         'slug',
-        'description',
         'short_description',
         'long_description',
         'specifications',

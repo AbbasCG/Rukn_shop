@@ -36,6 +36,8 @@ return [
     'flash' => [
         'empty_cart' => 'Your cart is empty.',
         'failed' => 'Failed to place order. Please try again.',
+        'stock_changed' => ':product has only :count left in stock. Please update your cart.',
+        'unavailable' => ':product is no longer available. Please remove it from your cart.',
     ],
 
     'confirmation' => [

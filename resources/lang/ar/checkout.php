@@ -36,6 +36,8 @@ return [
     'flash' => [
         'empty_cart' => 'سلة التسوق فارغة.',
         'failed' => 'تعذر إتمام الطلب. يرجى المحاولة مرة أخرى.',
+        'stock_changed' => 'المتبقي من :product في المخزون :count فقط. يرجى تعديل سلتك.',
+        'unavailable' => ':product لم يعد متوفراً. يرجى إزالته من سلتك.',
     ],
 
     'confirmation' => [

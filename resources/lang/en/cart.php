@@ -36,5 +36,7 @@ return [
         'empty' => 'Your cart is empty.',
         'restored' => 'Your cart was restored.',
         'restored_partial' => 'Some items were unavailable and removed.',
+        'out_of_stock' => 'Sorry, this product is out of stock.',
+        'stock_limited' => 'Only :count in stock. Your cart quantity was adjusted.',
     ],
 ];

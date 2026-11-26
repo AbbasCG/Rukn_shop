@@ -81,9 +81,9 @@
                         {{ $product->name }}
                     </h3>
 
-                    @if($product->description)
+                    @if($product->short_description)
                     <p class="text-sm text-primary-dark/60 mb-4 line-clamp-2 {{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">
-                        {{ $product->description }}
+                        {{ $product->short_description }}
                     </p>
                     @endif
 
@@ -153,9 +153,9 @@
                         {{ $product->name }}
                     </h3>
 
-                    @if($product->description)
+                    @if($product->short_description)
                     <p class="text-sm text-primary-dark/60 mb-4 line-clamp-2">
-                        {{ $product->description }}
+                        {{ $product->short_description }}
                     </p>
                     @endif
 
