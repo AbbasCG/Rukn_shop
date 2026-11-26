@@ -59,6 +59,8 @@ return [
         'email_placeholder' => 'jij@voorbeeld.nl',
         'submit' => 'Resetlink versturen',
         'back_to_login' => 'Terug naar inloggen',
+        'no_account' => 'Besteld zonder account? Dan heb je geen wachtwoord nodig:',
+        'find_order' => 'zoek je bestelling',
     ],
 
     'reset' => [

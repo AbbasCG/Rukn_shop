@@ -49,5 +49,11 @@
                 </a>
             </div>
         </form>
+
+        {{-- Guest customers have no password: point them to their order instead --}}
+        <p class="mt-8 pt-6 border-t border-primary-gray text-center text-sm text-primary-dark/70">
+            {{ __('auth.forgot.no_account') }}
+            <a href="{{ r('orders.lookup') }}" class="font-semibold text-primary-dark underline">{{ __('auth.forgot.find_order') }}</a>
+        </p>
     </div>
 </x-guest-layout>

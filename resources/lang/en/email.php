@@ -74,4 +74,13 @@ return [
         'no_tracking' => 'This parcel is sent without a tracking number.',
         'items' => 'In this parcel',
     ],
+    'password_reset' => [
+        'subject' => 'Reset your Rukn password',
+        'preheader' => 'Choose a new password. The link works for :minutes minutes.',
+        'intro' => 'We received a request to reset the password of your Rukn account. Click the button to choose a new one.',
+        'action' => 'Choose a new password',
+        'expires' => 'This link works for :minutes minutes and can be used once.',
+        'button_trouble' => 'Button not working? Copy this link into your browser:',
+        'not_you' => 'Did you not ask for this? Then you can ignore this email: your password stays the same.',
+    ],
 ];

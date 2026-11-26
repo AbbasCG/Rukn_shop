@@ -74,4 +74,13 @@ return [
         'no_tracking' => 'Dit pakket wordt zonder track & trace-code verzonden.',
         'items' => 'In dit pakket',
     ],
+    'password_reset' => [
+        'subject' => 'Stel je Rukn-wachtwoord opnieuw in',
+        'preheader' => 'Kies een nieuw wachtwoord. De link werkt :minutes minuten.',
+        'intro' => 'We hebben een verzoek ontvangen om het wachtwoord van je Rukn-account opnieuw in te stellen. Klik op de knop om een nieuw wachtwoord te kiezen.',
+        'action' => 'Kies een nieuw wachtwoord',
+        'expires' => 'Deze link werkt :minutes minuten en kan één keer worden gebruikt.',
+        'button_trouble' => 'Werkt de knop niet? Kopieer deze link naar je browser:',
+        'not_you' => 'Heb je dit niet aangevraagd? Dan kun je deze e-mail negeren: je wachtwoord blijft hetzelfde.',
+    ],
 ];
