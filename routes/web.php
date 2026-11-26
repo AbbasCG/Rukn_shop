@@ -12,10 +12,15 @@ use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\SeoController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
+
+// Search engines: sitemap with every page in every language, and robots rules.
+Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
+Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
 
 // Visiting '/' must redirect to default locale (NL)
 Route::get('/', function () {

@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout :title="__('seo.orders_title')" :noindex="true">
     <div class="min-h-screen flex flex-col max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
         <!-- Page Header -->
         <div class="space-y-2 text-center sm:text-start">

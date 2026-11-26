@@ -1,4 +1,48 @@
-<x-app-layout>
+@php
+    $seoImage = url($product->primaryImageUrl());
+    $seoDescription = $product->short_description ?: $product->long_description;
+    $productUrl = r('products.show', $product);
+
+    // schema.org Product + BreadcrumbList, so search results can show price and availability.
+    $structuredData = [
+        [
+            '@context' => 'https://schema.org',
+            '@type' => 'Product',
+            'name' => $product->name,
+            'description' => \Illuminate\Support\Str::limit(strip_tags((string) $seoDescription), 5000, ''),
+            'image' => [$seoImage],
+            'url' => $productUrl,
+            'brand' => ['@type' => 'Brand', 'name' => __('seo.site_name')],
+            'category' => $product->category?->display_name,
+            'offers' => [
+                '@type' => 'Offer',
+                'url' => $productUrl,
+                'price' => number_format((float) $product->price, 2, '.', ''),
+                'priceCurrency' => 'EUR',
+                'availability' => $product->stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+                'itemCondition' => 'https://schema.org/NewCondition',
+            ],
+        ],
+        [
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => array_values(array_filter([
+                ['@type' => 'ListItem', 'position' => 1, 'name' => __('home.nav_home'), 'item' => r('home')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => __('seo.shop_title'), 'item' => r('products.index')],
+                $product->category ? ['@type' => 'ListItem', 'position' => 3, 'name' => $product->category->display_name,
+                    'item' => r('products.index', ['category' => $product->category->slug])] : null,
+                ['@type' => 'ListItem', 'position' => $product->category ? 4 : 3, 'name' => $product->name],
+            ])),
+        ],
+    ];
+@endphp
+@push('structured-data')
+    <meta property="product:price:amount" content="{{ number_format((float) $product->price, 2, '.', '') }}">
+    <meta property="product:price:currency" content="EUR">
+    <meta property="product:availability" content="{{ $product->stock > 0 ? 'in stock' : 'out of stock' }}">
+    <script type="application/ld+json">{!! json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP) !!}</script>
+@endpush
+<x-app-layout :title="$product->name" :description="$seoDescription" :image="$seoImage" type="product">
     <!-- Breadcrumbs -->
     <div class="bg-primary-50 dark:bg-primary-900 border-b border-primary-200 dark:border-primary-700">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">

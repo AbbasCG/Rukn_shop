@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout :title="__('seo.order_title', ['number' => $order->number])" :noindex="true">
     @php
         $status = strtolower((string) $order->status);
         $statusColors = [

@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout :title="__('seo.cart_title')" :noindex="true">
     @php
     $qtyCol = \Illuminate\Support\Facades\Schema::hasColumn('carts','quantity') ? 'quantity' : 'quanttty';
     @endphp

@@ -1,4 +1,12 @@
-<x-app-layout>
+@php
+    $activeCategory = filled(request('category')) ? $categories->firstWhere('slug', request('category')) : null;
+@endphp
+<x-app-layout
+    :title="$activeCategory?->display_name ?? __('seo.shop_title')"
+    :description="$activeCategory
+        ? policy_text('seo.category_description', ['category' => $activeCategory->display_name])
+        : policy_text('seo.shop_description')"
+>
     <div class="min-h-screen bg-gradient-to-br from-primary-light via-white to-primary-gray/30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
             

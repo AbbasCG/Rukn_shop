@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout :title="__('seo.privacy_title')" :description="__('seo.privacy_description')">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
         <!-- Header -->
         <section class="rounded-3xl bg-gradient-to-br from-primary-light to-white p-10 text-start">

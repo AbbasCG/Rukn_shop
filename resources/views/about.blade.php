@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout :title="__('seo.about_title')" :description="__('seo.about_description')">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
         <style>
             @media (prefers-reduced-motion: no-preference) {

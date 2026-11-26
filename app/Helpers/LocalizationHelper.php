@@ -133,8 +133,8 @@ if (!function_exists('policy_text')) {
      * Translate a shipping/returns text, filling in the store policy values
      * from config/shop.php (:threshold, :rate, :min_days, :max_days, :return_days).
      */
-    function policy_text(string $key): string
+    function policy_text(string $key, array $replace = []): string
     {
-        return __($key, \App\Support\Shipping::textParams());
+        return __($key, $replace + \App\Support\Shipping::textParams());
     }
 }

@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout :title="__('seo.order_title', ['number' => $order->number])" :noindex="true">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
         <div class="rounded-3xl backdrop-blur-xl bg-white/70 shadow-xl border border-white/20 p-8 text-center">
             <div class="mx-auto w-16 h-16 rounded-full bg-primary-gray/60 flex items-center justify-center">
