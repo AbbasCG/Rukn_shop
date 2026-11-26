@@ -129,12 +129,11 @@
                                     <div class="flex items-center gap-3">
                                         <img
                                             src="{{ optional($product)->primaryImageUrl() ?? asset(\App\Models\Product::FALLBACK_IMAGE) }}"
-                                            alt="{{ optional($product)->name ?? __('admin.orders.labels.product') }}"
+                                            alt="{{ $item->display_name }}"
                                             class="w-14 h-14 rounded-lg object-cover border border-gray-200"
                                             onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
                                         <div>
-                                            <p class="font-semibold text-primary-dark">{{ optional($product)->name ?? __('admin.orders.labels.product') }}</p>
-                                            <p class="text-xs text-primary-dark/60 mt-1">{{ __('admin.orders.show.fields.sku') }}: {{ optional($product)->sku ?? __('admin.orders.labels.not_available') }}</p>
+                                            <p class="font-semibold text-primary-dark">{{ $item->display_name }}</p>
                                         </div>
                                     </div>
                                 </td>
@@ -154,12 +153,11 @@
                         <div class="flex gap-3">
                             <img
                                 src="{{ optional($product)->primaryImageUrl() ?? asset(\App\Models\Product::FALLBACK_IMAGE) }}"
-                                alt="{{ optional($product)->name ?? __('admin.orders.labels.product') }}"
+                                alt="{{ $item->display_name }}"
                                 class="w-16 h-16 rounded-lg object-cover border border-gray-200"
                                 onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
                             <div class="flex-1 min-w-0">
-                                <p class="font-semibold text-primary-dark truncate">{{ optional($product)->name ?? __('admin.orders.labels.product') }}</p>
-                                <p class="text-xs text-primary-dark/60 mt-1">{{ __('admin.orders.show.fields.sku') }}: {{ optional($product)->sku ?? __('admin.orders.labels.not_available') }}</p>
+                                <p class="font-semibold text-primary-dark truncate">{{ $item->display_name }}</p>
                                 <div class="grid grid-cols-2 gap-3 mt-3 text-sm">
                                     <div>
                                         <p class="text-primary-dark/60">{{ __('admin.orders.show.table.qty') }}</p>

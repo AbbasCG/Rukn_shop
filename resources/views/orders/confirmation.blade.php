@@ -39,7 +39,7 @@
             <div class="mt-4 border-t border-primary-gray pt-4 space-y-2">
                 @foreach($order->orderItems as $item)
                 <div class="flex items-center justify-between">
-                    <div class="text-neutral-700">{{ $item->product->name }} × {{ $item->quantity }}</div>
+                    <div class="text-neutral-700"><bdi>{{ $item->display_name }}</bdi> × {{ $item->quantity }}</div>
                     <div class="text-primary-dark font-semibold">{{ money($item->price * $item->quantity) }}</div>
                 </div>
                 @endforeach

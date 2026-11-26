@@ -204,6 +204,7 @@ return [
         'delete_modal' => [
             'title' => 'Product verwijderen?',
             'message' => 'Weet je zeker dat je wilt verwijderen',
+            'orders_note' => 'Eerdere bestellingen behouden de naam en prijs van dit product. Wil je het niet meer verkopen maar de pagina en link bewaren? Verberg het dan (zet het op inactief).',
         ],
         'empty' => [
             'title' => 'Geen producten gevonden',

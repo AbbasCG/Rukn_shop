@@ -18,6 +18,7 @@ class order_items extends Model
     protected $fillable = [
         'order_id',
         'product_id',
+        'product_name',
         'quantity',
         'price',
     ];
@@ -30,6 +31,17 @@ class order_items extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    /**
+     * The name as it was when ordered; the product may since have been
+     * renamed or deleted (product_id is then null).
+     */
+    public function getDisplayNameAttribute(): string
+    {
+        return $this->product_name
+            ?? $this->product?->name
+            ?? __('orders.items.product_unavailable');
     }
 
     

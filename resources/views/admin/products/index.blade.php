@@ -309,6 +309,7 @@
                 <p class="text-sm text-neutral-600">
                     {{ __('admin.products.delete_modal.message') }} <span class="font-semibold text-primary-dark" x-text="deleteProductName"></span>?
                 </p>
+                <p class="text-xs text-neutral-500">{{ __('admin.products.delete_modal.orders_note') }}</p>
             </div>
 
             <!-- Buttons -->

@@ -115,18 +115,17 @@
                                         <div class="flex items-center gap-3">
                                             <img
                                                 src="{{ optional($product)->primaryImageUrl() ?? asset(\App\Models\Product::FALLBACK_IMAGE) }}"
-                                                alt="{{ optional($product)->name ?? 'Product' }}"
+                                                alt="{{ $item->display_name }}"
                                                 class="w-14 h-14 rounded-lg object-cover border border-gray-200"
                                                 onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
                                             <div>
-                                                @if($product)
+                                                @if($product && $product->is_active)
                                                     <a href="{{ r('products.show', $product) }}" class="font-semibold text-primary-dark hover:text-primary-dark/70 transition">
-                                                        {{ $product->name }}
+                                                        {{ $item->display_name }}
                                                     </a>
                                                 @else
-                                                    <p class="font-semibold text-primary-dark">{{ __('orders.items.product_unavailable') }}</p>
+                                                    <p class="font-semibold text-primary-dark">{{ $item->display_name }}</p>
                                                 @endif
-                                                <p class="text-xs text-neutral-500 mt-1">{{ __('orders.items.sku') }}: {{ optional($product)->sku ?? 'N/A' }}</p>
                                             </div>
                                         </div>
                                     </td>
@@ -150,20 +149,19 @@
                             <div class="flex gap-3">
                                 <img
                                     src="{{ optional($product)->primaryImageUrl() ?? asset(\App\Models\Product::FALLBACK_IMAGE) }}"
-                                    alt="{{ optional($product)->name ?? 'Product' }}"
+                                    alt="{{ $item->display_name }}"
                                     class="w-16 h-16 rounded-lg object-cover border border-gray-200"
                                     onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
 
                                 <div class="flex-1 min-w-0 space-y-3">
                                     <div>
-                                        @if($product)
+                                        @if($product && $product->is_active)
                                             <a href="{{ r('products.show', $product) }}" class="block font-semibold text-primary-dark hover:text-primary-dark/70 truncate transition">
-                                                {{ $product->name }}
+                                                {{ $item->display_name }}
                                             </a>
                                         @else
-                                            <p class="font-semibold text-primary-dark">{{ __('orders.items.product_unavailable') }}</p>
+                                            <p class="font-semibold text-primary-dark">{{ $item->display_name }}</p>
                                         @endif
-                                        <p class="text-xs text-neutral-500 mt-1">{{ __('orders.items.sku') }}: {{ optional($product)->sku ?? 'N/A' }}</p>
                                     </div>
 
                                     <div class="grid grid-cols-2 gap-3 text-sm">

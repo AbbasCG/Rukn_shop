@@ -204,6 +204,7 @@ return [
         'delete_modal' => [
             'title' => 'Delete product?',
             'message' => 'Are you sure you want to delete',
+            'orders_note' => 'Past orders keep this product\'s name and price. To stop selling it but keep its page and link, hide it instead (set it to inactive).',
         ],
         'empty' => [
             'title' => 'No products found',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exceptions\InsufficientStockException;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Product;
@@ -32,6 +33,7 @@ class AdminOrderController extends Controller
                         ->orWhere('name', 'like', $likeToken)
                         ->orWhere('email', 'like', $likeToken)
                         ->orWhere('id', 'like', $likeToken)
+                        ->orWhereHas('orderItems', fn ($items) => $items->where('product_name', 'like', $likeToken))
                         ->orWhereHas('user', function ($userQuery) use ($likeToken) {
                             $userQuery->where('name', 'like', $likeToken)
                                 ->orWhere('email', 'like', $likeToken);
@@ -87,7 +89,7 @@ class AdminOrderController extends Controller
 
                 $order->update($validated);
             });
-        } catch (\RuntimeException $e) {
+        } catch (InsufficientStockException $e) {
             return back()->with('error', $e->getMessage());
         }
 
@@ -100,17 +102,21 @@ class AdminOrderController extends Controller
      */
     private function adjustStock(Order $order, int $direction): void
     {
-        $quantities = $order->items->groupBy('product_id')->map(fn ($items) => (int) $items->sum('quantity'));
+        // Lines whose product was deleted (product_id null) have no stock to adjust.
+        $quantities = $order->items
+            ->whereNotNull('product_id')
+            ->groupBy('product_id')
+            ->map(fn ($items) => (int) $items->sum('quantity'));
         $products = Product::whereIn('id', $quantities->keys())->lockForUpdate()->get()->keyBy('id');
 
         foreach ($quantities as $productId => $quantity) {
             $product = $products->get($productId);
             if (! $product) {
-                continue; // product deleted since the order: nothing to restock
+                continue;
             }
 
             if ($direction < 0 && $product->stock < $quantity) {
-                throw new \RuntimeException(__('admin.orders.messages.not_enough_stock', [
+                throw new InsufficientStockException(__('admin.orders.messages.not_enough_stock', [
                     'product' => $product->name,
                     'count' => max(0, $product->stock),
                 ]));
