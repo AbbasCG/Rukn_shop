@@ -60,7 +60,7 @@ class OrderConfirmationEmailTest extends TestCase
                 && $mail->hasReplyTo('info@rukn.nl')
                 && $mail->order->is($order);
         });
-        Mail::assertSentCount(1);
+        Mail::assertSent(OrderConfirmation::class, 1);
     }
 
     public function test_email_content_matches_the_order(): void

@@ -10,6 +10,18 @@ return [
     // Shown in emails and used as Reply-To, so customers can simply reply.
     'contact_email' => env('SHOP_CONTACT_EMAIL', 'info@rukn.nl'),
 
+    // Store staff are emailed about every new order.
+    'order_notifications' => [
+        // Comma-separated in SHOP_ORDER_NOTIFY_EMAILS; defaults to the contact address.
+        'emails' => array_values(array_filter(array_map('trim', explode(',', (string) env('SHOP_ORDER_NOTIFY_EMAILS', env('SHOP_CONTACT_EMAIL', 'info@rukn.nl')))))),
+
+        // Language of the staff email (nl/en/ar).
+        'locale' => env('SHOP_ADMIN_LOCALE', 'ar'),
+
+        // Products at or below this stock after an order are flagged in the email.
+        'low_stock_threshold' => (int) env('SHOP_LOW_STOCK_THRESHOLD', 5),
+    ],
+
     'shipping' => [
         // Flat shipping fee in EUR for orders below the free-shipping threshold.
         'flat_rate' => (float) env('SHOP_SHIPPING_FLAT_RATE', 4.95),

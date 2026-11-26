@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\NewOrderNotification;
 use App\Mail\OrderConfirmation;
 
 class CheckoutController extends Controller
@@ -135,20 +136,33 @@ class CheckoutController extends Controller
 
         // After the commit, and outside the transaction: a mail problem must
         // never undo or hide an order that has been placed.
-        $this->sendConfirmationEmail($order);
+        $this->sendOrderEmails($order);
 
         return redirect()->route('orders.confirmation', $order);
     }
 
-    private function sendConfirmationEmail(Order $order): void
+    /**
+     * Customer confirmation + staff notification. Each is sent separately so
+     * one failing does not stop the other; failures are logged only.
+     */
+    private function sendOrderEmails(Order $order): void
+    {
+        $this->sendSafely('Order confirmation email could not be sent.', $order,
+            fn () => Mail::to($order->email, $order->name)->send(new OrderConfirmation($order)));
+
+        $staff = config('shop.order_notifications.emails', []);
+        if (! empty($staff)) {
+            $this->sendSafely('New order notification could not be sent.', $order,
+                fn () => Mail::to($staff)->send(new NewOrderNotification($order)));
+        }
+    }
+
+    private function sendSafely(string $message, Order $order, callable $send): void
     {
         try {
-            Mail::to($order->email, $order->name)->send(new OrderConfirmation($order));
+            $send();
         } catch (\Throwable $e) {
-            Log::error('Order confirmation email could not be sent.', [
-                'order_id' => $order->id,
-                'error' => $e->getMessage(),
-            ]);
+            Log::error($message, ['order_id' => $order->id, 'error' => $e->getMessage()]);
         }
     }
 
