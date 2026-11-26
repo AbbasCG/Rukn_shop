@@ -15,7 +15,7 @@ return [
         'city' => 'City',
         'shipping_method' => 'Shipping method',
         'shipping_options' => [
-            'flat' => 'Flat Rate (Free)',
+            'flat' => 'Standard shipping',
         ],
         'payment_method' => 'Payment method',
         'payment_options' => [

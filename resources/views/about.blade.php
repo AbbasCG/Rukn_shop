@@ -49,7 +49,7 @@
                         <svg class="w-5 h-5 text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M13 5v6h6"/></svg>
                     </div>
                     <h3 class="text-sm font-semibold text-primary-dark">{{ __('about.value_fast_shipping_title') }}</h3>
-                    <p class="text-xs text-neutral-700">{{ __('about.value_fast_shipping_desc') }}</p>
+                    <p class="text-xs text-neutral-700">{{ policy_text('about.value_fast_shipping_desc') }}</p>
                 </div>
                 <div class="h-full bg-white rounded-3xl shadow-lg p-6 flex flex-col gap-2 hover:-translate-y-1 hover:shadow-2xl transition-all items-start text-start">
                     <div class="h-10 w-10 rounded-xl bg-primary-gray/60 flex items-center justify-center">

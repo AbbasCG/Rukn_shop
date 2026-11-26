@@ -43,19 +43,19 @@ return [
     'specifications_empty' => 'Er zijn geen specificaties beschikbaar voor dit product.',
     
     // Shipping & Returns Information
-    'shipping_title' => 'Verzendingsinformatie',
-    'shipping_info' => 'We bieden gratis standaardverzending voor bestellingen boven €50. Bestellingen worden meestal binnen 1-2 werkdagen verwerkt en binnen 3-5 werkdagen afgeleverd.',
-    'shipping_free' => 'Gratis verzending boven €50',
-    'shipping_secure' => 'Beveiligde betaling',
-    'shipping_returns' => '30 dagen retournering',
+    'shipping_title' => 'Verzending',
+    'shipping_info' => 'We verzenden naar alle EU-landen. Bestellingen vanaf :threshold worden gratis verzonden; daaronder betaal je :rate verzendkosten. Binnen Nederland is je bestelling meestal binnen :min_days–:max_days werkdagen in huis; naar andere EU-landen kan het langer duren.',
+    'shipping_free' => 'Gratis verzending vanaf :threshold',
+    'shipping_secure' => 'Betalen bij bezorging',
+    'shipping_returns' => ':return_days dagen retourneren',
     
-    'returns_title' => 'Retourbeleid',
-    'returns_info' => 'We accepteren retouren binnen 30 dagen na levering. Artikelen moeten ongebruikt zijn en in originele verpakking. Retourkosten zijn voor rekening van de klant tenzij het artikel defect is.',
+    'returns_title' => 'Retourneren',
+    'returns_info' => 'Je kunt je bestelling binnen :return_days dagen na ontvangst retourneren. Artikelen moeten ongebruikt zijn en in de originele verpakking zitten. De kosten voor het terugsturen zijn voor jouw rekening. Neem eerst contact met ons op; we betalen het aankoopbedrag en de oorspronkelijke verzendkosten binnen 14 dagen na je melding terug.',
     
     // Extra Info
-    'free_shipping_threshold' => 'Gratis verzending boven €50',
-    'secure_payment' => 'Beveiligde betaling',
-    'return_policy' => '30 dagen retournering',
+    'free_shipping_threshold' => 'Gratis verzending vanaf :threshold',
+    'secure_payment' => 'Betalen bij bezorging',
+    'return_policy' => ':return_days dagen retourneren',
     
     // Related Products
     'related_products_title' => 'Mogelijk interessant voor u',

@@ -19,11 +19,11 @@ return [
     // Values Section
     'values_title' => 'قيمنا',
     'value_fast_shipping_title' => 'شحن سريع',
-    'value_fast_shipping_desc' => 'نقوم بشحن الطلبات بسرعة ونبقيك محدثاً على طول الطريق.',
+    'value_fast_shipping_desc' => 'داخل هولندا يصل طلبك عادةً خلال :min_days–:max_days أيام عمل.',
     'value_quality_title' => 'منتجات عالية الجودة',
     'value_quality_desc' => 'نختار العناصر للدوام والقيمة والفائدة الحقيقية.',
-    'value_secure_title' => 'مدفوعات آمنة',
-    'value_secure_desc' => 'تسوق بثقة مع طرق دفع موثوقة وآمنة.',
+    'value_secure_title' => 'الدفع عند الاستلام',
+    'value_secure_desc' => 'تدفع عند وصول طلبك.',
     'value_support_title' => 'دعم ودود',
     'value_support_desc' => 'أشخاص حقيقيون مستعدون للمساعدة في الطلبات والإرجاع والنصائح.',
     

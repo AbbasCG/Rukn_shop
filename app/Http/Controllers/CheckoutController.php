@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\order_items as OrderItem;
 use App\Models\Cart;
 use App\Models\Product;
+use App\Support\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +25,7 @@ class CheckoutController extends Controller
             $qtyCol = isset($item->quantity) ? 'quantity' : (property_exists($item, 'quanttty') ? 'quanttty' : 'quantity');
             return $price * ($item->$qtyCol ?? 1);
         });
-        $shipping = 0.00; // flat rate placeholder
+        $shipping = Shipping::cost((float) $subtotal);
         $total = $subtotal + $shipping;
         return view('checkout.index', compact('cartItems', 'subtotal', 'shipping', 'total'));
     }
@@ -84,7 +85,7 @@ class CheckoutController extends Controller
                 $qtyCol = isset($item->quantity) ? 'quantity' : (property_exists($item, 'quanttty') ? 'quanttty' : 'quantity');
                 return $price * ($item->$qtyCol ?? 1);
             });
-            $shipping = 0.00;
+            $shipping = Shipping::cost((float) $subtotal);
             $total = $subtotal + $shipping;
 
             $order = Order::create([

@@ -25,6 +25,8 @@ return [
         'title' => 'Bestellingsoverzicht',
         'subtotal' => 'Subtotaal',
         'shipping' => 'Verzending',
+        'free' => 'Gratis',
+        'free_shipping_hint' => 'Nog :amount tot gratis verzending.',
         'total' => 'Totaal',
     ],
 

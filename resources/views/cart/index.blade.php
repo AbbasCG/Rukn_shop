@@ -64,7 +64,7 @@
                         </div>
                     </div>
                     <div :class="glow ? 'bg-primary-gray/50' : ''" class="rounded-xl px-4 py-2 text-primary-dark font-semibold transition">
-                        €<span x-text="({{ $price }} * qty).toFixed(2)"></span>
+                        {{ money($itemTotal) }}
                     </div>
                 </div>
                 @endforeach
@@ -82,9 +82,13 @@
                 <h2 class="text-xl font-bold">{{ __('cart.summary.title') }}</h2>
                 <div class="space-y-2 text-sm">
                     <div class="flex items-center justify-between"><span>{{ __('cart.summary.subtotal') }}</span><span>{{ money($subtotal) }}</span></div>
-                    <div class="flex items-center justify-between"><span>{{ __('cart.summary.shipping') }}</span><span>{{ money($shipping) }}</span></div>
+                    <div class="flex items-center justify-between"><span>{{ __('cart.summary.shipping') }}</span><span>{{ $shipping > 0 ? money($shipping) : __('cart.summary.free') }}</span></div>
                     <div class="flex items-center justify-between text-base font-semibold"><span>{{ __('cart.summary.total') }}</span><span>{{ money($total) }}</span></div>
                 </div>
+                @php($remainingForFree = \App\Support\Shipping::remainingForFree((float) $subtotal))
+                @if($remainingForFree > 0)
+                    <p class="text-sm text-white/80">{{ __('cart.summary.free_shipping_hint', ['amount' => money($remainingForFree)]) }}</p>
+                @endif
                 @auth
                 <a href="{{ r('checkout.index') }}" class="block w-full px-6 py-4 rounded-2xl bg-white text-primary-dark font-semibold shadow-lg hover:bg-white/80 transition text-center">{{ __('cart.actions.proceed') }}</a>
                 @else

@@ -15,7 +15,7 @@ return [
         'city' => 'المدينة',
         'shipping_method' => 'طريقة الشحن',
         'shipping_options' => [
-            'flat' => 'سعر ثابت (مجاني)',
+            'flat' => 'الشحن العادي',
         ],
         'payment_method' => 'طريقة الدفع',
         'payment_options' => [

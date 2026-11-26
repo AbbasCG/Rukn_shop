@@ -28,8 +28,8 @@
                     <h4 class="font-semibold text-primary-light mb-4">{{ __('footer.sections.support') }}</h4>
                     <ul class="space-y-2 text-sm">
                         <li><a href="{{ r('contact') }}" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">{{ __('footer.links.contact') }}</a></li>
-                        <li><a href="#" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">{{ __('footer.links.shipping') }}</a></li>
-                        <li><a href="#" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">{{ __('footer.links.returns') }}</a></li>
+                        <li><a href="{{ r('faq') }}#faq-shipping" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">{{ __('footer.links.shipping') }}</a></li>
+                        <li><a href="{{ r('faq') }}#faq-returns" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">{{ __('footer.links.returns') }}</a></li>
                         <li><a href="{{ r('faq') }}" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">{{ __('footer.links.faq') }}</a></li>
                     </ul>
                 </div>

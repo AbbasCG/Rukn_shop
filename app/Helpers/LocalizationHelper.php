@@ -127,3 +127,14 @@ if (!function_exists('money')) {
         return '€' . number_format($amount, 2, ',', '.');
     }
 }
+
+if (!function_exists('policy_text')) {
+    /**
+     * Translate a shipping/returns text, filling in the store policy values
+     * from config/shop.php (:threshold, :rate, :min_days, :max_days, :return_days).
+     */
+    function policy_text(string $key): string
+    {
+        return __($key, \App\Support\Shipping::textParams());
+    }
+}

@@ -25,6 +25,8 @@ return [
         'title' => 'Order Summary',
         'subtotal' => 'Subtotal',
         'shipping' => 'Shipping',
+        'free' => 'Free',
+        'free_shipping_hint' => 'Add :amount more for free shipping.',
         'total' => 'Total',
     ],
 

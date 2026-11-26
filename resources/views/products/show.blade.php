@@ -262,19 +262,19 @@
                             <svg class="w-4 h-4 text-primary-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
                             </svg>
-                            <span class="font-medium">{{ __('product.free_shipping_threshold') }}</span>
+                            <span class="font-medium">{{ policy_text('product.free_shipping_threshold') }}</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-primary-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                             </svg>
-                            <span class="font-medium">{{ __('product.secure_payment') }}</span>
+                            <span class="font-medium">{{ policy_text('product.secure_payment') }}</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-primary-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                             </svg>
-                            <span class="font-medium">{{ __('product.return_policy') }}</span>
+                            <span class="font-medium">{{ policy_text('product.return_policy') }}</span>
                         </div>
                     </div>
                 </div>
@@ -397,11 +397,11 @@
                     <div class="space-y-5 text-primary-800 dark:text-primary-800">
                         <div>
                             <h3 class="font-bold text-xl mb-2 text-primary-800 dark:text-primary-800">{{ __('product.shipping_title') }}</h3>
-                            <p class="text-neutral-600 dark:text-primary-300 leading-relaxed">{{ __('product.shipping_info') }}</p>
+                            <p class="text-neutral-600 dark:text-primary-300 leading-relaxed">{{ policy_text('product.shipping_info') }}</p>
                         </div>
                         <div>
                             <h3 class="font-bold text-xl mb-2 text-primary-800 dark:text-primary-800">{{ __('product.returns_title') }}</h3>
-                            <p class="text-neutral-600 dark:text-primary-300 leading-relaxed">{{ __('product.returns_info') }}</p>
+                            <p class="text-neutral-600 dark:text-primary-300 leading-relaxed">{{ policy_text('product.returns_info') }}</p>
                         </div>
                     </div>
                 </div>

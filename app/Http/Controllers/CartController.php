@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Product;
+use App\Support\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +38,7 @@ class CartController extends Controller
             $qty = isset($item->$qtyCol) ? $item->$qtyCol : ($item->quantity ?? 1);
             return $price * $qty;
         });
-        $shipping = 0.00; // placeholder
+        $shipping = Shipping::cost((float) $subtotal);
         $total = $subtotal + $shipping;
 
         return view('cart.index', compact('cartItems', 'subtotal', 'shipping', 'total'));
@@ -187,7 +188,7 @@ class CartController extends Controller
                 $qtyCol = Schema::hasColumn('carts', 'quantity') ? 'quantity' : 'quanttty';
                 return $price * ($item->$qtyCol ?? 1);
             });
-            $shipping = 0.00;
+            $shipping = Shipping::cost((float) $subtotal);
             $total = $subtotal + $shipping;
             return response()->json([
                 'ok' => true,

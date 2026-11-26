@@ -15,7 +15,7 @@ return [
         'city' => 'Plaats',
         'shipping_method' => 'Verzendmethode',
         'shipping_options' => [
-            'flat' => 'Vast tarief (gratis)',
+            'flat' => 'Standaardverzending',
         ],
         'payment_method' => 'Betaalmethode',
         'payment_options' => [

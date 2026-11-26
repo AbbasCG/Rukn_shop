@@ -45,10 +45,10 @@ return [
         'section_3_content' => 'By placing an order, you are offering to purchase products subject to these terms. All orders are subject to acceptance and availability. We accept various payment methods as displayed during checkout. Payment must be received before order processing.',
         
         'section_4_title' => 'Shipping and Delivery',
-        'section_4_content' => 'We ship to addresses within our service areas. Shipping times are estimates and not guaranteed. Risk of loss and title for items purchased pass to you upon delivery to the carrier. We are not responsible for delays caused by shipping carriers.',
+        'section_4_content' => 'We ship to addresses in the European Union. Within the Netherlands, delivery usually takes :min_days–:max_days business days; delivery to other EU countries can take longer. Delivery times are estimates. Orders of :threshold or more ship free; below that, shipping costs :rate. The risk of loss passes to you upon delivery.',
         
-        'section_5_title' => 'Returns and Refunds',
-        'section_5_content' => 'We accept returns within 30 days of delivery for most items in their original condition. Refunds will be processed to the original payment method within 7-10 business days after we receive the returned item. Shipping costs are non-refundable unless the return is due to our error.',
+        'section_5_title' => 'Returns and right of withdrawal',
+        'section_5_content' => 'You have the right to withdraw from your purchase within :return_days days of receiving your order, without giving a reason. To do so, let us know by email at info@rukn.nl. Return the items unused and in their original packaging within 14 days of notifying us; the cost of returning them is yours. We refund the purchase price, including the original standard shipping cost, within 14 days of receiving your notice, but may wait until we have received the items back. Refunds are made by bank transfer.',
         
         'section_6_title' => 'Intellectual Property',
         'section_6_content' => 'All content on this website, including text, images, logos, and designs, is the property of Rukn Shop and protected by copyright and trademark laws. You may not reproduce, distribute, or create derivative works without our express written permission.',

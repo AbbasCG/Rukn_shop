@@ -98,66 +98,66 @@
                     <!-- Item 1 -->
                     <div class="border-b last:border-0">
                         <button type="button" @click="open === 1 ? open = null : open = 1" class="w-full flex items-center justify-between gap-3 px-5 py-4 hover:bg-primary-gray/40 transition duration-200">
-                            <span class="text-sm font-semibold text-primary-dark flex-1 text-start">{{ __('contact.faq.question_1') }}</span>
+                            <span class="text-sm font-semibold text-primary-dark flex-1 text-start">{{ policy_text('faq.items.shipping.q') }}</span>
                             <svg :class="open === 1 ? 'rotate-180' : ''" class="w-5 h-5 text-primary-dark transition-transform duration-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                         </button>
                         <div x-show="open === 1" x-transition.opacity.duration.200ms x-collapse class="px-5 pb-4 text-sm text-primary-dark/70 leading-relaxed">
-                            {{ __('contact.faq.answer_1') }}
+                            {{ policy_text('faq.items.shipping.a') }}
                         </div>
                     </div>
 
                     <!-- Item 2 -->
                     <div class="border-b last:border-0">
                         <button type="button" @click="open === 2 ? open = null : open = 2" class="w-full flex items-center justify-between gap-3 px-5 py-4 hover:bg-primary-gray/40 transition duration-200">
-                            <span class="text-sm font-semibold text-primary-dark flex-1 text-start">{{ __('contact.faq.question_2') }}</span>
+                            <span class="text-sm font-semibold text-primary-dark flex-1 text-start">{{ policy_text('faq.items.returns.q') }}</span>
                             <svg :class="open === 2 ? 'rotate-180' : ''" class="w-5 h-5 text-primary-dark transition-transform duration-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                         </button>
                         <div x-show="open === 2" x-transition.opacity.duration.200ms x-collapse class="px-5 pb-4 text-sm text-primary-dark/70 leading-relaxed">
-                            {{ __('contact.faq.answer_2') }}
+                            {{ policy_text('faq.items.returns.a') }}
                         </div>
                     </div>
 
                     <!-- Item 3 -->
                     <div class="border-b last:border-0">
                         <button type="button" @click="open === 3 ? open = null : open = 3" class="w-full flex items-center justify-between gap-3 px-5 py-4 hover:bg-primary-gray/40 transition duration-200">
-                            <span class="text-sm font-semibold text-primary-dark flex-1 text-start">{{ __('contact.faq.question_3') }}</span>
+                            <span class="text-sm font-semibold text-primary-dark flex-1 text-start">{{ policy_text('faq.items.tracking.q') }}</span>
                             <svg :class="open === 3 ? 'rotate-180' : ''" class="w-5 h-5 text-primary-dark transition-transform duration-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                         </button>
                         <div x-show="open === 3" x-transition.opacity.duration.200ms x-collapse class="px-5 pb-4 text-sm text-primary-dark/70 leading-relaxed">
-                            {{ __('contact.faq.answer_3') }}
+                            {{ policy_text('faq.items.tracking.a') }}
                         </div>
                     </div>
 
                     <!-- Item 4 -->
                     <div class="border-b last:border-0">
                         <button type="button" @click="open === 4 ? open = null : open = 4" class="w-full flex items-center justify-between gap-3 px-5 py-4 hover:bg-primary-gray/40 transition duration-200">
-                            <span class="text-sm font-semibold text-primary-dark flex-1 text-start">{{ __('contact.faq.question_4') }}</span>
+                            <span class="text-sm font-semibold text-primary-dark flex-1 text-start">{{ policy_text('faq.items.payment.q') }}</span>
                             <svg :class="open === 4 ? 'rotate-180' : ''" class="w-5 h-5 text-primary-dark transition-transform duration-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                         </button>
                         <div x-show="open === 4" x-transition.opacity.duration.200ms x-collapse class="px-5 pb-4 text-sm text-primary-dark/70 leading-relaxed">
-                            {{ __('contact.faq.answer_4') }}
+                            {{ policy_text('faq.items.payment.a') }}
                         </div>
                     </div>
 
                     <!-- Item 5 -->
                     <div class="border-b last:border-0">
                         <button type="button" @click="open === 5 ? open = null : open = 5" class="w-full flex items-center justify-between gap-3 px-5 py-4 hover:bg-primary-gray/40 transition duration-200">
-                            <span class="text-sm font-semibold text-primary-dark flex-1 text-start">{{ __('contact.faq.question_5') }}</span>
+                            <span class="text-sm font-semibold text-primary-dark flex-1 text-start">{{ policy_text('faq.items.modify.q') }}</span>
                             <svg :class="open === 5 ? 'rotate-180' : ''" class="w-5 h-5 text-primary-dark transition-transform duration-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                         </button>
                         <div x-show="open === 5" x-transition.opacity.duration.200ms x-collapse class="px-5 pb-4 text-sm text-primary-dark/70 leading-relaxed">
-                            {{ __('contact.faq.answer_5') }}
+                            {{ policy_text('faq.items.modify.a') }}
                         </div>
                     </div>
 
                     <!-- Item 6 -->
                     <div class="border-b last:border-0">
                         <button type="button" @click="open === 6 ? open = null : open = 6" class="w-full flex items-center justify-between gap-3 px-5 py-4 hover:bg-primary-gray/40 transition duration-200">
-                            <span class="text-sm font-semibold text-primary-dark flex-1 text-start">{{ __('contact.faq.question_6') }}</span>
+                            <span class="text-sm font-semibold text-primary-dark flex-1 text-start">{{ policy_text('faq.items.support.q') }}</span>
                             <svg :class="open === 6 ? 'rotate-180' : ''" class="w-5 h-5 text-primary-dark transition-transform duration-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                         </button>
                         <div x-show="open === 6" x-transition.opacity.duration.200ms x-collapse class="px-5 pb-4 text-sm text-primary-dark/70 leading-relaxed">
-                            {{ __('contact.faq.answer_6') }}
+                            {{ policy_text('faq.items.support.a') }}
                         </div>
                     </div>
                 </div>

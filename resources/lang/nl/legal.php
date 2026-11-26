@@ -45,10 +45,10 @@ return [
         'section_3_content' => 'Door een bestelling te plaatsen, doet u een aanbod om producten te kopen volgens deze voorwaarden. Alle bestellingen zijn onder voorbehoud van acceptatie en beschikbaarheid. We accepteren verschillende betaalmethoden zoals weergegeven tijdens het afrekenen. Betaling moet worden ontvangen voordat de bestelling wordt verwerkt.',
         
         'section_4_title' => 'Verzending en levering',
-        'section_4_content' => 'We verzenden naar adressen binnen onze servicegebieden. Verzendtijden zijn schattingen en niet gegarandeerd. Risico van verlies en eigendom voor gekochte artikelen gaan over op u bij levering aan de vervoerder. We zijn niet verantwoordelijk voor vertragingen veroorzaakt door vervoerders.',
+        'section_4_content' => 'We verzenden naar adressen in de Europese Unie. Binnen Nederland duurt de levering meestal :min_days–:max_days werkdagen; naar andere EU-landen kan het langer duren. Levertijden zijn een indicatie. Bestellingen vanaf :threshold worden gratis verzonden; daaronder bedragen de verzendkosten :rate. Het risico van verlies gaat bij levering op jou over.',
         
-        'section_5_title' => 'Retouren en terugbetalingen',
-        'section_5_content' => 'We accepteren retouren binnen 30 dagen na levering voor de meeste artikelen in hun originele staat. Terugbetalingen worden verwerkt naar de oorspronkelijke betaalmethode binnen 7-10 werkdagen nadat we het geretourneerde artikel hebben ontvangen. Verzendkosten zijn niet terugbetaalbaar, tenzij de retour te wijten is aan onze fout.',
+        'section_5_title' => 'Retourneren en herroepingsrecht',
+        'section_5_content' => 'Je hebt het recht om je aankoop binnen :return_days dagen na ontvangst zonder opgave van redenen te herroepen. Laat het ons weten via info@rukn.nl. Stuur de artikelen ongebruikt en in de originele verpakking binnen 14 dagen na je melding terug; de kosten van het terugsturen zijn voor jouw rekening. We betalen het aankoopbedrag, inclusief de oorspronkelijke standaardverzendkosten, binnen 14 dagen na je melding terug, maar mogen wachten tot we de artikelen hebben ontvangen. Terugbetaling gebeurt per bankoverschrijving.',
         
         'section_6_title' => 'Intellectueel eigendom',
         'section_6_content' => 'Alle inhoud op deze website, inclusief tekst, afbeeldingen, logo\'s en ontwerpen, is eigendom van Rukn Shop en beschermd door auteurs- en merkrechten. U mag zonder onze uitdrukkelijke schriftelijke toestemming geen reproducties, distributies of afgeleide werken maken.',

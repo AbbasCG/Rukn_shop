@@ -19,11 +19,11 @@ return [
     // Values Section
     'values_title' => 'Our Values',
     'value_fast_shipping_title' => 'Fast Shipping',
-    'value_fast_shipping_desc' => 'We dispatch orders quickly and keep you updated along the way.',
+    'value_fast_shipping_desc' => 'Within the Netherlands your order usually arrives in :min_days–:max_days business days.',
     'value_quality_title' => 'Quality Products',
     'value_quality_desc' => 'We select items for durability, value, and genuine usefulness.',
-    'value_secure_title' => 'Secure Payments',
-    'value_secure_desc' => 'Shop confidently with trusted, secure payment methods.',
+    'value_secure_title' => 'Pay on delivery',
+    'value_secure_desc' => 'You pay when your order arrives.',
     'value_support_title' => 'Friendly Support',
     'value_support_desc' => 'Real people ready to help with orders, returns, and advice.',
     

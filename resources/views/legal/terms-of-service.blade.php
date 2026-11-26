@@ -34,13 +34,13 @@
             <!-- Section 4 -->
             <div>
                 <h2 class="text-2xl font-semibold text-primary-dark mb-3">{{ __('legal.terms.section_4_title') }}</h2>
-                <p class="text-primary-dark/80 leading-relaxed">{{ __('legal.terms.section_4_content') }}</p>
+                <p class="text-primary-dark/80 leading-relaxed">{{ policy_text('legal.terms.section_4_content') }}</p>
             </div>
 
             <!-- Section 5 -->
             <div>
                 <h2 class="text-2xl font-semibold text-primary-dark mb-3">{{ __('legal.terms.section_5_title') }}</h2>
-                <p class="text-primary-dark/80 leading-relaxed">{{ __('legal.terms.section_5_content') }}</p>
+                <p class="text-primary-dark/80 leading-relaxed">{{ policy_text('legal.terms.section_5_content') }}</p>
             </div>
 
             <!-- Section 6 -->
