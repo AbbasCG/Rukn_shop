@@ -7,6 +7,9 @@
 */
 
 return [
+    // Shown in emails and used as Reply-To, so customers can simply reply.
+    'contact_email' => env('SHOP_CONTACT_EMAIL', 'info@rukn.nl'),
+
     'shipping' => [
         // Flat shipping fee in EUR for orders below the free-shipping threshold.
         'flat_rate' => (float) env('SHOP_SHIPPING_FLAT_RATE', 4.95),
