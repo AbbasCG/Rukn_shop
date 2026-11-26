@@ -2,44 +2,44 @@
 
 return [
     // Hero Section
-    'hero_tagline' => 'الأناقة منسوجة في كل لحظة',
-    'hero_title' => 'اكتشف فن العيش',
-    'hero_subtitle' => 'تجربة مجموعتنا المختارة بعناية من القطع الخالدة المصممة لمن يقدرون الجودة والحرفية والأناقة البسيطة.',
-    'collection_hero_alt' => 'مجموعة بطلنا',
+    'hero_tagline' => 'عبايات ومباخر كهربائية',
+    'hero_title' => 'ركنك للعباية والبخور',
+    'hero_subtitle' => 'عبايات بقصّات محتشمة لكل يوم وللمناسبات، ومباخر كهربائية تعطّر بيتك بالبخور من غير فحم.',
+    'collection_hero_alt' => 'عبايات من مجموعة ركن',
     
     // Collections Section
-    'section_collection' => 'المجموعة',
-    'new_arrivals_title' => 'الوصول الحديث',
-    'new_arrivals_subtitle' => 'رتب فراغك مع مجموعتنا الموسمية الأخيرة، المختارة بعناية للأناقة الحديثة.',
-    'featured_coming_soon' => 'المجموعة المميزة قريبًا.',
+    'section_collection' => 'جديدنا',
+    'new_arrivals_title' => 'وصل حديثاً',
+    'new_arrivals_subtitle' => 'أحدث العبايات والمباخر في المتجر.',
+    'featured_coming_soon' => 'نضيف منتجات جديدة قريباً.',
     
     // Bestsellers Section
-    'section_most_loved' => 'الأكثر حبًا',
-    'bestsellers_title' => 'الأفضل مبيعًا',
-    'bestsellers_subtitle' => 'اكتشف ما يحبه العملاء أكثر. قطع خالدة برفية استثنائية.',
+    'section_most_loved' => 'الأكثر طلباً',
+    'bestsellers_title' => 'الأكثر مبيعاً',
+    'bestsellers_subtitle' => 'القطع التي يطلبها عملاؤنا أكثر من غيرها.',
     'bestsellers_coming_soon' => 'الأفضل مبيعًا قريبًا.',
     
     // Features Section
-    'tradition_meets_modern_title' => 'حيث يلتقي التقليد بالعيش الحديث',
-    'tradition_meets_modern_subtitle' => 'كل قطعة في مجموعتنا تروي قصة حرفية وجودة وتصميم خالد. نعتقد أن الأناقة الحقيقية تكمن في البساطة والأصالة.',
-    'premium_collection_alt' => 'المجموعة الممتازة',
+    'features_title' => 'عباية تناسب يومك، وبخور يليق ببيتك',
+    'features_subtitle' => 'نختار منتجاتنا لتكون عملية في الاستخدام اليومي وأنيقة في المناسبات.',
+    'features_image_alt' => 'عبايات بألوان مختلفة',
     
-    'feature_premium_fabrics_title' => 'الأقمشة الممتازة',
-    'feature_premium_fabrics_desc' => 'مواد مصدرها بعناية من أفضل الموردين في جميع أنحاء العالم.',
+    'feature_modest_title' => 'قصّات محتشمة ومريحة',
+    'feature_modest_desc' => 'عبايات تمنحك حرية الحركة، وتناسب العمل والمشاوير والمناسبات.',
     
-    'feature_craftsmanship_title' => 'الحرفية الخبيرة',
-    'feature_craftsmanship_desc' => 'كل قطعة يتم حرفتها بعناية من قبل الحرفيين الماهرين.',
+    'feature_bakhoor_title' => 'بخور من غير فحم',
+    'feature_bakhoor_desc' => 'المبخرة الكهربائية تسخّن البخور بالكهرباء، فلا حاجة إلى فحم ولا إلى ولّاعة.',
     
-    'feature_timeless_design_title' => 'التصميم الخالد',
-    'feature_timeless_design_desc' => 'المجموعات المصممة للتغلب على الاتجاهات والاستمرار مدى الحياة.',
+    'feature_order_title' => 'اطلب بالطريقة التي تناسبك',
+    'feature_order_desc' => 'اطلب من الموقع أو عبر واتساب، وتواصل معنا بالعربية أو الهولندية أو الإنجليزية.',
     
     // Brand Story Section
     'section_our_story' => 'قصتنا',
-    'story_title' => 'فن الأناقة',
-    'story_paragraph_1' => 'تم تأسيسها على مبدأ عدم المساومة بالجودة، تجمع  متجر ركـن بين الأفضل في الحرفية التقليدية والتصميم المعاصر.',
-    'story_paragraph_2' => 'نختار بعناية كل مجموعة للتأكد من أن كل قطعة تعكس التزامنا بالأناقة والاستدامة والجمال الخالد.',
-    'story_image_alt' => 'قصة  متجر ركـن',
-    'learn_more' => 'تعرف علينا أكثر',
+    'story_title' => 'لماذا اسمنا «ركن»؟',
+    'story_paragraph_1' => 'في كل بيت ركنٌ مفضّل: مكان هادئ تختار فيه ما تلبسه، وتفوح منه رائحة البخور. من هذه الفكرة جاء اسمنا.',
+    'story_paragraph_2' => 'بدأنا في هولندا عام 2024 لنوفّر عبايات ومباخر بجودة نثق بها وأسعار واضحة، مع خدمة شخصية بلغتك.',
+    'story_image_alt' => 'عبايات ركن',
+    'learn_more' => 'تعرّف علينا أكثر',
     
     // Testimonials Section
     'section_reviews' => 'التقييمات',
@@ -65,7 +65,7 @@ return [
     
     // Buttons & Links
     'shop_now' => 'تسوق الآن',
-    'view_collection' => 'عرض المجموعة',
+    'about_us_cta' => 'من نحن',
     'view_all' => 'عرض الكل',
     'view_details' => 'عرض التفاصيل',
 

@@ -2,44 +2,44 @@
 
 return [
     // Hero Section
-    'hero_tagline' => 'Elegance woven into every moment',
-    'hero_title' => 'Discover the Art of Living',
-    'hero_subtitle' => 'Experience our curated collection of timeless pieces designed for those who appreciate quality, craftsmanship, and understated elegance.',
-    'collection_hero_alt' => 'Collection Hero',
+    'hero_tagline' => 'Abayas & electric mabkharas',
+    'hero_title' => 'Your corner for abayas and bakhoor',
+    'hero_subtitle' => 'Modest abayas for every day and every occasion, and electric mabkharas that fill your home with bakhoor – no charcoal needed.',
+    'collection_hero_alt' => 'Abayas from the Rukn collection',
     
     // Collections Section
-    'section_collection' => 'Collection',
-    'new_arrivals_title' => 'New Arrivals',
-    'new_arrivals_subtitle' => 'Curate your space with our latest seasonal collection, handpicked for modern elegance.',
-    'featured_coming_soon' => 'Featured collection coming soon.',
+    'section_collection' => 'New in',
+    'new_arrivals_title' => 'New arrivals',
+    'new_arrivals_subtitle' => 'The latest abayas and mabkharas in our store.',
+    'featured_coming_soon' => 'New products are coming soon.',
     
     // Bestsellers Section
-    'section_most_loved' => 'Most Loved',
+    'section_most_loved' => 'Most ordered',
     'bestsellers_title' => 'Bestsellers',
-    'bestsellers_subtitle' => 'Discover what customers love most. Timeless pieces with exceptional craftsmanship.',
+    'bestsellers_subtitle' => 'The pieces our customers order most.',
     'bestsellers_coming_soon' => 'Bestsellers coming soon.',
     
     // Features Section
-    'tradition_meets_modern_title' => 'Where tradition meets modern living',
-    'tradition_meets_modern_subtitle' => 'Every piece in our collection tells a story of craftsmanship, quality, and timeless design. We believe that true elegance lies in simplicity and authenticity.',
-    'premium_collection_alt' => 'Premium Collection',
+    'features_title' => 'An abaya for every day, bakhoor for your home',
+    'features_subtitle' => 'We choose products that are practical for everyday wear and elegant enough for special occasions.',
+    'features_image_alt' => 'Abayas in different colours',
     
-    'feature_premium_fabrics_title' => 'Premium Fabrics',
-    'feature_premium_fabrics_desc' => 'Carefully sourced materials from the finest suppliers worldwide.',
+    'feature_modest_title' => 'Modest and comfortable',
+    'feature_modest_desc' => 'Abayas you can move freely in – for work, errands and special occasions.',
     
-    'feature_craftsmanship_title' => 'Expert Craftsmanship',
-    'feature_craftsmanship_desc' => 'Each piece is meticulously crafted by skilled artisans.',
+    'feature_bakhoor_title' => 'Bakhoor without charcoal',
+    'feature_bakhoor_desc' => 'An electric mabkhara heats bakhoor electrically, so you need no charcoal or lighter.',
     
-    'feature_timeless_design_title' => 'Timeless Design',
-    'feature_timeless_design_desc' => 'Collections designed to transcend trends and last a lifetime.',
+    'feature_order_title' => 'Order the way you like',
+    'feature_order_desc' => 'Order on the website or via WhatsApp, and talk to us in English, Dutch or Arabic.',
     
     // Brand Story Section
-    'section_our_story' => 'Our Story',
-    'story_title' => 'The Art of Elegance',
-    'story_paragraph_1' => 'Founded on the principle that quality should never be compromised, Rukn Shop brings together the best of traditional craftsmanship and contemporary design.',
-    'story_paragraph_2' => 'We carefully curate every collection to ensure that each piece reflects our commitment to elegance, sustainability, and timeless beauty.',
-    'story_image_alt' => 'Rukn Shop Story',
-    'learn_more' => 'Learn more about us',
+    'section_our_story' => 'Our story',
+    'story_title' => 'Why are we called Rukn?',
+    'story_paragraph_1' => '"Rukn" is Arabic for "corner". Every home has a favourite corner: a quiet place where you choose what to wear and where the scent of bakhoor lingers. That is where our name comes from.',
+    'story_paragraph_2' => 'We started in the Netherlands in 2024 to offer abayas and mabkharas with quality we stand behind, clear prices and personal service in your language.',
+    'story_image_alt' => 'Abayas by Rukn',
+    'learn_more' => 'More about us',
     
     // Testimonials Section
     'section_reviews' => 'Reviews',
@@ -65,7 +65,7 @@ return [
     
     // Buttons & Links
     'shop_now' => 'Shop Now',
-    'view_collection' => 'View Collection',
+    'about_us_cta' => 'About us',
     'view_all' => 'View all',
     'view_details' => 'View Details',
 

@@ -2,43 +2,43 @@
 
 return [
     // Hero Section
-    'hero_tagline' => 'Elegantie verweven in elk moment',
-    'hero_title' => 'Ontdek de Kunst van Leven',
-    'hero_subtitle' => 'Ervaar onze zorgvuldig samengestelde collectie van tijdloze stukken, ontworpen voor degenen die kwaliteit, vakmanschap en ingetogen elegantie waarderen.',
-    'collection_hero_alt' => 'Collectie Hero',
+    'hero_tagline' => 'Abaya\'s & elektrische mabkhara\'s',
+    'hero_title' => 'Jouw plek voor abaya\'s en bakhoor',
+    'hero_subtitle' => 'Ingetogen abaya\'s voor elke dag en elke gelegenheid, en elektrische mabkhara\'s die je huis laten geuren naar bakhoor – zonder houtskool.',
+    'collection_hero_alt' => 'Abaya\'s uit de collectie van Rukn',
     
     // Collections Section
-    'section_collection' => 'Collectie',
-    'new_arrivals_title' => 'Nieuw Binnen',
-    'new_arrivals_subtitle' => 'Richt je ruimte in met onze nieuwste seizoenscollectie, handmatig geselecteerd voor moderne elegantie.',
-    'featured_coming_soon' => 'Uitgelichte collectie binnenkort beschikbaar.',
+    'section_collection' => 'Nieuw',
+    'new_arrivals_title' => 'Net binnen',
+    'new_arrivals_subtitle' => 'De nieuwste abaya\'s en mabkhara\'s in onze winkel.',
+    'featured_coming_soon' => 'Binnenkort voegen we nieuwe producten toe.',
     
     // Bestsellers Section
-    'section_most_loved' => 'Meest Geliefd',
+    'section_most_loved' => 'Populair',
     'bestsellers_title' => 'Bestsellers',
-    'bestsellers_subtitle' => 'Ontdek wat klanten het meest waarderen. Tijdloze stukken met uitzonderlijk vakmanschap.',
+    'bestsellers_subtitle' => 'De producten die onze klanten het vaakst bestellen.',
     'bestsellers_coming_soon' => 'Bestsellers binnenkort beschikbaar.',
     
     // Features Section
-    'tradition_meets_modern_title' => 'Waar traditie en modern wonen samenkomen',
-    'tradition_meets_modern_subtitle' => 'Elk stuk in onze collectie vertelt een verhaal van vakmanschap, kwaliteit en tijdloos design. Wij geloven dat ware elegantie schuilt in eenvoud en authenticiteit.',
-    'premium_collection_alt' => 'Premium Collectie',
+    'features_title' => 'Een abaya voor elke dag, bakhoor voor je thuis',
+    'features_subtitle' => 'We kiezen producten die praktisch zijn voor elke dag en mooi genoeg voor speciale momenten.',
+    'features_image_alt' => 'Abaya\'s in verschillende kleuren',
     
-    'feature_premium_fabrics_title' => 'Premium Stoffen',
-    'feature_premium_fabrics_desc' => 'Zorgvuldig geselecteerde materialen van de beste leveranciers wereldwijd.',
+    'feature_modest_title' => 'Ingetogen en comfortabel',
+    'feature_modest_desc' => 'Abaya\'s waarin je vrij kunt bewegen – voor werk, onderweg en speciale gelegenheden.',
     
-    'feature_craftsmanship_title' => 'Expert Vakmanschap',
-    'feature_craftsmanship_desc' => 'Elk stuk wordt met zorg vervaardigd door bekwame ambachtslieden.',
+    'feature_bakhoor_title' => 'Bakhoor zonder houtskool',
+    'feature_bakhoor_desc' => 'Een elektrische mabkhara verwarmt bakhoor met stroom: geen houtskool of aansteker nodig.',
     
-    'feature_timeless_design_title' => 'Tijdloos Design',
-    'feature_timeless_design_desc' => 'Collecties ontworpen om trends te overstijgen en een leven lang mee te gaan.',
+    'feature_order_title' => 'Bestel zoals jij wilt',
+    'feature_order_desc' => 'Bestel via de website of via WhatsApp, en neem contact op in het Nederlands, Arabisch of Engels.',
     
     // Brand Story Section
-    'section_our_story' => 'Ons Verhaal',
-    'story_title' => 'De Kunst van Elegantie',
-    'story_paragraph_1' => 'Gegrondvest op het principe dat kwaliteit nooit mag worden opgeofferd, brengt Rukn Shop het beste van traditioneel vakmanschap en eigentijds design samen.',
-    'story_paragraph_2' => 'We selecteren zorgvuldig elke collectie om ervoor te zorgen dat elk stuk ons engagement voor elegantie, duurzaamheid en tijdloze schoonheid weerspiegelt.',
-    'story_image_alt' => 'Rukn Shop Verhaal',
+    'section_our_story' => 'Ons verhaal',
+    'story_title' => 'Waarom heten we Rukn?',
+    'story_paragraph_1' => '"Rukn" is Arabisch voor "hoek". Elk huis heeft een favoriete hoek: een rustige plek waar je kiest wat je aantrekt en waar de geur van bakhoor hangt. Daar komt onze naam vandaan.',
+    'story_paragraph_2' => 'We zijn in 2024 in Nederland begonnen om abaya\'s en mabkhara\'s aan te bieden met kwaliteit waar we achter staan, duidelijke prijzen en persoonlijke service in jouw taal.',
+    'story_image_alt' => 'Abaya\'s van Rukn',
     'learn_more' => 'Meer over ons',
     
     // Testimonials Section
@@ -65,7 +65,7 @@ return [
     
     // Buttons & Links
     'shop_now' => 'Nu Winkelen',
-    'view_collection' => 'Bekijk Collectie',
+    'about_us_cta' => 'Over ons',
     'view_all' => 'Bekijk alles',
     'view_details' => 'Bekijk Details',
 

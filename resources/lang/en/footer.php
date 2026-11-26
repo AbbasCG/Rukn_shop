@@ -2,7 +2,7 @@
 
 return [
     'brand' => [
-        'description' => 'Elegance woven into every moment. Discover timeless pieces crafted with passion and authenticity.',
+        'description' => 'Modest abayas and electric mabkharas, with personal service in English, Dutch and Arabic.',
     ],
     'sections' => [
         'shop' => 'Shop',

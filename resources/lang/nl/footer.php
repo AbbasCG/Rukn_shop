@@ -2,7 +2,7 @@
 
 return [
     'brand' => [
-        'description' => 'Elegantie verweven in elk moment. Ontdek tijdloze stukken, gemaakt met passie en authenticiteit.',
+        'description' => 'Ingetogen abaya\'s en elektrische mabkhara\'s, met persoonlijke service in het Nederlands, Arabisch en Engels.',
     ],
     'sections' => [
         'shop' => 'Shop',
