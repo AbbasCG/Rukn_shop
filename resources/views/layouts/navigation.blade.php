@@ -125,7 +125,7 @@
                     <button @click="openProfile = !openProfile" @keydown.escape.window="openProfile = false" class="flex items-center gap-2 px-2 py-1 rounded-lg border border-primary-gray text-primary-dark bg-white hover:bg-primary-dark hover:text-white hover:border-primary-dark transition-all duration-300 transform hover:scale-105 hover:shadow-md group">
                         <div class="h-9 w-9 rounded-full overflow-hidden border border-neutral-200 flex items-center justify-center bg-primary-dark text-white text-sm font-semibold">
                             @if($user->avatar)
-                            <img src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}" class="h-full w-full object-cover">
+                            <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" class="h-full w-full object-cover">
                             @else
                             <span>{{ $initial }}</span>
                             @endif
@@ -229,7 +229,7 @@
                 <div class="relative" x-data="{ openProfile: false }">
                     <button @click="openProfile = !openProfile" @keydown.escape.window="openProfile = false" class="w-10 h-10 flex items-center justify-center rounded-xl border border-primary-gray text-primary-dark hover:bg-black/5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 transition-all duration-200 overflow-hidden bg-white">
                         @if($user->avatar)
-                        <img src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}" class="h-full w-full object-cover">
+                        <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" class="h-full w-full object-cover">
                         @else
                         <span class="text-xs font-bold bg-primary-dark text-white w-full h-full flex items-center justify-center">{{ $initial }}</span>
                         @endif

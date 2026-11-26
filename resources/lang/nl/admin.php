@@ -230,6 +230,7 @@ return [
             'updated' => 'Product succesvol bijgewerkt.',
             'deleted' => 'Product succesvol verwijderd.',
             'delete_failed' => 'Kan dit product niet verwijderen omdat het is gekoppeld aan andere gegevens.',
+            'images_failed' => ':count foto(\'s) kon(den) niet worden geüpload. Probeer het opnieuw; details staan in het foutenlogboek.',
         ],
     ],
     'categories' => [

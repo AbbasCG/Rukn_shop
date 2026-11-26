@@ -20,7 +20,7 @@
                     <div class="flex items-center gap-4">
                         <div class="w-20 h-20 rounded-full bg-primary-gray flex items-center justify-center overflow-hidden text-primary-dark text-xl font-semibold">
                             @if($user->avatar)
-                            <img src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
+                            <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
                             @else
                             <span>{{ strtoupper(substr($user->name, 0, 1)) }}</span>
                             @endif

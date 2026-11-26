@@ -90,7 +90,7 @@
                         <button @click="openAdminProfile = !openAdminProfile" @keydown.escape.window="openAdminProfile = false" class="flex items-center gap-2 px-2 py-1 rounded-lg border border-neutral-200 text-primary-800 bg-white hover:bg-neutral-100 transition duration-200">
                             <div class="h-9 w-9 rounded-full overflow-hidden border border-neutral-200 flex items-center justify-center bg-primary-800 text-white text-sm font-semibold">
                                 @if($adminUser->avatar ?? false)
-                                <img src="{{ asset('storage/' . $adminUser->avatar) }}" alt="{{ $adminUser->name }}" class="h-full w-full object-cover">
+                                <img src="{{ $adminUser->avatarUrl() }}" alt="{{ $adminUser->name }}" class="h-full w-full object-cover">
                                 @else
                                 <span>{{ $adminInitial }}</span>
                                 @endif
@@ -118,6 +118,12 @@
             </header>
 
             <main class="p-6 bg-primary-50 dark:bg-primary-50 min-h-full">
+                {{-- Flash messages from controllers (saved, deleted, upload problems…) --}}
+                @foreach (['success' => 'bg-green-50 text-green-800 border-green-200', 'warning' => 'bg-amber-50 text-amber-900 border-amber-200', 'error' => 'bg-red-50 text-red-800 border-red-200'] as $type => $classes)
+                    @if (session($type))
+                        <div role="{{ $type === 'success' ? 'status' : 'alert' }}" class="mb-6 rounded-xl border px-4 py-3 text-sm {{ $classes }}">{{ session($type) }}</div>
+                    @endif
+                @endforeach
                 @yield('content')
             </main>
         </div>

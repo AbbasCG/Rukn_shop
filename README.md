@@ -67,9 +67,28 @@ php vendor/bin/phpunit
 
 القائمة الكاملة مع الشرح في `.env.example`.
 
-### تنبيه: صور المنتجات
+### صور المنتجات (Cloudflare R2)
 
-الصور المرفوعة من لوحة التحكم تُحفظ في `storage/app/public`. على Render يُمسح هذا المجلد مع كل نشر، إلا إذا ربطت **Persistent Disk** على المسار `/var/www/html/storage/app/public`. الحل البديل تخزين خارجي (مثل S3)، ويحتاج تعديلاً بسيطاً في الكود.
+الصور التي تُرفع من لوحة التحكم (صور المنتجات والصور الشخصية) تُحفظ في "قرص الوسائط":
+
+- **افتراضياً** (`SHOP_MEDIA_DISK=public`) على قرص السيرفر في `storage/app/public`. على Render يُمسح هذا مع كل نشر، إلا إذا ربطت Persistent Disk على `/var/www/html/storage/app/public`.
+- **مع R2** (`SHOP_MEDIA_DISK=r2`) تُرفع إلى Cloudflare R2 وتُعرض من رابطه العام، فلا تتأثر بالنشر.
+
+متغيرات R2:
+
+| المتغير | القيمة |
+|---|---|
+| `SHOP_MEDIA_DISK` | `r2` |
+| `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY` | من مفتاح API تنشئه في R2 بصلاحية Object Read & Write على الـ bucket |
+| `R2_BUCKET` | اسم الـ bucket |
+| `R2_ENDPOINT` | `https://<Account ID>.r2.cloudflarestorage.com` |
+| `R2_PUBLIC_URL` | رابط الـ bucket العام (`https://pub-….r2.dev` أو دومينك) بدون `/` في الآخر |
+
+لنقل صور موجودة على قرص السيرفر إلى R2 (المسارات لا تتغير، فلا تعديل على قاعدة البيانات):
+
+```bash
+php artisan media:copy
+```
 
 ## هيكل مختصر
 

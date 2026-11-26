@@ -19,6 +19,9 @@ return [
     // Shown in emails and used as Reply-To, so customers can simply reply.
     'contact_email' => env('SHOP_CONTACT_EMAIL', 'info@rukn.nl'),
 
+    // Disk for uploaded images: "public" (server disk) or "r2" (Cloudflare R2).
+    'media_disk' => env('SHOP_MEDIA_DISK', 'public'),
+
     // Social accounts linked in the footer. Leave one empty to hide its icon.
     'social' => [
         'instagram' => env('SHOP_SOCIAL_INSTAGRAM', 'https://www.instagram.com/rukn_30/'),

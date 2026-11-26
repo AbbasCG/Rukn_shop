@@ -84,4 +84,12 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
+
+    /**
+     * Profile photo URL on the media disk (local or R2), or null.
+     */
+    public function avatarUrl(): ?string
+    {
+        return \App\Support\Media::url($this->avatar);
+    }
 }

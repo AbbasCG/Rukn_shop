@@ -76,7 +76,7 @@
             @endphp
             <div class="h-10 w-10 rounded-full overflow-hidden border border-neutral-200 flex items-center justify-center bg-primary-dark text-white text-sm font-semibold">
                 @if($sidebarUser->avatar ?? false)
-                    <img src="{{ asset('storage/' . $sidebarUser->avatar) }}" alt="{{ $sidebarUser->name }}" class="h-full w-full object-cover">
+                    <img src="{{ $sidebarUser->avatarUrl() }}" alt="{{ $sidebarUser->name }}" class="h-full w-full object-cover">
                 @else
                     <span>{{ $sidebarInitial }}</span>
                 @endif

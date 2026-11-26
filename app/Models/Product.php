@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
+use App\Support\Media;
 use Illuminate\Support\Str;
 
 class Product extends Model
@@ -277,6 +277,6 @@ class Product extends Model
             return asset($normalizedPath);
         }
 
-        return Storage::url($normalizedPath);
+        return Media::url($normalizedPath);
     }
 }

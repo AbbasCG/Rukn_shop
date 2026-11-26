@@ -230,6 +230,7 @@ return [
             'updated' => 'Product updated successfully.',
             'deleted' => 'Product deleted successfully.',
             'delete_failed' => 'Unable to delete this product because it is linked to other records.',
+            'images_failed' => ':count photo(s) could not be uploaded. Please try again; details are in the error log.',
         ],
     ],
     'categories' => [

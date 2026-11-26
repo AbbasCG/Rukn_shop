@@ -47,6 +47,27 @@ return [
             'report' => false,
         ],
 
+        // Cloudflare R2 (S3-compatible) for product images and avatars:
+        // set SHOP_MEDIA_DISK=r2 and the R2_* variables (see README).
+        'r2' => [
+            'driver' => 's3',
+            'key' => env('R2_ACCESS_KEY_ID'),
+            'secret' => env('R2_SECRET_ACCESS_KEY'),
+            'region' => 'auto',
+            'bucket' => env('R2_BUCKET'),
+            // https://<account id>.r2.cloudflarestorage.com
+            'endpoint' => env('R2_ENDPOINT'),
+            // Public address of the bucket: an r2.dev URL or your own domain.
+            'url' => env('R2_PUBLIC_URL'),
+            'use_path_style_endpoint' => true,
+            // Only send checksums R2 needs (newer AWS SDKs add extra ones by default).
+            'request_checksum_calculation' => 'when_required',
+            'response_checksum_validation' => 'when_required',
+            // Upload errors must surface instead of silently losing a photo.
+            'throw' => true,
+            'report' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Support\Media;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -12,7 +13,6 @@ use Illuminate\Validation\Rule;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Storage;
 
 class AdminProductController extends Controller
 {
@@ -154,10 +154,12 @@ class AdminProductController extends Controller
 
         // Handle multiple image uploads
         if ($request->hasFile('images')) {
-            $this->storeProductImages($product, $request->file('images'));
+            $failed = $this->storeProductImages($product, $request->file('images'));
         }
 
-        return redirect()->route('admin.products.index')->with('success', __('admin.products.messages.created'));
+        return redirect()->route('admin.products.index')
+            ->with('success', __('admin.products.messages.created'))
+            ->with('warning', ! empty($failed) ? __('admin.products.messages.images_failed', ['count' => $failed]) : null);
     }
 
     /**
@@ -257,7 +259,7 @@ class AdminProductController extends Controller
 
         // Handle new image uploads
         if ($request->hasFile('images')) {
-            $this->storeProductImages($product, $request->file('images'));
+            $failed = $this->storeProductImages($product, $request->file('images'));
             $product->load('images');
         }
 
@@ -266,7 +268,9 @@ class AdminProductController extends Controller
             $product->images()->orderBy('id')->first()->update(['is_primary' => true]);
         }
 
-        return redirect()->route('admin.products.index')->with('success', __('admin.products.messages.updated'));
+        return redirect()->route('admin.products.index')
+            ->with('success', __('admin.products.messages.updated'))
+            ->with('warning', ! empty($failed) ? __('admin.products.messages.images_failed', ['count' => $failed]) : null);
     }
 
     /**
@@ -279,9 +283,7 @@ class AdminProductController extends Controller
         try {
             // Delete all associated images from storage
             foreach ($product->images as $image) {
-                if (Storage::disk('public')->exists($image->path)) {
-                    Storage::disk('public')->delete($image->path);
-                }
+                Media::delete($image->path);
             }
 
             $product->delete();
@@ -318,14 +320,26 @@ class AdminProductController extends Controller
         return (new Product())->resolveRouteBinding($key) ?? abort(404);
     }
 
-    private function storeProductImages(Product $product, array $files)
+    /**
+     * @return int number of photos that could not be uploaded
+     */
+    private function storeProductImages(Product $product, array $files): int
     {
         $isFirstImage = $product->images()->count() === 0;
+        $failed = 0;
 
         foreach ($files as $file) {
             if ($file && $file->isValid()) {
-                // Store file in public disk under products/{product_id}
-                $path = $file->store("products/{$product->id}", 'public');
+                // Stored under products/{product_id} on the media disk (local or R2).
+                // A storage problem skips the photo; the product itself is saved.
+                try {
+                    $path = Media::store($file, "products/{$product->id}");
+                } catch (\Throwable $e) {
+                    Log::error('Product image upload failed.', ['product_id' => $product->id, 'error' => $e->getMessage()]);
+                    $failed++;
+
+                    continue;
+                }
 
                 // Create product image record
                 ProductImage::create([
@@ -337,6 +351,8 @@ class AdminProductController extends Controller
                 $isFirstImage = false;
             }
         }
+
+        return $failed;
     }
 
     /**
@@ -348,10 +364,8 @@ class AdminProductController extends Controller
 
         foreach ($images as $image) {
             // Delete from storage
-            if (Storage::disk('public')->exists($image->path)) {
-                Storage::disk('public')->delete($image->path);
-            }
-            
+            Media::delete($image->path);
+
             $image->delete();
         }
     }
