@@ -129,7 +129,7 @@
                                     <option value="">{{ __('shop.filter_all_categories') }}</option>
                                     @foreach($categories as $category)
                                         <option value="{{ $category->slug }}" {{ request('category') === $category->slug ? 'selected' : '' }}>
-                                            {{ $category->name }}
+                                            {{ $category->display_name }}
                                         </option>
                                     @endforeach
                                 </select>

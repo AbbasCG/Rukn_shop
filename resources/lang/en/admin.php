@@ -272,6 +272,8 @@ return [
         ],
         'form' => [
             'name' => 'Category Name',
+            'translations' => 'Name per language',
+            'translations_help' => 'Shown to customers in that language. Leave a field empty to use the category name above.',
             'slug_optional' => 'Slug (Optional)',
             'description' => 'Description',
             'status' => 'Status',

@@ -61,7 +61,7 @@
                     class="w-full px-4 py-2.5 rounded-lg border border-primary-gray bg-white text-primary-dark transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
                     <option value="">{{ __('admin.products.form.select_category') }}</option>
                     @foreach($categories as $category)
-                        <option value="{{ $category->id }}" @selected(old('category_id', $product->category_id) == $category->id)>{{ $category->name }}</option>
+                        <option value="{{ $category->id }}" @selected(old('category_id', $product->category_id) == $category->id)>{{ $category->display_name }}</option>
                     @endforeach
                 </select>
                 @error('category_id')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror

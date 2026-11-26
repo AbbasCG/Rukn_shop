@@ -23,7 +23,7 @@
         <div class="bg-white dark:bg-white rounded-xl p-4 shadow border border-neutral-200 dark:border-neutral-300 space-y-3 text-primary-800 dark:text-primary-800">
             <p><span class="font-semibold">{{ __('admin.products.show.fields.price') }}:</span> {{ money($product->price) }}</p>
             <p><span class="font-semibold">{{ __('admin.products.show.fields.stock') }}:</span> {{ $product->stock }}</p>
-            <p><span class="font-semibold">{{ __('admin.products.show.fields.category') }}:</span> {{ $product->category->name ?? '-' }}</p>
+            <p><span class="font-semibold">{{ __('admin.products.show.fields.category') }}:</span> {{ $product->category->display_name ?? '-' }}</p>
             <p><span class="font-semibold">{{ __('admin.products.show.fields.status') }}:</span> 
                 <span class="px-2 py-1 text-xs rounded-full font-medium {{ $product->is_active ? 'bg-success-light/20 text-success dark:bg-success-light/20 dark:text-success-dark' : 'bg-neutral-200 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300' }}">
                     {{ $product->is_active ? __('admin.products.status.active') : __('admin.products.status.hidden') }}

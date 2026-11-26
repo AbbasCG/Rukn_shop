@@ -26,7 +26,7 @@
 
     <div class="flex flex-1 flex-col gap-1 pt-3">
         @if($product->category)
-            <span class="text-xs text-neutral-500">{{ $product->category->name }}</span>
+            <span class="text-xs text-neutral-500">{{ $product->category->display_name }}</span>
         @endif
 
         <h3 class="text-sm font-semibold leading-snug text-primary-dark line-clamp-2">

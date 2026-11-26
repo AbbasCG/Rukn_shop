@@ -272,6 +272,8 @@ return [
         ],
         'form' => [
             'name' => 'Categorienaam',
+            'translations' => 'Naam per taal',
+            'translations_help' => 'Wordt aan klanten in die taal getoond. Laat een veld leeg om de categorienaam hierboven te gebruiken.',
             'slug_optional' => 'Slug (optioneel)',
             'description' => 'Beschrijving',
             'status' => 'Status',

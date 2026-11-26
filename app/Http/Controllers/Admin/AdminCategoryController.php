@@ -66,12 +66,17 @@ class AdminCategoryController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|unique:categories,slug',
+            'name_translations' => 'nullable|array',
+            'name_translations.nl' => 'nullable|string|max:255',
+            'name_translations.en' => 'nullable|string|max:255',
+            'name_translations.ar' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'is_active' => 'sometimes|boolean',
         ]);
 
         $validated['slug'] = $validated['slug'] ?? Str::slug($validated['name']);
         $validated['is_active'] = $request->boolean('is_active');
+        $validated['name_translations'] = $this->cleanTranslations($validated['name_translations'] ?? []);
 
         Category::create($validated);
 
@@ -88,12 +93,17 @@ class AdminCategoryController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|unique:categories,slug,' . $category->id,
+            'name_translations' => 'nullable|array',
+            'name_translations.nl' => 'nullable|string|max:255',
+            'name_translations.en' => 'nullable|string|max:255',
+            'name_translations.ar' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'is_active' => 'sometimes|boolean',
         ]);
 
         $validated['slug'] = $validated['slug'] ?? $category->slug;
         $validated['is_active'] = $request->boolean('is_active');
+        $validated['name_translations'] = $this->cleanTranslations($validated['name_translations'] ?? []);
 
         $category->update($validated);
 
@@ -109,5 +119,20 @@ class AdminCategoryController extends Controller
         $category->delete();
 
         return redirect()->route('admin.categories.index')->with('success', __('admin.categories.messages.deleted'));
+    }
+
+    /**
+     * Keep only supported locales with a non-empty name; null when none are left,
+     * so the base `name` is used everywhere.
+     */
+    private function cleanTranslations(array $translations): ?array
+    {
+        $clean = collect($translations)
+            ->only(['nl', 'en', 'ar'])
+            ->map(fn ($value) => trim((string) $value))
+            ->filter(fn ($value) => $value !== '')
+            ->all();
+
+        return $clean ?: null;
     }
 }

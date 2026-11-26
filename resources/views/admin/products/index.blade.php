@@ -48,7 +48,7 @@
                     class="w-full px-4 py-2 rounded-lg border border-primary-gray bg-white text-primary-dark transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
                     <option value="">{{ __('admin.products.index.filters.all_categories') }}</option>
                     @foreach($categories as $cat)
-                        <option value="{{ $cat->slug }}" @selected(request('category') === $cat->slug)>{{ $cat->name }}</option>
+                        <option value="{{ $cat->slug }}" @selected(request('category') === $cat->slug)>{{ $cat->display_name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -196,7 +196,7 @@
                                     <span class="text-sm font-medium text-primary-dark">{{ $product->name }}</span>
                                 </td>
                                 <td class="px-6 py-4 align-middle">
-                                    <span class="text-sm text-primary-dark/70">{{ $product->category->name ?? '-' }}</span>
+                                    <span class="text-sm text-primary-dark/70">{{ $product->category->display_name ?? '-' }}</span>
                                 </td>
                                 <td class="px-6 py-4 align-middle">
                                     <span class="text-sm font-semibold text-primary-dark">{{ money($product->price) }}</span>

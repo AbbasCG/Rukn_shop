@@ -19,7 +19,7 @@
                         <li class="text-neutral-400 dark:text-primary-300" aria-hidden="true">/</li>
                         <li>
                             <a href="{{ r('categories.show', ['category' => $product->category]) }}" class="inline-flex items-center px-2 py-1 rounded-md text-primary-700 dark:text-primary-100 hover:bg-primary-100 dark:hover:bg-primary-700 hover:text-primary-900 dark:hover:text-white hover:underline transition-all duration-200 font-medium cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary-300">
-                                {{ $product->category->name }}
+                                {{ $product->category->display_name }}
                             </a>
                         </li>
                     @endif
@@ -66,7 +66,7 @@
                 <!-- Category Badge -->
                 @if($product->category)
                     <div class="inline-block">
-                        <span class="px-3 py-1 bg-primary-100 dark:bg-primary-700 text-primary-800 dark:text-primary-50 text-xs font-bold uppercase tracking-wider rounded-full">{{ $product->category->name }}</span>
+                        <span class="px-3 py-1 bg-primary-100 dark:bg-primary-700 text-primary-800 dark:text-primary-50 text-xs font-bold uppercase tracking-wider rounded-full">{{ $product->category->display_name }}</span>
                     </div>
                 @endif
 
@@ -146,7 +146,7 @@
                     @if($product->category)
                         <div class="flex justify-between items-center">
                             <span class="text-neutral-500 dark:text-primary-300 font-medium">Category:</span>
-                            <span class="font-bold text-primary-800 dark:text-primary-800">{{ $product->category->name }}</span>
+                            <span class="font-bold text-primary-800 dark:text-primary-800">{{ $product->category->display_name }}</span>
                         </div>
                     @endif
                 </div> -->

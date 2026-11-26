@@ -16,11 +16,26 @@ class Category extends Model
      */
     protected $fillable = [
         'name',
+        'name_translations',
         'slug',
         'description',
         'is_active',
     ];
     
+    protected $casts = [
+        'name_translations' => 'array',
+    ];
+
+    /**
+     * The category name in the active locale, falling back to the base name.
+     */
+    public function getDisplayNameAttribute(): string
+    {
+        $translated = $this->name_translations[app()->getLocale()] ?? null;
+
+        return filled($translated) ? $translated : (string) $this->name;
+    }
+
     public function products() 
     {
         return $this->hasMany(Product::class, 'category_id');

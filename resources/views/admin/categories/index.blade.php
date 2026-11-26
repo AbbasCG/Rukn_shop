@@ -88,7 +88,7 @@
     @php
         $totalCategories = \App\Models\Category::count();
         $activeCategories = \App\Models\Category::where('is_active', true)->count();
-        $emptyCategories = \App\Models\Category::withCount('products')->having('products_count', '=', 0)->count();
+        $emptyCategories = \App\Models\Category::doesntHave('products')->count();
     @endphp
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <!-- Total Categories Card -->
@@ -164,7 +164,7 @@
                                     <span class="text-sm font-semibold text-primary-dark">#{{ str_pad($category->id, 4, '0', STR_PAD_LEFT) }}</span>
                                 </td>
                                 <td class="px-6 py-4 align-middle">
-                                    <span class="text-sm font-medium text-primary-dark">{{ $category->name }}</span>
+                                    <span class="text-sm font-medium text-primary-dark">{{ $category->display_name }}</span>
                                 </td>
                                 <td class="px-6 py-4 align-middle">
                                     <span class="text-sm text-primary-dark/70 font-mono">{{ $category->slug }}</span>
@@ -197,7 +197,7 @@
                                         </a>
                                         <button 
                                             type="button"
-                                            @click="deleteModalOpen = true; deleteCategoryId = '{{ $category->id }}'; deleteCategoryName = '{{ $category->name }}';"
+                                            @click="deleteModalOpen = true; deleteCategoryId = '{{ $category->id }}'; deleteCategoryName = @js($category->display_name);"
                                             class="inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-lg bg-red-600 text-white hover:bg-red-700 transition-all duration-300">
                                             {{ __('admin.categories.actions.delete') }}
                                         </button>
