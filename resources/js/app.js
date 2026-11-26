@@ -100,4 +100,43 @@ Alpine.data('toastNotifications', (initialToasts = [], options = {}) => ({
 	},
 }));
 
+// Shared add-to-cart behaviour for product cards.
+// Usage: x-data="addToCart({ url, productId, addedMessage, errorMessage })"
+Alpine.data('addToCart', (config) => ({
+	loading: false,
+	added: false,
+
+	toast(type, message) {
+		window.dispatchEvent(new CustomEvent('toast', { detail: { type, message } }));
+	},
+
+	async add() {
+		if (this.loading) return;
+		this.loading = true;
+
+		try {
+			const token = document.querySelector('meta[name=csrf-token]')?.getAttribute('content');
+			const response = await fetch(config.url, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': token, Accept: 'application/json' },
+				body: JSON.stringify({ product_id: config.productId, quantity: 1 }),
+			});
+			const data = await response.json().catch(() => null);
+
+			if (data?.ok) {
+				if (Alpine.store('cart')) Alpine.store('cart').count = data.count;
+				this.toast('success', data.message || config.addedMessage);
+				this.added = true;
+				setTimeout(() => (this.added = false), 1500);
+			} else {
+				this.toast('error', data?.message || config.errorMessage);
+			}
+		} catch {
+			this.toast('error', config.errorMessage);
+		} finally {
+			this.loading = false;
+		}
+	},
+}));
+
 Alpine.start();

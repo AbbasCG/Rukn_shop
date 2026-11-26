@@ -40,12 +40,12 @@
                 @foreach($order->orderItems as $item)
                 <div class="flex items-center justify-between">
                     <div class="text-neutral-700">{{ $item->product->name }} × {{ $item->quantity }}</div>
-                    <div class="text-primary-dark font-semibold">€{{ number_format($item->price * $item->quantity, 2, ',', '.') }}</div>
+                    <div class="text-primary-dark font-semibold">{{ money($item->price * $item->quantity) }}</div>
                 </div>
                 @endforeach
-                <div class="flex items-center justify-between"><span class="text-neutral-700">{{ __('orders.summary.subtotal') }}</span><span class="text-primary-dark font-semibold">€{{ number_format($order->subtotal, 2, ',', '.') }}</span></div>
-                <div class="flex items-center justify-between"><span class="text-neutral-700">{{ __('orders.summary.shipping') }}</span><span class="text-primary-dark font-semibold">€{{ number_format($order->shipping_cost, 2, ',', '.') }}</span></div>
-                <div class="flex items-center justify-between text-base"><span class="text-primary-dark font-semibold">{{ __('orders.summary.total') }}</span><span class="text-primary-dark font-semibold">€{{ number_format($order->total, 2, ',', '.') }}</span></div>
+                <div class="flex items-center justify-between"><span class="text-neutral-700">{{ __('orders.summary.subtotal') }}</span><span class="text-primary-dark font-semibold">{{ money($order->subtotal) }}</span></div>
+                <div class="flex items-center justify-between"><span class="text-neutral-700">{{ __('orders.summary.shipping') }}</span><span class="text-primary-dark font-semibold">{{ money($order->shipping_cost) }}</span></div>
+                <div class="flex items-center justify-between text-base"><span class="text-primary-dark font-semibold">{{ __('orders.summary.total') }}</span><span class="text-primary-dark font-semibold">{{ money($order->total) }}</span></div>
             </div>
             <div class="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-center gap-3">
                 <a href="{{ r('orders.show', $order) }}" class="inline-flex h-11 items-center justify-center px-6 rounded-xl bg-primary-dark text-white text-sm font-semibold shadow-lg hover:bg-primary-dark/90 transition">

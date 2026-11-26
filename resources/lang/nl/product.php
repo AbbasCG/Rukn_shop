@@ -23,7 +23,7 @@ return [
     // Buttons & Actions
     'add_to_cart' => 'Toevoegen aan winkelwagen',
     'buy_now' => 'Nu kopen',
-    'buy_now_whatsapp' => 'Nu kopen (WhatsApp)',
+    'buy_now_whatsapp' => 'Bestel via WhatsApp',
     'add_to_wishlist' => 'Toevoegen aan verlanglijstje',
     'remove_from_wishlist' => 'Verwijderen van verlanglijstje',
     'view_wishlist' => 'Verlanglijstje bekijken',

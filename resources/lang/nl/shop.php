@@ -3,7 +3,7 @@
 return [
     // Shop Page Hero
     'shop_badge' => 'Winkel',
-    'shop_title' => 'Vind iets<br />waar je van zult houden',
+    'shop_title' => "Vind iets waar je van houdt",
     'shop_subtitle' => 'Handmatig geselecteerde producten met zorg gemaakt. Kwaliteit die je kunt vertrouwen, stijl waar je van zult houden.',
     
     // Features
@@ -47,6 +47,7 @@ return [
     
     // Product Cards
     'out_of_stock' => 'Niet op voorraad',
+    'low_stock' => 'Nog maar :count',
     'only_left' => 'Nog maar',
     'left' => 'op voorraad',
     'in_stock' => 'Op voorraad',
@@ -54,6 +55,7 @@ return [
     'view_product' => 'Bekijk product',
     'add_to_wishlist' => 'Toevoegen aan verlanglijst',
     'added' => 'Toegevoegd!',
+    'add_failed' => 'Toevoegen aan winkelwagen is mislukt. Probeer het opnieuw.',
     'view_details' => 'Bekijk Details',
     'remove' => 'Verwijderen',
     'remove_item_confirm' => 'Dit item verwijderen?',

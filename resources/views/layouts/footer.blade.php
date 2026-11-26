@@ -64,7 +64,7 @@
 
             <!-- Bottom Section -->
             <div class="border-t border-primary-light/20 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-primary-light/70">
-                <p>{{ __('footer.copyright', ['year' => \App\Helpers\LocaleNumber::digits(date('Y'))]) }}</p>
+                <p>{{ __('footer.copyright', ['year' => date('Y')]) }}</p>
                 <div class="flex gap-6 mt-4 md:mt-0">
                     <a href="{{ r('privacy-policy') }}" class="hover:text-primary-light transition-colors duration-300">{{ __('footer.links.privacy') }}</a>
                     <a href="{{ r('terms-of-service') }}" class="hover:text-primary-light transition-colors duration-300">{{ __('footer.links.terms') }}</a>

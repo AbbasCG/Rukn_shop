@@ -55,51 +55,10 @@
             </div>
 
             <!-- Products Grid -->
-            @if($featuredProducts && $featuredProducts->count() > 0)
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                @foreach($featuredProducts->take(4) as $product)
-                <div class="group flex flex-col h-full">
-                    <!-- Product Image -->
-                    <div class="relative h-80 bg-primary-gray rounded-2xl overflow-hidden mb-6 flex-shrink-0">
-                        @if($product->primaryImage() || $product->legacyImageUrl())
-                        <img
-                            src="{{ $product->primaryImageUrl() }}"
-                            alt="{{ $product->name }}"
-                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
-                            onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
-                        @else
-                        <div class="w-full h-full flex items-center justify-center">
-                            <svg class="w-20 h-20 text-primary-dark/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                        </div>
-                        @endif
-                    </div>
-
-                    <!-- Product Info -->
-                    <h3 class="text-lg font-semibold text-primary-dark mb-2 line-clamp-2 text-start">
-                        {{ $product->name }}
-                    </h3>
-
-                    @if($product->short_description)
-                    <p class="text-sm text-primary-dark/60 mb-4 line-clamp-2 text-start">
-                        <bdi>{{ $product->short_description }}</bdi>
-                    </p>
-                    @endif
-
-                    <div class="mt-auto">
-                        <p class="text-lg font-semibold text-primary-dark mb-4 text-start">
-                            €{{ number_format($product->price, 2) }}
-                        </p>
-
-                        <a
-                            href="{{ r('products.show', $product) }}"
-
-                            class="nav-link-underline w-full inline-flex items-center justify-center px-4 py-3 border-2 border-primary-dark text-primary-dark font-semibold hover:bg-primary-dark hover:text-primary-light transition-all duration-300 ease-in-out rounded-lg">
-                            {{ __('home.view_details') }}
-                        </a>
-                    </div>
-                </div>
+            @if($newArrivals->isNotEmpty())
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-8 lg:gap-x-6">
+                @foreach($newArrivals as $product)
+                    <x-product-card :product="$product" />
                 @endforeach
             </div>
             @else
@@ -110,6 +69,7 @@
         </div>
     </section>
 
+    @if($bestsellers->count() >= 4)
     <!-- 3. BESTSELLERS SECTION -->
     <section class="py-24 bg-primary-gray">
         <div class="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -127,59 +87,14 @@
             </div>
 
             <!-- Products Grid -->
-            @if($featuredProducts && $featuredProducts->count() > 0)
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                @foreach($featuredProducts->take(4) as $product)
-                <div class="group flex flex-col h-full">
-                    <!-- Product Image -->
-                    <div class="relative h-80 bg-primary-light rounded-2xl overflow-hidden mb-6 flex-shrink-0">
-                        @if($product->primaryImage() || $product->legacyImageUrl())
-                        <img
-                            src="{{ $product->primaryImageUrl() }}"
-                            alt="{{ $product->name }}"
-                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
-                            onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
-                        @else
-                        <div class="w-full h-full flex items-center justify-center">
-                            <svg class="w-20 h-20 text-primary-dark/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                        </div>
-                        @endif
-                    </div>
-
-                    <!-- Product Info -->
-                    <h3 class="text-lg font-semibold text-primary-dark mb-2 line-clamp-2">
-                        {{ $product->name }}
-                    </h3>
-
-                    @if($product->short_description)
-                    <p class="text-sm text-primary-dark/60 mb-4 line-clamp-2">
-                        <bdi>{{ $product->short_description }}</bdi>
-                    </p>
-                    @endif
-
-                    <div class="mt-auto">
-                        <p class="text-lg font-semibold text-primary-dark mb-4">
-                            €{{ number_format($product->price, 2) }}
-                        </p>
-
-                        <a
-                            href="{{ r('products.show', $product) }}"
-                            class="nav-link-underline w-full inline-flex items-center justify-center px-4 py-3 border-2 border-primary-dark text-primary-dark font-semibold hover:bg-primary-dark hover:text-primary-light transition-all duration-300 ease-in-out rounded-lg">
-                            {{ __('home.view_details') }}
-                        </a>
-                    </div>
-                </div>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-8 lg:gap-x-6">
+                @foreach($bestsellers as $product)
+                    <x-product-card :product="$product" />
                 @endforeach
             </div>
-            @else
-            <div class="text-center py-12">
-                <p class="text-lg text-primary-dark/70">{{ __('home.bestsellers_coming_soon') }}</p>
-            </div>
-            @endif
         </div>
     </section>
+    @endif
 
     <!-- 4. FEATURES SECTION WITH LARGE IMAGE -->
     <section class="py-24 bg-primary-light">

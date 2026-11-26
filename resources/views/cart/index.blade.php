@@ -30,7 +30,7 @@
                     <img src="{{ $imageUrl }}" alt="{{ $product->name }}" class="w-24 h-24 rounded-2xl object-cover border border-white/30" onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
                     <div class="flex-1">
                         <h3 class="text-lg font-semibold text-primary-dark">{{ $product->name }}</h3>
-                        <div class="mt-1 text-neutral-700">€{{ number_format($price, 2, ',', '.') }}</div>
+                        <div class="mt-1 text-neutral-700">{{ money($price) }}</div>
                         <div class="mt-4 flex items-center gap-3">
                             @auth
                             <form method="POST" action="{{ r('cart.update', ['cart' => $item->id]) }}" x-ref="form">
@@ -81,9 +81,9 @@
             <div class="rounded-3xl bg-primary-dark text-white shadow-2xl p-8 space-y-6">
                 <h2 class="text-xl font-bold">{{ __('cart.summary.title') }}</h2>
                 <div class="space-y-2 text-sm">
-                    <div class="flex items-center justify-between"><span>{{ __('cart.summary.subtotal') }}</span><span>€{{ number_format($subtotal, 2, ',', '.') }}</span></div>
-                    <div class="flex items-center justify-between"><span>{{ __('cart.summary.shipping') }}</span><span>€{{ number_format($shipping, 2, ',', '.') }}</span></div>
-                    <div class="flex items-center justify-between text-base font-semibold"><span>{{ __('cart.summary.total') }}</span><span>€{{ number_format($total, 2, ',', '.') }}</span></div>
+                    <div class="flex items-center justify-between"><span>{{ __('cart.summary.subtotal') }}</span><span>{{ money($subtotal) }}</span></div>
+                    <div class="flex items-center justify-between"><span>{{ __('cart.summary.shipping') }}</span><span>{{ money($shipping) }}</span></div>
+                    <div class="flex items-center justify-between text-base font-semibold"><span>{{ __('cart.summary.total') }}</span><span>{{ money($total) }}</span></div>
                 </div>
                 @auth
                 <a href="{{ r('checkout.index') }}" class="block w-full px-6 py-4 rounded-2xl bg-white text-primary-dark font-semibold shadow-lg hover:bg-white/80 transition text-center">{{ __('cart.actions.proceed') }}</a>

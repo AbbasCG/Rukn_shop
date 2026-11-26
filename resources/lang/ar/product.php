@@ -23,7 +23,7 @@ return [
     // Buttons & Actions
     'add_to_cart' => 'أضف إلى السلة',
     'buy_now' => 'اشتري الآن',
-    'buy_now_whatsapp' => 'اشتري الآن (WhatsApp)',
+    'buy_now_whatsapp' => 'اطلب عبر واتساب',
     'add_to_wishlist' => 'أضف إلى قائمة الرغبات',
     'remove_from_wishlist' => 'إزالة من قائمة الرغبات',
     'view_wishlist' => 'عرض قائمة الرغبات',

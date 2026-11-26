@@ -122,7 +122,7 @@
                                         {{ $statusLabel(strtolower((string) $order->status)) }}
                                     </span>
                                 </td>
-                                <td class="py-4 px-6 font-semibold text-primary-dark">€{{ number_format($lineSubtotal, 2) }}</td>
+                                <td class="py-4 px-6 font-semibold text-primary-dark">{{ money($lineSubtotal) }}</td>
                                 <td class="py-4 px-6 text-primary-dark/80">{{ $order->payment_method ? ucfirst(str_replace('_', ' ', $order->payment_method)) : '-' }}</td>
                                 <td class="py-4 px-6 align-middle">
                                     <div class="flex items-center gap-2 flex-nowrap min-w-0">
@@ -181,7 +181,7 @@
                         <div class="grid grid-cols-2 gap-3 text-sm">
                             <div>
                                 <p class="text-primary-dark/60">{{ __('admin.orders.table.total') }}</p>
-                                <p class="font-semibold text-primary-dark">€{{ number_format($lineSubtotal, 2) }}</p>
+                                <p class="font-semibold text-primary-dark">{{ money($lineSubtotal) }}</p>
                             </div>
                             <div>
                                 <p class="text-primary-dark/60">{{ __('admin.orders.table.payment') }}</p>

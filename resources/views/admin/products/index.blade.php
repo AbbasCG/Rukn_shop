@@ -199,7 +199,7 @@
                                     <span class="text-sm text-primary-dark/70">{{ $product->category->name ?? '-' }}</span>
                                 </td>
                                 <td class="px-6 py-4 align-middle">
-                                    <span class="text-sm font-semibold text-primary-dark">€{{ number_format($product->price, 2) }}</span>
+                                    <span class="text-sm font-semibold text-primary-dark">{{ money($product->price) }}</span>
                                 </td>
                                 <td class="px-6 py-4 align-middle">
                                     @if($product->stock <= 0)

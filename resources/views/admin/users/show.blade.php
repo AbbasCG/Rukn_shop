@@ -44,7 +44,7 @@
             </div>
             <div>
                 <p class="text-sm text-primary-600 dark:text-primary-600">{{ __('admin.users.show.fields.total_spent') }}</p>
-                <p class="text-2xl font-bold">€{{ number_format($user->orders->sum('total_amount') ?? 0, 2) }}</p>
+                <p class="text-2xl font-bold">{{ money($user->orders->sum('total')) }}</p>
             </div>
             <div>
                 <p class="text-sm text-primary-600 dark:text-primary-600">{{ __('admin.users.show.fields.last_login') }}</p>

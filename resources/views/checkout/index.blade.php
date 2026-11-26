@@ -101,21 +101,21 @@
                         @endphp
                         <div class="flex items-center justify-between">
                             <div class="text-sm text-neutral-700">{{ $item->product->name }} × {{ $qty }}</div>
-                            <div class="text-sm font-semibold text-primary-dark">€{{ number_format($price * $qty, 2, ',', '.') }}</div>
+                            <div class="text-sm font-semibold text-primary-dark">{{ money($price * $qty) }}</div>
                         </div>
                         @endforeach
                         <div class="border-t border-primary-gray my-2"></div>
                         <div class="flex items-center justify-between text-sm">
                             <span class="text-neutral-700">{{ __('checkout.summary.subtotal') }}</span>
-                            <span class="font-semibold text-primary-dark">€{{ number_format($subtotal, 2, ',', '.') }}</span>
+                            <span class="font-semibold text-primary-dark">{{ money($subtotal) }}</span>
                         </div>
                         <div class="flex items-center justify-between text-sm">
                             <span class="text-neutral-700">{{ __('checkout.summary.shipping') }}</span>
-                            <span class="font-semibold text-primary-dark">€{{ number_format($shipping, 2, ',', '.') }}</span>
+                            <span class="font-semibold text-primary-dark">{{ money($shipping) }}</span>
                         </div>
                         <div class="flex items-center justify-between text-base">
                             <span class="text-primary-dark font-semibold">{{ __('checkout.summary.total') }}</span>
-                            <span class="text-primary-dark font-semibold">€{{ number_format($total, 2, ',', '.') }}</span>
+                            <span class="text-primary-dark font-semibold">{{ money($total) }}</span>
                         </div>
                     </div>
                 </div>

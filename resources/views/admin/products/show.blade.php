@@ -21,7 +21,7 @@
             <img src="{{ $product->primaryImageUrl() }}" class="w-full rounded-lg" alt="{{ $product->name }}" onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
         </div>
         <div class="bg-white dark:bg-white rounded-xl p-4 shadow border border-neutral-200 dark:border-neutral-300 space-y-3 text-primary-800 dark:text-primary-800">
-            <p><span class="font-semibold">{{ __('admin.products.show.fields.price') }}:</span> €{{ number_format($product->price,2) }}</p>
+            <p><span class="font-semibold">{{ __('admin.products.show.fields.price') }}:</span> {{ money($product->price) }}</p>
             <p><span class="font-semibold">{{ __('admin.products.show.fields.stock') }}:</span> {{ $product->stock }}</p>
             <p><span class="font-semibold">{{ __('admin.products.show.fields.category') }}:</span> {{ $product->category->name ?? '-' }}</p>
             <p><span class="font-semibold">{{ __('admin.products.show.fields.status') }}:</span> 

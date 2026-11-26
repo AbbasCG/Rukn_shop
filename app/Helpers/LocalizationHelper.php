@@ -101,3 +101,29 @@ if (!function_exists('getActiveLocale')) {
         return app()->getLocale();
     }
 }
+
+if (!function_exists('money')) {
+    /**
+     * Format an amount as a price for the active locale, always with Western
+     * digits: nl "€ 1.249,50", en "€1,249.50", ar "1,249.50 €".
+     */
+    function money($amount, string $currency = 'EUR'): string
+    {
+        $amount = (float) $amount;
+        $locale = match (app()->getLocale()) {
+            'nl' => 'nl_NL',
+            'ar' => 'ar@numbers=latn',
+            default => 'en_GB',
+        };
+
+        if (class_exists(\NumberFormatter::class)) {
+            $formatted = (new \NumberFormatter($locale, \NumberFormatter::CURRENCY))->formatCurrency($amount, $currency);
+            if ($formatted !== false) {
+                // Drop the leading RLM that ICU adds for Arabic; the page direction handles it.
+                return str_replace("\u{200F}", '', $formatted);
+            }
+        }
+
+        return '€' . number_format($amount, 2, ',', '.');
+    }
+}

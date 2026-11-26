@@ -28,13 +28,24 @@ Route::prefix('{locale}')
 
         // Home page
         Route::get('/', function () {
-            $featuredProducts = Product::where('is_active', true)
-                ->with('category')
+            $newArrivals = Product::where('is_active', true)
+                ->with(['category', 'images'])
                 ->latest()
-                ->take(8)
+                ->take(4)
                 ->get();
 
-            return view('home', compact('featuredProducts'));
+            // Real bestsellers (most units ordered), never repeating new arrivals.
+            // The section is hidden until there are enough sales to fill a row.
+            $bestsellers = Product::where('is_active', true)
+                ->whereNotIn('id', $newArrivals->pluck('id'))
+                ->whereHas('orderItems')
+                ->withSum('orderItems as units_sold', 'quantity')
+                ->with(['category', 'images'])
+                ->orderByDesc('units_sold')
+                ->take(4)
+                ->get();
+
+            return view('home', compact('newArrivals', 'bestsellers'));
         })->name('home');
 
         // Auth-protected routes

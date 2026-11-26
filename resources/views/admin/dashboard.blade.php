@@ -77,7 +77,7 @@
                     $completedOrderIds = \App\Models\Order::where('payment_status', 'paid')->pluck('id');
                     $revenue = \App\Models\order_items::whereIn('order_id', $completedOrderIds)->sum(\DB::raw('price * quantity'));
                     @endphp
-                    <p class="text-3xl font-bold text-primary-dark mt-2">€{{ number_format($revenue, 2) }}</p>
+                    <p class="text-3xl font-bold text-primary-dark mt-2">{{ money($revenue) }}</p>
                     <p class="text-xs text-primary-dark/50 mt-1">{{ __('admin.dashboard.cards.from_paid_orders') }}</p>
                 </div>
                 <div class="bg-primary-dark/10 rounded-full p-3">
@@ -227,7 +227,7 @@
                             return $item->price * $item->quantity;
                             });
                             @endphp
-                            <span class="text-sm font-semibold text-primary-dark">${{ number_format($orderTotal, 2) }}</span>
+                            <span class="text-sm font-semibold text-primary-dark">{{ money($orderTotal) }}</span>
                         </td>
                         <td class="py-3 px-4">
                             @php

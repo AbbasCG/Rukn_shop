@@ -37,7 +37,7 @@
                             <p class="text-sm text-neutral-600">{{ $order->created_at->format('F d, Y \a\t g:i A') }}</p>
                         </div>
                     </div>
-                    <p class="text-sm text-neutral-700"><span class="font-medium">{{ __('orders.table.total') }}:</span> €{{ number_format($order->total, 2, ',', '.') }}</p>
+                    <p class="text-sm text-neutral-700"><span class="font-medium">{{ __('orders.table.total') }}:</span> {{ money($order->total) }}</p>
                 </div>
 
                 <div class="flex items-center gap-4">

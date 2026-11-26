@@ -42,15 +42,15 @@
                 <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
                         <p class="text-xs uppercase tracking-wide text-neutral-500">{{ __('orders.summary.total') }}</p>
-                        <p class="mt-1 text-2xl font-bold text-primary-dark">€{{ number_format($order->total, 2, ',', '.') }}</p>
+                        <p class="mt-1 text-2xl font-bold text-primary-dark">{{ money($order->total) }}</p>
                     </div>
                     <div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
                         <p class="text-xs uppercase tracking-wide text-neutral-500">{{ __('orders.summary.subtotal') }}</p>
-                        <p class="mt-1 text-lg font-semibold text-primary-dark">€{{ number_format($order->subtotal, 2, ',', '.') }}</p>
+                        <p class="mt-1 text-lg font-semibold text-primary-dark">{{ money($order->subtotal) }}</p>
                     </div>
                     <div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
                         <p class="text-xs uppercase tracking-wide text-neutral-500">{{ __('orders.summary.shipping') }}</p>
-                        <p class="mt-1 text-lg font-semibold text-primary-dark">€{{ number_format($order->shipping_cost, 2, ',', '.') }}</p>
+                        <p class="mt-1 text-lg font-semibold text-primary-dark">{{ money($order->shipping_cost) }}</p>
                     </div>
                     <div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
                         <p class="text-xs uppercase tracking-wide text-neutral-500">{{ __('orders.summary.payment_method') }}</p>
@@ -131,8 +131,8 @@
                                         </div>
                                     </td>
                                     <td class="py-4 font-medium text-primary-dark">{{ $item->quantity }}</td>
-                                    <td class="py-4 font-medium text-primary-dark">€{{ number_format($item->price, 2, ',', '.') }}</td>
-                                    <td class="py-4 font-semibold text-primary-dark">€{{ number_format($item->quantity * $item->price, 2, ',', '.') }}</td>
+                                    <td class="py-4 font-medium text-primary-dark">{{ money($item->price) }}</td>
+                                    <td class="py-4 font-semibold text-primary-dark">{{ money($item->quantity * $item->price) }}</td>
                                 </tr>
                             @empty
                                 <tr>
@@ -173,7 +173,7 @@
                                         </div>
                                         <div>
                                             <p class="text-neutral-500">{{ __('orders.items.price_per_unit') }}</p>
-                                            <p class="font-medium text-primary-dark">€{{ number_format($item->price, 2, ',', '.') }}</p>
+                                            <p class="font-medium text-primary-dark">{{ money($item->price) }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -181,7 +181,7 @@
 
                             <div class="mt-4 pt-3 border-t border-gray-200 flex items-center justify-between">
                                 <p class="text-sm text-neutral-600">{{ __('orders.items.item_total') }}</p>
-                                <p class="text-lg font-bold text-primary-dark">€{{ number_format($item->quantity * $item->price, 2, ',', '.') }}</p>
+                                <p class="text-lg font-bold text-primary-dark">{{ money($item->quantity * $item->price) }}</p>
                             </div>
                         </article>
                     @empty

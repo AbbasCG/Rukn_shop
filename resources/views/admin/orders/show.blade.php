@@ -47,7 +47,7 @@
 
             <div class="text-start lg:text-end">
                 <p class="text-xs uppercase tracking-wide text-primary-dark/60">{{ __('admin.orders.table.total') }}</p>
-                <p class="text-3xl font-bold text-primary-dark">€{{ number_format($grandTotal, 2) }}</p>
+                <p class="text-3xl font-bold text-primary-dark">{{ money($grandTotal) }}</p>
             </div>
         </div>
 
@@ -139,8 +139,8 @@
                                     </div>
                                 </td>
                                 <td class="py-4 font-medium text-primary-dark">{{ $item->quantity }}</td>
-                                <td class="py-4 font-medium text-primary-dark">€{{ number_format($item->price, 2) }}</td>
-                                <td class="py-4 font-semibold text-primary-dark">€{{ number_format($item->price * $item->quantity, 2) }}</td>
+                                <td class="py-4 font-medium text-primary-dark">{{ money($item->price) }}</td>
+                                <td class="py-4 font-semibold text-primary-dark">{{ money($item->price * $item->quantity) }}</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -167,14 +167,14 @@
                                     </div>
                                     <div>
                                         <p class="text-primary-dark/60">{{ __('admin.orders.show.table.unit_price') }}</p>
-                                        <p class="font-medium text-primary-dark">€{{ number_format($item->price, 2) }}</p>
+                                        <p class="font-medium text-primary-dark">{{ money($item->price) }}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="mt-3 pt-3 border-t border-gray-200 flex items-center justify-between text-sm">
                             <span class="text-primary-dark/60">{{ __('admin.orders.show.fields.line_subtotal') }}</span>
-                            <span class="font-semibold text-primary-dark">€{{ number_format($item->price * $item->quantity, 2) }}</span>
+                            <span class="font-semibold text-primary-dark">{{ money($item->price * $item->quantity) }}</span>
                         </div>
                     </article>
                 @endforeach
@@ -186,23 +186,23 @@
             <div class="space-y-3 text-sm">
                 <div class="flex items-center justify-between">
                     <span class="text-primary-dark/60">{{ __('admin.orders.show.fields.subtotal') }}</span>
-                    <span class="font-medium text-primary-dark">€{{ number_format($subtotal, 2) }}</span>
+                    <span class="font-medium text-primary-dark">{{ money($subtotal) }}</span>
                 </div>
                 <div class="flex items-center justify-between">
                     <span class="text-primary-dark/60">{{ __('admin.orders.show.fields.shipping') }}</span>
-                    <span class="font-medium text-primary-dark">€{{ number_format($shipping, 2) }}</span>
+                    <span class="font-medium text-primary-dark">{{ money($shipping) }}</span>
                 </div>
                 <div class="flex items-center justify-between">
                     <span class="text-primary-dark/60">{{ __('admin.orders.show.fields.discount') }}</span>
-                    <span class="font-medium text-primary-dark">-€{{ number_format($discount, 2) }}</span>
+                    <span class="font-medium text-primary-dark">-{{ money($discount) }}</span>
                 </div>
                 <div class="flex items-center justify-between">
                     <span class="text-primary-dark/60">{{ __('admin.orders.show.fields.tax') }}</span>
-                    <span class="font-medium text-primary-dark">€{{ number_format($tax, 2) }}</span>
+                    <span class="font-medium text-primary-dark">{{ money($tax) }}</span>
                 </div>
                 <div class="pt-3 border-t border-gray-200 flex items-center justify-between">
                     <span class="text-base font-semibold text-primary-dark">{{ __('admin.orders.show.fields.grand_total') }}</span>
-                    <span class="text-xl font-bold text-primary-dark">€{{ number_format($grandTotal, 2) }}</span>
+                    <span class="text-xl font-bold text-primary-dark">{{ money($grandTotal) }}</span>
                 </div>
             </div>
         </aside>

@@ -109,7 +109,7 @@
                 </div>
 
                 <!-- Price -->
-                <div class="text-5xl font-bold text-primary-800 dark:text-primary-800">€{{ number_format($product->price, 2) }}</div>
+                <div class="text-5xl font-bold text-primary-800 dark:text-primary-800">{{ money($product->price) }}</div>
 
                 <!-- Availability -->
                 @if($product->stock > 0)
@@ -208,54 +208,51 @@
                 
 
                 <!-- Quantity + Actions -->
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-start gap-3 pt-4 w-full">
-                    <!-- Quantity Selector -->
-                    <div class="inline-flex items-center gap-2 flex-shrink-0">
-                        <button type="button" onclick="decrementQuantity()" class="w-8 h-8 flex items-center justify-center text-primary-800 dark:text-primary-800 hover:opacity-70 transition-opacity active:scale-90">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
-                            </svg>
-                        </button>
-                        <input 
-                            type="number" 
-                            id="quantity" 
-                            name="quantity" 
-                            value="1" 
-                            min="1" 
-                            max="{{ $product->stock }}" 
-                            :aria-label="__('product.quantity_label')"
-                            class="w-12 h-8 text-center px-2 py-0 bg-transparent text-sm font-bold text-primary-800 dark:text-primary-800 focus:outline-none transition-all [&::-webkit-outer-spin-button]:[appearance:none] [&::-webkit-inner-spin-button]:[appearance:none] [&::-webkit-inner-spin-button]:[margin:0] [&::-webkit-outer-spin-button]:[margin:0]"
-                        >
-                        <button type="button" onclick="incrementQuantity()" class="w-8 h-8 flex items-center justify-center text-primary-800 dark:text-primary-800 hover:opacity-70 transition-opacity active:scale-90">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
-                            </svg>
-                        </button>
-                    </div>
+                <div class="space-y-3 pt-4">
+                    <div class="flex items-stretch gap-3">
+                        <!-- Quantity Selector (submitted with the add-to-cart form via form="") -->
+                        <div class="inline-flex items-center h-12 rounded-xl border border-primary-200 bg-white flex-shrink-0">
+                            <button type="button" onclick="decrementQuantity()" aria-label="−" class="w-10 h-full flex items-center justify-center text-primary-800 hover:bg-primary-50 rounded-s-xl transition-colors">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                                </svg>
+                            </button>
+                            <input
+                                type="number"
+                                id="quantity"
+                                name="quantity"
+                                form="add-to-cart-form"
+                                value="1"
+                                min="1"
+                                max="{{ max(1, $product->stock) }}"
+                                aria-label="{{ __('product.quantity_label') }}"
+                                class="w-10 h-full text-center p-0 border-0 bg-transparent text-sm font-bold text-primary-800 focus:ring-0 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                            >
+                            <button type="button" onclick="incrementQuantity()" aria-label="+" class="w-10 h-full flex items-center justify-center text-primary-800 hover:bg-primary-50 rounded-e-xl transition-colors">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                                </svg>
+                            </button>
+                        </div>
 
-                    <!-- Action Buttons Container -->
-                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-1 w-full sm:w-auto">
                         <!-- Add to Cart Button -->
-                        <form action="{{ r('cart.store') }}" method="POST" class="flex-1 sm:flex-1 min-w-0">
+                        <form id="add-to-cart-form" action="{{ r('cart.store') }}" method="POST" class="flex-1 min-w-0">
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
-
-                            <button 
-                                type="submit" 
-                                @if($product->stock <= 0) disabled @endif
-                                class="w-full h-full py-3 px-4 bg-primary-800 hover:bg-primary-700 active:bg-primary-900 text-white text-base font-semibold rounded-xl shadow-md hover:shadow-xl transition-all transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-md disabled:hover:translate-y-0 whitespace-nowrap">
-                                <span class="flex items-center justify-center gap-2">
-                                    <svg class="w-6 h-6 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
-                                    </svg>
-                                    <span class="truncate">{{ __('product.add_to_cart') }}</span>
-                                </span>
+                            <button
+                                type="submit"
+                                @disabled($product->stock <= 0)
+                                class="w-full h-12 px-4 inline-flex items-center justify-center gap-2 bg-primary-800 hover:bg-primary-700 active:bg-primary-900 text-white text-base font-semibold rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                                <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                                    <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+                                </svg>
+                                <span>{{ $product->stock > 0 ? __('product.add_to_cart') : __('product.out_of_stock') }}</span>
                             </button>
                         </form>
-
-                        <!-- WhatsApp Buy Now Button Component -->
-                        <x-whatsapp-buy-now :product="$product" :quantity="1" />
                     </div>
+
+                    <!-- WhatsApp: secondary action -->
+                    <x-whatsapp-buy-now :product="$product" :quantity="1" />
                 </div>
 
                 <!-- Extra Info -->
@@ -493,23 +490,10 @@
     <!-- Related Products -->
     @if($relatedProducts && $relatedProducts->count() > 0)
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <h2 class="text-4xl font-bold text-primary-800 dark:text-primary-800 mb-8">{{ __('product.related_products_title') }}</h2>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            <h2 class="text-2xl md:text-3xl font-bold text-primary-800 dark:text-primary-800 mb-6">{{ __('product.related_products_title') }}</h2>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-8 lg:gap-x-6">
                 @foreach($relatedProducts as $relatedProduct)
-                    <div class="bg-white dark:bg-white rounded-2xl shadow-md border border-neutral-200 dark:border-neutral-300 overflow-hidden hover:shadow-2xl hover:border-primary-800 hover:-translate-y-2 transition-all duration-300">
-                        <a href="{{ r('products.show', $relatedProduct) }}">
-                            <div class="aspect-square bg-primary-100 dark:bg-primary-100 overflow-hidden">
-                                <img src="{{ $relatedProduct->primaryImageUrl() }}" alt="{{ $relatedProduct->name }}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
-                            </div>
-                            <div class="p-4">
-                                <h3 class="font-bold text-primary-800 dark:text-primary-800 mb-2.5 line-clamp-2 hover:text-primary-700 transition-colors">{{ $relatedProduct->name }}</h3>
-                                <div class="text-2xl font-bold text-primary-800 dark:text-primary-800 mb-3">€{{ number_format($relatedProduct->price, 2) }}</div>
-                                <button class="w-full py-2 px-4 border-2 border-primary-800 dark:border-primary-800 text-primary-800 dark:text-primary-800 rounded-xl hover:bg-primary-800 hover:text-white dark:hover:bg-primary-800 dark:hover:text-white transition-all text-sm font-bold">
-                                    {{ __('product.view_details') }}
-                                </button>
-                            </div>
-                        </a>
-                    </div>
+                    <x-product-card :product="$relatedProduct" />
                 @endforeach
             </div>
         </div>

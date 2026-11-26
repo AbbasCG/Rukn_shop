@@ -23,7 +23,7 @@ return [
     // Buttons & Actions
     'add_to_cart' => 'Add to Cart',
     'buy_now' => 'Buy Now',
-    'buy_now_whatsapp' => 'Buy Now (WhatsApp)',
+    'buy_now_whatsapp' => 'Order via WhatsApp',
     'add_to_wishlist' => 'Add to Wishlist',
     'remove_from_wishlist' => 'Remove from Wishlist',
     'view_wishlist' => 'View Wishlist',

@@ -51,6 +51,11 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function orderItems()
+    {
+        return $this->hasMany(order_items::class, 'product_id');
+    }
+
     public function images()
     {
         return $this->hasMany(ProductImage::class);
@@ -61,7 +66,10 @@ class Product extends Model
      */
     public function primaryImage()
     {
-        return $this->images()->where('is_primary', true)->first() ?? $this->images()->first();
+        // Uses the eager-loaded relation when present (avoids one query per card).
+        $images = $this->images;
+
+        return $images->firstWhere('is_primary', true) ?? $images->first();
     }
 
     /**
