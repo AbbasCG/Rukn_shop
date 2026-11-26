@@ -33,7 +33,7 @@ class CartController extends Controller
         }
 
         $subtotal = $cartItems->sum(function ($item) {
-            $price = $item->price_at_time ?? optional($item->product)->price ?? 0;
+            $price = optional($item->product)->price ?? 0;
             $qtyCol = Schema::hasColumn('carts', 'quantity') ? 'quantity' : 'quanttty';
             $qty = isset($item->$qtyCol) ? $item->$qtyCol : ($item->quantity ?? 1);
             return $price * $qty;
@@ -180,11 +180,11 @@ class CartController extends Controller
 
         if ($request->expectsJson()) {
             // return updated item total and cart totals
-            $price = $cart->price_at_time ?? optional($cart->product)->price ?? 0;
+            $price = optional($cart->product)->price ?? 0;
             $itemTotal = $price * $cart->$quantityColumn;
             $items = Cart::where('user_id', Auth::id())->with('product')->get();
             $subtotal = $items->sum(function ($item) {
-                $price = $item->price_at_time ?? optional($item->product)->price ?? 0;
+                $price = optional($item->product)->price ?? 0;
                 $qtyCol = Schema::hasColumn('carts', 'quantity') ? 'quantity' : 'quanttty';
                 return $price * ($item->$qtyCol ?? 1);
             });

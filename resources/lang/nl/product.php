@@ -106,4 +106,5 @@ return [
     'copy_link' => 'Link kopiëren',
     'link_copied' => 'Link gekopieerd naar klembord!',
     'share_message' => 'Bekijk dit product: :name voor €:price',
+    'hidden_notice' => 'Dit product is verborgen: klanten kunnen het niet zien. Alleen beheerders zien deze voorbeeldpagina.',
 ];

@@ -10,6 +10,8 @@ return [
     ],
 
     'item' => [
+
+        'price_changed' => 'تغيّر السعر منذ أضفته (كان :old).',
         'remove_confirm' => 'هل تريد إزالة هذا المنتج؟',
         'remove' => 'إزالة',
     ],

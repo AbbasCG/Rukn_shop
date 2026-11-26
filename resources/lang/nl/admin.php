@@ -402,6 +402,7 @@ return [
         ],
         'messages' => [
             'updated' => 'Bestelling succesvol bijgewerkt',
+            'not_enough_stock' => 'Niet genoeg voorraad om deze bestelling te heractiveren: van :product zijn er nog maar :count.',
         ],
     ],
     'users' => [

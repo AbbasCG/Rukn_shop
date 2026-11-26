@@ -104,7 +104,7 @@
                         @php
                         $qtyCol = isset($item->quantity) ? 'quantity' : (property_exists($item, 'quanttty') ? 'quanttty' : 'quantity');
                         $qty = $item->$qtyCol ?? 1;
-                        $price = $item->price_at_time ?? $item->product->price;
+                        $price = $item->product->price;
                         @endphp
                         <div class="flex items-center justify-between">
                             <div class="text-sm text-neutral-700">{{ $item->product->name }} × {{ $qty }}</div>

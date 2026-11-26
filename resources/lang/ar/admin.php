@@ -402,6 +402,7 @@ return [
         ],
         'messages' => [
             'updated' => 'تم تحديث الطلب بنجاح',
+            'not_enough_stock' => 'لا يكفي المخزون لإعادة تفعيل هذا الطلب: المتبقي من :product هو :count فقط.',
         ],
     ],
     'users' => [

@@ -92,6 +92,11 @@ class ProductController extends Controller
      */
     public function show(Request $request, string $locale, Product $product)
     {
+        // Hidden products are not public; admins can still preview them.
+        if (! $product->is_active && $request->user()?->role !== 'admin') {
+            abort(404);
+        }
+
         // Old numeric links (/products/12) and other spellings redirect
         // permanently to the canonical slug URL, keeping any query string.
         if ($request->route()->originalParameter('product') !== $product->slug) {

@@ -106,4 +106,5 @@ return [
     'copy_link' => 'Copy Link',
     'link_copied' => 'Link copied to clipboard!',
     'share_message' => 'Check out this product: :name for €:price',
+    'hidden_notice' => 'This product is hidden: customers cannot see it. Only admins can preview this page.',
 ];

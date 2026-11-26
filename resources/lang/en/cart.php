@@ -10,6 +10,8 @@ return [
     ],
 
     'item' => [
+
+        'price_changed' => 'Price changed since you added it (was :old).',
         'remove_confirm' => 'Remove this item?',
         'remove' => 'Remove',
     ],

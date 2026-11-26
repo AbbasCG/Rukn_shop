@@ -22,7 +22,10 @@
                 @php
                 $product = $item->product;
                 $imageUrl = $product->primaryImageUrl();
-                $price = $item->price_at_time ?? ($product->price ?? 0);
+                // Current price; price_at_time only records what it was when added.
+                $price = $product->price ?? 0;
+                $pricedAt = $item->price_at_time;
+                $priceChanged = $pricedAt !== null && round((float) $pricedAt, 2) !== round((float) $price, 2);
                 $qty = $item->$qtyCol ?? 1;
                 $itemTotal = $price * $qty;
                 @endphp
@@ -31,6 +34,9 @@
                     <div class="flex-1">
                         <h3 class="text-lg font-semibold text-primary-dark">{{ $product->name }}</h3>
                         <div class="mt-1 text-neutral-700">{{ money($price) }}</div>
+                        @if($priceChanged)
+                            <p class="mt-1 text-xs {{ $price > $pricedAt ? 'text-amber-700' : 'text-emerald-700' }}">{{ __('cart.item.price_changed', ['old' => money($pricedAt)]) }}</p>
+                        @endif
                         <div class="mt-4 flex items-center gap-3">
                             @auth
                             <form method="POST" action="{{ r('cart.update', ['cart' => $item->id]) }}" x-ref="form">

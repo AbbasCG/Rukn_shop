@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminOrderController extends Controller
 {
@@ -70,9 +72,51 @@ class AdminOrderController extends Controller
             'notes' => 'nullable|string',
         ]);
 
-        $order = Order::findOrFail($order);
-        $order->update($validated);
+        $order = Order::with('items')->findOrFail($order);
+
+        $wasCancelled = $order->status === 'cancelled';
+        $isCancelled = $validated['status'] === 'cancelled';
+
+        try {
+            DB::transaction(function () use ($order, $validated, $wasCancelled, $isCancelled) {
+                if (! $wasCancelled && $isCancelled) {
+                    $this->adjustStock($order, +1);   // cancelled: items go back on the shelf
+                } elseif ($wasCancelled && ! $isCancelled) {
+                    $this->adjustStock($order, -1);   // re-activated: take them again
+                }
+
+                $order->update($validated);
+            });
+        } catch (\RuntimeException $e) {
+            return back()->with('error', $e->getMessage());
+        }
 
         return redirect()->route('admin.orders.show', $order)->with('success', __('admin.orders.messages.updated'));
+    }
+
+    /**
+     * Put an order's quantities back into stock (+1) or take them out again (-1).
+     * Products are locked; taking stock fails if there is not enough left.
+     */
+    private function adjustStock(Order $order, int $direction): void
+    {
+        $quantities = $order->items->groupBy('product_id')->map(fn ($items) => (int) $items->sum('quantity'));
+        $products = Product::whereIn('id', $quantities->keys())->lockForUpdate()->get()->keyBy('id');
+
+        foreach ($quantities as $productId => $quantity) {
+            $product = $products->get($productId);
+            if (! $product) {
+                continue; // product deleted since the order: nothing to restock
+            }
+
+            if ($direction < 0 && $product->stock < $quantity) {
+                throw new \RuntimeException(__('admin.orders.messages.not_enough_stock', [
+                    'product' => $product->name,
+                    'count' => max(0, $product->stock),
+                ]));
+            }
+
+            $product->increment('stock', $direction * $quantity);
+        }
     }
 }

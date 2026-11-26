@@ -402,6 +402,7 @@ return [
         ],
         'messages' => [
             'updated' => 'Order updated successfully',
+            'not_enough_stock' => 'Not enough stock to re-activate this order: :product has only :count left.',
         ],
     ],
     'users' => [

@@ -42,7 +42,11 @@
     <meta property="product:availability" content="{{ $product->stock > 0 ? 'in stock' : 'out of stock' }}">
     <script type="application/ld+json">{!! json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP) !!}</script>
 @endpush
-<x-app-layout :title="$product->name" :description="$seoDescription" :image="$seoImage" type="product">
+<x-app-layout :title="$product->name" :description="$seoDescription" :image="$seoImage" type="product" :noindex="! $product->is_active">
+    @unless($product->is_active)
+        {{-- Only admins reach this page for a hidden product. --}}
+        <div class="bg-amber-100 text-amber-900 text-sm text-center px-4 py-3">{{ __('product.hidden_notice') }}</div>
+    @endunless
     <!-- Breadcrumbs -->
     <div class="bg-primary-50 dark:bg-primary-900 border-b border-primary-200 dark:border-primary-700">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">

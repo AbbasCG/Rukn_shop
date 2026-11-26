@@ -10,6 +10,8 @@ return [
     ],
 
     'item' => [
+
+        'price_changed' => 'Prijs gewijzigd sinds je het toevoegde (was :old).',
         'remove_confirm' => 'Dit artikel verwijderen?',
         'remove' => 'Verwijderen',
     ],

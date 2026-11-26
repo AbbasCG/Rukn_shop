@@ -24,8 +24,10 @@ class CheckoutController extends Controller
         if ($cartItems->isEmpty()) {
             return redirect()->route('cart.index')->with('error', __('checkout.flash.empty_cart'));
         }
+        // Always the current product price: a price changed after the item was
+        // added to the cart applies at checkout.
         $subtotal = $cartItems->sum(function ($item) {
-            $price = $item->price_at_time ?? $item->product->price;
+            $price = $item->product->price;
             $qtyCol = isset($item->quantity) ? 'quantity' : (property_exists($item, 'quanttty') ? 'quanttty' : 'quantity');
             return $price * ($item->$qtyCol ?? 1);
         });
@@ -84,8 +86,10 @@ class CheckoutController extends Controller
                 }
             }
 
-            $subtotal = $cartItems->sum(function ($item) {
-                $price = $item->price_at_time ?? $item->product->price;
+            // Prices from the locked product rows: what the customer saw at
+            // checkout, and cannot change while the order is being written.
+            $subtotal = $cartItems->sum(function ($item) use ($products) {
+                $price = $products->get($item->product_id)->price;
                 $qtyCol = isset($item->quantity) ? 'quantity' : (property_exists($item, 'quanttty') ? 'quanttty' : 'quantity');
                 return $price * ($item->$qtyCol ?? 1);
             });
@@ -112,7 +116,7 @@ class CheckoutController extends Controller
             ]);
 
             foreach ($cartItems as $item) {
-                $price = $item->price_at_time ?? $item->product->price;
+                $price = $products->get($item->product_id)->price;
                 $qtyCol = isset($item->quantity) ? 'quantity' : (property_exists($item, 'quanttty') ? 'quanttty' : 'quantity');
                 $qty = $item->$qtyCol ?? 1;
                 OrderItem::create([
