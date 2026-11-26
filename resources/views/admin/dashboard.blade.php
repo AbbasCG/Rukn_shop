@@ -1,10 +1,10 @@
 @extends('layouts.admin', ['title' => __('admin.dashboard.page_title')])
 
 @section('content')
-<div class="w-full max-w-7xl mx-auto space-y-6" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+<div class="w-full max-w-7xl mx-auto space-y-6">
 
     <!-- Welcome Section -->
-    <div class="bg-white rounded-xl shadow-lg p-6 border-primary-dark {{ app()->getLocale() === 'ar' ? 'border-r-4' : 'border-l-4' }}">
+    <div class="bg-white rounded-xl shadow-lg p-6 border-primary-dark border-s-4">
         <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-2xl font-bold text-primary-dark">{{ __('admin.dashboard.title', ['name' => auth()->user()->name]) }}</h1>
@@ -151,7 +151,7 @@
                 </a>
                 <a href="{{ r('admin.orders.index') }}" class="flex items-center justify-between w-full px-4 py-3 bg-white border border-primary-dark text-primary-dark font-semibold rounded-lg hover:bg-primary-dark/5 transition-all duration-300">
                     <span>{{ __('admin.dashboard.quick_actions.view_all_orders') }}</span>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
                 </a>

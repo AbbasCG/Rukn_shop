@@ -2,7 +2,6 @@
 
 @section('content')
 @php
-    $dir = app()->getLocale() === 'ar' ? 'rtl' : 'ltr';
     $statusColors = [
         'pending' => 'bg-yellow-100 text-yellow-800',
         'processing' => 'bg-blue-100 text-blue-800',
@@ -18,7 +17,7 @@
     };
 @endphp
 
-<div class="w-full max-w-7xl mx-auto space-y-6" dir="{{ $dir }}">
+<div class="w-full max-w-7xl mx-auto space-y-6">
     <section class="bg-white rounded-xl shadow-lg p-6 space-y-4">
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>

@@ -28,7 +28,7 @@
         x-show="open"
         @click.outside="open = false"
         x-transition
-        class="absolute {{ app()->getLocale() === 'ar' ? 'left-0 rtl:text-right' : 'right-0' }} mt-2 w-48 bg-white rounded-xl shadow-lg border border-primary-gray py-2 z-50"
+        class="absolute end-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-primary-gray py-2 z-50"
         style="display: none;"
     >
         <a

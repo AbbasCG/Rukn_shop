@@ -2,8 +2,6 @@
 
 @section('content')
 @php
-    $dir = app()->getLocale() === 'ar' ? 'rtl' : 'ltr';
-    $isRtl = $dir === 'rtl';
     $statusColors = [
         'pending' => 'bg-yellow-100 text-yellow-800',
         'processing' => 'bg-blue-100 text-blue-800',
@@ -26,10 +24,10 @@
     $grandTotal = (float) ($order->total ?? ($subtotal + $shipping + $tax - $discount));
 @endphp
 
-<div class="w-full max-w-7xl mx-auto space-y-6" dir="{{ $dir }}">
+<div class="w-full max-w-7xl mx-auto space-y-6">
     <div class="flex flex-wrap items-center justify-between gap-3">
         <a href="{{ r('admin.orders.index') }}" class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-primary-dark hover:bg-gray-50 transition">
-            <svg class="w-4 h-4 {{ $isRtl ? 'rotate-180' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <svg class="w-4 h-4 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
             {{ __('admin.orders.actions.back_to_orders') }}

@@ -1,12 +1,11 @@
 <x-guest-layout>
     @php
-        $dir = app()->getLocale() === 'ar' ? 'rtl' : 'ltr';
         $optionalFields = ['phone', 'address', 'postal_code', 'city', 'country'];
         $hasOptionalErrors = $errors->hasAny($optionalFields);
         $hasOptionalInput = collect($optionalFields)->contains(fn ($field) => filled(old($field)));
         $showOptionalDetails = $hasOptionalErrors || $hasOptionalInput;
     @endphp
-    <div dir="{{ $dir }}">
+    <div>
         <!-- Header Section -->
         <div class="mb-8 text-center">
             <a href="{{ r('home') }}" class="inline-block">

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12" style="font-family: 'Signika', sans-serif;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
         <style>
             @media (prefers-reduced-motion: no-preference) {
                 @keyframes fade-in-up {

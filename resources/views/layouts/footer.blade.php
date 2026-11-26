@@ -3,7 +3,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
                 <!-- Brand -->
-                <div class="{{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">
+                <div class="text-start">
                     <a href="{{ r('home') }}" class="inline-block mb-4 hover:opacity-80 transition-opacity duration-300">
                         <img src="{{ asset('images/Voll logo.svg') }}" alt="Rukn Shop" class="h-12 w-auto">
                     </a>
@@ -13,7 +13,7 @@
                 </div>
 
                 <!-- Shop -->
-                <div class="{{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">
+                <div class="text-start">
                     <h4 class="font-semibold text-primary-light mb-4">{{ __('footer.sections.shop') }}</h4>
                     <ul class="space-y-2 text-sm">
                         <li><a href="{{ r('products.index') }}" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">{{ __('footer.links.all_products') }}</a></li>
@@ -24,7 +24,7 @@
                 </div>
 
                 <!-- Support -->
-                <div class="{{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">
+                <div class="text-start">
                     <h4 class="font-semibold text-primary-light mb-4">{{ __('footer.sections.support') }}</h4>
                     <ul class="space-y-2 text-sm">
                         <li><a href="{{ r('contact') }}" class="nav-link-underline text-primary-light/70 hover:text-primary-light transition-colors duration-300">{{ __('footer.links.contact') }}</a></li>
@@ -35,9 +35,9 @@
                 </div>
 
                 <!-- Social Media -->
-                <div class="{{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">
+                <div class="text-start">
                     <h4 class="font-semibold text-primary-light mb-4">{{ __('footer.sections.follow') }}</h4>
-                    <div class="flex gap-4 {{ app()->getLocale() === 'ar' ? 'flex-row' : '' }}">
+                    <div class="flex gap-4">
                         <!-- Facebook -->
                         <a href="#" class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary-light/10 hover:bg-primary-light/20 transition-colors duration-300" aria-label="Facebook">
                             <svg class="w-5 h-5 text-primary-light" fill="currentColor" viewBox="0 0 24 24">
@@ -63,9 +63,9 @@
             </div>
 
             <!-- Bottom Section -->
-            <div class="border-t border-primary-light/20 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-primary-light/70 {{ app()->getLocale() === 'ar' ? 'md:flex-row-reverse' : '' }}">
+            <div class="border-t border-primary-light/20 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-primary-light/70">
                 <p>{{ __('footer.copyright', ['year' => \App\Helpers\LocaleNumber::digits(date('Y'))]) }}</p>
-                <div class="flex gap-6 mt-4 md:mt-0 {{ app()->getLocale() === 'ar' ? 'md:flex-row-reverse' : '' }}">
+                <div class="flex gap-6 mt-4 md:mt-0">
                     <a href="{{ r('privacy-policy') }}" class="hover:text-primary-light transition-colors duration-300">{{ __('footer.links.privacy') }}</a>
                     <a href="{{ r('terms-of-service') }}" class="hover:text-primary-light transition-colors duration-300">{{ __('footer.links.terms') }}</a>
                     <a href="#" class="hover:text-primary-light transition-colors duration-300">{{ __('footer.links.cookies') }}</a>

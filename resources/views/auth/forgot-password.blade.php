@@ -1,6 +1,5 @@
 <x-guest-layout>
-    @php $dir = app()->getLocale() === 'ar' ? 'rtl' : 'ltr'; @endphp
-    <div dir="{{ $dir }}">
+    <div>
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
         <!-- Header Section -->

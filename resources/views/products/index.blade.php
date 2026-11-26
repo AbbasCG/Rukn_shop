@@ -1,16 +1,16 @@
 <x-app-layout>
-    <div class="min-h-screen bg-gradient-to-br from-primary-light via-white to-primary-gray/30" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+    <div class="min-h-screen bg-gradient-to-br from-primary-light via-white to-primary-gray/30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
             
             <!-- Language Switcher (Top Right) -->
-            <div class="flex justify-end {{ app()->getLocale() === 'ar' ? 'rtl:justify-start' : '' }}">
+            <div class="flex justify-end">
                 <x-language-switcher :currentLocale="app()->getLocale()" />
             </div>
             
             <!-- A) SHOP HERO STRIP -->
             <div class="relative overflow-hidden rounded-3xl border border-primary-gray/60 bg-gradient-to-r from-primary-light via-white to-primary-gray/50 shadow-sm">
                 <div class="relative px-6 py-8 md:px-10 md:py-10">
-                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                         <!-- Left: Title & Badge -->
                         <div class="space-y-3 flex-1">
                             <div class="inline-flex items-center px-3 py-1 rounded-full bg-primary-dark/5 border border-primary-dark/10">
@@ -51,7 +51,7 @@
             }" class="space-y-4">
                 
                 <!-- Top Row: Search + Filters Button + Sort -->
-                <div class="flex flex-col sm:flex-row gap-3 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
+                <div class="flex flex-col sm:flex-row gap-3">
                     <!-- Search Input (Prominent) -->
                     <form method="GET" action="{{ r('products.index') }}" class="flex-1">
                         <label for="q" class="sr-only">{{ __('shop.search_products') }}</label>
@@ -62,9 +62,9 @@
                                 name="q" 
                                 value="{{ request('q') }}" 
                                 placeholder="{{ __('shop.search_placeholder') }}" 
-                                class="w-full rounded-2xl border border-primary-gray/60 bg-white {{ app()->getLocale() === 'ar' ? 'pr-11 pl-4' : 'pl-11 pr-4' }} py-3.5 text-sm placeholder-neutral-400 focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark transition shadow-sm"
+                                class="w-full rounded-2xl border border-primary-gray/60 bg-white ps-11 pe-4 py-3.5 text-sm placeholder-neutral-400 focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark transition shadow-sm"
                             />
-                            <svg class="absolute {{ app()->getLocale() === 'ar' ? 'right-4' : 'left-4' }} top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="absolute start-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                             </svg>
                         </div>
@@ -83,7 +83,7 @@
                     </form>
 
                     <!-- Right: Filters + Sort Buttons -->
-                    <div class="flex gap-3 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
+                    <div class="flex gap-3">
                         <!-- Filters Button -->
                         <button 
                             type="button"
@@ -106,8 +106,7 @@
                             <select 
                                 name="sort" 
                                 onchange="this.form.submit()"
-                                class="px-5 py-3.5 rounded-2xl border border-primary-gray/60 bg-white text-primary-dark font-medium text-sm focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark transition shadow-sm appearance-none {{ app()->getLocale() === 'ar' ? 'pl-10' : 'pr-10' }}"
-                                style="background-image: url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 viewBox=%270 0 24 24%27 stroke=%27%231F1D20%27%3E%3Cpath stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%272%27 d=%27M19 9l-7 7-7-7%27/%3E%3C/svg%3E'); background-repeat: no-repeat; background-position: {{ app()->getLocale() === 'ar' ? 'left' : 'right' }} 0.75rem center; background-size: 1.25rem;"
+                                class="px-5 py-3.5 rounded-2xl border border-primary-gray/60 bg-white text-primary-dark font-medium text-sm focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark transition shadow-sm appearance-none pe-10"
                             >
                                 <option value="newest" {{ request('sort', 'newest') === 'newest' ? 'selected' : '' }}>{{ __('shop.sort_newest') }}</option>
                                 <option value="price_low" {{ request('sort') === 'price_low' ? 'selected' : '' }}>{{ __('shop.sort_price_low') }}</option>
@@ -144,7 +143,7 @@
                     style="display: none;"
                 >
                     <form method="GET" action="{{ r('products.index') }}" class="space-y-5">
-                        <div class="flex items-center justify-between mb-4 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
+                        <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-bold text-primary-dark">{{ __('shop.filters') }}</h3>
                             <button type="button" @click="filtersOpen = false" class="text-neutral-400 hover:text-neutral-600 transition">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -203,7 +202,7 @@
                         </div>
 
                         <!-- Apply & Reset Buttons -->
-                        <div class="flex items-center gap-3 pt-2 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
+                        <div class="flex items-center gap-3 pt-2">
                             <button 
                                 type="submit" 
                                 class="flex-1 px-6 py-3 rounded-xl bg-primary-dark hover:bg-primary-dark/90 text-white font-semibold text-sm shadow-sm hover:shadow-md transition duration-200 active:scale-95"
@@ -229,18 +228,18 @@
             </div>
 
             <!-- D) RESULTS HEADER -->
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-1 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-1">
                 <div class="text-sm text-neutral-600">
                     {{ __('shop.showing') }} <span class="font-bold text-primary-dark">{{ $products->firstItem() ?? 0 }}–{{ $products->lastItem() ?? 0 }}</span> {{ __('shop.of') }} <span class="font-bold text-primary-dark">{{ $products->total() }}</span> {{ __('shop.products') }}
                     @if(request('category'))
                         <span class="text-neutral-500">{{ __('shop.in') }}</span>
-                        <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-primary-dark/5 text-primary-dark text-xs font-semibold {{ app()->getLocale() === 'ar' ? 'mr-1' : 'ml-1' }}">
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-primary-dark/5 text-primary-dark text-xs font-semibold ms-1">
                             {{ $categories->firstWhere('slug', request('category'))->name ?? request('category') }}
                         </span>
                     @endif
                     @if(request('q'))
                         <span class="text-neutral-500">{{ __('shop.matching') }}</span>
-                        <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-primary-dark/5 text-primary-dark text-xs font-semibold {{ app()->getLocale() === 'ar' ? 'mr-1' : 'ml-1' }}">
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-primary-dark/5 text-primary-dark text-xs font-semibold ms-1">
                             "{{ request('q') }}"
                         </span>
                     @endif
@@ -248,7 +247,7 @@
                 @if(request('q') || request('category') || request('min_price') || request('max_price'))
                     <a 
                         href="{{ r('products.index') }}" 
-                        class="inline-flex items-center gap-1.5 text-sm font-medium text-primary-dark hover:text-primary-dark/70 transition {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}"
+                        class="inline-flex items-center gap-1.5 text-sm font-medium text-primary-dark hover:text-primary-dark/70 transition"
                     >
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -271,11 +270,11 @@
                     <p class="text-neutral-600 mb-6 max-w-md mx-auto">
                         {{ __('shop.no_products_message') }}
                     </p>
-                    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}">
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
                         @if(request()->hasAny(['q', 'category', 'min_price', 'max_price']))
                             <a 
                                 href="{{ r('products.index') }}" 
-                                class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary-dark hover:bg-primary-dark/90 text-white font-semibold text-sm shadow-sm transition duration-200 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}"
+                                class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary-dark hover:bg-primary-dark/90 text-white font-semibold text-sm shadow-sm transition duration-200"
                             >
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -285,7 +284,7 @@
                         @endif
                         <a 
                             href="{{ r('products.index') }}" 
-                            class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-primary-gray/60 text-primary-dark hover:bg-primary-gray/30 font-semibold text-sm transition duration-200 {{ app()->getLocale() === 'ar' ? 'rtl:flex-row-reverse' : '' }}"
+                            class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-primary-gray/60 text-primary-dark hover:bg-primary-gray/30 font-semibold text-sm transition duration-200"
                         >
                             {{ __('shop.back_to_shop') }}
                         </a>
@@ -318,7 +317,7 @@
                                             </span>
                                         </div>
                                     @elseif(($product->stock ?? 0) > 0 && ($product->stock ?? 0) <= 5)
-                                        <span class="absolute top-3 {{ app()->getLocale() === 'ar' ? 'left-3' : 'right-3' }} px-3 py-1.5 rounded-xl bg-amber-500 text-white text-xs font-bold shadow-md pointer-events-none">
+                                        <span class="absolute top-3 end-3 px-3 py-1.5 rounded-xl bg-amber-500 text-white text-xs font-bold shadow-md pointer-events-none">
                                             {{ __('shop.only_left') }} {{ $product->stock }} {{ __('shop.left') }}
                                         </span>
                                     @endif

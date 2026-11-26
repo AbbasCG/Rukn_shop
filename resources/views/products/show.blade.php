@@ -1,7 +1,6 @@
 <x-app-layout>
-    @php $dir = app()->getLocale() === 'ar' ? 'rtl' : 'ltr'; @endphp
     <!-- Breadcrumbs -->
-    <div class="bg-primary-50 dark:bg-primary-900 border-b border-primary-200 dark:border-primary-700" dir="{{ $dir }}">
+    <div class="bg-primary-50 dark:bg-primary-900 border-b border-primary-200 dark:border-primary-700">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <nav aria-label="Breadcrumb" class="text-sm text-neutral-600 dark:text-primary-200">
                 <ol class="flex flex-wrap items-center gap-1.5">
@@ -32,7 +31,7 @@
     </div>
 
     <!-- Main Product Section -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12" dir="{{ $dir }}">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
             <!-- Left Column - Image Gallery -->
             <div class="space-y-4 h-full">
@@ -130,7 +129,7 @@
                 @endif
 
                 <!-- Short Description -->
-                <p class="text-base text-neutral-600 dark:text-primary-300 leading-relaxed">{{ $product->short_description }}</p>
+                <p class="text-base text-neutral-600 dark:text-primary-300 leading-relaxed"><bdi>{{ $product->short_description }}</bdi></p>
 
                 <!-- Product Details
                 <div class="bg-primary-100 dark:bg-primary-100 rounded-xl p-5 space-y-2.5 border border-primary-200 dark:border-neutral-300">
@@ -287,7 +286,7 @@
     </div>
 
     <!-- Product Details Tabs -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" dir="{{ $dir }}">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div class="bg-white dark:bg-white rounded-2xl shadow-xl border border-neutral-200 dark:border-neutral-300 overflow-hidden">
             <!-- Tab Navigation -->
             <div class="border-b border-primary-200 dark:border-neutral-300">
@@ -308,15 +307,14 @@
             <div class="p-8">
                 <!-- Description Tab -->
                 <div id="description-tab" class="tab-content transition-opacity duration-300 opacity-100">
-                    <div class="prose prose-lg max-w-none text-neutral-600 dark:text-primary-300 leading-relaxed">
-                        {!! nl2br(e($product->long_description ?? $product->description)) !!}
+                    <div dir="auto" class="prose prose-lg max-w-none text-neutral-600 dark:text-primary-300 leading-relaxed text-start">
+                        {!! nl2br(e($product->long_description)) !!}
                     </div>
                 </div>
 
                 <!-- Specifications Tab -->
                 <div id="specifications-tab" class="tab-content transition-opacity duration-300 opacity-0 hidden">
                     @php
-                        $isRtl = $dir === 'rtl';
                         $specifications = collect($product->specifications ?? [])
                             ->filter(function ($spec) {
                                 return is_array($spec)
@@ -328,7 +326,7 @@
                     @endphp
 
                     @if($specifications->isEmpty())
-                        <div class="rounded-2xl border border-primary-200 dark:border-neutral-300 bg-primary-50/60 dark:bg-primary-100/40 p-6 {{ $isRtl ? 'text-right' : 'text-left' }}">
+                        <div class="rounded-2xl border border-primary-200 dark:border-neutral-300 bg-primary-50/60 dark:bg-primary-100/40 p-6 text-start">
                             <p class="text-sm font-semibold text-primary-800 dark:text-primary-800">{{ __('product.specifications_empty') }}</p>
                         </div>
                     @else
@@ -354,7 +352,7 @@
                                 @endphp
 
                                 <div class="rounded-2xl border border-neutral-200 dark:border-neutral-300 bg-white dark:bg-white p-4 shadow-sm hover:shadow-md transition-shadow">
-                                    <div class="flex items-start gap-3 {{ $isRtl ? 'flex-row-reverse text-right' : '' }}">
+                                    <div class="flex items-start gap-3 ">
                                         <div class="h-10 w-10 rounded-xl bg-primary-100 dark:bg-primary-100 flex items-center justify-center text-primary-800 flex-shrink-0">
                                             @if($iconType === 'material')
                                                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -494,7 +492,7 @@
 
     <!-- Related Products -->
     @if($relatedProducts && $relatedProducts->count() > 0)
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" dir="{{ $dir }}">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <h2 class="text-4xl font-bold text-primary-800 dark:text-primary-800 mb-8">{{ __('product.related_products_title') }}</h2>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
                 @foreach($relatedProducts as $relatedProduct)

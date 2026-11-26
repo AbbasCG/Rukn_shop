@@ -1,9 +1,8 @@
 <x-app-layout>
     @php
     $qtyCol = \Illuminate\Support\Facades\Schema::hasColumn('carts','quantity') ? 'quantity' : 'quanttty';
-    $dir = app()->getLocale() === 'ar' ? 'rtl' : 'ltr';
     @endphp
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 min-h-screen" style="font-family: 'Signika', sans-serif;" dir="{{ $dir }}">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 min-h-screen">
         @if($cartItems->isEmpty())
         <div class="text-center py-16">
             <div class="mx-auto w-24 h-24 rounded-full bg-primary-gray/60 flex items-center justify-center shadow-lg">

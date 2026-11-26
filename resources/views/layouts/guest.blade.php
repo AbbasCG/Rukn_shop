@@ -16,6 +16,7 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @include('layouts.partials.arabic-fonts')
 </head>
 
 <body class="min-h-screen bg-primary-50 dark:bg-primary-50 text-primary-800 dark:text-primary-800 flex flex-col h-[100vh]">

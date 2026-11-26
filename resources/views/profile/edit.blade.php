@@ -1,6 +1,5 @@
 <x-app-layout>
-    @php $dir = app()->getLocale() === 'ar' ? 'rtl' : 'ltr'; @endphp
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10" dir="{{ $dir }}">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div class="max-w-3xl mx-auto">
             @if(session('status') === 'profile-updated')
             <div class="mb-6 px-4 py-3 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-100">
@@ -112,7 +111,7 @@
             </div>
         </div>
 
-        <div class="max-w-5xl mx-auto mt-8 grid gap-6 md:grid-cols-2" dir="{{ $dir }}">
+        <div class="max-w-5xl mx-auto mt-8 grid gap-6 md:grid-cols-2">
             <div class="bg-white rounded-2xl shadow p-6 space-y-6">
                 <div>
                     <h3 class="text-lg font-semibold text-primary-dark">{{ __('profile.password.title') }}</h3>

@@ -10,9 +10,10 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=tilt-warp:400&family=signika:300,400,500,600,700&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @include('layouts.partials.arabic-fonts')
 </head>
 
-<body class="bg-primary-50 dark:bg-primary-50 text-primary-800 dark:text-primary-800 min-h-screen" style="font-family: 'Signika', sans-serif;">
+<body class="bg-primary-50 dark:bg-primary-50 text-primary-800 dark:text-primary-800 min-h-screen">
     @include('layouts.partials.toasts')
 
     <div class="flex min-h-screen">
@@ -53,7 +54,7 @@
                             x-show="openAdminLanguage"
                             @click.outside="openAdminLanguage = false"
                             x-transition
-                            class="absolute {{ app()->getLocale() === 'ar' ? 'left-0' : 'right-0' }} mt-2 w-44 bg-white rounded-xl shadow-lg border border-neutral-200 py-2 z-50"
+                            class="absolute end-0 mt-2 w-44 bg-white rounded-xl shadow-lg border border-neutral-200 py-2 z-50"
                             style="display: none;"
                         >
                             <a href="{{ localizePath('nl') }}" class="flex items-center gap-2 px-3 py-2 text-sm {{ app()->getLocale() === 'nl' ? 'bg-primary-800 text-white font-semibold' : 'text-primary-800 hover:bg-neutral-100' }} transition-colors">
@@ -93,7 +94,7 @@
                                 <span>{{ $adminInitial }}</span>
                                 @endif
                             </div>
-                            <div class="hidden sm:flex flex-col text-left leading-tight">
+                            <div class="hidden sm:flex flex-col text-start leading-tight">
                                 <span class="text-xs text-neutral-500">Admin</span>
                                 <span class="text-sm font-semibold text-primary-dark">{{ \Illuminate\Support\Str::of($adminUser->name)->before(' ') }}</span>
                             </div>
@@ -102,13 +103,13 @@
                             </svg>
                         </button>
 
-                        <div x-show="openAdminProfile" @click.outside="openAdminProfile = false" x-transition class="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-lg border border-neutral-100 py-2 z-50">
+                        <div x-show="openAdminProfile" @click.outside="openAdminProfile = false" x-transition class="absolute end-0 mt-2 w-52 bg-white rounded-xl shadow-lg border border-neutral-100 py-2 z-50">
                             <a href="{{ r('profile.edit') }}" class="block px-4 py-2 text-sm text-primary-dark hover:bg-neutral-100">Profile</a>
                             <a href="{{ r('home') }}" class="block px-4 py-2 text-sm text-primary-dark hover:bg-neutral-100">Back to Shop</a>
                             <div class="border-t border-neutral-200 my-1"></div>
                             <form method="POST" action="{{ r('logout') }}">
                                 @csrf
-                                <button type="submit" class="w-full text-left px-4 py-2 text-sm text-primary-dark hover:bg-neutral-100">Log Out</button>
+                                <button type="submit" class="w-full text-start px-4 py-2 text-sm text-primary-dark hover:bg-neutral-100">Log Out</button>
                             </form>
                         </div>
                     </div>

@@ -1,4 +1,4 @@
-<aside :class="sidebarOpen ? 'translate-x-0' : '{{ app()->getLocale() === 'ar' ? 'translate-x-full md:translate-x-0' : '-translate-x-full md:translate-x-0' }}'" class="fixed md:static inset-y-0 {{ app()->getLocale() === 'ar' ? 'right-0 border-l' : 'left-0 border-r' }} w-64 bg-white dark:bg-white border-primary-gray dark:border-primary-gray transform transition-transform duration-300 ease-in-out z-40" style="font-family: 'Signika', sans-serif;">
+<aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full rtl:translate-x-full md:translate-x-0 md:rtl:translate-x-0'" class="fixed md:static inset-y-0 start-0 border-e w-64 bg-white dark:bg-white border-primary-gray dark:border-primary-gray transform transition-transform duration-300 ease-in-out z-40">
     
     <!-- Sidebar Header -->
     <div class="h-24 px-6 flex items-center justify-between border-b border-primary-gray dark:border-primary-gray">

@@ -1,7 +1,7 @@
 @extends('layouts.admin', ['title' => __('admin.products.show.title')])
 
 @section('content')
-<div x-data="{ deleteModalOpen: false }" @keydown.escape="deleteModalOpen = false" class="max-w-5xl mx-auto" style="font-family: 'Signika', sans-serif;">
+<div x-data="{ deleteModalOpen: false }" @keydown.escape="deleteModalOpen = false" class="max-w-5xl mx-auto">
     <div class="flex items-center justify-between mb-4">
         <h2 class="text-2xl font-semibold text-primary-800 dark:text-primary-800">{{ $product->name }}</h2>
         <div class="flex items-center gap-2">

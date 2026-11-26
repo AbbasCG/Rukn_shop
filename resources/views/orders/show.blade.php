@@ -1,7 +1,5 @@
 <x-app-layout>
     @php
-        $dir = app()->getLocale() === 'ar' ? 'rtl' : 'ltr';
-        $isRtl = $dir === 'rtl';
         $status = strtolower((string) $order->status);
         $statusColors = [
             'pending' => 'bg-yellow-100 text-yellow-800',
@@ -16,11 +14,11 @@
         $statusClass = $statusColors[$status] ?? 'bg-gray-100 text-gray-800';
     @endphp
 
-    <div class="bg-gray-50/70 min-h-screen" dir="{{ $dir }}">
+    <div class="bg-gray-50/70 min-h-screen">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10 space-y-6 text-start">
             <div class="print:hidden">
                 <a href="{{ r('orders.index') }}" class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-primary-dark shadow-sm transition hover:bg-gray-50">
-                    <svg class="h-4 w-4 {{ $isRtl ? 'rotate-180' : '' }}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <svg class="h-4 w-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
                     <span>{{ __('orders.actions.back_to_orders') }}</span>

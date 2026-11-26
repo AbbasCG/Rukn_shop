@@ -1,6 +1,5 @@
 <x-app-layout>
-    @php $dir = app()->getLocale() === 'ar' ? 'rtl' : 'ltr'; @endphp
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8" style="font-family: 'Signika', sans-serif;" dir="{{ $dir }}">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
         <div class="rounded-3xl backdrop-blur-xl bg-white/70 shadow-xl border border-white/20 p-8 text-center">
             <div class="mx-auto w-16 h-16 rounded-full bg-primary-gray/60 flex items-center justify-center">
                 <svg class="w-8 h-8 text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">

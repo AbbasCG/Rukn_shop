@@ -221,7 +221,7 @@
                         class="w-full h-32 rounded-lg object-cover shadow-md border border-primary-gray"
                         onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
                     
-                    <label class="absolute top-1 left-1 bg-primary-dark/80 hover:bg-primary-dark text-white rounded-full p-1.5 transition-all duration-200 shadow-lg cursor-pointer group-hover:bg-primary-dark"
+                    <label class="absolute top-1 start-1 bg-primary-dark/80 hover:bg-primary-dark text-white rounded-full p-1.5 transition-all duration-200 shadow-lg cursor-pointer group-hover:bg-primary-dark"
                         title="{{ __('admin.products.images.set_as_primary') }}">
                         <input 
                             type="radio" 
@@ -237,7 +237,7 @@
                     <button 
                         type="button"
                         onclick="document.getElementById('delete-image-{{ $image->id }}').checked = !document.getElementById('delete-image-{{ $image->id }}').checked; this.classList.toggle('bg-red-700'); this.classList.toggle('bg-red-600');"
-                        class="absolute top-1 right-1 bg-red-600 hover:bg-red-700 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-lg">
+                        class="absolute top-1 end-1 bg-red-600 hover:bg-red-700 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-lg">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                         </svg>
@@ -250,7 +250,7 @@
                         value="{{ $image->id }}"
                         class="hidden">
 
-                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-2 rounded-b-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <div class="absolute bottom-0 start-0 end-0 bg-gradient-to-t from-black/50 to-transparent p-2 rounded-b-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                         <p class="text-white text-xs font-medium">
                             @if($image->is_primary) 
                                 <span class="inline-block px-2 py-0.5 bg-primary-dark/80 rounded text-xs">{{ __('admin.products.images.primary') }}</span>
@@ -309,13 +309,13 @@
                             <button 
                                 type="button"
                                 @click="removeImage(index)"
-                                class="absolute top-1 right-1 bg-red-600 hover:bg-red-700 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-lg">
+                                class="absolute top-1 end-1 bg-red-600 hover:bg-red-700 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-lg">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                                 </svg>
                             </button>
 
-                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-2 rounded-b-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                            <div class="absolute bottom-0 start-0 end-0 bg-gradient-to-t from-black/50 to-transparent p-2 rounded-b-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                                 <p class="text-white text-xs truncate" :title="image.file.name" x-text="image.file.name"></p>
                                 <p class="text-gray-200 text-xs" x-text="formatFileSize(image.file.size)"></p>
                             </div>

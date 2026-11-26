@@ -38,12 +38,12 @@
                             id="role"
                             name="role"
                             required
-                            class="w-full appearance-none px-4 py-3 pr-11 rounded-xl border border-primary-gray bg-white text-primary-dark transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50"
+                            class="w-full appearance-none px-4 py-3 pe-11 rounded-xl border border-primary-gray bg-white text-primary-dark transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50"
                         >
                             <option value="user" @selected(old('role', $user->role) === 'user')>{{ __('admin.users.roles.user') }}</option>
                             <option value="admin" @selected(old('role', $user->role) === 'admin')>{{ __('admin.users.roles.admin') }}</option>
                         </select>
-                        <svg class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-primary-dark/60" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <svg class="pointer-events-none absolute end-3 top-1/2 -translate-y-1/2 w-5 h-5 text-primary-dark/60" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </div>
@@ -129,13 +129,13 @@
                             name="password"
                             :disabled="!resetPassword"
                             placeholder="{{ __('admin.users.form.placeholders.password') }}"
-                            class="w-full px-4 py-3 pr-12 rounded-xl border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50 disabled:bg-neutral-100 disabled:cursor-not-allowed"
+                            class="w-full px-4 py-3 pe-12 rounded-xl border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50 disabled:bg-neutral-100 disabled:cursor-not-allowed"
                         >
                         <button
                             type="button"
                             @click="showPassword = !showPassword"
                             :aria-label="showPassword ? '{{ __('admin.users.security.hide_password') }}' : '{{ __('admin.users.security.show_password') }}'"
-                            class="absolute right-3 top-1/2 -translate-y-1/2 text-primary-dark/60 hover:text-primary-dark focus:outline-none"
+                            class="absolute end-3 top-1/2 -translate-y-1/2 text-primary-dark/60 hover:text-primary-dark focus:outline-none"
                         >
                             <svg x-show="!showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -160,13 +160,13 @@
                             name="password_confirmation"
                             :disabled="!resetPassword"
                             placeholder="{{ __('admin.users.form.placeholders.password') }}"
-                            class="w-full px-4 py-3 pr-12 rounded-xl border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50 disabled:bg-neutral-100 disabled:cursor-not-allowed"
+                            class="w-full px-4 py-3 pe-12 rounded-xl border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50 disabled:bg-neutral-100 disabled:cursor-not-allowed"
                         >
                         <button
                             type="button"
                             @click="showConfirmPassword = !showConfirmPassword"
                             :aria-label="showConfirmPassword ? '{{ __('admin.users.security.hide_password_confirmation') }}' : '{{ __('admin.users.security.show_password_confirmation') }}'"
-                            class="absolute right-3 top-1/2 -translate-y-1/2 text-primary-dark/60 hover:text-primary-dark focus:outline-none"
+                            class="absolute end-3 top-1/2 -translate-y-1/2 text-primary-dark/60 hover:text-primary-dark focus:outline-none"
                         >
                             <svg x-show="!showConfirmPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>

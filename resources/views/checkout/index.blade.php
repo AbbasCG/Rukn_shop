@@ -1,8 +1,5 @@
 <x-app-layout>
-    @php
-    $dir = app()->getLocale() === 'ar' ? 'rtl' : 'ltr';
-    @endphp
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10" style="font-family: 'Signika', sans-serif;" dir="{{ $dir }}">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
         <style>
             @media (prefers-reduced-motion: no-preference) {
                 @keyframes fade-in-up {

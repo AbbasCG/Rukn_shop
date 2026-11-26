@@ -7,7 +7,6 @@ window.Alpine = Alpine;
 Alpine.data('toastNotifications', (initialToasts = [], options = {}) => ({
 	toasts: [],
 	nextId: 0,
-	isRtl: Boolean(options.isRtl),
 	defaultDuration: Number(options.duration) > 0 ? Number(options.duration) : 3500,
 
 	init() {
