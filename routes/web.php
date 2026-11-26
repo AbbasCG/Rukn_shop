@@ -149,6 +149,8 @@ Route::prefix('{locale}')
         Route::get('/terms-of-service', function () {
             return view('legal.terms-of-service');
         })->name('terms-of-service');
+        Route::view('/cookies', 'legal.cookies')->name('cookies');
+        Route::view('/withdrawal-form', 'legal.withdrawal')->name('withdrawal-form');
 
         require __DIR__ . '/auth.php';
     });

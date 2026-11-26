@@ -108,6 +108,11 @@
                         </div>
                     </div>
                     <div class="pt-2">
+                        <p class="mb-4 text-xs text-neutral-600 leading-relaxed">{!! __('legal.checkout_notice', [
+                            'terms' => '<a href="' . e(r('terms-of-service')) . '" class="underline underline-offset-2" target="_blank">' . e(__('legal.withdrawal.terms_link')) . '</a>',
+                            'days' => (int) config('shop.returns.days'),
+                            'form' => '<a href="' . e(r('withdrawal-form')) . '" class="underline underline-offset-2" target="_blank">' . e(__('footer.links.withdrawal')) . '</a>',
+                        ]) !!}</p>
                         <button type="submit" class="btn-primary">{{ __('checkout.form.submit') }}</button>
                     </div>
                 </form>

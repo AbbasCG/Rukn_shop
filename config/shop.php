@@ -7,6 +7,15 @@
 */
 
 return [
+    // The legal identity of the shop, shown on the withdrawal form and legal
+    // pages. Dutch law expects the business address (and KvK number) to be
+    // shown to customers: fill these in on Render.
+    'business' => [
+        'name' => env('SHOP_BUSINESS_NAME', 'Rukn'),
+        'address' => env('SHOP_BUSINESS_ADDRESS'),     // e.g. "Damrak 1, 1012 LG Amsterdam, Nederland"
+        'kvk' => env('SHOP_BUSINESS_KVK'),             // Chamber of Commerce number
+    ],
+
     // Shown in emails and used as Reply-To, so customers can simply reply.
     'contact_email' => env('SHOP_CONTACT_EMAIL', 'info@rukn.nl'),
 

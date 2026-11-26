@@ -3,7 +3,7 @@
         <!-- Header -->
         <section class="rounded-3xl bg-gradient-to-br from-primary-light to-white p-10 text-start">
             <h1 class="text-4xl font-bold text-primary-dark">{{ __('legal.terms.title') }}</h1>
-            <p class="mt-2 text-sm text-primary-dark/70">{{ __('legal.terms.last_updated') }}: {{ date('F j, Y') }}</p>
+            <p class="mt-2 text-sm text-primary-dark/70">{{ __('legal.terms.last_updated') }}: {{ \Carbon\Carbon::parse('2026-11-26')->locale(app()->getLocale())->isoFormat('D MMMM YYYY') }}</p>
         </section>
 
         <!-- Content -->
@@ -41,6 +41,7 @@
             <div>
                 <h2 class="text-2xl font-semibold text-primary-dark mb-3">{{ __('legal.terms.section_5_title') }}</h2>
                 <p class="text-primary-dark/80 leading-relaxed">{{ policy_text('legal.terms.section_5_content') }}</p>
+                <p class="mt-3"><a href="{{ r('withdrawal-form') }}" class="font-semibold text-primary-dark underline underline-offset-4">{{ __('footer.links.withdrawal') }}</a></p>
             </div>
 
             <!-- Section 6 -->

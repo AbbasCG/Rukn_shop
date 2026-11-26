@@ -22,6 +22,7 @@ return [
         'privacy' => 'Privacybeleid',
         'terms' => 'Algemene voorwaarden',
         'cookies' => 'Cookies',
+        'withdrawal' => 'Herroepingsformulier',
     ],
     'copyright' => '© :year Rukn. Alle rechten voorbehouden.',
 ];

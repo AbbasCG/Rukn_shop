@@ -22,6 +22,7 @@ return [
         'privacy' => 'Privacy Policy',
         'terms' => 'Terms of Service',
         'cookies' => 'Cookies',
+        'withdrawal' => 'Withdrawal form',
     ],
     'copyright' => '© :year Rukn. All rights reserved.',
 ];

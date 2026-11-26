@@ -69,7 +69,8 @@
                 <div class="flex gap-6 mt-4 md:mt-0">
                     <a href="{{ r('privacy-policy') }}" class="hover:text-primary-light transition-colors duration-300">{{ __('footer.links.privacy') }}</a>
                     <a href="{{ r('terms-of-service') }}" class="hover:text-primary-light transition-colors duration-300">{{ __('footer.links.terms') }}</a>
-                    <a href="#" class="hover:text-primary-light transition-colors duration-300">{{ __('footer.links.cookies') }}</a>
+                    <a href="{{ r('cookies') }}" class="hover:text-primary-light transition-colors duration-300">{{ __('footer.links.cookies') }}</a>
+                    <a href="{{ r('withdrawal-form') }}" class="hover:text-primary-light transition-colors duration-300">{{ __('footer.links.withdrawal') }}</a>
                 </div>
             </div>
         </div>

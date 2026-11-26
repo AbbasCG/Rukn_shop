@@ -3,7 +3,7 @@
         <!-- Header -->
         <section class="rounded-3xl bg-gradient-to-br from-primary-light to-white p-10 text-start">
             <h1 class="text-4xl font-bold text-primary-dark">{{ __('legal.privacy.title') }}</h1>
-            <p class="mt-2 text-sm text-primary-dark/70">{{ __('legal.privacy.last_updated') }}: {{ date('F j, Y') }}</p>
+            <p class="mt-2 text-sm text-primary-dark/70">{{ __('legal.privacy.last_updated') }}: {{ \Carbon\Carbon::parse('2026-02-07')->locale(app()->getLocale())->isoFormat('D MMMM YYYY') }}</p>
         </section>
 
         <!-- Content -->

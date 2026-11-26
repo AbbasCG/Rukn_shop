@@ -17,7 +17,7 @@ class SeoController extends Controller
         $locales = config('app.supported_locales', ['nl', 'en', 'ar']);
         $entries = [];
 
-        $static = ['home', 'products.index', 'about', 'contact', 'faq', 'privacy-policy', 'terms-of-service'];
+        $static = ['home', 'products.index', 'about', 'contact', 'faq', 'privacy-policy', 'terms-of-service', 'cookies', 'withdrawal-form'];
         foreach ($static as $route) {
             $entries[] = [
                 'urls' => collect($locales)->mapWithKeys(fn ($l) => [$l => route($route, ['locale' => $l])])->all(),
