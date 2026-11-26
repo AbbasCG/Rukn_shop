@@ -41,27 +41,10 @@ return [
     'story_image_alt' => 'Abaya\'s van Rukn',
     'learn_more' => 'Meer over ons',
     
-    // Testimonials Section
-    'section_reviews' => 'Beoordelingen',
-    'testimonials_title' => 'Stemmen van Elegantie',
-    'testimonials_subtitle' => 'Wat onze klanten zeggen over hun ervaring met Rukn Shop',
     
-    'testimonial_1_text' => 'De kwaliteit is uitzonderlijk. Ik heb nog nooit zoiets gevoeld. Absoluut elke cent waard en ik heb al twee keer opnieuw besteld!',
-    'testimonial_1_author' => 'Sarah Anderson',
-    'testimonial_1_location' => 'New York, VS',
     
-    'testimonial_2_text' => 'Ik ben onder de indruk van de aandacht voor detail. Het is duidelijk dat deze stukken met passie en expertise zijn gemaakt. Zeer aanbevolen!',
-    'testimonial_2_author' => 'James Mitchell',
-    'testimonial_2_location' => 'Londen, VK',
     
-    'testimonial_3_text' => 'Wat ik leuk vind aan Rukn Shop is de consistentie van kwaliteit. Elk stuk voelt speciaal en gaat jaren mee.',
-    'testimonial_3_author' => 'Emma Rodriguez',
-    'testimonial_3_location' => 'Barcelona, Spanje',
     
-    // Instagram Section
-    'section_follow_us' => 'Volg Ons',
-    'instagram_title' => 'Op Instagram',
-    'instagram_subtitle' => '@ruknshop • Word lid van onze community en deel je elegantie',
     
     // Buttons & Links
     'shop_now' => 'Nu Winkelen',

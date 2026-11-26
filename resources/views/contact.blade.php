@@ -72,13 +72,15 @@
                                 <p class="text-xs">{{ __('contact.info.phone_value') }}</p>
                             </div>
                         </div>
-                        <!-- <div class="flex items-start gap-3 text-primary-dark/80">
+                        @if (filled(config('shop.business.address')))
+                        <div class="flex items-start gap-3 text-primary-dark/80">
                             <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 12m0 0l4.243-4.243M13.414 12H3"/></svg>
                             <div>
                                 <p class="text-sm font-semibold">{{ __('contact.info.address_label') }}</p>
-                                <p class="text-xs">{{ __('contact.info.address_value') }}</p>
+                                <p class="text-xs">{{ config('shop.business.address') }}</p>
                             </div>
-                        </div> -->
+                        </div>
+                        @endif
                         <div class="flex items-start gap-3 text-primary-dark/80">
                             <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3z"/></svg>
                             <div>

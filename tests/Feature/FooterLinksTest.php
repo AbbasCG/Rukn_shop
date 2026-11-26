@@ -91,4 +91,18 @@ class FooterLinksTest extends TestCase
         ]);
         OrderItem::create(['order_id' => $order->id, 'product_id' => $product->id, 'quantity' => $quantity, 'price' => 10]);
     }
+
+    public function test_home_has_no_made_up_testimonials(): void
+    {
+        $this->get('/en')->assertOk()->assertDontSee('Sarah Anderson')->assertDontSee('Voices of Elegance');
+    }
+
+    public function test_contact_page_shows_the_real_address_only_when_set(): void
+    {
+        config(['shop.business.address' => null]);
+        $this->get('/en/contact')->assertOk()->assertDontSee('Rukn Street');
+
+        config(['shop.business.address' => 'Damrak 1, 1012 LG Amsterdam']);
+        $this->get('/en/contact')->assertOk()->assertSee('Damrak 1, 1012 LG Amsterdam');
+    }
 }

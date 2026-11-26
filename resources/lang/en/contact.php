@@ -25,7 +25,6 @@ return [
         'phone_label' => 'Phone',
         'phone_value' => '0687722197',
         'address_label' => 'Address',
-        'address_value' => '123 Rukn Street, Shop City, Country',
         'opening_hours_label' => 'Opening Hours',
         'opening_hours_value' => 'Mon–Sun: 9:00–18:00',
     ],

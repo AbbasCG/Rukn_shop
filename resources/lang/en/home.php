@@ -41,27 +41,10 @@ return [
     'story_image_alt' => 'Abayas by Rukn',
     'learn_more' => 'More about us',
     
-    // Testimonials Section
-    'section_reviews' => 'Reviews',
-    'testimonials_title' => 'Voices of Elegance',
-    'testimonials_subtitle' => 'What our customers say about their experience with Rukn Shop',
     
-    'testimonial_1_text' => 'The quality is exceptional. I\'ve never felt anything quite like it. Definitely worth every penny and I\'ve already ordered twice more!',
-    'testimonial_1_author' => 'Sarah Anderson',
-    'testimonial_1_location' => 'New York, USA',
     
-    'testimonial_2_text' => 'I\'m impressed by the attention to detail. It\'s clear that these pieces are made with passion and expertise. Highly recommended!',
-    'testimonial_2_author' => 'James Mitchell',
-    'testimonial_2_location' => 'London, UK',
     
-    'testimonial_3_text' => 'What I love about Rukn Shop is the consistency of quality. Every piece feels special and lasts for years.',
-    'testimonial_3_author' => 'Emma Rodriguez',
-    'testimonial_3_location' => 'Barcelona, Spain',
     
-    // Instagram Section
-    'section_follow_us' => 'Follow Us',
-    'instagram_title' => 'On Instagram',
-    'instagram_subtitle' => '@ruknshop • Join our community and share your elegance',
     
     // Buttons & Links
     'shop_now' => 'Shop Now',

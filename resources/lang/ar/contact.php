@@ -25,7 +25,6 @@ return [
         'phone_label' => 'الهاتف',
         'phone_value' => '0687722197',
         'address_label' => 'العنوان',
-        'address_value' => '123 شارع Rukn، مدينة المتجر، البلد',
         'opening_hours_label' => 'ساعات العمل',
         'opening_hours_value' => 'الاثنين–الأحد: 9:00–18:00',
     ],

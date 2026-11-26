@@ -25,7 +25,6 @@ return [
         'phone_label' => 'Telefoon',
         'phone_value' => '0687722197',
         'address_label' => 'Adres',
-        'address_value' => '123 Rukn Straat, Winkel Stad, Land',
         'opening_hours_label' => 'Openingstijden',
         'opening_hours_value' => 'Ma–Zo: 9:00–18:00',
     ],
