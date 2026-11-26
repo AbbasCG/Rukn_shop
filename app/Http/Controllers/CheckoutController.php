@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\order_items as OrderItem;
 use App\Models\Cart;
 use App\Models\Product;
+use App\Models\ProductVariant;
 use App\Support\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,17 +21,13 @@ class CheckoutController extends Controller
     public function index()
     {
         $userId = Auth::id();
-        $cartItems = Cart::where('user_id', $userId)->with('product')->get();
+        $cartItems = Cart::where('user_id', $userId)->with(['product.variants', 'variant.product'])->get();
         if ($cartItems->isEmpty()) {
             return redirect()->route('cart.index')->with('error', __('checkout.flash.empty_cart'));
         }
-        // Always the current product price: a price changed after the item was
-        // added to the cart applies at checkout.
-        $subtotal = $cartItems->sum(function ($item) {
-            $price = $item->product->price;
-            $qtyCol = isset($item->quantity) ? 'quantity' : (property_exists($item, 'quanttty') ? 'quanttty' : 'quantity');
-            return $price * ($item->$qtyCol ?? 1);
-        });
+        // Always the current price (the variant's, else the product's): a price
+        // changed after the item was added to the cart applies at checkout.
+        $subtotal = $cartItems->sum(fn (Cart $item) => $item->unitPrice() * $item->quantity);
         $shipping = Shipping::cost((float) $subtotal);
         $total = $subtotal + $shipping;
         return view('checkout.index', compact('cartItems', 'subtotal', 'shipping', 'total'));
@@ -59,40 +56,59 @@ class CheckoutController extends Controller
 
         DB::beginTransaction();
         try {
-            // Lock the product rows so two simultaneous orders cannot both
-            // take the last items in stock.
-            $products = Product::whereIn('id', $cartItems->pluck('product_id'))
+            // Lock the product and variant rows so two simultaneous orders cannot
+            // both take the last items in stock.
+            $products = Product::with('variants')
+                ->whereIn('id', $cartItems->pluck('product_id'))
+                ->lockForUpdate()
+                ->get()
+                ->keyBy('id');
+            $variants = ProductVariant::whereIn('id', $cartItems->pluck('variant_id')->filter())
                 ->lockForUpdate()
                 ->get()
                 ->keyBy('id');
 
+            // Validate every line against the locked rows and work out its price.
+            $lines = [];
             foreach ($cartItems as $item) {
                 $product = $products->get($item->product_id);
+                $variant = $item->variant_id ? $variants->get($item->variant_id) : null;
                 $qty = (int) ($item->quantity ?? 1);
+                $label = $variant ? $variant->setRelation('product', $product)->label() : null;
+                $displayName = ($product->name ?? '#' . $item->product_id) . ($label ? " ({$label})" : '');
 
-                if (! $product || ! $product->is_active) {
+                $variantOk = $product && ($product->variants->isNotEmpty()
+                    ? $variant !== null && $variant->product_id === $product->id
+                    : $item->variant_id === null);
+
+                if (! $product || ! $product->is_active || ! $variantOk) {
                     DB::rollBack();
                     return redirect()->route('cart.index')->with('error', __('checkout.flash.unavailable', [
-                        'product' => optional($item->product)->name ?? '#' . $item->product_id,
+                        'product' => $displayName,
                     ]));
                 }
 
-                if ($product->stock < $qty) {
+                $stock = $variant ? $variant->stock : $product->stock;
+                if ($stock < $qty) {
                     DB::rollBack();
                     return redirect()->route('cart.index')->with('error', __('checkout.flash.stock_changed', [
-                        'product' => $product->name,
-                        'count' => max(0, $product->stock),
+                        'product' => $displayName,
+                        'count' => max(0, $stock),
                     ]));
                 }
+
+                // Prices from the locked rows: what the customer saw at checkout,
+                // and cannot change while the order is being written.
+                $lines[] = [
+                    'product' => $product,
+                    'variant' => $variant,
+                    'label' => $label,
+                    'qty' => $qty,
+                    'price' => $variant ? $variant->effectivePrice() : (float) $product->price,
+                ];
             }
 
-            // Prices from the locked product rows: what the customer saw at
-            // checkout, and cannot change while the order is being written.
-            $subtotal = $cartItems->sum(function ($item) use ($products) {
-                $price = $products->get($item->product_id)->price;
-                $qtyCol = isset($item->quantity) ? 'quantity' : (property_exists($item, 'quanttty') ? 'quanttty' : 'quantity');
-                return $price * ($item->$qtyCol ?? 1);
-            });
+            $subtotal = collect($lines)->sum(fn ($line) => $line['price'] * $line['qty']);
             $shipping = Shipping::cost((float) $subtotal);
             $total = $subtotal + $shipping;
 
@@ -115,19 +131,20 @@ class CheckoutController extends Controller
                 'total' => $total,
             ]);
 
-            foreach ($cartItems as $item) {
-                $price = $products->get($item->product_id)->price;
-                $qtyCol = isset($item->quantity) ? 'quantity' : (property_exists($item, 'quanttty') ? 'quanttty' : 'quantity');
-                $qty = $item->$qtyCol ?? 1;
+            foreach ($lines as $line) {
                 OrderItem::create([
                     'order_id' => $order->id,
-                    'product_id' => $item->product_id,
-                    'product_name' => $products->get($item->product_id)->name,
-                    'quantity' => $qty,
-                    'price' => $price,
+                    'product_id' => $line['product']->id,
+                    'variant_id' => $line['variant']?->id,
+                    'product_name' => $line['product']->name,
+                    'variant_label' => $line['label'],
+                    'quantity' => $line['qty'],
+                    'price' => $line['price'],
                 ]);
 
-                $products->get($item->product_id)->decrement('stock', $qty);
+                // products.stock is the sum of the variants' stock, so both go down.
+                $line['variant']?->decrement('stock', $line['qty']);
+                $line['product']->decrement('stock', $line['qty']);
             }
 
             // Clear cart

@@ -14,7 +14,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $query = Product::where('is_active', true)->with(['category', 'images']);
+        $query = Product::where('is_active', true)->with(['category', 'images', 'variants']);
 
         // Search
         $search = trim((string) request('q', ''));
@@ -111,7 +111,7 @@ class ProductController extends Controller
         $relatedProducts = Product::where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
             ->where('is_active', true)
-            ->with(['category', 'images'])
+            ->with(['category', 'images', 'variants'])
             ->limit(4)
             ->get();
 

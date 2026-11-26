@@ -12,9 +12,9 @@
 
 {!! __('email.new_order.low_stock_title') !!}
 @foreach ($lowStock as $product)
-- {!! $product->stock > 0
-    ? __('email.new_order.low_stock_line', ['product' => $product->name, 'count' => $product->stock])
-    : __('email.new_order.out_of_stock_line', ['product' => $product->name]) !!}
+- {!! $product['stock'] > 0
+    ? __('email.new_order.low_stock_line', ['product' => $product['name'], 'count' => $product['stock']])
+    : __('email.new_order.out_of_stock_line', ['product' => $product['name']]) !!}
 @endforeach
 @endif
 
@@ -25,7 +25,7 @@
 
 {!! __('email.new_order.items') !!}
 @foreach ($order->items as $item)
-- {!! $item->display_name !!} — {!! $item->quantity !!} × {!! money($item->price) !!} = {!! money($item->price * $item->quantity) !!}
+- {!! $item->full_name !!} — {!! $item->quantity !!} × {!! money($item->price) !!} = {!! money($item->price * $item->quantity) !!}
 @endforeach
 
 {!! __('email.order.subtotal') !!}: {!! money($order->subtotal) !!}

@@ -18,7 +18,9 @@ class order_items extends Model
     protected $fillable = [
         'order_id',
         'product_id',
+        'variant_id',
         'product_name',
+        'variant_label',
         'quantity',
         'price',
     ];
@@ -31,6 +33,19 @@ class order_items extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function variant()
+    {
+        return $this->belongsTo(ProductVariant::class, 'variant_id');
+    }
+
+    /**
+     * Name plus the chosen size/colour as ordered: "Black Abaya (54 · Black)".
+     */
+    public function getFullNameAttribute(): string
+    {
+        return $this->display_name . ($this->variant_label ? " ({$this->variant_label})" : '');
     }
 
     /**

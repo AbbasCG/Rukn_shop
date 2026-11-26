@@ -8,6 +8,7 @@ use App\Models\ProductImage;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
@@ -127,7 +128,7 @@ class AdminProductController extends Controller
             'images' => 'nullable|array',
             'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
             'is_active' => 'sometimes|boolean',
-        ]);
+        ] + $this->variantRules());
 
         $validated['slug'] = $validated['slug'] ?? Product::uniqueSlug($validated['name']);
         $validated['is_active'] = $request->boolean('is_active');
@@ -146,7 +147,10 @@ class AdminProductController extends Controller
             $validated['specifications'] = null;
         }
 
+        $variantInput = \Illuminate\Support\Arr::only($validated, ['size_system', 'sizes', 'colors', 'variants']);
+        unset($validated['size_system'], $validated['sizes'], $validated['colors'], $validated['variants']);
         $product = Product::create($validated);
+        $this->syncVariants($product, $variantInput);
 
         // Handle multiple image uploads
         if ($request->hasFile('images')) {
@@ -170,7 +174,7 @@ class AdminProductController extends Controller
      */
     public function edit(string $locale, string $product)
     {
-        $product = $this->findProduct($product)->load('images', 'slugRedirects');
+        $product = $this->findProduct($product)->load('images', 'slugRedirects', 'variants');
         $categories = Category::select('id', 'name')->orderBy('name')->get();
         return view('admin.products.edit', compact('product', 'categories'));
     }
@@ -201,7 +205,7 @@ class AdminProductController extends Controller
             'images_to_delete.*' => 'nullable|integer|exists:product_images,id',
             'primary_image_id' => 'nullable|integer|exists:product_images,id',
             'is_active' => 'sometimes|boolean',
-        ]);
+        ] + $this->variantRules());
 
         $validated['slug'] = $validated['slug'] ?? $product->slug;
         $validated['is_active'] = $request->boolean('is_active');
@@ -220,7 +224,10 @@ class AdminProductController extends Controller
             $validated['specifications'] = null;
         }
 
+        $variantInput = \Illuminate\Support\Arr::only($validated, ['size_system', 'sizes', 'colors', 'variants']);
+        unset($validated['size_system'], $validated['sizes'], $validated['colors'], $validated['variants']);
         $product->update($validated);
+        $this->syncVariants($product, $variantInput);
 
         // Handle image deletions (only images that belong to current product)
         if ($request->has('images_to_delete') && !empty($request->input('images_to_delete'))) {
@@ -367,5 +374,83 @@ class AdminProductController extends Controller
             ->values()
             ->all();
     }
-}
 
+    /**
+     * Validation for the sizes & colours editor.
+     */
+    private function variantRules(): array
+    {
+        return [
+            'size_system' => ['nullable', Rule::in(Product::SIZE_SYSTEMS)],
+            'sizes' => ['nullable', 'array', 'max:30'],
+            'sizes.*' => ['string', 'max:50', 'distinct'],
+            'colors' => ['nullable', 'array', 'max:30'],
+            'colors.*.key' => ['required', 'string', 'max:50', 'regex:/^[a-z0-9-]+$/', 'distinct'],
+            'colors.*.hex' => ['nullable', 'regex:/^#[0-9a-fA-F]{6}$/'],
+            'colors.*.names' => ['required', 'array', function ($attribute, $value, $fail) {
+                if (! collect($value)->only(['nl', 'en', 'ar'])->filter(fn ($name) => trim((string) $name) !== '')->count()) {
+                    $fail(__('admin.variants.color_name_required'));
+                }
+            }],
+            'colors.*.names.*' => ['nullable', 'string', 'max:50'],
+            'variants' => ['nullable', 'array', 'max:900'],
+            'variants.*.size' => ['nullable', 'string', 'max:50'],
+            'variants.*.color_key' => ['nullable', 'string', 'max:50'],
+            'variants.*.stock' => ['required', 'integer', 'min:0'],
+            'variants.*.price' => ['nullable', 'numeric', 'min:0'],
+        ];
+    }
+
+    /**
+     * Save sizes/colours on the product and make product_variants match:
+     * one row per size × colour, existing rows updated, removed ones deleted
+     * (past orders keep their variant label). products.stock becomes the sum.
+     */
+    private function syncVariants(Product $product, array $input): void
+    {
+        $system = $input['size_system'] ?? null;
+        $sizes = $system ? array_values(array_unique(array_map(fn ($s) => trim((string) $s), $input['sizes'] ?? []))) : [];
+        $sizes = array_values(array_filter($sizes, fn ($s) => $s !== ''));
+        if ($system === 'lengths' || $system === 'letters') {
+            $list = $system === 'lengths' ? Product::SIZE_LENGTHS : Product::SIZE_LETTERS;
+            $sizes = array_values(array_intersect($list, $sizes)); // only known sizes, in list order
+        }
+
+        $colors = collect($input['colors'] ?? [])->map(fn ($color) => [
+            'key' => $color['key'],
+            'hex' => $color['hex'] ?? null,
+            'names' => collect($color['names'] ?? [])->only(['nl', 'en', 'ar'])
+                ->map(fn ($name) => trim((string) $name))->filter()->all(),
+        ])->values()->all();
+
+        $product->forceFill([
+            'size_system' => $sizes ? $system : null,
+            'sizes' => $sizes ?: null,
+            'colors' => $colors ?: null,
+        ])->saveQuietly();
+
+        if (! $sizes && ! $colors) {
+            $product->variants()->delete();
+            return;
+        }
+
+        $submitted = collect($input['variants'] ?? [])
+            ->keyBy(fn ($v) => ($v['size'] ?? '') . '|' . ($v['color_key'] ?? ''));
+
+        $keep = [];
+        foreach ($sizes ?: [null] as $size) {
+            foreach (array_column($colors, 'key') ?: [null] as $colorKey) {
+                $row = $submitted->get(($size ?? '') . '|' . ($colorKey ?? ''), []);
+                $variant = $product->variants()->firstOrNew(['size' => $size, 'color_key' => $colorKey]);
+                $variant->stock = max(0, (int) ($row['stock'] ?? 0));
+                $variant->price = isset($row['price']) && $row['price'] !== '' ? $row['price'] : null;
+                $variant->save();
+                $keep[] = $variant->id;
+            }
+        }
+
+        $product->variants()->whereNotIn('id', $keep)->delete();
+        $product->unsetRelation('variants');
+        $product->syncStockFromVariants();
+    }
+}

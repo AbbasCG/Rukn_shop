@@ -5,6 +5,9 @@
     $soldOut = $stock <= 0;
     $lowStock = ! $soldOut && $stock <= 5;
     $url = r('products.show', $product);
+    // Sold in sizes/colours: the choice is made on the product page.
+    $hasVariants = $product->hasVariants();
+    [$minPrice, $maxPrice] = $product->priceRange();
 @endphp
 
 {{-- One product card for the whole storefront (home, shop, related products). --}}
@@ -34,31 +37,39 @@
         </h3>
 
         <div class="mt-auto flex items-center justify-between gap-2 pt-1">
-            <span class="text-base font-bold text-primary-dark">{{ money($product->price) }}</span>
+            <span class="text-base font-bold text-primary-dark">{{ $minPrice < $maxPrice ? __('product.price_from', ['price' => money($minPrice)]) : money($minPrice) }}</span>
             @if($lowStock)
                 <span class="text-xs font-medium text-amber-700">{{ __('shop.low_stock', ['count' => $stock]) }}</span>
             @endif
         </div>
     </div>
 
-    <div
-        class="pt-3"
-        x-data="addToCart({
-            url: @js(r('cart.store')),
-            productId: {{ (int) $product->id }},
-            addedMessage: @js(__('shop.added')),
-            errorMessage: @js(__('shop.add_failed')),
-        })"
-    >
-        <button
-            type="button"
-            @click="add()"
-            :disabled="loading || {{ $soldOut ? 'true' : 'false' }}"
-            @disabled($soldOut)
-            class="inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-primary-dark text-sm font-semibold text-primary-dark transition-colors hover:bg-primary-dark hover:text-white disabled:cursor-not-allowed disabled:border-neutral-300 disabled:text-neutral-400 disabled:hover:bg-transparent"
+    @if($hasVariants && ! $soldOut)
+        <div class="pt-3">
+            <a href="{{ $url }}" class="inline-flex h-10 w-full items-center justify-center rounded-xl border border-primary-dark text-sm font-semibold text-primary-dark transition-colors hover:bg-primary-dark hover:text-white">
+                {{ __('product.choose_options') }}
+            </a>
+        </div>
+    @else
+        <div
+            class="pt-3"
+            x-data="addToCart({
+                url: @js(r('cart.store')),
+                productId: {{ (int) $product->id }},
+                addedMessage: @js(__('shop.added')),
+                errorMessage: @js(__('shop.add_failed')),
+            })"
         >
-            <span x-show="!added">{{ $soldOut ? __('shop.out_of_stock') : __('shop.add_to_cart') }}</span>
-            <span x-show="added" x-cloak>{{ __('shop.added') }}</span>
-        </button>
-    </div>
+            <button
+                type="button"
+                @click="add()"
+                :disabled="loading || {{ $soldOut ? 'true' : 'false' }}"
+                @disabled($soldOut)
+                class="inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-primary-dark text-sm font-semibold text-primary-dark transition-colors hover:bg-primary-dark hover:text-white disabled:cursor-not-allowed disabled:border-neutral-300 disabled:text-neutral-400 disabled:hover:bg-transparent"
+            >
+                <span x-show="!added">{{ $soldOut ? __('shop.out_of_stock') : __('shop.add_to_cart') }}</span>
+                <span x-show="added" x-cloak>{{ __('shop.added') }}</span>
+            </button>
+        </div>
+    @endif
 </article>

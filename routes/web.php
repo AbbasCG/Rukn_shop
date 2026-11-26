@@ -36,7 +36,7 @@ Route::prefix('{locale}')
         // Home page
         Route::get('/', function () {
             $newArrivals = Product::where('is_active', true)
-                ->with(['category', 'images'])
+                ->with(['category', 'images', 'variants'])
                 ->latest()
                 ->take(4)
                 ->get();
@@ -47,7 +47,7 @@ Route::prefix('{locale}')
                 ->whereNotIn('id', $newArrivals->pluck('id'))
                 ->whereHas('orderItems')
                 ->withSum('orderItems as units_sold', 'quantity')
-                ->with(['category', 'images'])
+                ->with(['category', 'images', 'variants'])
                 ->orderByDesc('units_sold')
                 ->take(4)
                 ->get();

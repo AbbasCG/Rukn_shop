@@ -102,12 +102,15 @@
                     <div class="mt-4 space-y-4">
                         @foreach($cartItems as $item)
                         @php
-                        $qtyCol = isset($item->quantity) ? 'quantity' : (property_exists($item, 'quanttty') ? 'quanttty' : 'quantity');
-                        $qty = $item->$qtyCol ?? 1;
-                        $price = $item->product->price;
+                        $qty = (int) ($item->quantity ?? 1);
+                        $price = $item->unitPrice();
+                        $variantLabel = $item->variant?->label();
                         @endphp
-                        <div class="flex items-center justify-between">
-                            <div class="text-sm text-neutral-700">{{ $item->product->name }} × {{ $qty }}</div>
+                        <div class="flex items-center justify-between gap-3">
+                            <div class="text-sm text-neutral-700">
+                                <bdi>{{ $item->product->name }}</bdi> × {{ $qty }}
+                                @if($variantLabel)<span class="block text-xs text-neutral-500"><bdi>{{ $variantLabel }}</bdi></span>@endif
+                            </div>
                             <div class="text-sm font-semibold text-primary-dark">{{ money($price * $qty) }}</div>
                         </div>
                         @endforeach

@@ -134,6 +134,7 @@
                                             onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
                                         <div>
                                             <p class="font-semibold text-primary-dark">{{ $item->display_name }}</p>
+                                            @if($item->variant_label)<p class="text-sm text-primary-dark/70"><bdi>{{ $item->variant_label }}</bdi></p>@endif
                                         </div>
                                     </div>
                                 </td>
@@ -158,6 +159,7 @@
                                 onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
                             <div class="flex-1 min-w-0">
                                 <p class="font-semibold text-primary-dark truncate">{{ $item->display_name }}</p>
+                                @if($item->variant_label)<p class="text-sm text-primary-dark/70"><bdi>{{ $item->variant_label }}</bdi></p>@endif
                                 <div class="grid grid-cols-2 gap-3 mt-3 text-sm">
                                     <div>
                                         <p class="text-primary-dark/60">{{ __('admin.orders.show.table.qty') }}</p>

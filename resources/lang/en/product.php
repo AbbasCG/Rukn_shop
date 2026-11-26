@@ -107,4 +107,10 @@ return [
     'link_copied' => 'Link copied to clipboard!',
     'share_message' => 'Check out this product: :name for €:price',
     'hidden_notice' => 'This product is hidden: customers cannot see it. Only admins can preview this page.',
+    'price_from' => 'From :price',
+    'choose_options' => 'Choose size and colour',
+    'size' => 'Size',
+    'color' => 'Colour',
+    'size_hint_lengths' => 'Abaya length in inches, measured from shoulder to ankle.',
+    'variant' => 'Variant',
 ];

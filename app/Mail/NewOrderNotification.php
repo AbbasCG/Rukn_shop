@@ -52,18 +52,31 @@ class NewOrderNotification extends Mailable
     }
 
     /**
-     * Products from this order whose stock is now at or below the threshold.
+     * What this order brought down to the threshold or below: per variant for
+     * products sold in sizes/colours, else per product.
+     *
+     * @return Collection<int, array{name: string, stock: int}>
      */
     public function lowStockProducts(): Collection
     {
         $threshold = (int) config('shop.order_notifications.low_stock_threshold');
 
         return $this->order->items
-            ->pluck('product')
-            ->filter()
-            ->unique('id')
-            ->map(fn ($product) => $product->fresh())
-            ->filter(fn ($product) => $product && $product->stock <= $threshold)
+            ->filter(fn ($item) => $item->product_id !== null)
+            ->unique(fn ($item) => $item->product_id . ':' . $item->variant_id)
+            ->map(function ($item) {
+                $variant = $item->variant_id ? \App\Models\ProductVariant::with('product')->find($item->variant_id) : null;
+                $product = $variant?->product ?? \App\Models\Product::find($item->product_id);
+                if (! $product) {
+                    return null;
+                }
+
+                return [
+                    'name' => $product->name . ($variant ? ' (' . $variant->label() . ')' : ''),
+                    'stock' => (int) ($variant ? $variant->stock : $product->stock),
+                ];
+            })
+            ->filter(fn ($entry) => $entry !== null && $entry['stock'] <= $threshold)
             ->values();
     }
 }

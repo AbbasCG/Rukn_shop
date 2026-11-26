@@ -11,6 +11,8 @@ return [
 
     'item' => [
 
+        'unavailable' => 'No longer available. Please remove it from your cart.',
+
         'price_changed' => 'Price changed since you added it (was :old).',
         'remove_confirm' => 'Remove this item?',
         'remove' => 'Remove',
@@ -41,6 +43,7 @@ return [
         'restored' => 'Your cart was restored.',
         'restored_partial' => 'Some items were unavailable and removed.',
         'out_of_stock' => 'Sorry, this product is out of stock.',
+        'choose_variant' => 'Please choose a size and colour first.',
         'stock_limited' => 'Only :count in stock. Your cart quantity was adjusted.',
     ],
 ];

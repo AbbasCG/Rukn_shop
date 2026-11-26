@@ -11,6 +11,8 @@ return [
 
     'item' => [
 
+        'unavailable' => 'Niet meer beschikbaar. Verwijder het uit je winkelwagen.',
+
         'price_changed' => 'Prijs gewijzigd sinds je het toevoegde (was :old).',
         'remove_confirm' => 'Dit artikel verwijderen?',
         'remove' => 'Verwijderen',
@@ -41,6 +43,7 @@ return [
         'restored' => 'Je winkelwagen is hersteld.',
         'restored_partial' => 'Sommige producten waren niet beschikbaar en zijn verwijderd.',
         'out_of_stock' => 'Sorry, dit product is uitverkocht.',
+        'choose_variant' => 'Kies eerst een maat en kleur.',
         'stock_limited' => 'Nog maar :count op voorraad. De hoeveelheid in je winkelwagen is aangepast.',
     ],
 ];

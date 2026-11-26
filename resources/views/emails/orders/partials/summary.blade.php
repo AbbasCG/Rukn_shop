@@ -9,6 +9,7 @@
                                     <tr>
                                         <td style="padding:12px 0; border-bottom:1px solid {{ $line }}; text-align:{{ $start }}; font-size:14px;">
                                             <bdi>{{ $item->display_name }}</bdi><br>
+                                            @if ($item->variant_label)<span style="font-size:13px; color:{{ $muted }};"><bdi>{{ $item->variant_label }}</bdi></span><br>@endif
                                             <span style="font-size:13px; color:{{ $muted }};">{{ __('email.order.quantity') }}: {{ $item->quantity }} × {{ money($item->price) }}</span>
                                         </td>
                                         <td style="padding:12px 0; border-bottom:1px solid {{ $line }}; text-align:{{ $end }}; font-size:14px; white-space:nowrap; vertical-align:top;">

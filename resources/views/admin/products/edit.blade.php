@@ -144,6 +144,9 @@
             @error('long_description')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
 
+        <!-- Sizes & colours -->
+        @include('admin.products.partials.variants', ['product' => $product])
+
         <!-- Specifications (Full width) -->
         @php
             $initialSpecifications = old('specifications', $product->specifications ?? [['key' => '', 'value' => '']]);

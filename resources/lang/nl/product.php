@@ -107,4 +107,10 @@ return [
     'link_copied' => 'Link gekopieerd naar klembord!',
     'share_message' => 'Bekijk dit product: :name voor €:price',
     'hidden_notice' => 'Dit product is verborgen: klanten kunnen het niet zien. Alleen beheerders zien deze voorbeeldpagina.',
+    'price_from' => 'Vanaf :price',
+    'choose_options' => 'Kies maat en kleur',
+    'size' => 'Maat',
+    'color' => 'Kleur',
+    'size_hint_lengths' => 'Lengte van de abaya in inches, gemeten van schouder tot enkel.',
+    'variant' => 'Variant',
 ];

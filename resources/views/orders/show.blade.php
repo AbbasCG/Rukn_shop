@@ -126,6 +126,7 @@
                                                 @else
                                                     <p class="font-semibold text-primary-dark">{{ $item->display_name }}</p>
                                                 @endif
+                                                @if($item->variant_label)<p class="text-sm text-neutral-600"><bdi>{{ $item->variant_label }}</bdi></p>@endif
                                             </div>
                                         </div>
                                     </td>
@@ -162,6 +163,7 @@
                                         @else
                                             <p class="font-semibold text-primary-dark">{{ $item->display_name }}</p>
                                         @endif
+                                        @if($item->variant_label)<p class="text-sm text-neutral-600"><bdi>{{ $item->variant_label }}</bdi></p>@endif
                                     </div>
 
                                     <div class="grid grid-cols-2 gap-3 text-sm">

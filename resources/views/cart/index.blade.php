@@ -1,7 +1,4 @@
 <x-app-layout :title="__('seo.cart_title')" :noindex="true">
-    @php
-    $qtyCol = \Illuminate\Support\Facades\Schema::hasColumn('carts','quantity') ? 'quantity' : 'quanttty';
-    @endphp
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 min-h-screen">
         @if($cartItems->isEmpty())
         <div class="text-center py-16">
@@ -22,17 +19,27 @@
                 @php
                 $product = $item->product;
                 $imageUrl = $product->primaryImageUrl();
-                // Current price; price_at_time only records what it was when added.
-                $price = $product->price ?? 0;
+                // Current price (variant price if it has one); price_at_time only
+                // records what it was when added.
+                $price = $item->unitPrice();
+                $stock = $item->availableStock();
+                $variantLabel = $item->variant?->label();
+                $valid = $item->isValid();
                 $pricedAt = $item->price_at_time;
                 $priceChanged = $pricedAt !== null && round((float) $pricedAt, 2) !== round((float) $price, 2);
-                $qty = $item->$qtyCol ?? 1;
+                $qty = (int) ($item->quantity ?? 1);
                 $itemTotal = $price * $qty;
                 @endphp
                 <div x-data="{ qty: {{ $qty }}, glow: false }" class="rounded-3xl backdrop-blur-xl bg-white/70 shadow-lg border border-white/20 p-6 flex gap-6 items-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                     <img src="{{ $imageUrl }}" alt="{{ $product->name }}" class="w-24 h-24 rounded-2xl object-cover border border-white/30" onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
                     <div class="flex-1">
-                        <h3 class="text-lg font-semibold text-primary-dark">{{ $product->name }}</h3>
+                        <h3 class="text-lg font-semibold text-primary-dark"><bdi>{{ $product->name }}</bdi></h3>
+                        @if($variantLabel)
+                            <p class="text-sm text-neutral-600"><bdi>{{ $variantLabel }}</bdi></p>
+                        @endif
+                        @unless($valid)
+                            <p class="mt-1 text-xs text-red-600">{{ __('cart.item.unavailable') }}</p>
+                        @endunless
                         <div class="mt-1 text-neutral-700">{{ money($price) }}</div>
                         @if($priceChanged)
                             <p class="mt-1 text-xs {{ $price > $pricedAt ? 'text-amber-700' : 'text-emerald-700' }}">{{ __('cart.item.price_changed', ['old' => money($pricedAt)]) }}</p>
@@ -46,7 +53,7 @@
                                     <button type="button" @click="qty = Math.max(1, qty-1); $refs.q.value = qty; $refs.form.submit(); glow=true; setTimeout(()=>glow=false,600)" class="w-9 h-9 flex items-center justify-center rounded-lg border border-primary-gray bg-white text-primary-dark hover:bg-primary-gray transition">–</button>
                                     <input x-ref="q" type="hidden" name="quantity" :value="qty">
                                     <span class="px-3 py-1 rounded-lg bg-primary-gray text-primary-dark text-sm">x <span x-text="qty"></span></span>
-                                    <button type="button" @click="if (qty >= {{ (int) $product->stock }}) return; qty = qty+1; $refs.q.value = qty; $refs.form.submit(); glow=true; setTimeout(()=>glow=false,600)" @disabled($qty >= $product->stock) class="w-9 h-9 flex items-center justify-center rounded-lg border border-primary-gray bg-white text-primary-dark hover:bg-primary-gray transition disabled:opacity-40 disabled:cursor-not-allowed">+</button>
+                                    <button type="button" @click="if (qty >= {{ (int) $stock }}) return; qty = qty+1; $refs.q.value = qty; $refs.form.submit(); glow=true; setTimeout(()=>glow=false,600)" @disabled($qty >= $stock) class="w-9 h-9 flex items-center justify-center rounded-lg border border-primary-gray bg-white text-primary-dark hover:bg-primary-gray transition disabled:opacity-40 disabled:cursor-not-allowed">+</button>
                                 </div>
                             </form>
                             <form method="POST" action="{{ r('cart.destroy', ['cart' => $item->id]) }}" x-data="{ removing: false }" @submit="removing = true">

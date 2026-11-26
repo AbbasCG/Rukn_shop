@@ -30,11 +30,25 @@ class Product extends Model
         'category_id',
         'image_url',
         'is_active',
+        'size_system',
+        'sizes',
+        'colors',
     ];
 
     protected $casts = [
         'specifications' => 'array',
+        'sizes' => 'array',
+        'colors' => 'array',
     ];
+
+    /** Ways sizes can be written; chosen per product in the admin. */
+    public const SIZE_SYSTEMS = ['lengths', 'letters', 'custom'];
+
+    /** Abaya lengths (inches) offered when the size system is "lengths". */
+    public const SIZE_LENGTHS = ['50', '52', '54', '56', '58', '60', '62'];
+
+    /** Letter sizes offered when the size system is "letters". */
+    public const SIZE_LETTERS = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
     protected static function booted(): void
     {
@@ -55,6 +69,63 @@ class Product extends Model
         static::saved(function (Product $product) {
             ProductSlugRedirect::where('old_slug', $product->slug)->delete();
         });
+    }
+
+    public function variants()
+    {
+        return $this->hasMany(ProductVariant::class)->orderBy('id');
+    }
+
+    /**
+     * True when the product is sold in sizes and/or colours.
+     */
+    public function hasVariants(): bool
+    {
+        return $this->variants->isNotEmpty();
+    }
+
+    public function colorDefinition(string $key): ?array
+    {
+        return collect($this->colors ?? [])->firstWhere('key', $key);
+    }
+
+    /**
+     * Colour name in the active (or given) locale, falling back to another
+     * language and finally to the key.
+     */
+    public function colorName(string $key, ?string $locale = null): string
+    {
+        $names = $this->colorDefinition($key)['names'] ?? [];
+        $locale ??= app()->getLocale();
+
+        return $names[$locale] ?? collect($names)->filter()->first() ?? $key;
+    }
+
+    /**
+     * Lowest and highest price over the variants (or the product price).
+     *
+     * @return array{0: float, 1: float}
+     */
+    public function priceRange(): array
+    {
+        if (! $this->hasVariants()) {
+            return [(float) $this->price, (float) $this->price];
+        }
+
+        $prices = $this->variants->map(fn (ProductVariant $v) => (float) ($v->price ?? $this->price));
+
+        return [$prices->min(), $prices->max()];
+    }
+
+    /**
+     * For products with variants, products.stock is the sum of their stock
+     * (used by listings, low-stock signals and the sitemap).
+     */
+    public function syncStockFromVariants(): void
+    {
+        if ($this->variants()->exists()) {
+            $this->forceFill(['stock' => (int) $this->variants()->sum('stock')])->saveQuietly();
+        }
     }
 
     public function slugRedirects()

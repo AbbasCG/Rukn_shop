@@ -14,7 +14,7 @@
 
 {!! __('email.order.items') !!}
 @foreach ($order->items as $item)
-- {!! $item->display_name !!} — {!! $item->quantity !!} × {!! money($item->price) !!} = {!! money($item->price * $item->quantity) !!}
+- {!! $item->full_name !!} — {!! $item->quantity !!} × {!! money($item->price) !!} = {!! money($item->price * $item->quantity) !!}
 @endforeach
 
 {!! __('email.order.subtotal') !!}: {!! money($order->subtotal) !!}

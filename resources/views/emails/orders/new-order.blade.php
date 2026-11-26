@@ -47,9 +47,9 @@
                                         <td style="padding:14px 16px; text-align:{{ $start }}; font-size:14px; line-height:1.6; color:#78350F;">
                                             <strong>{{ __('email.new_order.low_stock_title') }}</strong><br>
                                             @foreach ($lowStock as $product)
-                                                <bdi>{{ $product->stock > 0
-                                                    ? __('email.new_order.low_stock_line', ['product' => $product->name, 'count' => $product->stock])
-                                                    : __('email.new_order.out_of_stock_line', ['product' => $product->name]) }}</bdi><br>
+                                                <bdi>{{ $product['stock'] > 0
+                                                    ? __('email.new_order.low_stock_line', ['product' => $product['name'], 'count' => $product['stock']])
+                                                    : __('email.new_order.out_of_stock_line', ['product' => $product['name']]) }}</bdi><br>
                                             @endforeach
                                         </td>
                                     </tr>
