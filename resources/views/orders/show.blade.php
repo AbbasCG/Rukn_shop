@@ -124,7 +124,7 @@
                                                         {{ $product->name }}
                                                     </a>
                                                 @else
-                                                    <p class="font-semibold text-primary-dark">Product</p>
+                                                    <p class="font-semibold text-primary-dark">{{ __('orders.items.product_unavailable') }}</p>
                                                 @endif
                                                 <p class="text-xs text-neutral-500 mt-1">{{ __('orders.items.sku') }}: {{ optional($product)->sku ?? 'N/A' }}</p>
                                             </div>
@@ -161,7 +161,7 @@
                                                 {{ $product->name }}
                                             </a>
                                         @else
-                                            <p class="font-semibold text-primary-dark">Product</p>
+                                            <p class="font-semibold text-primary-dark">{{ __('orders.items.product_unavailable') }}</p>
                                         @endif
                                         <p class="text-xs text-neutral-500 mt-1">{{ __('orders.items.sku') }}: {{ optional($product)->sku ?? 'N/A' }}</p>
                                     </div>

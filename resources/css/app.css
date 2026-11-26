@@ -133,3 +133,16 @@ button:has(> div):hover {
 a, button, [role="button"] {
     @apply transition-all duration-300 ease-in-out;
 }
+
+/* Buttons — one shape for the storefront (matches the product card button). */
+@layer components {
+    .btn {
+        @apply inline-flex h-12 items-center justify-center gap-2 rounded-xl px-6 text-sm font-semibold transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-dark/40 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+    }
+    .btn-primary {
+        @apply btn bg-primary-dark text-primary-light hover:bg-primary-dark/90;
+    }
+    .btn-secondary {
+        @apply btn border border-primary-dark text-primary-dark hover:bg-primary-dark hover:text-primary-light;
+    }
+}

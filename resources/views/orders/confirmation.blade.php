@@ -48,7 +48,7 @@
                 <div class="flex items-center justify-between text-base"><span class="text-primary-dark font-semibold">{{ __('orders.summary.total') }}</span><span class="text-primary-dark font-semibold">{{ money($order->total) }}</span></div>
             </div>
             <div class="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-center gap-3">
-                <a href="{{ r('orders.show', $order) }}" class="inline-flex h-11 items-center justify-center px-6 rounded-xl bg-primary-dark text-white text-sm font-semibold shadow-lg hover:bg-primary-dark/90 transition">
+                <a href="{{ r('orders.show', $order) }}" class="btn-primary">
                     {{ __('checkout.confirmation.view_order') }}
                 </a>
                 <a href="{{ r('products.index') }}" class="inline-flex h-11 items-center justify-center px-6 rounded-xl bg-white border border-primary-gray text-primary-dark text-sm font-semibold shadow-sm hover:bg-primary-gray/30 transition">

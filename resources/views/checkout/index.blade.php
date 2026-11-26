@@ -31,59 +31,66 @@
                     @csrf
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('checkout.form.name') }}</label>
-                            <input name="name" value="{{ old('name', auth()->user()->name ?? '') }}" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" required />
+                            <label for="checkout-name" class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('checkout.form.name') }}</label>
+                            <input id="checkout-name" autocomplete="name" @error('name') aria-invalid="true" aria-describedby="checkout-name-error" @enderror name="name" value="{{ old('name', auth()->user()->name ?? '') }}" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" required />
+                            @error('name')<p id="checkout-name-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('checkout.form.email') }}</label>
-                            <input type="email" name="email" value="{{ old('email', auth()->user()->email ?? '') }}" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" required />
+                            <label for="checkout-email" class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('checkout.form.email') }}</label>
+                            <input id="checkout-email" autocomplete="email" @error('email') aria-invalid="true" aria-describedby="checkout-email-error" @enderror type="email" name="email" value="{{ old('email', auth()->user()->email ?? '') }}" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" required />
+                            @error('email')<p id="checkout-email-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('checkout.form.phone') }}</label>
-                            <input name="phone" value="{{ old('phone', auth()->user()->phone ?? '') }}" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" required />
+                            <label for="checkout-phone" class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('checkout.form.phone') }}</label>
+                            <input id="checkout-phone" autocomplete="tel" type="tel" inputmode="tel" @error('phone') aria-invalid="true" aria-describedby="checkout-phone-error" @enderror name="phone" value="{{ old('phone', auth()->user()->phone ?? '') }}" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" required />
+                            @error('phone')<p id="checkout-phone-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('checkout.form.country') }}</label>
-                            <input name="country" value="{{ old('country', auth()->user()->country ?? '') }}" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" required />
+                            <label for="checkout-country" class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('checkout.form.country') }}</label>
+                            <input id="checkout-country" autocomplete="country-name" @error('country') aria-invalid="true" aria-describedby="checkout-country-error" @enderror name="country" value="{{ old('country', auth()->user()->country ?? '') }}" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" required />
+                            @error('country')<p id="checkout-country-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
                         </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('checkout.form.address1') }}</label>
-                            <input name="address_line1" value="{{ old('address_line1', auth()->user()->address_line1 ?? auth()->user()->address ?? '') }}" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" required />
+                            <label for="checkout-address_line1" class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('checkout.form.address1') }}</label>
+                            <input id="checkout-address_line1" autocomplete="address-line1" @error('address_line1') aria-invalid="true" aria-describedby="checkout-address_line1-error" @enderror name="address_line1" value="{{ old('address_line1', auth()->user()->address_line1 ?? auth()->user()->address ?? '') }}" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" required />
+                            @error('address_line1')<p id="checkout-address_line1-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('checkout.form.address2') }}</label>
-                            <input name="address_line2" value="{{ old('address_line2', auth()->user()->address_line2 ?? '') }}" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" />
+                            <label for="checkout-address_line2" class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('checkout.form.address2') }}</label>
+                            <input id="checkout-address_line2" autocomplete="address-line2" @error('address_line2') aria-invalid="true" aria-describedby="checkout-address_line2-error" @enderror name="address_line2" value="{{ old('address_line2', auth()->user()->address_line2 ?? '') }}" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" />
+                            @error('address_line2')<p id="checkout-address_line2-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
                         </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
-                            <label class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('checkout.form.postal_code') }}</label>
-                            <input name="postal_code" value="{{ old('postal_code', auth()->user()->postal_code ?? '') }}" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" required />
+                            <label for="checkout-postal_code" class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('checkout.form.postal_code') }}</label>
+                            <input id="checkout-postal_code" autocomplete="postal-code" @error('postal_code') aria-invalid="true" aria-describedby="checkout-postal_code-error" @enderror name="postal_code" value="{{ old('postal_code', auth()->user()->postal_code ?? '') }}" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" required />
+                            @error('postal_code')<p id="checkout-postal_code-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('checkout.form.city') }}</label>
-                            <input name="city" value="{{ old('city', auth()->user()->city ?? '') }}" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" required />
+                            <label for="checkout-city" class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('checkout.form.city') }}</label>
+                            <input id="checkout-city" autocomplete="address-level2" @error('city') aria-invalid="true" aria-describedby="checkout-city-error" @enderror name="city" value="{{ old('city', auth()->user()->city ?? '') }}" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" required />
+                            @error('city')<p id="checkout-city-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('checkout.form.shipping_method') }}</label>
-                            <select name="shipping_method" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" required>
+                            <label for="checkout-shipping_method" class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('checkout.form.shipping_method') }}</label>
+                            <select id="checkout-shipping_method" @error('shipping_method') aria-invalid="true" aria-describedby="checkout-shipping_method-error" @enderror name="shipping_method" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" required>
                                 <option value="flat">{{ __('checkout.form.shipping_options.flat') }}</option>
                             </select>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('checkout.form.payment_method') }}</label>
-                            <select name="payment_method" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" required>
+                            <label for="checkout-payment_method" class="block text-xs font-semibold text-neutral-700 mb-1">{{ __('checkout.form.payment_method') }}</label>
+                            <select id="checkout-payment_method" @error('payment_method') aria-invalid="true" aria-describedby="checkout-payment_method-error" @enderror name="payment_method" class="w-full rounded-xl bg-white/70 border border-neutral-300 px-4 py-3 shadow-sm focus:ring-primary-dark/30 focus:border-primary-dark transition" required>
                                 <option value="cod">{{ __('checkout.form.payment_options.cod') }}</option>
-                                <option value="mock">{{ __('checkout.form.payment_options.mock') }}</option>
                             </select>
                         </div>
                     </div>
                     <div class="pt-2">
-                        <button type="submit" class="inline-flex items-center px-6 py-3 rounded-xl bg-primary-dark text-white font-semibold shadow-lg hover:bg-primary-dark/90 transition">{{ __('checkout.form.submit') }}</button>
+                        <button type="submit" class="btn-primary">{{ __('checkout.form.submit') }}</button>
                     </div>
                 </form>
             </div>

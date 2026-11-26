@@ -201,4 +201,20 @@ class StockAndSearchTest extends TestCase
 
         $this->assertDatabaseHas('carts', ['user_id' => $user->id, 'product_id' => $product->id, 'quantity' => 3]);
     }
+
+    public function test_checkout_rejects_the_old_mock_payment_method(): void
+    {
+        $user = User::factory()->create();
+        $product = $this->product();
+        Cart::create([
+            'user_id' => $user->id, 'product_id' => $product->id,
+            'quantity' => 1, 'status' => 'active', 'price_at_time' => $product->price,
+        ]);
+
+        $this->actingAs($user)
+            ->post('/en/checkout', array_merge($this->checkoutData(), ['payment_method' => 'mock']))
+            ->assertSessionHasErrors('payment_method');
+
+        $this->assertDatabaseCount('orders', 0);
+    }
 }

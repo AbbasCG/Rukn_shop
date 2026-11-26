@@ -40,8 +40,8 @@ class CheckoutController extends Controller
             'postal_code' => 'required|string|max:20',
             'city' => 'required|string|max:100',
             'country' => 'required|string|max:100',
-            'shipping_method' => 'required|string',
-            'payment_method' => 'required|string',
+            'shipping_method' => 'required|in:flat',
+            'payment_method' => 'required|in:cod',
         ]);
 
         $userId = Auth::id();

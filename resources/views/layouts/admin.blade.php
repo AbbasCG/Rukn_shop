@@ -109,7 +109,7 @@
                             <div class="border-t border-neutral-200 my-1"></div>
                             <form method="POST" action="{{ r('logout') }}">
                                 @csrf
-                                <button type="submit" class="w-full text-start px-4 py-2 text-sm text-primary-dark hover:bg-neutral-100">Log Out</button>
+                                <button type="submit" class="w-full text-start px-4 py-2 text-sm text-primary-dark hover:bg-neutral-100">{{ __('home.nav_logout') }}</button>
                             </form>
                         </div>
                     </div>

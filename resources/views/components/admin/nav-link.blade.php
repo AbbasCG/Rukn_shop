@@ -18,7 +18,7 @@
         </div>
         <div class="flex-1 min-w-0 truncate">
             {{ $slot }}
-            <span class="ms-1 text-xs text-primary-dark/50">(soon)</span>
+            <span class="ms-1 text-xs text-primary-dark/50">({{ __('admin.sidebar.sections.coming_soon') }})</span>
         </div>
     </div>
 @else

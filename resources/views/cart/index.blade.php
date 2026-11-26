@@ -12,7 +12,7 @@
             </div>
             <h2 class="mt-6 text-2xl font-bold text-primary-dark">{{ __('cart.empty.title') }}</h2>
             <p class="mt-2 text-neutral-700">{{ __('cart.empty.subtitle') }}</p>
-            <a href="{{ r('products.index') }}" class="mt-6 inline-flex items-center px-6 py-3 rounded-xl bg-primary-dark text-white font-semibold shadow-lg hover:bg-primary-dark/90 transition">{{ __('cart.actions.continue') }}</a>
+            <a href="{{ r('products.index') }}" class="btn-primary mt-6">{{ __('cart.actions.continue') }}</a>
         </div>
         @else
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">

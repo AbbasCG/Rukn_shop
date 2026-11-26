@@ -13,10 +13,10 @@
                         {{ __('home.hero_subtitle') }}
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="{{ r('products.index') }}" class="nav-link-underline inline-flex items-center justify-center px-8 py-3 bg-primary-dark text-primary-light font-semibold hover:bg-primary-dark/90 hover:scale-105 transition-all duration-300 ease-in-out">
+                        <a href="{{ r('products.index') }}" class="btn-primary">
                             {{ __('home.shop_now') }}
                         </a>
-                        <a href="{{ r('about') }}" class="nav-link-underline inline-flex items-center justify-center px-8 py-3 border-2 border-primary-dark text-primary-dark font-semibold hover:bg-primary-dark/5 hover:scale-105 transition-all duration-300 ease-in-out">
+                        <a href="{{ r('about') }}" class="btn-secondary">
                             {{ __('home.view_collection') }}
                         </a>
                     </div>
