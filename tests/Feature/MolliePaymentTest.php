@@ -132,7 +132,7 @@ class MolliePaymentTest extends TestCase
         $this->assertSame('pending', $order->status);
         $this->assertSame(3, $this->product->fresh()->stock);   // reserved while paying
         $this->assertEmpty(session('cart.items'));
-        Mail::assertNothingSent();                                // only once paid
+        Mail::assertNothingOutgoing();                                // only once paid
     }
 
     public function test_if_mollie_is_down_the_order_is_cancelled_and_the_cart_kept(): void
@@ -145,7 +145,7 @@ class MolliePaymentTest extends TestCase
         $this->assertSame('cancelled', $order->status);
         $this->assertSame(5, $this->product->fresh()->stock);
         $this->assertSame([(string) $this->product->id => 2], session('cart.items'));
-        Mail::assertNothingSent();
+        Mail::assertNothingOutgoing();
     }
 
     // ---- Webhook ----
@@ -161,8 +161,8 @@ class MolliePaymentTest extends TestCase
         $order = Order::sole();
         $this->assertSame('paid', $order->payment_status);
         $this->assertNotNull($order->paid_at);
-        Mail::assertSent(OrderConfirmation::class, 1);
-        Mail::assertSent(NewOrderNotification::class, 1);
+        Mail::assertQueued(OrderConfirmation::class, 1);
+        Mail::assertQueued(NewOrderNotification::class, 1);
         (new OrderConfirmation($order))->assertSeeInHtml('Online betaald');
     }
 
@@ -196,7 +196,7 @@ class MolliePaymentTest extends TestCase
         $this->assertSame('cancelled', $order->status);
         $this->assertSame('expired', $order->payment_status);
         $this->assertSame(5, $this->product->fresh()->stock);
-        Mail::assertNothingSent();
+        Mail::assertNothingOutgoing();
     }
 
     public function test_a_payment_that_arrives_after_expiry_still_counts(): void
@@ -298,7 +298,7 @@ class MolliePaymentTest extends TestCase
         ])->assertRedirect();
 
         Http::assertNothingSent();
-        Mail::assertSent(OrderConfirmation::class, 1);
+        Mail::assertQueued(OrderConfirmation::class, 1);
     }
 
     public function test_store_texts_follow_the_payment_methods_offered(): void

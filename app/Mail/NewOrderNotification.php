@@ -3,7 +3,9 @@
 namespace App\Mail;
 
 use App\Models\Order;
+use App\Mail\Concerns\SentInBackground;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
@@ -15,9 +17,9 @@ use Illuminate\Support\Collection;
  * Sent to store staff (config shop.order_notifications.emails) for every new
  * order. Reply-To is the customer, so staff can answer them directly.
  */
-class NewOrderNotification extends Mailable
+class NewOrderNotification extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable, SentInBackground, SerializesModels;
 
     public function __construct(public Order $order)
     {

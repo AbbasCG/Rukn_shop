@@ -3,6 +3,34 @@
 @section('content')
 <div class="w-full max-w-7xl mx-auto space-y-6">
 
+    {{-- Background email problems: only shown when there is something to do --}}
+    @php
+        $failedEmails = \App\Support\MailQueue::failedCount();
+        $stuckEmails = \App\Support\MailQueue::stuckCount();
+    @endphp
+    @if ($failedEmails > 0)
+        <div role="alert" class="rounded-xl border border-red-200 bg-red-50 p-5 text-sm text-red-800">
+            <p class="font-semibold">{{ __('admin.mail_queue.failed_title', ['count' => $failedEmails]) }}</p>
+            <p class="mt-1">{{ __('admin.mail_queue.failed_text') }}</p>
+            <div class="mt-3 flex flex-wrap gap-3">
+                <form method="POST" action="{{ r('admin.mail-queue.retry') }}">
+                    @csrf
+                    <button type="submit" class="rounded-lg bg-red-700 px-4 py-2 font-semibold text-white hover:bg-red-800">{{ __('admin.mail_queue.retry') }}</button>
+                </form>
+                <form method="POST" action="{{ r('admin.mail-queue.discard') }}" onsubmit="return confirm(@js(__('admin.mail_queue.discard_confirm')))">
+                    @csrf
+                    <button type="submit" class="rounded-lg border border-red-300 bg-white px-4 py-2 font-semibold text-red-800 hover:bg-red-100">{{ __('admin.mail_queue.discard') }}</button>
+                </form>
+            </div>
+        </div>
+    @endif
+    @if ($stuckEmails > 0)
+        <div role="alert" class="rounded-xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900">
+            <p class="font-semibold">{{ __('admin.mail_queue.stuck_title', ['count' => $stuckEmails, 'minutes' => \App\Support\MailQueue::STUCK_AFTER_MINUTES]) }}</p>
+            <p class="mt-1">{{ __('admin.mail_queue.stuck_text') }}</p>
+        </div>
+    @endif
+
     <!-- Welcome Section -->
     <div class="bg-white rounded-xl shadow-lg p-6 border-primary-dark border-s-4">
         <div class="flex items-center justify-between">

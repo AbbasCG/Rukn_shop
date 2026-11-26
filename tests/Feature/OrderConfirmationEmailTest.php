@@ -54,13 +54,13 @@ class OrderConfirmationEmailTest extends TestCase
         $order = $this->placeOrder('ar', 'fatima@example.com');
 
         $this->assertSame('ar', $order->locale);
-        Mail::assertSent(OrderConfirmation::class, function (OrderConfirmation $mail) use ($order) {
+        Mail::assertQueued(OrderConfirmation::class, function (OrderConfirmation $mail) use ($order) {
             return $mail->hasTo('fatima@example.com')
                 && $mail->locale === 'ar'
                 && $mail->hasReplyTo('info@rukn.nl')
                 && $mail->order->is($order);
         });
-        Mail::assertSent(OrderConfirmation::class, 1);
+        Mail::assertQueued(OrderConfirmation::class, 1);
     }
 
     public function test_email_content_matches_the_order(): void

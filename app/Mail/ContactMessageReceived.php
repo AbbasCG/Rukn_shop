@@ -3,7 +3,9 @@
 namespace App\Mail;
 
 use App\Models\ContactMessage;
+use App\Mail\Concerns\SentInBackground;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
@@ -13,9 +15,9 @@ use Illuminate\Queue\SerializesModels;
 /**
  * A contact-form message, emailed to the store. Reply-To is the sender.
  */
-class ContactMessageReceived extends Mailable
+class ContactMessageReceived extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable, SentInBackground, SerializesModels;
 
     public function __construct(public ContactMessage $contactMessage)
     {

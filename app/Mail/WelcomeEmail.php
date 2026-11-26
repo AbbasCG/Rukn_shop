@@ -3,7 +3,9 @@
 namespace App\Mail;
 
 use App\Models\User;
+use App\Mail\Concerns\SentInBackground;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
@@ -13,9 +15,9 @@ use Illuminate\Queue\SerializesModels;
 /**
  * Sent once after registration, in the language the customer signed up in.
  */
-class WelcomeEmail extends Mailable
+class WelcomeEmail extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable, SentInBackground, SerializesModels;
 
     public function __construct(public User $user, ?string $locale = null)
     {

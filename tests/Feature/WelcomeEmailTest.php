@@ -38,12 +38,12 @@ class WelcomeEmailTest extends TestCase
 
         $this->register('ar')->assertRedirect();
 
-        Mail::assertSent(WelcomeEmail::class, function (WelcomeEmail $mail) {
+        Mail::assertQueued(WelcomeEmail::class, function (WelcomeEmail $mail) {
             return $mail->hasTo('fatima@example.com')
                 && $mail->locale === 'ar'
                 && $mail->hasReplyTo('info@rukn.nl');
         });
-        Mail::assertSentCount(1);
+        Mail::assertQueuedCount(1);
     }
 
     public function test_arabic_welcome_email_is_right_to_left_and_links_to_arabic_pages(): void

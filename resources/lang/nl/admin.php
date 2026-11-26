@@ -416,8 +416,8 @@ return [
         ],
         'messages' => [
             'updated' => 'Bestelling succesvol bijgewerkt',
-            'shipped_email_sent' => 'De verzendmail is verstuurd naar :email.',
-            'shipped_email_failed' => 'De bestelling is opgeslagen, maar de verzendmail kon niet worden verstuurd. Controleer de mailinstellingen en het foutenlogboek.',
+            'shipped_email_sent' => 'De verzendmail naar :email wordt verstuurd.',
+            'shipped_email_failed' => 'De bestelling is opgeslagen, maar de verzendmail kon niet worden klaargezet. Controleer het foutenlogboek.',
             'not_enough_stock' => 'Niet genoeg voorraad om deze bestelling te heractiveren: van :product zijn er nog maar :count.',
         ],
     ],
@@ -594,5 +594,16 @@ return [
         'price_hint' => 'Laat de prijs leeg om de productprijs te gebruiken.',
         'stock_note' => 'Met maten of kleuren wordt de productvoorraad hierboven automatisch berekend als het totaal van deze tabel.',
         'empty' => 'Kies maten en/of voeg kleuren toe om de voorraad per variant in te vullen.',
+    ],
+    'mail_queue' => [
+        'failed_title' => ':count e-mail(s) konden niet worden verstuurd',
+        'failed_text' => 'E-mails worden op de achtergrond verstuurd en meerdere keren opnieuw geprobeerd. Deze zijn toch mislukt, meestal door de mailinstellingen (SMTP) of een ongeldig adres. Los eerst de oorzaak op en verstuur ze dan opnieuw.',
+        'retry' => 'Opnieuw versturen',
+        'discard' => 'Verwijderen',
+        'discard_confirm' => 'Deze e-mails verwijderen? Ze worden dan niet verstuurd.',
+        'retried' => 'De e-mails worden zo opnieuw verstuurd.',
+        'discarded' => 'De mislukte e-mails zijn verwijderd.',
+        'stuck_title' => ':count e-mail(s) wachten al langer dan :minutes minuten',
+        'stuck_text' => 'Het achtergrondproces dat e-mails verstuurt lijkt niet te draaien. Herstart de service op Render; gebeurt dit vaker, bekijk dan de logs.',
     ],
 ];

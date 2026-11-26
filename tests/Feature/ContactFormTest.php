@@ -55,7 +55,7 @@ class ContactFormTest extends TestCase
         $this->assertNull($message->read_at);
         $this->assertNull($message->user_id);
 
-        Mail::assertSent(ContactMessageReceived::class, function (ContactMessageReceived $mail) use ($message) {
+        Mail::assertQueued(ContactMessageReceived::class, function (ContactMessageReceived $mail) use ($message) {
             return $mail->hasTo('info@rukn.nl')
                 && $mail->hasReplyTo('fatima@example.com')
                 && $mail->locale === 'ar'
@@ -96,7 +96,7 @@ class ContactFormTest extends TestCase
 
         $this->assertSame('حقل الاسم مطلوب.', session('errors')->first('name'));
         $this->assertDatabaseCount('contact_messages', 0);
-        Mail::assertNothingSent();
+        Mail::assertNothingOutgoing();
     }
 
     public function test_honeypot_submissions_are_silently_dropped(): void
@@ -108,7 +108,7 @@ class ContactFormTest extends TestCase
             ->assertSessionHas('success');
 
         $this->assertDatabaseCount('contact_messages', 0);
-        Mail::assertNothingSent();
+        Mail::assertNothingOutgoing();
     }
 
     public function test_submissions_are_rate_limited(): void

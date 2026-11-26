@@ -50,21 +50,21 @@ class ShippingNotificationTest extends TestCase
         $order = $this->order();
 
         $this->update($order, ['status' => 'shipped', 'tracking_carrier' => 'postnl', 'tracking_number' => '3s abcd 1234567'])
-            ->assertRedirect()->assertSessionHas('success', 'The shipping email was sent to f@example.com.');
+            ->assertRedirect()->assertSessionHas('success', 'The shipping email to f@example.com is being sent.');
 
         $order->refresh();
         $this->assertNotNull($order->shipped_at);
         $this->assertSame('3S ABCD 1234567', $order->tracking_number);
         $this->assertSame('https://jouw.postnl.nl/track-and-trace/3SABCD1234567-NL-1234AB', $order->trackingUrl());
 
-        Mail::assertSent(OrderShipped::class, function (OrderShipped $mail) use ($order) {
+        Mail::assertQueued(OrderShipped::class, function (OrderShipped $mail) use ($order) {
             $mail->assertSeeInHtml('https://jouw.postnl.nl/track-and-trace/3SABCD1234567-NL-1234AB');
 
             return $mail->hasTo('f@example.com') && $mail->locale === 'nl'
                 && $mail->hasReplyTo('info@rukn.nl')
                 && $mail->hasSubject('Je bestelling #' . $order->number . ' is onderweg');
         });
-        Mail::assertSentCount(1);
+        Mail::assertQueuedCount(1);
     }
 
     public function test_the_email_is_sent_only_once(): void
@@ -76,7 +76,7 @@ class ShippingNotificationTest extends TestCase
         $this->update($order, ['status' => 'shipped', 'tracking_carrier' => 'dhl', 'tracking_number' => 'JVGL123']);   // …and shipped again
         $this->update($order, ['status' => 'delivered', 'tracking_carrier' => 'dhl', 'tracking_number' => 'JVGL123']);
 
-        Mail::assertSentCount(1);
+        Mail::assertQueuedCount(1);
     }
 
     public function test_a_new_tracking_number_after_shipping_sends_the_new_details(): void
@@ -86,8 +86,8 @@ class ShippingNotificationTest extends TestCase
 
         $this->update($order, ['status' => 'shipped', 'tracking_carrier' => 'dpd', 'tracking_number' => '0150 1234']);
 
-        Mail::assertSentCount(2);
-        Mail::assertSent(OrderShipped::class, fn (OrderShipped $mail) => $mail->trackingUpdate
+        Mail::assertQueuedCount(2);
+        Mail::assertQueued(OrderShipped::class, fn (OrderShipped $mail) => $mail->trackingUpdate
             && $mail->hasSubject('Nieuwe track & trace voor bestelling #' . $order->number));
     }
 
@@ -97,7 +97,7 @@ class ShippingNotificationTest extends TestCase
 
         $this->update($order, ['status' => 'shipped']);
 
-        Mail::assertSent(OrderShipped::class, function (OrderShipped $mail) {
+        Mail::assertQueued(OrderShipped::class, function (OrderShipped $mail) {
             $mail->assertSeeInHtml('هذا الطرد مُرسل بدون رقم تتبّع.')->assertSeeInHtml('dir="rtl"', false)
                 ->assertDontSeeInHtml('تتبّع طردك');
 
@@ -136,7 +136,7 @@ class ShippingNotificationTest extends TestCase
         $this->update($order, ['status' => 'shipped', 'tracking_carrier' => 'other', 'tracking_number' => 'ABC', 'tracking_url' => 'javascript:alert(1)'])->assertSessionHasErrors('tracking_url');
 
         $this->assertNull($order->fresh()->shipped_at);
-        Mail::assertNothingSent();
+        Mail::assertNothingOutgoing();
     }
 
     public function test_a_mail_failure_keeps_the_update_and_warns_the_admin(): void

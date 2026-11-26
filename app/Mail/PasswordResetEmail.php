@@ -3,7 +3,9 @@
 namespace App\Mail;
 
 use App\Models\User;
+use App\Mail\Concerns\SentInBackground;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
@@ -13,9 +15,9 @@ use Illuminate\Queue\SerializesModels;
 /**
  * Password reset link, in the language of the page the request came from.
  */
-class PasswordResetEmail extends Mailable
+class PasswordResetEmail extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable, SentInBackground, SerializesModels;
 
     public function __construct(public User $user, public string $token, ?string $locale = null)
     {

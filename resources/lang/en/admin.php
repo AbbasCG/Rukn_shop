@@ -416,8 +416,8 @@ return [
         ],
         'messages' => [
             'updated' => 'Order updated successfully',
-            'shipped_email_sent' => 'The shipping email was sent to :email.',
-            'shipped_email_failed' => 'The order was saved, but the shipping email could not be sent. Check the mail settings and the error log.',
+            'shipped_email_sent' => 'The shipping email to :email is being sent.',
+            'shipped_email_failed' => 'The order was saved, but the shipping email could not be prepared. Check the error log.',
             'not_enough_stock' => 'Not enough stock to re-activate this order: :product has only :count left.',
         ],
     ],
@@ -594,5 +594,16 @@ return [
         'price_hint' => 'Leave the price empty to use the product price.',
         'stock_note' => 'With sizes or colours, the product stock above is calculated automatically as the total of this table.',
         'empty' => 'Choose sizes and/or add colours to fill in stock per variant.',
+    ],
+    'mail_queue' => [
+        'failed_title' => ':count email(s) could not be sent',
+        'failed_text' => 'Emails are sent in the background and retried several times. These still failed, usually because of the mail settings (SMTP) or an invalid address. Fix the cause first, then send them again.',
+        'retry' => 'Send again',
+        'discard' => 'Discard',
+        'discard_confirm' => 'Discard these emails? They will not be sent.',
+        'retried' => 'The emails will be sent again in a moment.',
+        'discarded' => 'The failed emails were discarded.',
+        'stuck_title' => ':count email(s) have been waiting for more than :minutes minutes',
+        'stuck_text' => 'The background process that sends emails does not seem to be running. Restart the service on Render; if this keeps happening, check the logs.',
     ],
 ];

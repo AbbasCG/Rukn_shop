@@ -87,8 +87,8 @@ class GuestCheckoutTest extends TestCase
     {
         $order = $this->guestOrder();
 
-        Mail::assertSent(OrderConfirmation::class, fn ($mail) => $mail->hasTo('Fatima@Example.com'));
-        Mail::assertSent(NewOrderNotification::class);
+        Mail::assertQueued(OrderConfirmation::class, fn ($mail) => $mail->hasTo('Fatima@Example.com'));
+        Mail::assertQueued(NewOrderNotification::class);
         (new OrderConfirmation($order))->assertSeeInHtml($order->privateUrl('ar'), false);
     }
 

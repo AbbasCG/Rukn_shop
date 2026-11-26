@@ -3,7 +3,9 @@
 namespace App\Mail;
 
 use App\Models\Order;
+use App\Mail\Concerns\SentInBackground;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
@@ -14,9 +16,9 @@ use Illuminate\Queue\SerializesModels;
  * Sent to the customer right after an order is placed, in the language the
  * order was placed in (orders.locale).
  */
-class OrderConfirmation extends Mailable
+class OrderConfirmation extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable, SentInBackground, SerializesModels;
 
     public function __construct(public Order $order)
     {

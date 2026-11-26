@@ -3,7 +3,9 @@
 namespace App\Mail;
 
 use App\Models\Order;
+use App\Mail\Concerns\SentInBackground;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
@@ -14,9 +16,9 @@ use Illuminate\Queue\SerializesModels;
  * "Your order is on its way", with the track & trace link when there is
  * one. Sent in the language the order was placed in.
  */
-class OrderShipped extends Mailable
+class OrderShipped extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable, SentInBackground, SerializesModels;
 
     /**
      * @param  bool  $trackingUpdate  true when only the tracking details changed

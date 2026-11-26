@@ -25,7 +25,7 @@ class PasswordResetTest extends TestCase
         $this->post("/{$locale}/forgot-password", ['email' => $user->email]);
 
         $sent = null;
-        Mail::assertSent(PasswordResetEmail::class, function (PasswordResetEmail $mail) use (&$sent) {
+        Mail::assertQueued(PasswordResetEmail::class, function (PasswordResetEmail $mail) use (&$sent) {
             $sent = $mail;
 
             return true;
@@ -66,7 +66,7 @@ class PasswordResetTest extends TestCase
         $this->post('/en/forgot-password', ['email' => 'nobody@example.com'])->assertSessionHas('status', $message)->assertSessionHasNoErrors();
         $this->post('/en/forgot-password', ['email' => $user->email])->assertSessionHas('status', $message)->assertSessionHasNoErrors(); // broker-throttled
 
-        Mail::assertSent(PasswordResetEmail::class, 1);
+        Mail::assertQueued(PasswordResetEmail::class, 1);
     }
 
     public function test_email_case_does_not_matter(): void
@@ -75,7 +75,7 @@ class PasswordResetTest extends TestCase
 
         $this->post('/en/forgot-password', ['email' => ' Fatima@Example.com ']);
 
-        Mail::assertSent(PasswordResetEmail::class, fn ($mail) => $mail->hasTo('fatima@example.com'));
+        Mail::assertQueued(PasswordResetEmail::class, fn ($mail) => $mail->hasTo('fatima@example.com'));
     }
 
     public function test_requests_are_rate_limited(): void

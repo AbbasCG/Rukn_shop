@@ -129,6 +129,10 @@ Route::prefix('{locale}')
             // Contact form messages
             Route::resource('messages', AdminContactMessageController::class)->only(['index', 'update', 'destroy']);
 
+            // Emails that failed in the background
+            Route::post('/mail-queue/retry', [\App\Http\Controllers\Admin\MailQueueController::class, 'retry'])->name('mail-queue.retry');
+            Route::post('/mail-queue/discard', [\App\Http\Controllers\Admin\MailQueueController::class, 'discard'])->name('mail-queue.discard');
+
             // Future modules: coupons, settings, reports
         });
 

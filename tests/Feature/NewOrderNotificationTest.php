@@ -56,14 +56,14 @@ class NewOrderNotificationTest extends TestCase
 
         $order = $this->placeOrder();
 
-        Mail::assertSent(NewOrderNotification::class, function (NewOrderNotification $mail) use ($order) {
+        Mail::assertQueued(NewOrderNotification::class, function (NewOrderNotification $mail) use ($order) {
             return $mail->hasTo('owner@rukn.nl')
                 && $mail->hasTo('staff@rukn.nl')
                 && $mail->hasReplyTo('fatima@example.com')
                 && $mail->locale === 'ar'
                 && $mail->order->is($order);
         });
-        Mail::assertSent(OrderConfirmation::class, 1);
+        Mail::assertQueued(OrderConfirmation::class, 1);
     }
 
     public function test_notification_content_is_actionable(): void
@@ -113,7 +113,7 @@ class NewOrderNotificationTest extends TestCase
 
         $this->placeOrder();
 
-        Mail::assertNotSent(NewOrderNotification::class);
-        Mail::assertSent(OrderConfirmation::class, 1);
+        Mail::assertNotQueued(NewOrderNotification::class);
+        Mail::assertQueued(OrderConfirmation::class, 1);
     }
 }
