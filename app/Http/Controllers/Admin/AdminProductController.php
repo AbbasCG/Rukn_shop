@@ -110,6 +110,8 @@ class AdminProductController extends Controller
      */
     public function store(Request $request)
     {
+        $this->normalizeSlugInput($request);
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|unique:products,slug',
@@ -127,7 +129,7 @@ class AdminProductController extends Controller
             'is_active' => 'sometimes|boolean',
         ]);
 
-        $validated['slug'] = $validated['slug'] ?? Str::slug($validated['name']) . '-' . Str::random(4);
+        $validated['slug'] = $validated['slug'] ?? Product::uniqueSlug($validated['name']);
         $validated['is_active'] = $request->boolean('is_active');
 
         // Validate image_url is a proper URL, not Base64
@@ -159,7 +161,7 @@ class AdminProductController extends Controller
      */
     public function show(string $locale, string $product)
     {
-        $product = Product::with('category', 'images')->findOrFail($product);
+        $product = $this->findProduct($product)->load('category', 'images');
         return view('admin.products.show', compact('product'));
     }
 
@@ -168,7 +170,7 @@ class AdminProductController extends Controller
      */
     public function edit(string $locale, string $product)
     {
-        $product = Product::with('images')->findOrFail($product);
+        $product = $this->findProduct($product)->load('images');
         $categories = Category::select('id', 'name')->orderBy('name')->get();
         return view('admin.products.edit', compact('product', 'categories'));
     }
@@ -178,7 +180,8 @@ class AdminProductController extends Controller
      */
     public function update(Request $request, string $locale, string $product)
     {
-        $product = Product::findOrFail($product);
+        $product = $this->findProduct($product);
+        $this->normalizeSlugInput($request);
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -290,6 +293,24 @@ class AdminProductController extends Controller
     /**
      * Store product images.
      */
+    /**
+     * "Black Abaya" -> "black-abaya" before validation, so the unique rule
+     * checks the value that is actually stored. Empty stays empty (generated later).
+     */
+    private function normalizeSlugInput(Request $request): void
+    {
+        $slug = trim((string) $request->input('slug', ''));
+        $request->merge(['slug' => $slug === '' ? null : (Str::slug($slug) ?: null)]);
+    }
+
+    /**
+     * Admin URLs carry the product slug (its route key); old id-based links still work.
+     */
+    private function findProduct(string $key): Product
+    {
+        return (new Product())->resolveRouteBinding($key) ?? abort(404);
+    }
+
     private function storeProductImages(Product $product, array $files)
     {
         $isFirstImage = $product->images()->count() === 0;

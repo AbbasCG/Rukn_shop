@@ -59,7 +59,7 @@ class SeoTest extends TestCase
     {
         $product = $this->product();
 
-        $response = $this->get("/en/products/{$product->id}")->assertOk()
+        $response = $this->get("/en/products/{$product->slug}")->assertOk()
             ->assertSee('<title>Black Abaya – Rukn</title>', false)
             ->assertSee('content="A soft crepe abaya for every day."', false)
             ->assertSee('<meta property="og:type" content="product">', false)
@@ -79,7 +79,7 @@ class SeoTest extends TestCase
     {
         $product = $this->product(['stock' => 0]);
 
-        $data = collect($this->jsonLd($this->get("/en/products/{$product->id}")->getContent()))->keyBy('@type');
+        $data = collect($this->jsonLd($this->get("/en/products/{$product->slug}")->getContent()))->keyBy('@type');
 
         $this->assertSame('https://schema.org/OutOfStock', $data['Product']['offers']['availability']);
     }
@@ -132,9 +132,9 @@ class SeoTest extends TestCase
         }
         $this->assertGreaterThan(20, $locs->count());
         foreach (['nl', 'en', 'ar'] as $locale) {
-            $this->assertTrue($locs->contains(url("/{$locale}/products/{$active->id}")));
+            $this->assertTrue($locs->contains(url("/{$locale}/products/{$active->slug}")));
             $this->assertTrue($locs->contains(url("/{$locale}/faq")));
-            $this->assertFalse($locs->contains(url("/{$locale}/products/{$hidden->id}")));
+            $this->assertFalse($locs->contains(url("/{$locale}/products/{$hidden->slug}")));
         }
         $this->assertFalse($locs->contains(fn ($loc) => str_contains($loc, '/cart') || str_contains($loc, '/admin')));
     }

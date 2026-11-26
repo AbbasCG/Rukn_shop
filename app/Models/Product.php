@@ -36,6 +36,48 @@ class Product extends Model
         'specifications' => 'array',
     ];
 
+    /**
+     * Public URLs use the slug: /nl/products/black-abaya.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    /**
+     * Resolve by slug, falling back to the numeric id so old links
+     * (/nl/products/12) still resolve; the storefront then redirects them
+     * permanently to the slug URL.
+     */
+    public function resolveRouteBinding($value, $field = null)
+    {
+        if ($field !== null) {
+            return parent::resolveRouteBinding($value, $field);
+        }
+
+        $value = (string) $value;
+
+        return $this->where('slug', $value)->first()
+            ?? ($value !== Str::lower($value) ? $this->where('slug', Str::lower($value))->first() : null)
+            ?? (ctype_digit($value) ? $this->whereKey((int) $value)->first() : null);
+    }
+
+    /**
+     * A URL-safe slug for $name that no other product uses: "black-abaya",
+     * then "black-abaya-2", "black-abaya-3", …
+     */
+    public static function uniqueSlug(string $name, ?int $ignoreId = null): string
+    {
+        $base = Str::slug($name) ?: 'product';
+        $slug = $base;
+
+        for ($i = 2; static::where('slug', $slug)->when($ignoreId, fn ($q) => $q->whereKeyNot($ignoreId))->exists(); $i++) {
+            $slug = $base . '-' . $i;
+        }
+
+        return $slug;
+    }
+
     public function reviews()
     {
         return $this->hasMany(Reviews::class);

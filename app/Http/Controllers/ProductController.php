@@ -90,8 +90,17 @@ class ProductController extends Controller
     /**
      * Display the specified resource (public).
      */
-    public function show(string $locale, Product $product)
+    public function show(Request $request, string $locale, Product $product)
     {
+        // Old numeric links (/products/12) and other spellings redirect
+        // permanently to the canonical slug URL, keeping any query string.
+        if ($request->route()->originalParameter('product') !== $product->slug) {
+            $target = route('products.show', ['locale' => $locale, 'product' => $product]);
+            $query = $request->getQueryString();
+
+            return redirect()->to($target . ($query ? '?' . $query : ''), 301);
+        }
+
         $product->load(['category', 'reviews.user']);
         $reviews = $product->reviews;
         $relatedProducts = Product::where('category_id', $product->category_id)
