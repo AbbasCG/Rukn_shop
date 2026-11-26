@@ -19,6 +19,19 @@ return [
     // Shown in emails and used as Reply-To, so customers can simply reply.
     'contact_email' => env('SHOP_CONTACT_EMAIL', 'info@rukn.nl'),
 
+    // Parcel carriers offered in the admin, with their track & trace page.
+    // Placeholders: {code} tracking number, {country} 2-letter country code,
+    // {postcode} postal code without spaces. A custom link entered on the
+    // order always wins.
+    'carriers' => [
+        'postnl' => ['name' => 'PostNL', 'url' => 'https://jouw.postnl.nl/track-and-trace/{code}-{country}-{postcode}'],
+        'dhl' => ['name' => 'DHL', 'url' => 'https://www.dhl.com/nl-nl/home/tracking/tracking-parcel.html?submit=1&tracking-id={code}'],
+        'dpd' => ['name' => 'DPD', 'url' => 'https://tracking.dpd.de/status/nl_NL/parcel/{code}'],
+        'ups' => ['name' => 'UPS', 'url' => 'https://www.ups.com/track?loc=nl_NL&tracknum={code}'],
+        'gls' => ['name' => 'GLS', 'url' => 'https://gls-group.com/NL/nl/pakket-volgen?match={code}'],
+        'other' => ['name' => null, 'url' => null],
+    ],
+
     // Disk for uploaded images: "public" (server disk) or "r2" (Cloudflare R2).
     'media_disk' => env('SHOP_MEDIA_DISK', 'public'),
 

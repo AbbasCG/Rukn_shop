@@ -28,6 +28,12 @@ class Order extends Model
         'address_line1', 'address_line2', 'postal_code', 'city', 'country',
         'subtotal', 'shipping_cost', 'total',
         'notes',
+        'tracking_carrier', 'tracking_number', 'tracking_url', 'shipped_at',
+    ];
+
+    protected $casts = [
+        'paid_at' => 'datetime',
+        'shipped_at' => 'datetime',
     ];
 
     protected $hidden = ['access_token'];
@@ -99,5 +105,68 @@ class Order extends Model
     public static function statuses(): array
     {
         return ['pending','paid','processing','shipped','delivered','cancelled','refunded'];
+    }
+
+    public function hasTracking(): bool
+    {
+        return filled($this->tracking_number);
+    }
+
+    /**
+     * Carrier name for display ("PostNL"), or null for "other"/none.
+     */
+    public function carrierName(): ?string
+    {
+        return config("shop.carriers.{$this->tracking_carrier}.name");
+    }
+
+    /**
+     * Link to the carrier's track & trace page: the custom link when one was
+     * entered, else built from the carrier's template, else null.
+     */
+    public function trackingUrl(): ?string
+    {
+        if (filled($this->tracking_url)) {
+            return $this->tracking_url;
+        }
+
+        $template = config("shop.carriers.{$this->tracking_carrier}.url");
+        if (! $this->hasTracking() || ! $template) {
+            return null;
+        }
+
+        return strtr($template, [
+            '{code}' => rawurlencode(preg_replace('/\s+/', '', $this->tracking_number)),
+            '{country}' => rawurlencode($this->countryCode()),
+            '{postcode}' => rawurlencode(strtoupper(preg_replace('/\s+/', '', (string) $this->postal_code))),
+        ]);
+    }
+
+    /**
+     * Two-letter code for the delivery country ("NL" for "Nederland").
+     * Checkout stores the country as typed, so common spellings are mapped.
+     */
+    public function countryCode(): string
+    {
+        $country = mb_strtolower(trim((string) $this->country));
+
+        if (preg_match('/^[a-z]{2}$/', $country)) {
+            return strtoupper($country);
+        }
+
+        $names = [
+            'NL' => ['nederland', 'netherlands', 'the netherlands', 'holland', 'هولندا'],
+            'BE' => ['belgië', 'belgie', 'belgium', 'belgique', 'بلجيكا'],
+            'DE' => ['duitsland', 'germany', 'deutschland', 'ألمانيا', 'المانيا'],
+            'FR' => ['frankrijk', 'france', 'فرنسا'],
+        ];
+
+        foreach ($names as $code => $spellings) {
+            if (in_array($country, $spellings, true)) {
+                return $code;
+            }
+        }
+
+        return 'NL';
     }
 }

@@ -62,4 +62,16 @@ return [
         'open_in_admin' => 'Open messages in admin',
         'reply_hint' => 'Reply to this email to answer the sender.',
     ],
+    'shipped' => [
+        'subject' => 'Your order #:number is on its way',
+        'subject_update' => 'New tracking details for order #:number',
+        'preheader' => 'Your parcel has left us. Follow it with the tracking link.',
+        'intro' => 'Good news: your order #:number has been shipped and is on its way to you.',
+        'intro_update' => 'The tracking details of your order #:number have changed. Here are the current ones.',
+        'carrier_number' => ':carrier tracking number',
+        'tracking_number' => 'Tracking number',
+        'track' => 'Track your parcel',
+        'no_tracking' => 'This parcel is sent without a tracking number.',
+        'items' => 'In this parcel',
+    ],
 ];

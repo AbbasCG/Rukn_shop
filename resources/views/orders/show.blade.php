@@ -33,7 +33,7 @@
                         <h1 class="text-2xl md:text-3xl font-bold text-primary-dark">
                             {{ __('orders.table.order_number') }} #{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}
                         </h1>
-                        <p class="text-sm text-neutral-600">{{ $order->created_at->format('F d, Y \a\t g:i A') }}</p>
+                        <p class="text-sm text-neutral-600">{{ $order->created_at->locale(app()->getLocale())->isoFormat('D MMMM YYYY, HH:mm') }}</p>
                     </div>
 
                     <span class="inline-flex w-fit rounded-full px-3 py-1 text-sm font-medium {{ $statusClass }}">
@@ -59,6 +59,28 @@
                         <p class="mt-1 text-lg font-semibold text-primary-dark">{{ $order->payment_method ? ucfirst(str_replace('_', ' ', $order->payment_method)) : '-' }}</p>
                     </div>
                 </div>
+
+                @if ($order->shipped_at && in_array($order->status, ['shipped', 'delivered'], true))
+                    {{-- Track & trace --}}
+                    <div class="mt-6 rounded-xl border border-gray-200 bg-gray-50 p-4 md:p-5">
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                            <div>
+                                <p class="text-sm font-semibold text-primary-dark">{{ __('orders.tracking.shipped_on', ['date' => $order->shipped_at->locale(app()->getLocale())->isoFormat('D MMMM YYYY')]) }}</p>
+                                @if ($order->hasTracking())
+                                    <p class="mt-1 text-sm text-neutral-600">
+                                        {{ $order->carrierName() ? __('orders.tracking.carrier_number', ['carrier' => $order->carrierName()]) : __('orders.tracking.number') }}:
+                                        <span class="font-mono font-medium text-primary-dark" dir="ltr">{{ $order->tracking_number }}</span>
+                                    </p>
+                                @else
+                                    <p class="mt-1 text-sm text-neutral-600">{{ __('orders.tracking.no_tracking') }}</p>
+                                @endif
+                            </div>
+                            @if ($order->trackingUrl())
+                                <a href="{{ $order->trackingUrl() }}" target="_blank" rel="noopener noreferrer" class="inline-flex justify-center rounded-xl bg-primary-dark px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary-dark/90 transition print:hidden">{{ __('orders.tracking.track') }}</a>
+                            @endif
+                        </div>
+                    </div>
+                @endif
 
                 <div class="mt-6 pt-6 border-t border-gray-200">
                     <h2 class="text-lg font-semibold text-primary-dark mb-3">{{ __('orders.details.shipping_info') }}</h2>

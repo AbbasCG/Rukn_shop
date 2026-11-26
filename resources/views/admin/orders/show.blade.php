@@ -99,6 +99,42 @@
                             <option value="{{ $status }}" @selected($order->status === $status)>{{ $statusLabel($status) }}</option>
                         @endforeach
                     </select>
+
+                    {{-- Shipment: carrier + track & trace --}}
+                    <div class="pt-3 mt-1 border-t border-gray-100 space-y-3">
+                        <div class="flex items-center justify-between gap-2">
+                            <h3 class="text-sm font-semibold text-primary-dark">{{ __('admin.orders.tracking.title') }}</h3>
+                            @if ($order->shipped_at)
+                                <span class="text-xs text-neutral-500">{{ __('admin.orders.tracking.shipped_on', ['date' => $order->shipped_at->locale(app()->getLocale())->isoFormat('D MMM YYYY')]) }}</span>
+                            @endif
+                        </div>
+                        <div>
+                            <label for="tracking_carrier" class="block text-xs font-medium text-neutral-600 mb-1">{{ __('admin.orders.tracking.carrier') }}</label>
+                            <select id="tracking_carrier" name="tracking_carrier" class="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-primary-dark focus:border-primary-dark/30 focus:outline-none focus:ring-2 focus:ring-primary-dark/10">
+                                <option value="">{{ __('admin.orders.tracking.carrier_none') }}</option>
+                                @foreach (config('shop.carriers') as $key => $carrier)
+                                    <option value="{{ $key }}" @selected(old('tracking_carrier', $order->tracking_carrier) === $key)>{{ $carrier['name'] ?? __('admin.orders.tracking.other') }}</option>
+                                @endforeach
+                            </select>
+                            @error('tracking_carrier')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
+                        </div>
+                        <div>
+                            <label for="tracking_number" class="block text-xs font-medium text-neutral-600 mb-1">{{ __('admin.orders.tracking.number') }}</label>
+                            <input id="tracking_number" name="tracking_number" dir="ltr" autocomplete="off" value="{{ old('tracking_number', $order->tracking_number) }}" class="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-primary-dark focus:border-primary-dark/30 focus:outline-none focus:ring-2 focus:ring-primary-dark/10 font-mono">
+                            @error('tracking_number')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
+                        </div>
+                        <div>
+                            <label for="tracking_url" class="block text-xs font-medium text-neutral-600 mb-1">{{ __('admin.orders.tracking.url') }}</label>
+                            <input id="tracking_url" name="tracking_url" type="url" dir="ltr" placeholder="https://" value="{{ old('tracking_url', $order->tracking_url) }}" class="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-primary-dark focus:border-primary-dark/30 focus:outline-none focus:ring-2 focus:ring-primary-dark/10">
+                            <p class="mt-1 text-xs text-neutral-500">{{ __('admin.orders.tracking.url_hint') }}</p>
+                            @error('tracking_url')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
+                        </div>
+                        @if ($order->trackingUrl())
+                            <a href="{{ $order->trackingUrl() }}" target="_blank" rel="noopener noreferrer" class="inline-block text-xs font-medium text-primary-dark underline">{{ __('admin.orders.tracking.open') }}</a>
+                        @endif
+                        <p class="text-xs text-neutral-500 leading-relaxed">{{ __('admin.orders.tracking.email_hint') }}</p>
+                    </div>
+
                     <button type="submit" class="w-full rounded-lg bg-primary-dark px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary-dark/90 transition">
                         {{ __('admin.orders.actions.save_status') }}
                     </button>

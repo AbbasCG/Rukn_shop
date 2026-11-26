@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'avatar_upload_failed' => 'Uw foto kon niet worden geüpload. Probeer het later opnieuw.',
+    'avatar_upload_failed' => 'Je foto kon niet worden geüpload. Probeer het later opnieuw.',
     'title' => 'Mijn Profiel',
     'subtitle' => 'Beheer je persoonlijke gegevens en accountinstellingen.',
     'status' => 'Je profiel is bijgewerkt.',

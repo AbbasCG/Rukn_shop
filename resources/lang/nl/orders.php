@@ -109,4 +109,12 @@ return [
         'find_link' => 'Mijn bestelling vinden',
         'create_account' => 'Al je bestellingen op één plek? Maak een account aan met hetzelfde e-mailadres.',
     ],
+    'tracking' => [
+        'title' => 'Verzending',
+        'shipped_on' => 'Verzonden op :date',
+        'number' => 'Track & trace-code',
+        'carrier_number' => 'Track & trace-code :carrier',
+        'track' => 'Volg je pakket',
+        'no_tracking' => 'Dit pakket wordt zonder track & trace-code verzonden.',
+    ],
 ];
