@@ -146,6 +146,8 @@ return [
         'form' => [
             'name' => 'Product Name',
             'slug_optional' => 'Slug (Optional)',
+            'slug_redirects' => 'Old links that still redirect here:',
+            'slug_change_safe' => 'Changing the slug is safe: the current link will keep redirecting to this product.',
             'category' => 'Category',
             'select_category' => 'Select a category',
             'price' => 'Price (:currency)',

@@ -49,6 +49,15 @@
                     placeholder="{{ __('admin.products.form.placeholders.slug') }}"
                     class="w-full px-4 py-2.5 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
                 @error('slug')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
+                <p class="text-xs text-primary-dark/60 mt-1">{{ __('admin.products.form.slug_change_safe') }}</p>
+                @if($product->slugRedirects->isNotEmpty())
+                    <p class="text-xs text-primary-dark/60 mt-1">
+                        {{ __('admin.products.form.slug_redirects') }}
+                        @foreach($product->slugRedirects as $redirect)
+                            <code dir="ltr" class="px-1 rounded bg-primary-gray">{{ $redirect->old_slug }}</code>@unless($loop->last), @endunless
+                        @endforeach
+                    </p>
+                @endif
             </div>
 
             <!-- Category -->

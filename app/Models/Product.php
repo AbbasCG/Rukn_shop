@@ -36,6 +36,32 @@ class Product extends Model
         'specifications' => 'array',
     ];
 
+    protected static function booted(): void
+    {
+        // Remember the previous slug so its links keep redirecting here.
+        static::updated(function (Product $product) {
+            $previous = (string) $product->getOriginal('slug');
+
+            if ($product->wasChanged('slug') && $previous !== '') {
+                ProductSlugRedirect::updateOrCreate(
+                    ['old_slug' => $previous],
+                    ['product_id' => $product->id],
+                );
+            }
+        });
+
+        // A slug in use belongs to its product: drop any redirect claiming it
+        // (e.g. a product taking a slug another product used before).
+        static::saved(function (Product $product) {
+            ProductSlugRedirect::where('old_slug', $product->slug)->delete();
+        });
+    }
+
+    public function slugRedirects()
+    {
+        return $this->hasMany(ProductSlugRedirect::class);
+    }
+
     /**
      * Public URLs use the slug: /nl/products/black-abaya.
      */
@@ -45,9 +71,9 @@ class Product extends Model
     }
 
     /**
-     * Resolve by slug, falling back to the numeric id so old links
-     * (/nl/products/12) still resolve; the storefront then redirects them
-     * permanently to the slug URL.
+     * Resolve by slug, then by the numeric id (/nl/products/12), then by a
+     * previous slug the product used. The storefront redirects every
+     * non-canonical match permanently to the current slug URL.
      */
     public function resolveRouteBinding($value, $field = null)
     {
@@ -59,7 +85,8 @@ class Product extends Model
 
         return $this->where('slug', $value)->first()
             ?? ($value !== Str::lower($value) ? $this->where('slug', Str::lower($value))->first() : null)
-            ?? (ctype_digit($value) ? $this->whereKey((int) $value)->first() : null);
+            ?? (ctype_digit($value) ? $this->whereKey((int) $value)->first() : null)
+            ?? ProductSlugRedirect::where('old_slug', Str::lower($value))->first()?->product;
     }
 
     /**

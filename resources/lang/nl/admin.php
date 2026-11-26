@@ -146,6 +146,8 @@ return [
         'form' => [
             'name' => 'Productnaam',
             'slug_optional' => 'Slug (optioneel)',
+            'slug_redirects' => 'Oude links die hierheen doorverwijzen:',
+            'slug_change_safe' => 'De slug wijzigen is veilig: de huidige link blijft naar dit product doorverwijzen.',
             'category' => 'Categorie',
             'select_category' => 'Selecteer een categorie',
             'price' => 'Prijs (:currency)',

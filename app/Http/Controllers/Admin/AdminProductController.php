@@ -170,7 +170,7 @@ class AdminProductController extends Controller
      */
     public function edit(string $locale, string $product)
     {
-        $product = $this->findProduct($product)->load('images');
+        $product = $this->findProduct($product)->load('images', 'slugRedirects');
         $categories = Category::select('id', 'name')->orderBy('name')->get();
         return view('admin.products.edit', compact('product', 'categories'));
     }
