@@ -10,6 +10,9 @@ use App\Support\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderConfirmation;
 
 class CheckoutController extends Controller
 {
@@ -90,6 +93,7 @@ class CheckoutController extends Controller
 
             $order = Order::create([
                 'user_id' => $userId,
+                'locale' => app()->getLocale(),
                 'status' => 'pending',
                 'payment_status' => 'open',
                 'payment_method' => $validated['payment_method'],
@@ -124,10 +128,27 @@ class CheckoutController extends Controller
             Cart::where('user_id', $userId)->delete();
 
             DB::commit();
-            return redirect()->route('orders.confirmation', $order);
         } catch (\Throwable $e) {
             DB::rollBack();
             return back()->with('error', __('checkout.flash.failed'));
+        }
+
+        // After the commit, and outside the transaction: a mail problem must
+        // never undo or hide an order that has been placed.
+        $this->sendConfirmationEmail($order);
+
+        return redirect()->route('orders.confirmation', $order);
+    }
+
+    private function sendConfirmationEmail(Order $order): void
+    {
+        try {
+            Mail::to($order->email, $order->name)->send(new OrderConfirmation($order));
+        } catch (\Throwable $e) {
+            Log::error('Order confirmation email could not be sent.', [
+                'order_id' => $order->id,
+                'error' => $e->getMessage(),
+            ]);
         }
     }
 

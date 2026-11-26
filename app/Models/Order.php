@@ -17,6 +17,7 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
+        'locale',
         'status',
         'payment_status',
         'paid_at',
@@ -27,6 +28,14 @@ class Order extends Model
         'subtotal', 'shipping_cost', 'total',
         'notes',
     ];
+
+    /**
+     * Customer-facing order number, e.g. "000123".
+     */
+    public function getNumberAttribute(): string
+    {
+        return str_pad((string) $this->id, 6, '0', STR_PAD_LEFT);
+    }
 
     public function user()
     {
