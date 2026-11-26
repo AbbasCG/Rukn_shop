@@ -19,5 +19,9 @@ abstract class TestCase extends BaseTestCase
         // Lets route('login') etc. be generated in tests without passing a
         // locale each time, the same way the SetLocale middleware does.
         URL::defaults(['locale' => $this->locale]);
+
+        // Pages are tested without the compiled CSS/JS (public/build), so the
+        // suite also runs on a fresh checkout such as GitHub Actions.
+        $this->withoutVite();
     }
 }

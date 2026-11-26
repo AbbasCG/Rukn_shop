@@ -11,7 +11,7 @@ COPY . .
 RUN composer dump-autoload --no-dev --optimize --no-scripts
 
 # ---- 2. Front-end assets (Vite + Tailwind) ----
-FROM node:20-alpine AS assets
+FROM node:22-alpine AS assets
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --no-audit --no-fund
