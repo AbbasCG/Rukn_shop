@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exceptions\InsufficientStockException;
 use App\Http\Controllers\Controller;
+use App\Support\Invoices;
 use App\Support\OrderMails;
 use App\Support\OrderStock;
 use App\Models\Order;
@@ -119,6 +120,10 @@ class AdminOrderController extends Controller
         } catch (InsufficientStockException $e) {
             return back()->with('error', $e->getMessage());
         }
+
+        // Shipped / delivered (or paid): the order gets its invoice number,
+        // before the shipping email so the invoice can go with it.
+        Invoices::assign($order->fresh());
 
         $redirect = redirect()->route('admin.orders.show', $order)->with('success', __('admin.orders.messages.updated'));
 

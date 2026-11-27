@@ -37,6 +37,7 @@ return [
         'view_order' => 'Bekijk je bestelling',
         'returns' => 'Je kunt artikelen binnen :return_days dagen na ontvangst retourneren.',
         'questions' => 'Vragen? Beantwoord deze e-mail of mail naar :email.',
+        'invoice_attached' => 'Je factuur :number zit als pdf bij deze e-mail.',
         'thanks' => 'Bedankt dat je bij Rukn winkelt.',
         'unavailable_product' => 'Product',
     ],

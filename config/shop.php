@@ -14,6 +14,8 @@ return [
         'name' => env('SHOP_BUSINESS_NAME', 'Rukn'),
         'address' => env('SHOP_BUSINESS_ADDRESS'),     // e.g. "Damrak 1, 1012 LG Amsterdam, Nederland"
         'kvk' => env('SHOP_BUSINESS_KVK'),             // Chamber of Commerce number
+        'vat_id' => env('SHOP_BUSINESS_VAT_ID'),       // btw-id, e.g. NL001234567B01 (on invoices)
+        'iban' => env('SHOP_BUSINESS_IBAN'),           // optional, shown on invoices
     ],
 
     // Shown in emails and used as Reply-To, so customers can simply reply.

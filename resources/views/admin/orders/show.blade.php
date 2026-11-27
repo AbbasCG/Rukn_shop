@@ -236,6 +236,17 @@
                     <span class="font-medium text-primary-dark">{{ $order->hasVat() ? money($order->vat_amount) : '—' }}</span>
                 </div>
             </div>
+            @if ($order->hasInvoice())
+                <a href="{{ r('admin.orders.invoice', $order) }}" class="mt-5 flex w-full items-center justify-center rounded-lg bg-primary-dark px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary-dark/90 transition">
+                    {{ __('invoices.download', ['number' => $order->invoice_number]) }}
+                </a>
+                @php
+                    $missing = \App\Support\Invoices::missingBusinessDetails();
+                @endphp
+                @if ($missing)
+                    <p class="mt-3 rounded-lg bg-amber-50 border border-amber-200 p-3 text-xs text-amber-900">{{ __('invoices.admin_missing', ['fields' => implode(', ', $missing)]) }}</p>
+                @endif
+            @endif
         </aside>
     </div>
 

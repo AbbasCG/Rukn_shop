@@ -47,4 +47,19 @@ class OrderConfirmation extends Mailable implements ShouldQueue
             ],
         );
     }
+
+    /** The invoice PDF, once the order has an invoice number. */
+    public function attachments(): array
+    {
+        if (! ($this->order->hasInvoice())) {
+            return [];
+        }
+
+        $order = $this->order;
+
+        return [
+            \Illuminate\Mail\Mailables\Attachment::fromData(fn () => \App\Support\Invoices::pdf($order), \App\Support\Invoices::filename($order))
+                ->withMime('application/pdf'),
+        ];
+    }
 }

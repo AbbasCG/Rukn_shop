@@ -37,6 +37,7 @@ return [
         'view_order' => 'View your order',
         'returns' => 'You can return items within :return_days days of receiving them.',
         'questions' => 'Questions? Reply to this email or write to :email.',
+        'invoice_attached' => 'Your invoice :number is attached to this email (PDF).',
         'thanks' => 'Thank you for shopping with Rukn.',
         'unavailable_product' => 'Product',
     ],

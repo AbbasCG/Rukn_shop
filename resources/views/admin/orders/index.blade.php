@@ -18,6 +18,28 @@
 @endphp
 
 <div class="w-full max-w-7xl mx-auto space-y-6">
+    {{-- Excel export for the bookkeeping --}}
+    <details class="bg-white rounded-xl shadow p-4 group">
+        <summary class="cursor-pointer text-sm font-semibold text-primary-dark">{{ __('invoices.export.title') }}</summary>
+        <form method="GET" action="{{ r('admin.orders.export') }}" class="mt-4 flex flex-wrap items-end gap-3">
+            <label class="text-xs text-primary-dark/70">{{ __('invoices.export.from') }}
+                <input type="date" name="from" value="{{ now()->startOfMonth()->toDateString() }}" class="block mt-1 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-primary-dark">
+            </label>
+            <label class="text-xs text-primary-dark/70">{{ __('invoices.export.to') }}
+                <input type="date" name="to" value="{{ now()->toDateString() }}" class="block mt-1 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-primary-dark">
+            </label>
+            <label class="text-xs text-primary-dark/70">{{ __('invoices.export.status') }}
+                <select name="status" class="block mt-1 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-primary-dark">
+                    <option value="all">{{ __('invoices.export.all') }}</option>
+                    @foreach (['pending', 'processing', 'shipped', 'delivered', 'cancelled'] as $exportStatus)
+                        <option value="{{ $exportStatus }}">{{ __('admin.orders.status.' . $exportStatus) }}</option>
+                    @endforeach
+                </select>
+            </label>
+            <button type="submit" class="rounded-lg bg-primary-dark px-4 py-2 text-sm font-semibold text-white hover:bg-primary-dark/90">{{ __('invoices.export.button') }}</button>
+        </form>
+    </details>
+
     <section class="bg-white rounded-xl shadow-lg p-6 space-y-4">
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
