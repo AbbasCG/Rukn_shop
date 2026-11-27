@@ -91,6 +91,9 @@
                     <tr>
                         <td style="padding:32px; text-align:{{ $start }}; font-size:13px; line-height:1.6; color:{{ $muted }};">
                             <p style="margin:0 0 8px;">{{ policy_text('email.order.returns') }}</p>
+                            @if ($order->hasInvoice() && ! $trackingUpdate)
+                                <p style="margin:0 0 8px;">{{ __('email.order.invoice_attached', ['number' => $order->invoice_number]) }}</p>
+                            @endif
                             <p style="margin:0 0 8px;">{{ __('email.order.questions', ['email' => config('shop.contact_email')]) }}</p>
                             <p style="margin:0; color:{{ $dark }};">{{ __('email.order.thanks') }}</p>
                         </td>

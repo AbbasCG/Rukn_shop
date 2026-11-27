@@ -111,8 +111,11 @@ class OrderPayment
         });
 
         if ($justPaid) {
-            // Emails only once the money is in.
-            OrderMails::sendPlaced($order->fresh());
+            // Paid: the order gets its invoice number, then the emails go out
+            // (with the invoice attached to the customer's confirmation).
+            $order = $order->fresh();
+            Invoices::assign($order);
+            OrderMails::sendPlaced($order);
         }
     }
 

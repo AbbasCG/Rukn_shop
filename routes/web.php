@@ -99,6 +99,10 @@ Route::prefix('{locale}')
             ->whereNumber('order')->where('token', '[A-Za-z0-9]{40}')->name('orders.placed');
         Route::get('/orders/lookup', [GuestOrderController::class, 'lookupForm'])->name('orders.lookup');
 
+        // Invoice PDF, from the private order link.
+        Route::get('/orders/invoice/{order}/{token}', [\App\Http\Controllers\InvoiceController::class, 'show'])
+            ->whereNumber('order')->where('token', '[A-Za-z0-9]{40}')->middleware('throttle:30,1')->name('invoices.show');
+
         // Reviews by buyers, from the private order link.
         Route::get('/orders/review/{order}/{token}', [\App\Http\Controllers\ReviewController::class, 'create'])
             ->whereNumber('order')->where('token', '[A-Za-z0-9]{40}')->name('reviews.create');
@@ -127,7 +131,9 @@ Route::prefix('{locale}')
             Route::resource('categories', AdminCategoryController::class);
 
             // Order Management
+            Route::get('/orders/export', [\App\Http\Controllers\Admin\OrderExportController::class, 'download'])->name('orders.export');
             Route::resource('orders', AdminOrderController::class)->only(['index', 'show', 'update']);
+            Route::get('/orders/{order}/invoice', [\App\Http\Controllers\InvoiceController::class, 'admin'])->whereNumber('order')->name('orders.invoice');
 
             // User Management
             Route::resource('users', AdminUserController::class);

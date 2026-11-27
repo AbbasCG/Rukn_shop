@@ -45,6 +45,9 @@
 {!! __('email.order.view_order') !!}: {!! $orderUrl !!}
 
 {!! policy_text('email.order.returns') !!}
+@if ($order->hasInvoice())
+{!! __('email.order.invoice_attached', ['number' => $order->invoice_number]) !!}
+@endif
 {!! __('email.order.questions', ['email' => config('shop.contact_email')]) !!}
 
 {!! __('email.order.thanks') !!}
