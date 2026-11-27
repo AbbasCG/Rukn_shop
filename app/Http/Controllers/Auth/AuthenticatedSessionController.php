@@ -7,9 +7,11 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Support\GuestCart;
+use App\Support\TwoFactor;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
 
@@ -30,7 +32,23 @@ class AuthenticatedSessionController extends Controller
     {
         $guestCartItems = collect($request->session()->get('cart.items', []));
 
-        $request->authenticate();
+        $user = $request->checkCredentials();
+
+        // Admins with two-step verification: password is right, now the
+        // code from their email (TwoFactorChallengeController logs them in).
+        if ($user->usesTwoFactor()) {
+            try {
+                TwoFactor::send($user, 'login', ['remember' => $request->boolean('remember')]);
+            } catch (\Throwable $e) {
+                Log::error('Two-step verification code could not be emailed.', ['user_id' => $user->id, 'error' => $e->getMessage()]);
+
+                return back()->onlyInput('email')->withErrors(['email' => __('two_factor.send_failed')]);
+            }
+
+            return redirect()->route('two-factor.challenge');
+        }
+
+        Auth::guard('web')->login($user, $request->boolean('remember'));
 
         $mergeResult = $this->mergeGuestCartIntoUserCart($request, $guestCartItems);
         $flashMessages = [];

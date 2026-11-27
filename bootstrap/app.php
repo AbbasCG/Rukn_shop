@@ -24,6 +24,17 @@ return Application::configure(basePath: dirname(__DIR__))
         // fetches the payment from the Mollie API instead of trusting the post.
         $middleware->validateCsrfTokens(except: ['payments/mollie/webhook']);
 
+        // Not logged in on a page that needs it: to the login page in the
+        // page's language (the default redirect lacks the {locale} part).
+        $middleware->redirectGuestsTo(function (\Illuminate\Http\Request $request) {
+            $locale = $request->route('locale');
+            if (! in_array($locale, config('app.supported_locales', ['nl', 'ar', 'en']), true)) {
+                $locale = config('app.locale', 'nl');
+            }
+
+            return route('login', ['locale' => $locale]);
+        });
+
         $middleware->alias([
             'isAdmin' => \App\Http\Middleware\IsAdmin::class,
             'locale.validate' => \App\Http\Middleware\ValidateLocale::class,
