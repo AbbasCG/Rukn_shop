@@ -41,17 +41,27 @@ npm run dev
 php vendor/bin/phpunit
 ```
 
-تعمل على SQLite في الذاكرة. للتجربة على MariaDB/MySQL (قاعدة Hostinger) مرّر `DB_CONNECTION=mariadb` مع بيانات الاتصال. وعلى GitHub تعمل تلقائياً على SQLite و MariaDB و PostgreSQL مع كل تعديل.
+تعمل على SQLite في الذاكرة. للتجربة على MariaDB/MySQL (قاعدة Hostinger) مرّر `DB_CONNECTION=mariadb` مع بيانات الاتصال. وعلى GitHub تعمل تلقائياً على SQLite و MariaDB و PostgreSQL مع كل تعديل، وبعد كل دمج ناجح في `main` يُحدَّث فرع `production` بملفات التصميم المبنيّة.
 
 ## النشر على Hostinger (عبر SSH)
 
 المتجر يعمل على استضافة Hostinger، والدومين يشير إلى مجلد `public` في المشروع. خطوات نشر تحديث جديد بعد الدخول بـ SSH إلى مجلد المشروع:
 
 1. **نسخة احتياطية من قاعدة البيانات** من hPanel ← Databases ← phpMyAdmin ← Export.
-2. سحب الكود الجديد:
+2. سحب الكود الجديد من فرع `production`، وهو نفس `main` ومعه ملفات التصميم المبنيّة (`public/build`). يحدّثه GitHub تلقائياً بعد كل دمج في `main` تنجح اختباراته، فلا يحتاج السيرفر Node.js:
 
 ```bash
-git pull origin main
+git pull origin production
+```
+
+أول مرة فقط، إذا كان السيرفر على فرع آخر: احذف مجلد `public/build` القديم الذي بُني يدوياً (git يرفض الكتابة فوقه، ونسخته الجديدة تأتي مع الفرع)، ثم انتقل للفرع:
+
+```bash
+rm -rf public/build
+```
+
+```bash
+git fetch origin production && git checkout production
 ```
 
 3. تثبيت مكتبات PHP بدون أدوات التطوير:
@@ -60,13 +70,7 @@ git pull origin main
 composer install --no-dev --optimize-autoloader --no-interaction
 ```
 
-4. بناء ملفات التصميم (إذا لم يكن Node.js متوفراً على السيرفر، شغّل الأمر على جهازك وارفع مجلد `public/build`):
-
-```bash
-npm ci && npm run build
-```
-
-5. تحديثات قاعدة البيانات، ثم ربط مجلد الصور، ثم تجهيز الكاش:
+4. تحديثات قاعدة البيانات، ثم ربط مجلد الصور، ثم تجهيز الكاش:
 
 ```bash
 php artisan migrate --force
