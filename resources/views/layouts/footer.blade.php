@@ -5,7 +5,7 @@
                 <!-- Brand -->
                 <div class="text-start">
                     <a href="{{ r('home') }}" class="inline-block mb-4 hover:opacity-80 transition-opacity duration-300">
-                        <img src="{{ asset('images/Voll logo.svg') }}" alt="Rukn Shop" class="h-12 w-auto">
+                        <img src="{{ asset('images/Voll logo.svg') }}" alt="Rukn" class="h-12 w-auto">
                     </a>
                     <p class="text-primary-light/70 text-sm leading-relaxed">
                         {{ __('footer.brand.description') }}

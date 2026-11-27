@@ -170,4 +170,31 @@ class LegalPagesTest extends TestCase
             ->assertSee('البيانات التي نجمعها')
             ->assertSee('فالنص الهولندي هو المعتمد');
     }
+
+    // ---- Terms of service ----
+
+    public function test_terms_match_how_the_shop_works_and_consumer_law(): void
+    {
+        config(['shop.business.name' => 'Rukn', 'shop.contact_email' => 'info@rukn.nl']);
+
+        $this->get('/en/terms-of-service')->assertOk()
+            ->assertSee('online shop of Rukn')
+            ->assertSee('or on delivery')
+            ->assertSee('legal guarantee')
+            ->assertSee('governed by the terms that were shown on the day you placed it')
+            ->assertSee('court where you live')
+            ->assertSee('Email us at info@rukn.nl')
+            ->assertDontSee('Payment must be received before order processing')
+            ->assertDontSee('exclusive jurisdiction')
+            ->assertDontSee('Rukn Shop');
+
+        $this->get('/ar/terms-of-service')->assertOk()->assertSee('الضمان القانوني')->assertDontSee('ركن شوب');
+        $this->get('/nl/terms-of-service')->assertOk()->assertSee('wettelijke garantie')->assertDontSee('Rukn Shop');
+    }
+
+    public function test_about_page_uses_the_shop_name(): void
+    {
+        $this->get('/nl/about')->assertOk()->assertDontSee('Rukn Shop');
+        $this->get('/en/about')->assertOk()->assertDontSee('Rukn Shop');
+    }
 }

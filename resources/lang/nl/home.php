@@ -193,12 +193,12 @@ return [
     'You May Also Like' => 'Je Vindt Misschien Ook Leuk',
     
     // About
-    'About Rukn Shop' => 'Over Rukn Shop',
+    'About Rukn Shop' => 'Over Rukn',
     'Your trusted online store for quality products, fair prices, and friendly service.' => 'Je vertrouwde online winkel voor kwaliteitsproducten, eerlijke prijzen en vriendelijke service.',
     'We curate products we love and stand behind, combining fast shipping, clear communication, and support you can count on — so shopping feels easy and enjoyable.' => 'We selecteren producten waar we van houden en achter staan, met snelle verzending, duidelijke communicatie en ondersteuning waar je op kunt rekenen — zodat winkelen gemakkelijk en plezierig voelt.',
     'Since 2024' => 'Sinds 2024',
     'Our Story' => 'Ons Verhaal',
-    'Rukn Shop started with a simple idea: build a store we\'d love to shop at ourselves. We\'ve grown by listening to customers and refining every step — from selection to delivery.' => 'Rukn Shop begon met een simpel idee: bouw een winkel waar we zelf graag zouden winkelen. We zijn gegroeid door naar klanten te luisteren en elke stap te verfijnen — van selectie tot levering.',
+    'Rukn Shop started with a simple idea: build a store we\'d love to shop at ourselves. We\'ve grown by listening to customers and refining every step — from selection to delivery.' => 'Rukn begon met een simpel idee: bouw een winkel waar we zelf graag zouden winkelen. We zijn gegroeid door naar klanten te luisteren en elke stap te verfijnen — van selectie tot levering.',
     'What makes us different is our commitment to honest quality, transparent pricing, and responsive support. We believe small details make a big difference.' => 'Wat ons onderscheidt is ons engagement voor eerlijke kwaliteit, transparante prijzen en responsieve ondersteuning. We geloven dat kleine details een groot verschil maken.',
     'Curated catalog with everyday value' => 'Geselecteerde catalogus met alledaagse waarde',
     'Fast, reliable shipping' => 'Snelle, betrouwbare verzending',
@@ -214,7 +214,7 @@ return [
     'Friendly Support' => 'Vriendelijke Ondersteuning',
     'Real people ready to help with orders, returns, and advice.' => 'Echte mensen klaar om te helpen met bestellingen, retourneringen en advies.',
     'Trusted by partners' => 'Vertrouwd door partners',
-    'Ready to explore Rukn Shop?' => 'Klaar om Rukn Shop te verkennen?',
+    'Ready to explore Rukn Shop?' => 'Klaar om Rukn te verkennen?',
     'Browse our latest arrivals or get in touch — we\'re here to help.' => 'Bekijk onze nieuwste aanwinsten of neem contact op — we zijn er om te helpen.',
     'Shop Now' => 'Nu Winkelen',
     'Contact Us' => 'Neem Contact Op',
