@@ -29,7 +29,7 @@
 @endforeach
 
 {!! __('email.order.subtotal') !!}: {!! money($order->subtotal) !!}
-{!! __('email.order.shipping') !!}: {!! (float) $order->shipping_cost > 0 ? money($order->shipping_cost) : __('email.order.free') !!}
+{!! __('email.order.shipping') !!}: {!! $order->shippingText() !!}
 {!! __('email.order.total') !!}: {!! money($order->total) !!}
 @if ($order->hasVat())
 {!! __('shop.vat.included', ['rate' => \App\Support\Vat::rateLabel((float) $order->vat_rate)]) !!}: {!! money($order->vat_amount) !!}

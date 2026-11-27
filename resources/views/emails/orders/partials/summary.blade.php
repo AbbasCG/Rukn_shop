@@ -31,7 +31,7 @@
                                 </tr>
                                 <tr>
                                     <td style="padding:4px 0; text-align:{{ $start }}; color:{{ $muted }};">{{ __('email.order.shipping') }}</td>
-                                    <td style="padding:4px 0; text-align:{{ $end }};">{{ (float) $order->shipping_cost > 0 ? money($order->shipping_cost) : __('email.order.free') }}</td>
+                                    <td style="padding:4px 0; text-align:{{ $end }};">{{ $order->shippingText() }}</td>
                                 </tr>
                                 <tr>
                                     <td style="padding:10px 0 0; text-align:{{ $start }}; font-size:16px; font-weight:bold;">{{ __('email.order.total') }}</td>

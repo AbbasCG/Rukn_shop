@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Support\GuestCart;
+use App\Support\CartTotals;
 use App\Support\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -18,10 +19,11 @@ class CartController extends Controller
         $cartItems = $this->lines();
 
         $subtotal = $cartItems->sum(fn (Cart $item) => $item->unitPrice() * $item->quantity);
-        $shipping = Shipping::cost((float) $subtotal);
-        $total = $subtotal + $shipping;
+        $totals = CartTotals::for((float) $subtotal);
+        $shipping = $totals->shipping;
+        $total = $totals->total;
 
-        return view('cart.index', compact('cartItems', 'subtotal', 'shipping', 'total'));
+        return view('cart.index', compact('cartItems', 'subtotal', 'shipping', 'total', 'totals'));
     }
 
     /**
@@ -126,7 +128,7 @@ class CartController extends Controller
         if ($request->expectsJson()) {
             $items = $this->lines();
             $subtotal = $items->sum(fn (Cart $item) => $item->unitPrice() * $item->quantity);
-            $shipping = Shipping::cost((float) $subtotal);
+            $shipping = CartTotals::for((float) $subtotal)->shipping;
 
             return response()->json([
                 'ok' => true,

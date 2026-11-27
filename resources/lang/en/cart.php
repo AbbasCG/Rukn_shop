@@ -50,4 +50,16 @@ return [
         'choose_variant' => 'Please choose a size and colour first.',
         'stock_limited' => 'Only :count in stock. Your cart quantity was adjusted.',
     ],
+    'coupon' => [
+        'label' => 'Discount code',
+        'placeholder' => 'Enter code',
+        'apply' => 'Apply',
+        'remove' => 'Remove',
+        'invalid' => 'This code does not exist or is no longer valid.',
+        'applied' => 'Code :code applied.',
+        'removed' => 'The discount code has been removed.',
+        'active_free_shipping' => 'Code :code: free shipping',
+        'below_minimum' => 'Code :code gives free shipping from :amount in products.',
+        'shipping_with_code' => 'Free (code :code)',
+    ],
 ];

@@ -72,8 +72,8 @@ Route::prefix('{locale}')
 
             // Cart routes (auth-only actions)
             Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-            Route::patch('/cart/{cart}', [CartController::class, 'update'])->name('cart.update');
-            Route::delete('/cart/{cart}', [CartController::class, 'destroy'])->name('cart.destroy');
+            Route::patch('/cart/{cart}', [CartController::class, 'update'])->whereNumber('cart')->name('cart.update');
+            Route::delete('/cart/{cart}', [CartController::class, 'destroy'])->whereNumber('cart')->name('cart.destroy');
             Route::delete('/cart', [CartController::class, 'clear'])->name('cart.clear');
 
             // Checkout routes
@@ -113,6 +113,8 @@ Route::prefix('{locale}')
 
         // Public cart add route and public cart page for guests
         Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+        Route::post('/cart/coupon', [\App\Http\Controllers\CouponController::class, 'store'])->middleware('throttle:10,1')->name('cart.coupon.store');
+        Route::delete('/cart/coupon', [\App\Http\Controllers\CouponController::class, 'destroy'])->name('cart.coupon.destroy');
         Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
         // Public Product routes (browse and view)
@@ -140,6 +142,9 @@ Route::prefix('{locale}')
 
             // Contact form messages
             Route::resource('messages', AdminContactMessageController::class)->only(['index', 'update', 'destroy']);
+
+            // Discount codes
+            Route::resource('coupons', \App\Http\Controllers\Admin\CouponController::class)->except(['show', 'create']);
 
             // Review moderation
             Route::resource('reviews', \App\Http\Controllers\Admin\ReviewController::class)->only(['index', 'update', 'destroy']);

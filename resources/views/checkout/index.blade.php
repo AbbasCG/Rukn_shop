@@ -144,7 +144,7 @@
                         </div>
                         <div class="flex items-center justify-between text-sm">
                             <span class="text-neutral-700">{{ __('checkout.summary.shipping') }}</span>
-                            <span class="font-semibold text-primary-dark">{{ $shipping > 0 ? money($shipping) : __('cart.summary.free') }}</span>
+                            <span class="font-semibold text-primary-dark">{{ $totals->couponApplies() ? __('cart.coupon.shipping_with_code', ['code' => $totals->coupon->code]) : ($shipping > 0 ? money($shipping) : __('cart.summary.free')) }}</span>
                         </div>
                         <div class="flex items-center justify-between text-base">
                             <span class="text-primary-dark font-semibold">{{ __('shop.vat.total_incl') }}</span>

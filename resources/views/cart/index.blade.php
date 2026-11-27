@@ -95,11 +95,39 @@
                 <h2 class="text-xl font-bold">{{ __('cart.summary.title') }}</h2>
                 <div class="space-y-2 text-sm">
                     <div class="flex items-center justify-between"><span>{{ __('cart.summary.subtotal') }}</span><span>{{ money($subtotal) }}</span></div>
-                    <div class="flex items-center justify-between"><span>{{ __('cart.summary.shipping') }}</span><span>{{ $shipping > 0 ? money($shipping) : __('cart.summary.free') }}</span></div>
+                    <div class="flex items-center justify-between"><span>{{ __('cart.summary.shipping') }}</span><span>{{ $totals->couponApplies() ? __('cart.coupon.shipping_with_code', ['code' => $totals->coupon->code]) : ($shipping > 0 ? money($shipping) : __('cart.summary.free')) }}</span></div>
                     <div class="flex items-center justify-between text-base font-semibold"><span>{{ __('shop.vat.total_incl') }}</span><span>{{ money($total) }}</span></div>
                     <div class="flex items-center justify-between text-xs text-white/70"><span>{{ __('shop.vat.included', ['rate' => \App\Support\Vat::rateLabel()]) }}</span><span>{{ money(\App\Support\Vat::included((float) $total)) }}</span></div>
                 </div>
-                @php($remainingForFree = \App\Support\Shipping::remainingForFree((float) $subtotal))
+                {{-- Discount code --}}
+                <div class="border-t border-white/15 pt-4 space-y-2">
+                    @if ($totals->coupon)
+                        <div class="flex items-center justify-between gap-3 text-sm">
+                            <span>
+                                @if ($totals->couponApplies())
+                                    ✓ {{ __('cart.coupon.active_free_shipping', ['code' => $totals->coupon->code]) }}
+                                @else
+                                    {{ __('cart.coupon.below_minimum', ['code' => $totals->coupon->code, 'amount' => money($totals->coupon->min_order_amount)]) }}
+                                @endif
+                            </span>
+                            <form method="POST" action="{{ r('cart.coupon.destroy') }}">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="text-xs underline underline-offset-2 text-white/80 hover:text-white">{{ __('cart.coupon.remove') }}</button>
+                            </form>
+                        </div>
+                    @else
+                        <form method="POST" action="{{ r('cart.coupon.store') }}" class="flex gap-2">
+                            @csrf
+                            <label for="coupon-code" class="sr-only">{{ __('cart.coupon.label') }}</label>
+                            <input id="coupon-code" name="code" value="{{ old('code') }}" maxlength="40" autocomplete="off" dir="ltr"
+                                   placeholder="{{ __('cart.coupon.placeholder') }}"
+                                   class="min-w-0 flex-1 rounded-xl border-0 bg-white/10 px-3 py-2 text-sm text-white placeholder-white/50 uppercase focus:ring-2 focus:ring-white/40">
+                            <button type="submit" class="rounded-xl bg-white/15 px-4 py-2 text-sm font-semibold hover:bg-white/25">{{ __('cart.coupon.apply') }}</button>
+                        </form>
+                        @error('code', 'coupon')<p class="text-xs text-amber-200">{{ $message }}</p>@enderror
+                    @endif
+                </div>
+                @php($remainingForFree = $totals->couponApplies() ? 0 : \App\Support\Shipping::remainingForFree((float) $subtotal))
                 @if($remainingForFree > 0)
                     <p class="text-sm text-white/80">{{ __('cart.summary.free_shipping_hint', ['amount' => money($remainingForFree)]) }}</p>
                 @endif

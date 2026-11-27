@@ -69,7 +69,7 @@ class OrderExportController extends Controller
         $writer->addRow(Row::fromValuesWithStyle(array_map($col, [
             'order', 'invoice', 'order_date', 'invoice_date', 'status', 'payment_method', 'payment_status', 'paid_at',
             'customer', 'email', 'postal_code', 'city', 'country',
-            'subtotal', 'shipping', 'total_incl', 'vat_rate', 'vat', 'total_excl',
+            'subtotal', 'shipping', 'total_incl', 'vat_rate', 'vat', 'total_excl', 'coupon', 'discount',
         ]), $bold));
 
         foreach ($orders as $order) {
@@ -94,7 +94,9 @@ class OrderExportController extends Controller
                 $order->vat_rate !== null ? (float) $order->vat_rate : null,
                 $vat,
                 $vat !== null ? round((float) $order->total - $vat, 2) : null,
-            ], [2 => $date, 3 => $date, 7 => $date, 13 => $money, 14 => $money, 15 => $money, 17 => $money, 18 => $money]));
+                $order->coupon_code,
+                (float) $order->discount_amount,
+            ], [2 => $date, 3 => $date, 7 => $date, 13 => $money, 14 => $money, 15 => $money, 17 => $money, 18 => $money, 20 => $money]));
         }
 
         // Sheet 2: order lines.

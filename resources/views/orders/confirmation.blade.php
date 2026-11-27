@@ -44,7 +44,7 @@
                 </div>
                 @endforeach
                 <div class="flex items-center justify-between"><span class="text-neutral-700">{{ __('orders.summary.subtotal') }}</span><span class="text-primary-dark font-semibold">{{ money($order->subtotal) }}</span></div>
-                <div class="flex items-center justify-between"><span class="text-neutral-700">{{ __('orders.summary.shipping') }}</span><span class="text-primary-dark font-semibold">{{ money($order->shipping_cost) }}</span></div>
+                <div class="flex items-center justify-between"><span class="text-neutral-700">{{ __('orders.summary.shipping') }}</span><span class="text-primary-dark font-semibold">{{ $order->shippingText() }}</span></div>
                 <div class="flex items-center justify-between text-base"><span class="text-primary-dark font-semibold">{{ $order->hasVat() ? __('shop.vat.total_incl') : __('orders.summary.total') }}</span><span class="text-primary-dark font-semibold">{{ money($order->total) }}</span></div>
                 @if ($order->hasVat())
                     <div class="flex items-center justify-between text-xs text-neutral-500"><span>{{ __('shop.vat.included', ['rate' => \App\Support\Vat::rateLabel((float) $order->vat_rate)]) }}</span><span>{{ money($order->vat_amount) }}</span></div>

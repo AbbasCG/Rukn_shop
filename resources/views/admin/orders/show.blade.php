@@ -224,7 +224,7 @@
                 </div>
                 <div class="flex items-center justify-between">
                     <span class="text-primary-dark/60">{{ __('admin.orders.show.fields.shipping') }}</span>
-                    <span class="font-medium text-primary-dark">{{ money($shipping) }}</span>
+                    <span class="font-medium text-primary-dark">{{ $order->shippingText() }}</span>
                 </div>
                 <div class="pt-3 border-t border-gray-200 flex items-center justify-between">
                     <span class="text-base font-semibold text-primary-dark">{{ __('admin.orders.show.fields.grand_total') }}</span>

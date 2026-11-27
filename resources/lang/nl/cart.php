@@ -50,4 +50,16 @@ return [
         'choose_variant' => 'Kies eerst een maat en kleur.',
         'stock_limited' => 'Nog maar :count op voorraad. De hoeveelheid in je winkelwagen is aangepast.',
     ],
+    'coupon' => [
+        'label' => 'Kortingscode',
+        'placeholder' => 'Code invullen',
+        'apply' => 'Toepassen',
+        'remove' => 'Verwijderen',
+        'invalid' => 'Deze code bestaat niet of is niet meer geldig.',
+        'applied' => 'Code :code is toegepast.',
+        'removed' => 'De kortingscode is verwijderd.',
+        'active_free_shipping' => 'Code :code: gratis verzending',
+        'below_minimum' => 'Code :code geeft gratis verzending vanaf :amount aan producten.',
+        'shipping_with_code' => 'Gratis (code :code)',
+    ],
 ];
