@@ -107,23 +107,31 @@ class CartController extends Controller
         return $this->cartResponse($request, true, $message, $count, $limited);
     }
 
-    public function update(Request $request, string $locale, Cart $cart)
+    /**
+     * Change a line's quantity. {line} is a saved cart id for logged-in
+     * customers, or the session key ("<productId>[:<variantId>]") for guests.
+     */
+    public function update(Request $request, string $locale, string $line)
     {
-        if ($cart->user_id !== Auth::id()) {
-            abort(403);
-        }
         $request->validate([
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $cart->load('product', 'variant');
+        $cart = $this->findLine($line);
 
         // Cap the requested quantity at what is actually in stock.
         $stock = max(0, $cart->availableStock());
         $requested = (int) $request->quantity;
         $limited = $requested > $stock;
         $cart->quantity = max(1, min($requested, $stock));
-        $cart->save();
+
+        if (Auth::check()) {
+            $cart->save();
+        } else {
+            $items = GuestCart::raw();
+            $items[$line] = (int) $cart->quantity;
+            GuestCart::put($items);
+        }
 
         if ($request->expectsJson()) {
             $items = $this->lines();
@@ -149,21 +157,49 @@ class CartController extends Controller
         return back()->with('success', __('cart.flash.updated'));
     }
 
-    public function destroy(string $locale, Cart $cart)
+    public function destroy(string $locale, string $line)
     {
-        if ($cart->user_id !== Auth::id()) {
-            abort(403);
+        $cart = $this->findLine($line);
+
+        if (Auth::check()) {
+            $cart->delete();
+        } else {
+            $items = GuestCart::raw();
+            unset($items[$line]);
+            GuestCart::put($items);
         }
-        $cart->delete();
 
         return back()->with('success', __('cart.flash.removed'));
     }
 
     public function clear(Request $request)
     {
-        Cart::where('user_id', Auth::id())->where('status', 'active')->delete();
+        if (Auth::check()) {
+            Cart::where('user_id', Auth::id())->where('status', 'active')->delete();
+        } else {
+            GuestCart::put([]);
+        }
 
         return back()->with('success', __('cart.flash.cleared'));
+    }
+
+    /**
+     * The visitor's own line (404 when it is not in their cart).
+     */
+    private function findLine(string $line): Cart
+    {
+        if (Auth::check()) {
+            $cart = ctype_digit($line) ? Cart::with('product', 'variant')->find((int) $line) : null;
+            if ($cart && $cart->user_id !== Auth::id()) {
+                abort(403);
+            }
+        } else {
+            $cart = GuestCart::lines()->firstWhere('guest_key', $line);
+        }
+
+        abort_if($cart === null, 404);
+
+        return $cart;
     }
 
     /**

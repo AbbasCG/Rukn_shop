@@ -52,6 +52,15 @@ class Cart extends Model
     /**
      * Stock available for this line: the variant's stock, else the product's.
      */
+    /**
+     * What the cart routes use for this line: the saved id, or for a guest
+     * the session key ("<productId>[:<variantId>]").
+     */
+    public function lineKey(): string
+    {
+        return $this->exists ? (string) $this->id : (string) $this->guest_key;
+    }
+
     public function availableStock(): int
     {
         return (int) ($this->variant ? $this->variant->stock : ($this->product?->stock ?? 0));
