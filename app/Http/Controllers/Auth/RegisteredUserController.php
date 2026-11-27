@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Notifications\WelcomeNotification;
+use App\Mail\WelcomeEmail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -54,11 +56,15 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        // Send welcome notification email
-        $user->notify(new WelcomeNotification());
+        // A mail problem must never block signing up: log it and carry on.
+        try {
+            Mail::to($user->email, $user->name)->send(new WelcomeEmail($user, app()->getLocale()));
+        } catch (\Throwable $e) {
+            Log::error('Welcome email could not be sent.', ['user_id' => $user->id, 'error' => $e->getMessage()]);
+        }
 
         Auth::login($user);
 
-        return redirect()->intended('/');
+        return redirect()->intended(route('home'));
     }
 }

@@ -1,5 +1,5 @@
-<x-app-layout>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12" style="font-family: 'Signika', sans-serif;">
+<x-app-layout :title="__('seo.faq_title')" :description="__('seo.faq_description')">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
         <style>
             @media (prefers-reduced-motion: no-preference) {
                 @keyframes fade-in-up {
@@ -27,35 +27,32 @@
 
         <!-- FAQ Accordion -->
         <section>
-            <div x-data="{ open: 1 }" class="bg-white rounded-3xl shadow-xl border border-primary-gray/50 overflow-hidden">
-                <!-- Repeat same items as contact for consistency -->
-                <template x-for="i in 6">
-                    <div class="border-b last:border-0">
-                        <button type="button" @click="open === i ? open = null : open = i" class="w-full flex items-center justify-between px-5 py-4 hover:bg-primary-gray/40 transition duration-200">
-                            <span class="text-sm font-semibold text-primary-dark" x-text="[
-                                '{{ __('faq.items.shipping.q') }}',
-                                '{{ __('faq.items.returns.q') }}',
-                                '{{ __('faq.items.tracking.q') }}',
-                                '{{ __('faq.items.payment.q') }}',
-                                '{{ __('faq.items.modify.q') }}',
-                                '{{ __('faq.items.support.q') }}'
-                            ][i-1]"></span>
-                            <svg :class="open === i ? 'rotate-180' : ''" class="w-5 h-5 text-primary-dark transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            @php($faqKeys = ['shipping', 'returns', 'tracking', 'payment', 'modify', 'support'])
+            {{-- Rendered server-side; #faq-<key> in the URL opens that question (used by the footer links). --}}
+            <div
+                x-data="{ open: location.hash.startsWith('#faq-') ? location.hash.slice(5) : 'shipping' }"
+                @hashchange.window="if (location.hash.startsWith('#faq-')) open = location.hash.slice(5)"
+                class="bg-white rounded-3xl shadow-xl border border-primary-gray/50 overflow-hidden"
+            >
+                @foreach ($faqKeys as $key)
+                    <div id="faq-{{ $key }}" class="border-b last:border-0 scroll-mt-24">
+                        <button
+                            type="button"
+                            @click="open = open === '{{ $key }}' ? null : '{{ $key }}'"
+                            :aria-expanded="(open === '{{ $key }}').toString()"
+                            aria-controls="faq-{{ $key }}-answer"
+                            class="w-full flex items-center justify-between gap-3 px-5 py-4 text-start hover:bg-primary-gray/40 transition duration-200"
+                        >
+                            <span class="text-sm font-semibold text-primary-dark flex-1">{{ policy_text("faq.items.$key.q") }}</span>
+                            <svg :class="open === '{{ $key }}' ? 'rotate-180' : ''" class="w-5 h-5 text-primary-dark transition-transform duration-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
-                        <div x-show="open === i" x-transition.opacity.duration.200ms x-collapse class="px-5 pb-4 text-sm text-primary-dark/70 leading-relaxed">
-                            <span x-text="[
-                                '{{ __('faq.items.shipping.a') }}',
-                                '{{ __('faq.items.returns.a') }}',
-                                '{{ __('faq.items.tracking.a') }}',
-                                '{{ __('faq.items.payment.a') }}',
-                                '{{ __('faq.items.modify.a') }}',
-                                '{{ __('faq.items.support.a') }}'
-                            ][i-1]"></span>
+                        <div id="faq-{{ $key }}-answer" x-show="open === '{{ $key }}'" x-cloak x-transition.opacity.duration.200ms class="px-5 pb-4 text-sm text-primary-dark/70 leading-relaxed">
+                            {{ policy_text($key === 'payment' ? \App\Support\Payments::textKey('faq.items.payment.a') : "faq.items.$key.a") }}
                         </div>
                     </div>
-                </template>
+                @endforeach
             </div>
         </section>
 

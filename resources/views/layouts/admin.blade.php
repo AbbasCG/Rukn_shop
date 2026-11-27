@@ -5,14 +5,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title }} | Rukn Shop Admin</title>
+    <title>{{ $title }} | Rukn Admin</title>
+    <meta name="robots" content="noindex, nofollow">
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=tilt-warp:400&family=signika:300,400,500,600,700&display=swap" rel="stylesheet" />
+    @include('layouts.partials.fonts')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @include('layouts.partials.arabic-fonts')
 </head>
 
-<body class="bg-primary-50 dark:bg-primary-50 text-primary-800 dark:text-primary-800 min-h-screen" style="font-family: 'Signika', sans-serif;">
+<body class="bg-primary-50 dark:bg-primary-50 text-primary-800 dark:text-primary-800 min-h-screen">
     @include('layouts.partials.toasts')
 
     <div class="flex min-h-screen">
@@ -53,7 +54,7 @@
                             x-show="openAdminLanguage"
                             @click.outside="openAdminLanguage = false"
                             x-transition
-                            class="absolute {{ app()->getLocale() === 'ar' ? 'left-0' : 'right-0' }} mt-2 w-44 bg-white rounded-xl shadow-lg border border-neutral-200 py-2 z-50"
+                            class="absolute end-0 mt-2 w-44 bg-white rounded-xl shadow-lg border border-neutral-200 py-2 z-50"
                             style="display: none;"
                         >
                             <a href="{{ localizePath('nl') }}" class="flex items-center gap-2 px-3 py-2 text-sm {{ app()->getLocale() === 'nl' ? 'bg-primary-800 text-white font-semibold' : 'text-primary-800 hover:bg-neutral-100' }} transition-colors">
@@ -88,12 +89,12 @@
                         <button @click="openAdminProfile = !openAdminProfile" @keydown.escape.window="openAdminProfile = false" class="flex items-center gap-2 px-2 py-1 rounded-lg border border-neutral-200 text-primary-800 bg-white hover:bg-neutral-100 transition duration-200">
                             <div class="h-9 w-9 rounded-full overflow-hidden border border-neutral-200 flex items-center justify-center bg-primary-800 text-white text-sm font-semibold">
                                 @if($adminUser->avatar ?? false)
-                                <img src="{{ asset('storage/' . $adminUser->avatar) }}" alt="{{ $adminUser->name }}" class="h-full w-full object-cover">
+                                <img src="{{ $adminUser->avatarUrl() }}" alt="{{ $adminUser->name }}" class="h-full w-full object-cover">
                                 @else
                                 <span>{{ $adminInitial }}</span>
                                 @endif
                             </div>
-                            <div class="hidden sm:flex flex-col text-left leading-tight">
+                            <div class="hidden sm:flex flex-col text-start leading-tight">
                                 <span class="text-xs text-neutral-500">Admin</span>
                                 <span class="text-sm font-semibold text-primary-dark">{{ \Illuminate\Support\Str::of($adminUser->name)->before(' ') }}</span>
                             </div>
@@ -102,13 +103,13 @@
                             </svg>
                         </button>
 
-                        <div x-show="openAdminProfile" @click.outside="openAdminProfile = false" x-transition class="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-lg border border-neutral-100 py-2 z-50">
+                        <div x-show="openAdminProfile" @click.outside="openAdminProfile = false" x-transition class="absolute end-0 mt-2 w-52 bg-white rounded-xl shadow-lg border border-neutral-100 py-2 z-50">
                             <a href="{{ r('profile.edit') }}" class="block px-4 py-2 text-sm text-primary-dark hover:bg-neutral-100">Profile</a>
                             <a href="{{ r('home') }}" class="block px-4 py-2 text-sm text-primary-dark hover:bg-neutral-100">Back to Shop</a>
                             <div class="border-t border-neutral-200 my-1"></div>
                             <form method="POST" action="{{ r('logout') }}">
                                 @csrf
-                                <button type="submit" class="w-full text-left px-4 py-2 text-sm text-primary-dark hover:bg-neutral-100">Log Out</button>
+                                <button type="submit" class="w-full text-start px-4 py-2 text-sm text-primary-dark hover:bg-neutral-100">{{ __('home.nav_logout') }}</button>
                             </form>
                         </div>
                     </div>
@@ -116,6 +117,12 @@
             </header>
 
             <main class="p-6 bg-primary-50 dark:bg-primary-50 min-h-full">
+                {{-- Flash messages from controllers (saved, deleted, upload problems…) --}}
+                @foreach (['success' => 'bg-green-50 text-green-800 border-green-200', 'warning' => 'bg-amber-50 text-amber-900 border-amber-200', 'error' => 'bg-red-50 text-red-800 border-red-200'] as $type => $classes)
+                    @if (session($type))
+                        <div role="{{ $type === 'success' ? 'status' : 'alert' }}" class="mb-6 rounded-xl border px-4 py-3 text-sm {{ $classes }}">{{ session($type) }}</div>
+                    @endif
+                @endforeach
                 @yield('content')
             </main>
         </div>

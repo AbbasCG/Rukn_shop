@@ -3,7 +3,7 @@
 return [
     // Shop Page Hero
     'shop_badge' => 'Shop',
-    'shop_title' => 'Find something<br />you\'ll love',
+    'shop_title' => "Find something you'll love",
     'shop_subtitle' => 'Handpicked products crafted with care. Quality you can trust, style you\'ll adore.',
     
     // Features
@@ -24,7 +24,7 @@ return [
     'sort_newest' => 'Newest',
     'sort_price_low' => 'Price: Low to High',
     'sort_price_high' => 'Price: High to Low',
-    'sort_popular' => 'Most Popular',
+    'sort_popular' => 'Bestsellers',
     'sort_name' => 'Name: A-Z',
     
     // Filter Labels
@@ -47,6 +47,7 @@ return [
     
     // Product Cards
     'out_of_stock' => 'Out of stock',
+    'low_stock' => 'Only :count left',
     'only_left' => 'Only',
     'left' => 'left',
     'in_stock' => 'In stock',
@@ -54,6 +55,7 @@ return [
     'view_product' => 'View product',
     'add_to_wishlist' => 'Add to wishlist',
     'added' => 'Added!',
+    'add_failed' => 'Could not add to cart. Please try again.',
     'view_details' => 'View Details',
     'remove' => 'Remove',
     'remove_item_confirm' => 'Remove this item?',

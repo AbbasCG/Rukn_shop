@@ -10,11 +10,19 @@ return [
     ],
 
     'item' => [
+
+        'unavailable' => 'No longer available. Please remove it from your cart.',
+
+        'price_changed' => 'Price changed since you added it (was :old).',
         'remove_confirm' => 'Remove this item?',
         'remove' => 'Remove',
     ],
 
     'actions' => [
+
+        'checkout_guest' => 'Checkout as guest',
+
+        'login_checkout' => 'Log in for faster checkout',
         'continue' => 'Continue Shopping',
         'clear' => 'Clear Cart',
         'proceed' => 'Proceed to Checkout',
@@ -25,6 +33,8 @@ return [
         'title' => 'Order Summary',
         'subtotal' => 'Subtotal',
         'shipping' => 'Shipping',
+        'free' => 'Free',
+        'free_shipping_hint' => 'Add :amount more for free shipping.',
         'total' => 'Total',
     ],
 
@@ -36,5 +46,8 @@ return [
         'empty' => 'Your cart is empty.',
         'restored' => 'Your cart was restored.',
         'restored_partial' => 'Some items were unavailable and removed.',
+        'out_of_stock' => 'Sorry, this product is out of stock.',
+        'choose_variant' => 'Please choose a size and colour first.',
+        'stock_limited' => 'Only :count in stock. Your cart quantity was adjusted.',
     ],
 ];

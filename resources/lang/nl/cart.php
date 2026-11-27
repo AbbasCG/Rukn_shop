@@ -10,11 +10,19 @@ return [
     ],
 
     'item' => [
+
+        'unavailable' => 'Niet meer beschikbaar. Verwijder het uit je winkelwagen.',
+
+        'price_changed' => 'Prijs gewijzigd sinds je het toevoegde (was :old).',
         'remove_confirm' => 'Dit artikel verwijderen?',
         'remove' => 'Verwijderen',
     ],
 
     'actions' => [
+
+        'checkout_guest' => 'Afrekenen als gast',
+
+        'login_checkout' => 'Inloggen om sneller af te rekenen',
         'continue' => 'Verder winkelen',
         'clear' => 'Winkelwagen leegmaken',
         'proceed' => 'Verder naar afrekenen',
@@ -25,6 +33,8 @@ return [
         'title' => 'Bestellingsoverzicht',
         'subtotal' => 'Subtotaal',
         'shipping' => 'Verzending',
+        'free' => 'Gratis',
+        'free_shipping_hint' => 'Nog :amount tot gratis verzending.',
         'total' => 'Totaal',
     ],
 
@@ -36,5 +46,8 @@ return [
         'empty' => 'Je winkelwagen is leeg.',
         'restored' => 'Je winkelwagen is hersteld.',
         'restored_partial' => 'Sommige producten waren niet beschikbaar en zijn verwijderd.',
+        'out_of_stock' => 'Sorry, dit product is uitverkocht.',
+        'choose_variant' => 'Kies eerst een maat en kleur.',
+        'stock_limited' => 'Nog maar :count op voorraad. De hoeveelheid in je winkelwagen is aangepast.',
     ],
 ];

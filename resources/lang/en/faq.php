@@ -7,19 +7,21 @@ return [
     'items' => [
         'shipping' => [
             'q' => 'How long does shipping take?',
-            'a' => 'Standard shipping typically arrives within 3–7 business days. Express options are available at checkout.',
+            'a' => 'Within the Netherlands, orders usually arrive in :min_days–:max_days business days. We also ship to other EU countries, where delivery can take longer. Shipping is free from :threshold; below that it costs :rate.',
         ],
         'returns' => [
             'q' => 'Can I return a product?',
-            'a' => 'Yes, you can return items within 30 days in original condition. Please see our returns policy for details.',
+            'a' => 'Yes. You can return items within :return_days days of receiving them, unused and in their original packaging. Return shipping is at your own cost. Contact us first and we will explain how to send it back.',
         ],
         'tracking' => [
-            'q' => 'How can I track my order?',
-            'a' => 'Once shipped, we\'ll email you a tracking link. You can also find tracking info in your account orders.',
+            'q' => 'How can I follow my order?',
+            'a' => 'Log in and go to My orders to see the status of each order. Questions about a delivery? Contact us and we will look into it.',
         ],
         'payment' => [
             'q' => 'What payment methods do you accept?',
-            'a' => 'We accept major credit/debit cards, Apple Pay, Google Pay, and PayPal. All payments are securely processed.',
+            'a' => 'At the moment you pay on delivery.',
+            'a_online' => 'You pay online on a secure page of our payment provider Mollie: iDEAL, card, Bancontact and more.',
+            'a_both' => 'You can pay online (iDEAL, card, Bancontact and more, via our payment provider Mollie) or pay on delivery.',
         ],
         'modify' => [
             'q' => 'Can I change or cancel my order?',
@@ -27,7 +29,7 @@ return [
         ],
         'support' => [
             'q' => 'How do I contact support?',
-            'a' => 'You can reach us via the contact form or email us at info@rukn.nl. We typically respond within 24 hours.',
+            'a' => 'Email us at info@rukn.nl. We typically respond within 24 hours.',
         ],
     ],
 

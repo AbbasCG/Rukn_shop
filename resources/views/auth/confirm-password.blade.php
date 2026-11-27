@@ -1,6 +1,5 @@
 <x-guest-layout>
-    @php $dir = app()->getLocale() === 'ar' ? 'rtl' : 'ltr'; @endphp
-    <div dir="{{ $dir }}">
+    <div>
         <!-- Header Section -->
         <div class="mb-8 text-center">
             <a href="{{ r('home') }}" class="inline-block">

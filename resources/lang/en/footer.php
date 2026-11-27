@@ -2,7 +2,7 @@
 
 return [
     'brand' => [
-        'description' => 'Elegance woven into every moment. Discover timeless pieces crafted with passion and authenticity.',
+        'description' => 'Modest abayas and electric mabkharas, with personal service in English, Dutch and Arabic.',
     ],
     'sections' => [
         'shop' => 'Shop',
@@ -13,14 +13,15 @@ return [
         'all_products' => 'All Products',
         'new_arrivals' => 'New Arrivals',
         'bestsellers' => 'Bestsellers',
-        'sale' => 'Sale',
         'contact' => 'Contact Us',
         'shipping' => 'Shipping Info',
         'returns' => 'Returns',
+        'find_order' => 'Find my order',
         'faq' => 'FAQ',
         'privacy' => 'Privacy Policy',
         'terms' => 'Terms of Service',
         'cookies' => 'Cookies',
+        'withdrawal' => 'Withdrawal form',
     ],
     'copyright' => '© :year Rukn. All rights reserved.',
 ];

@@ -72,12 +72,12 @@
                         </svg>
                     </button>
 
-                    <div x-show="openLanguage" @click.outside="openLanguage = false" x-transition class="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg border border-primary-gray py-2 z-50">
+                    <div x-show="openLanguage" @click.outside="openLanguage = false" x-transition class="absolute end-0 mt-2 w-40 bg-white rounded-xl shadow-lg border border-primary-gray py-2 z-50">
                         <a href="{{ localizePath('nl') }}" class="flex items-center gap-2 px-4 py-2 text-sm {{ app()->getLocale() === 'nl' ? 'bg-primary-dark text-white font-semibold' : 'text-primary-dark hover:bg-primary-dark hover:text-white' }} transition-all duration-200">
                             <span class="text-lg">🇳🇱</span>
                             <span>Nederlands</span>
                             @if(app()->getLocale() === 'nl')
-                            <svg class="h-4 w-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">
+                            <svg class="h-4 w-4 ms-auto" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                 </path>
                             </svg>
@@ -87,7 +87,7 @@
                             <span class="text-lg">🇸🇦</span>
                             <span>العربية</span>
                             @if(app()->getLocale() === 'ar')
-                            <svg class="h-4 w-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">
+                            <svg class="h-4 w-4 ms-auto" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                 </path>
                             </svg>
@@ -97,7 +97,7 @@
                             <span class="text-lg">🇬🇧</span>
                             <span>English</span>
                             @if(app()->getLocale() === 'en')
-                            <svg class="h-4 w-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">
+                            <svg class="h-4 w-4 ms-auto" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                 </path>
                             </svg>
@@ -113,7 +113,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
                     </a>
-                    <span x-cloak x-show="$store.cart.count > 0" x-text="$store.cart.count" class="absolute -top-1 -right-1 bg-primary-dark text-white text-xs w-5 h-5 rounded-full flex items-center justify-center shadow-lg"></span>
+                    <span x-cloak x-show="$store.cart.count > 0" x-text="$store.cart.count" class="absolute -top-1 -end-1 bg-primary-dark text-white text-xs w-5 h-5 rounded-full flex items-center justify-center shadow-lg"></span>
                 </div>
 
                 @auth
@@ -125,12 +125,12 @@
                     <button @click="openProfile = !openProfile" @keydown.escape.window="openProfile = false" class="flex items-center gap-2 px-2 py-1 rounded-lg border border-primary-gray text-primary-dark bg-white hover:bg-primary-dark hover:text-white hover:border-primary-dark transition-all duration-300 transform hover:scale-105 hover:shadow-md group">
                         <div class="h-9 w-9 rounded-full overflow-hidden border border-neutral-200 flex items-center justify-center bg-primary-dark text-white text-sm font-semibold">
                             @if($user->avatar)
-                            <img src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}" class="h-full w-full object-cover">
+                            <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" class="h-full w-full object-cover">
                             @else
                             <span>{{ $initial }}</span>
                             @endif
                         </div>
-                        <div class="hidden sm:flex flex-col text-left leading-tight">
+                        <div class="hidden sm:flex flex-col text-start leading-tight">
                             <span class="text-xs text-neutral-500 group-hover:text-white transition-colors duration-300">{{ __('home.nav_welcome_back') }}</span>
                             <span class="text-sm font-semibold text-primary-dark group-hover:text-white transition-colors duration-300">{{ Str::of($user->name)->before(' ') }}</span>
                         </div>
@@ -139,7 +139,7 @@
                         </svg>
                     </button>
 
-                    <div x-show="openProfile" @click.outside="openProfile = false" x-transition class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-primary-gray py-2 z-50">
+                    <div x-show="openProfile" @click.outside="openProfile = false" x-transition class="absolute end-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-primary-gray py-2 z-50">
                         <a href="{{ r('profile.edit') }}" class="block px-4 py-2 text-sm text-primary-dark hover:bg-primary-dark hover:text-white transition-all duration-200">{{ __('home.nav_profile') }}</a>
                         @if(Route::has('orders.index') && !$user->isAdmin())
                         <a href="{{ r('orders.index') }}" class="block px-4 py-2 text-sm text-primary-dark hover:bg-primary-dark hover:text-white transition-all duration-200">{{ __('home.nav_orders') }}</a>
@@ -151,7 +151,7 @@
                         <div class="border-t border-primary-gray my-1"></div>
                         <form method="POST" action="{{ r('logout') }}">
                             @csrf
-                            <button type="submit" class="w-full text-left px-4 py-2 text-sm text-primary-dark hover:bg-red-500 hover:text-white transition-all duration-200">{{ __('home.nav_logout') }}</button>
+                            <button type="submit" class="w-full text-start px-4 py-2 text-sm text-primary-dark hover:bg-red-500 hover:text-white transition-all duration-200">{{ __('home.nav_logout') }}</button>
                         </form>
                     </div>
                 </div>
@@ -167,7 +167,7 @@
             </div>
 
             <!-- Mobile Header Icons - Visible only on mobile (sm:hidden) -->
-            <div class="flex sm:hidden items-center gap-1 {{ app()->getLocale() === 'ar' ? 'flex-row-reverse' : '' }}">
+            <div class="flex sm:hidden items-center gap-1">
                 <!-- Language Selector - Mobile -->
                 <div class="relative" x-data="{ openLanguage: false }">
                     <button @click="openLanguage = !openLanguage" @keydown.escape.window="openLanguage = false" class="w-10 h-10 flex items-center justify-center rounded-xl text-primary-dark hover:bg-black/5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 transition-all duration-200" title="{{ __('home.nav_language') }}">
@@ -176,12 +176,12 @@
                         </svg>
                     </button>
 
-                    <div x-show="openLanguage" @click.outside="openLanguage = false" x-transition class="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg border border-primary-gray py-2 z-50">
+                    <div x-show="openLanguage" @click.outside="openLanguage = false" x-transition class="absolute end-0 mt-2 w-40 bg-white rounded-xl shadow-lg border border-primary-gray py-2 z-50">
                         <a href="{{ localizePath('nl') }}" class="flex items-center gap-2 px-4 py-2 text-sm {{ app()->getLocale() === 'nl' ? 'bg-primary-dark text-white font-semibold' : 'text-primary-dark hover:bg-primary-dark hover:text-white' }} transition-all duration-200">
                             <span class="text-lg">🇳🇱</span>
                             <span>Nederlands</span>
                             @if(app()->getLocale() === 'nl')
-                            <svg class="h-4 w-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">
+                            <svg class="h-4 w-4 ms-auto" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                 </path>
                             </svg>
@@ -191,7 +191,7 @@
                             <span class="text-lg">🇸🇦</span>
                             <span>العربية</span>
                             @if(app()->getLocale() === 'ar')
-                            <svg class="h-4 w-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">
+                            <svg class="h-4 w-4 ms-auto" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                 </path>
                             </svg>
@@ -201,7 +201,7 @@
                             <span class="text-lg">🇬🇧</span>
                             <span>English</span>
                             @if(app()->getLocale() === 'en')
-                            <svg class="h-4 w-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">
+                            <svg class="h-4 w-4 ms-auto" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                 </path>
                             </svg>
@@ -217,7 +217,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
                     </a>
-                    <span x-cloak x-show="$store.cart.count > 0" x-text="$store.cart.count" class="absolute -top-1 -right-1 bg-primary-dark text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-md"></span>
+                    <span x-cloak x-show="$store.cart.count > 0" x-text="$store.cart.count" class="absolute -top-1 -end-1 bg-primary-dark text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-md"></span>
                 </div>
 
                 <!-- Account - Mobile - Auth/Guest -->
@@ -229,13 +229,13 @@
                 <div class="relative" x-data="{ openProfile: false }">
                     <button @click="openProfile = !openProfile" @keydown.escape.window="openProfile = false" class="w-10 h-10 flex items-center justify-center rounded-xl border border-primary-gray text-primary-dark hover:bg-black/5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 transition-all duration-200 overflow-hidden bg-white">
                         @if($user->avatar)
-                        <img src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}" class="h-full w-full object-cover">
+                        <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" class="h-full w-full object-cover">
                         @else
                         <span class="text-xs font-bold bg-primary-dark text-white w-full h-full flex items-center justify-center">{{ $initial }}</span>
                         @endif
                     </button>
 
-                    <div x-show="openProfile" @click.outside="openProfile = false" x-transition class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-primary-gray py-2 z-50">
+                    <div x-show="openProfile" @click.outside="openProfile = false" x-transition class="absolute end-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-primary-gray py-2 z-50">
                         <a href="{{ r('profile.edit') }}" class="block px-4 py-2 text-sm text-primary-dark hover:bg-primary-dark hover:text-white transition-all duration-200">{{ __('home.nav_profile') }}</a>
                         @if(Route::has('orders.index') && !$user->isAdmin())
                         <a href="{{ r('orders.index') }}" class="block px-4 py-2 text-sm text-primary-dark hover:bg-primary-dark hover:text-white transition-all duration-200">{{ __('home.nav_orders') }}</a>
@@ -247,7 +247,7 @@
                         <div class="border-t border-primary-gray my-1"></div>
                         <form method="POST" action="{{ r('logout') }}">
                             @csrf
-                            <button type="submit" class="w-full text-left px-4 py-2 text-sm text-primary-dark hover:bg-red-500 hover:text-white transition-all duration-200">{{ __('home.nav_logout') }}</button>
+                            <button type="submit" class="w-full text-start px-4 py-2 text-sm text-primary-dark hover:bg-red-500 hover:text-white transition-all duration-200">{{ __('home.nav_logout') }}</button>
                         </form>
                     </div>
                 </div>

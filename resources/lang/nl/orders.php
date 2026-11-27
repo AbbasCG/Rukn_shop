@@ -94,4 +94,27 @@ return [
         'summary' => 'Besteloverzicht',
         'order_number' => 'Bestelling #',
     ],
+    'lookup' => [
+        'title' => 'Mijn bestelling vinden',
+        'subtitle' => 'Vul je bestelnummer en het e-mailadres in dat je bij het afrekenen hebt gebruikt.',
+        'number' => 'Bestelnummer',
+        'number_placeholder' => 'bijv. 000123',
+        'email' => 'E-mailadres',
+        'submit' => 'Toon mijn bestelling',
+        'not_found' => 'We konden geen bestelling vinden met dit nummer en e-mailadres.',
+    ],
+    'guest' => [
+        'save_link' => 'Bewaar deze pagina: via deze link bekijk je je bestelling zonder account. We hebben hem ook naar :email gestuurd.',
+        'find_later' => 'Link kwijt? Je vindt je bestelling met het bestelnummer en je e-mailadres.',
+        'find_link' => 'Mijn bestelling vinden',
+        'create_account' => 'Al je bestellingen op één plek? Maak een account aan met hetzelfde e-mailadres.',
+    ],
+    'tracking' => [
+        'title' => 'Verzending',
+        'shipped_on' => 'Verzonden op :date',
+        'number' => 'Track & trace-code',
+        'carrier_number' => 'Track & trace-code :carrier',
+        'track' => 'Volg je pakket',
+        'no_tracking' => 'Dit pakket wordt zonder track & trace-code verzonden.',
+    ],
 ];

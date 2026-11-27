@@ -59,6 +59,8 @@ return [
         'email_placeholder' => 'you@example.com',
         'submit' => 'Send Reset Link',
         'back_to_login' => 'Back to login',
+        'no_account' => 'Ordered without an account? You do not need a password:',
+        'find_order' => 'find your order',
     ],
 
     'reset' => [

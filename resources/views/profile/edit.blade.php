@@ -1,6 +1,5 @@
-<x-app-layout>
-    @php $dir = app()->getLocale() === 'ar' ? 'rtl' : 'ltr'; @endphp
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10" dir="{{ $dir }}">
+<x-app-layout :title="__('seo.profile_title')" :noindex="true">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div class="max-w-3xl mx-auto">
             @if(session('status') === 'profile-updated')
             <div class="mb-6 px-4 py-3 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-100">
@@ -21,7 +20,7 @@
                     <div class="flex items-center gap-4">
                         <div class="w-20 h-20 rounded-full bg-primary-gray flex items-center justify-center overflow-hidden text-primary-dark text-xl font-semibold">
                             @if($user->avatar)
-                            <img src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
+                            <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
                             @else
                             <span>{{ strtoupper(substr($user->name, 0, 1)) }}</span>
                             @endif
@@ -112,7 +111,7 @@
             </div>
         </div>
 
-        <div class="max-w-5xl mx-auto mt-8 grid gap-6 md:grid-cols-2" dir="{{ $dir }}">
+        <div class="max-w-5xl mx-auto mt-8 grid gap-6 md:grid-cols-2">
             <div class="bg-white rounded-2xl shadow p-6 space-y-6">
                 <div>
                     <h3 class="text-lg font-semibold text-primary-dark">{{ __('profile.password.title') }}</h3>

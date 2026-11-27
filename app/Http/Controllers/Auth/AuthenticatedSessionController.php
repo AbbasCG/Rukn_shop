@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\Cart;
 use App\Models\Product;
+use App\Support\GuestCart;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -63,38 +64,46 @@ class AuthenticatedSessionController extends Controller
 
         $merged = 0;
         $skipped = 0;
-        $quantityColumn = Schema::hasColumn('carts', 'quantity') ? 'quantity' : 'quanttty';
 
-        foreach ($guestCartItems as $productId => $rawQuantity) {
+        // Keys are "<productId>" or "<productId>:<variantId>" (see GuestCart).
+        foreach ($guestCartItems as $key => $rawQuantity) {
             $quantity = max(1, (int) $rawQuantity);
+            [$productId, $variantId] = GuestCart::parseKey($key);
 
-            $product = Product::query()
-                ->whereKey($productId)
-                ->where('is_active', true)
-                ->where('stock', '>', 0)
-                ->first();
+            $product = Product::with('variants')->whereKey($productId)->where('is_active', true)->first();
+            $variant = $product && $variantId ? $product->variants->firstWhere('id', $variantId) : null;
 
-            if (! $product) {
+            // Skip what can no longer be bought: hidden/deleted products, a missing
+            // or foreign variant, or a product that now requires a size/colour.
+            $valid = $product && ($product->hasVariants() ? $variant !== null : $variantId === null);
+            $stock = $valid ? (int) ($variant ? $variant->stock : $product->stock) : 0;
+
+            if ($stock <= 0) {
                 $skipped++;
                 continue;
             }
 
             $cartItem = Cart::where('user_id', $user->id)
                 ->where('product_id', $product->id)
+                ->where('variant_id', $variant?->id)
                 ->where('status', 'active')
                 ->first();
 
+            $price = $variant ? $variant->setRelation('product', $product)->effectivePrice() : (float) $product->price;
+
             if ($cartItem) {
-                $cartItem->$quantityColumn = ($cartItem->$quantityColumn ?? 0) + $quantity;
-                $cartItem->price_at_time = $cartItem->price_at_time ?? $product->price;
+                // Never merge beyond what is in stock.
+                $cartItem->quantity = min(($cartItem->quantity ?? 0) + $quantity, $stock);
+                $cartItem->price_at_time = $cartItem->price_at_time ?? $price;
                 $cartItem->save();
             } else {
                 Cart::create([
                     'user_id' => $user->id,
                     'product_id' => $product->id,
-                    'quantity' => $quantity,
+                    'variant_id' => $variant?->id,
+                    'quantity' => min($quantity, $stock),
                     'status' => 'active',
-                    'price_at_time' => $product->price,
+                    'price_at_time' => $price,
                 ]);
             }
 
@@ -118,6 +127,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        // Stay in the visitor's language instead of falling back to /nl.
+        return redirect()->route('home');
     }
 }

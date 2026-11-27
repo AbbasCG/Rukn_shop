@@ -1,7 +1,5 @@
-<x-app-layout>
+<x-app-layout :title="__('seo.order_title', ['number' => $order->number])" :noindex="true">
     @php
-        $dir = app()->getLocale() === 'ar' ? 'rtl' : 'ltr';
-        $isRtl = $dir === 'rtl';
         $status = strtolower((string) $order->status);
         $statusColors = [
             'pending' => 'bg-yellow-100 text-yellow-800',
@@ -16,16 +14,18 @@
         $statusClass = $statusColors[$status] ?? 'bg-gray-100 text-gray-800';
     @endphp
 
-    <div class="bg-gray-50/70 min-h-screen" dir="{{ $dir }}">
+    <div class="bg-gray-50/70 min-h-screen">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10 space-y-6 text-start">
+            @if(auth()->check() && auth()->id() === $order->user_id)
             <div class="print:hidden">
                 <a href="{{ r('orders.index') }}" class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-primary-dark shadow-sm transition hover:bg-gray-50">
-                    <svg class="h-4 w-4 {{ $isRtl ? 'rotate-180' : '' }}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <svg class="h-4 w-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
                     <span>{{ __('orders.actions.back_to_orders') }}</span>
                 </a>
             </div>
+            @endif
 
             <section class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8 print:shadow-none print:border-gray-300">
                 <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
@@ -33,7 +33,7 @@
                         <h1 class="text-2xl md:text-3xl font-bold text-primary-dark">
                             {{ __('orders.table.order_number') }} #{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}
                         </h1>
-                        <p class="text-sm text-neutral-600">{{ $order->created_at->format('F d, Y \a\t g:i A') }}</p>
+                        <p class="text-sm text-neutral-600">{{ $order->created_at->locale(app()->getLocale())->isoFormat('D MMMM YYYY, HH:mm') }}</p>
                     </div>
 
                     <span class="inline-flex w-fit rounded-full px-3 py-1 text-sm font-medium {{ $statusClass }}">
@@ -44,21 +44,43 @@
                 <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
                         <p class="text-xs uppercase tracking-wide text-neutral-500">{{ __('orders.summary.total') }}</p>
-                        <p class="mt-1 text-2xl font-bold text-primary-dark">€{{ number_format($order->total, 2, ',', '.') }}</p>
+                        <p class="mt-1 text-2xl font-bold text-primary-dark">{{ money($order->total) }}</p>
                     </div>
                     <div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
                         <p class="text-xs uppercase tracking-wide text-neutral-500">{{ __('orders.summary.subtotal') }}</p>
-                        <p class="mt-1 text-lg font-semibold text-primary-dark">€{{ number_format($order->subtotal, 2, ',', '.') }}</p>
+                        <p class="mt-1 text-lg font-semibold text-primary-dark">{{ money($order->subtotal) }}</p>
                     </div>
                     <div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
                         <p class="text-xs uppercase tracking-wide text-neutral-500">{{ __('orders.summary.shipping') }}</p>
-                        <p class="mt-1 text-lg font-semibold text-primary-dark">€{{ number_format($order->shipping_cost, 2, ',', '.') }}</p>
+                        <p class="mt-1 text-lg font-semibold text-primary-dark">{{ money($order->shipping_cost) }}</p>
                     </div>
                     <div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
                         <p class="text-xs uppercase tracking-wide text-neutral-500">{{ __('orders.summary.payment_method') }}</p>
                         <p class="mt-1 text-lg font-semibold text-primary-dark">{{ $order->payment_method ? ucfirst(str_replace('_', ' ', $order->payment_method)) : '-' }}</p>
                     </div>
                 </div>
+
+                @if ($order->shipped_at && in_array($order->status, ['shipped', 'delivered'], true))
+                    {{-- Track & trace --}}
+                    <div class="mt-6 rounded-xl border border-gray-200 bg-gray-50 p-4 md:p-5">
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                            <div>
+                                <p class="text-sm font-semibold text-primary-dark">{{ __('orders.tracking.shipped_on', ['date' => $order->shipped_at->locale(app()->getLocale())->isoFormat('D MMMM YYYY')]) }}</p>
+                                @if ($order->hasTracking())
+                                    <p class="mt-1 text-sm text-neutral-600">
+                                        {{ $order->carrierName() ? __('orders.tracking.carrier_number', ['carrier' => $order->carrierName()]) : __('orders.tracking.number') }}:
+                                        <span class="font-mono font-medium text-primary-dark" dir="ltr">{{ $order->tracking_number }}</span>
+                                    </p>
+                                @else
+                                    <p class="mt-1 text-sm text-neutral-600">{{ __('orders.tracking.no_tracking') }}</p>
+                                @endif
+                            </div>
+                            @if ($order->trackingUrl())
+                                <a href="{{ $order->trackingUrl() }}" target="_blank" rel="noopener noreferrer" class="inline-flex justify-center rounded-xl bg-primary-dark px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary-dark/90 transition print:hidden">{{ __('orders.tracking.track') }}</a>
+                            @endif
+                        </div>
+                    </div>
+                @endif
 
                 <div class="mt-6 pt-6 border-t border-gray-200">
                     <h2 class="text-lg font-semibold text-primary-dark mb-3">{{ __('orders.details.shipping_info') }}</h2>
@@ -117,24 +139,24 @@
                                         <div class="flex items-center gap-3">
                                             <img
                                                 src="{{ optional($product)->primaryImageUrl() ?? asset(\App\Models\Product::FALLBACK_IMAGE) }}"
-                                                alt="{{ optional($product)->name ?? 'Product' }}"
+                                                alt="{{ $item->display_name }}"
                                                 class="w-14 h-14 rounded-lg object-cover border border-gray-200"
                                                 onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
                                             <div>
-                                                @if($product)
+                                                @if($product && $product->is_active)
                                                     <a href="{{ r('products.show', $product) }}" class="font-semibold text-primary-dark hover:text-primary-dark/70 transition">
-                                                        {{ $product->name }}
+                                                        {{ $item->display_name }}
                                                     </a>
                                                 @else
-                                                    <p class="font-semibold text-primary-dark">Product</p>
+                                                    <p class="font-semibold text-primary-dark">{{ $item->display_name }}</p>
                                                 @endif
-                                                <p class="text-xs text-neutral-500 mt-1">{{ __('orders.items.sku') }}: {{ optional($product)->sku ?? 'N/A' }}</p>
+                                                @if($item->variant_label)<p class="text-sm text-neutral-600"><bdi>{{ $item->variant_label }}</bdi></p>@endif
                                             </div>
                                         </div>
                                     </td>
                                     <td class="py-4 font-medium text-primary-dark">{{ $item->quantity }}</td>
-                                    <td class="py-4 font-medium text-primary-dark">€{{ number_format($item->price, 2, ',', '.') }}</td>
-                                    <td class="py-4 font-semibold text-primary-dark">€{{ number_format($item->quantity * $item->price, 2, ',', '.') }}</td>
+                                    <td class="py-4 font-medium text-primary-dark">{{ money($item->price) }}</td>
+                                    <td class="py-4 font-semibold text-primary-dark">{{ money($item->quantity * $item->price) }}</td>
                                 </tr>
                             @empty
                                 <tr>
@@ -152,20 +174,20 @@
                             <div class="flex gap-3">
                                 <img
                                     src="{{ optional($product)->primaryImageUrl() ?? asset(\App\Models\Product::FALLBACK_IMAGE) }}"
-                                    alt="{{ optional($product)->name ?? 'Product' }}"
+                                    alt="{{ $item->display_name }}"
                                     class="w-16 h-16 rounded-lg object-cover border border-gray-200"
                                     onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
 
                                 <div class="flex-1 min-w-0 space-y-3">
                                     <div>
-                                        @if($product)
+                                        @if($product && $product->is_active)
                                             <a href="{{ r('products.show', $product) }}" class="block font-semibold text-primary-dark hover:text-primary-dark/70 truncate transition">
-                                                {{ $product->name }}
+                                                {{ $item->display_name }}
                                             </a>
                                         @else
-                                            <p class="font-semibold text-primary-dark">Product</p>
+                                            <p class="font-semibold text-primary-dark">{{ $item->display_name }}</p>
                                         @endif
-                                        <p class="text-xs text-neutral-500 mt-1">{{ __('orders.items.sku') }}: {{ optional($product)->sku ?? 'N/A' }}</p>
+                                        @if($item->variant_label)<p class="text-sm text-neutral-600"><bdi>{{ $item->variant_label }}</bdi></p>@endif
                                     </div>
 
                                     <div class="grid grid-cols-2 gap-3 text-sm">
@@ -175,7 +197,7 @@
                                         </div>
                                         <div>
                                             <p class="text-neutral-500">{{ __('orders.items.price_per_unit') }}</p>
-                                            <p class="font-medium text-primary-dark">€{{ number_format($item->price, 2, ',', '.') }}</p>
+                                            <p class="font-medium text-primary-dark">{{ money($item->price) }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -183,7 +205,7 @@
 
                             <div class="mt-4 pt-3 border-t border-gray-200 flex items-center justify-between">
                                 <p class="text-sm text-neutral-600">{{ __('orders.items.item_total') }}</p>
-                                <p class="text-lg font-bold text-primary-dark">€{{ number_format($item->quantity * $item->price, 2, ',', '.') }}</p>
+                                <p class="text-lg font-bold text-primary-dark">{{ money($item->quantity * $item->price) }}</p>
                             </div>
                         </article>
                     @empty

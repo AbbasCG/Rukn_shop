@@ -19,11 +19,11 @@ return [
     // Values Section
     'values_title' => 'قيمنا',
     'value_fast_shipping_title' => 'شحن سريع',
-    'value_fast_shipping_desc' => 'نقوم بشحن الطلبات بسرعة ونبقيك محدثاً على طول الطريق.',
+    'value_fast_shipping_desc' => 'داخل هولندا يصل طلبك عادةً خلال :min_days–:max_days أيام عمل.',
     'value_quality_title' => 'منتجات عالية الجودة',
     'value_quality_desc' => 'نختار العناصر للدوام والقيمة والفائدة الحقيقية.',
-    'value_secure_title' => 'مدفوعات آمنة',
-    'value_secure_desc' => 'تسوق بثقة مع طرق دفع موثوقة وآمنة.',
+    'value_secure_title' => 'الدفع عند الاستلام',
+    'value_secure_desc' => 'تدفع عند وصول طلبك.',
     'value_support_title' => 'دعم ودود',
     'value_support_desc' => 'أشخاص حقيقيون مستعدون للمساعدة في الطلبات والإرجاع والنصائح.',
     
@@ -35,4 +35,8 @@ return [
     'cta_description' => 'تصفح أحدث وصولاتنا أو تواصل معنا — نحن هنا للمساعدة.',
     'cta_shop_now' => 'تسوق الآن',
     'cta_contact_us' => 'اتصل بنا',
+    'value_secure_title_online' => 'دفع آمن',
+    'value_secure_desc_online' => 'ادفع إلكترونياً بـ iDEAL والبطاقات وغيرها في صفحة Mollie الآمنة.',
+    'value_secure_title_both' => 'ادفع بالطريقة التي تناسبك',
+    'value_secure_desc_both' => 'ادفع إلكترونياً بـ iDEAL والبطاقات وغيرها، أو عند الاستلام.',
 ];

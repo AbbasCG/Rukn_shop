@@ -23,7 +23,7 @@ return [
     // Buttons & Actions
     'add_to_cart' => 'أضف إلى السلة',
     'buy_now' => 'اشتري الآن',
-    'buy_now_whatsapp' => 'اشتري الآن (WhatsApp)',
+    'buy_now_whatsapp' => 'اطلب عبر واتساب',
     'add_to_wishlist' => 'أضف إلى قائمة الرغبات',
     'remove_from_wishlist' => 'إزالة من قائمة الرغبات',
     'view_wishlist' => 'عرض قائمة الرغبات',
@@ -43,19 +43,19 @@ return [
     'specifications_empty' => 'لا توجد مواصفات متاحة لهذا المنتج.',
 
     // Shipping & Returns Information
-    'shipping_title' => 'معلومات الشحن',
-    'shipping_info' => 'نحن نقدم شحنًا قياسيًا مجانيًا للطلبات فوق 50 يورو. عادة ما تتم معالجة الطلبات خلال 1-2 يوم عمل وتسليمها خلال 3-5 أيام عمل.',
-    'shipping_free' => 'شحن مجاني فوق 50 يورو',
-    'shipping_secure' => 'دفع آمن',
-    'shipping_returns' => 'إرجاع لمدة 30 يومًا',
+    'shipping_title' => 'الشحن',
+    'shipping_info' => 'نشحن إلى جميع دول الاتحاد الأوروبي. الشحن مجاني للطلبات من :threshold فأكثر، وتكلفته :rate للطلبات الأقل من ذلك. داخل هولندا يصل طلبك عادةً خلال :min_days–:max_days أيام عمل، وقد يستغرق التوصيل إلى دول الاتحاد الأوروبي الأخرى وقتاً أطول.',
+    'shipping_free' => 'شحن مجاني من :threshold',
+    'shipping_secure' => 'الدفع عند الاستلام',
+    'shipping_returns' => 'إرجاع خلال :return_days يوماً',
 
-    'returns_title' => 'سياسة الإرجاع',
-    'returns_info' => 'نقبل الإرجاع خلال 30 يومًا من التسليم. يجب أن تكون العناصر غير مستخدمة وفي عبوتها الأصلية. تكاليف الشحن للعودة من مسؤولية العميل ما لم يكن العنصر معيبًا.',
+    'returns_title' => 'الإرجاع',
+    'returns_info' => 'يمكنك إرجاع طلبك خلال :return_days يوماً من استلامه، على أن تكون القطع غير مستخدمة وفي تغليفها الأصلي. تكلفة شحن الإرجاع على العميل. تواصل معنا أولاً، ونعيد لك ثمن الشراء وتكلفة الشحن الأصلية خلال 14 يوماً من إبلاغنا.',
 
     // Extra Info
-    'free_shipping_threshold' => 'شحن مجاني فوق 50 يورو',
-    'secure_payment' => 'دفع آمن',
-    'return_policy' => 'إرجاع لمدة 30 يومًا',
+    'free_shipping_threshold' => 'شحن مجاني من :threshold',
+    'secure_payment' => 'الدفع عند الاستلام',
+    'return_policy' => 'إرجاع خلال :return_days يوماً',
 
     // Related Products
     'related_products_title' => 'قد يعجبك أيضًا',
@@ -106,4 +106,13 @@ return [
     'copy_link' => 'نسخ الرابط',
     'link_copied' => 'تم نسخ الرابط!',
     'share_message' => 'شاهد هذا المنتج: :name بسعر €:price',
+    'hidden_notice' => 'هذا المنتج مخفي ولا يراه العملاء. هذه المعاينة تظهر للمشرفين فقط.',
+    'price_from' => 'ابتداءً من :price',
+    'choose_options' => 'اختر المقاس واللون',
+    'size' => 'المقاس',
+    'color' => 'اللون',
+    'size_hint_lengths' => 'طول العباية بالإنش، من الكتف إلى الكاحل.',
+    'variant' => 'النوع',
+    'secure_payment_online' => 'دفع إلكتروني آمن',
+    'secure_payment_both' => 'ادفع إلكترونياً أو عند الاستلام',
 ];

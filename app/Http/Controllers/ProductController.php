@@ -14,12 +14,23 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $query = Product::where('is_active', true);
+        $query = Product::where('is_active', true)->with(['category', 'images', 'variants']);
 
         // Search
-        if (request('q')) {
-            $query->where('name', 'like', '%' . request('q') . '%')
-                  ->orWhere('description', 'like', '%' . request('q') . '%');
+        $search = trim((string) request('q', ''));
+        if ($search !== '') {
+            // Case-insensitive on every driver (Postgres LIKE is case-sensitive),
+            // with "%" and "_" in the query matched literally. "!" is used as the
+            // escape character because a backslash is parsed differently by MySQL.
+            $escaped = str_replace(['!', '%', '_'], ['!!', '!%', '!_'], mb_strtolower($search));
+            $like = '%' . $escaped . '%';
+
+            // Grouped so the OR conditions cannot bypass the is_active filter.
+            $query->where(function ($q) use ($like) {
+                foreach (['name', 'short_description', 'long_description'] as $column) {
+                    $q->orWhereRaw("LOWER({$column}) LIKE ? ESCAPE '!'", [$like]);
+                }
+            });
         }
 
         // Category filter
@@ -60,7 +71,8 @@ class ProductController extends Controller
                 $query->orderBy('price', 'desc');
                 break;
             case 'popular':
-                $query->inRandomOrder();
+                // Real best sellers (it used to be a random order).
+                $query->orderByUnitsSold()->latest();
                 break;
             case 'name':
                 $query->orderBy('name', 'asc');
@@ -79,13 +91,28 @@ class ProductController extends Controller
     /**
      * Display the specified resource (public).
      */
-    public function show(string $locale, Product $product)
+    public function show(Request $request, string $locale, Product $product)
     {
+        // Hidden products are not public; admins can still preview them.
+        if (! $product->is_active && $request->user()?->role !== 'admin') {
+            abort(404);
+        }
+
+        // Old numeric links (/products/12) and other spellings redirect
+        // permanently to the canonical slug URL, keeping any query string.
+        if ($request->route()->originalParameter('product') !== $product->slug) {
+            $target = route('products.show', ['locale' => $locale, 'product' => $product]);
+            $query = $request->getQueryString();
+
+            return redirect()->to($target . ($query ? '?' . $query : ''), 301);
+        }
+
         $product->load(['category', 'reviews.user']);
         $reviews = $product->reviews;
         $relatedProducts = Product::where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
             ->where('is_active', true)
+            ->with(['category', 'images', 'variants'])
             ->limit(4)
             ->get();
 

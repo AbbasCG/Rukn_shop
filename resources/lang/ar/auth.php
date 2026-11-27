@@ -59,6 +59,8 @@ return [
         'email_placeholder' => 'you@example.com',
         'submit' => 'إرسال رابط إعادة التعيين',
         'back_to_login' => 'العودة لتسجيل الدخول',
+        'no_account' => 'طلبت بدون حساب؟ لا تحتاج كلمة سر:',
+        'find_order' => 'ابحث عن طلبك',
     ],
 
     'reset' => [

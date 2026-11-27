@@ -1,0 +1,142 @@
+# Runs on every push and pull request: the test suite on SQLite and on
+# PostgreSQL (the production database), the front-end build, a security
+# audit of the PHP packages, and a build + smoke test of the Docker image
+# that Render deploys.
+name: Tests
+
+on:
+  push:
+    branches: [dev, main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: PHP tests (${{ matrix.database }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        database: [sqlite, pgsql]
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: rukn_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: intl, mbstring, pdo_sqlite, pdo_pgsql, zip, gd
+          coverage: none
+
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache/files
+          key: composer-${{ hashFiles('composer.lock') }}
+
+      - name: Install PHP packages
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Prepare environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Run tests (SQLite)
+        if: matrix.database == 'sqlite'
+        run: php vendor/bin/phpunit
+
+      - name: Run tests (PostgreSQL)
+        if: matrix.database == 'pgsql'
+        env:
+          DB_CONNECTION: pgsql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_DATABASE: rukn_test
+          DB_USERNAME: postgres
+          DB_PASSWORD: postgres
+        run: php vendor/bin/phpunit
+
+  assets-and-audit:
+    name: Front-end build and security audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Build front-end assets
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+
+      - name: Check PHP packages for known vulnerabilities
+        run: composer audit --locked --no-interaction
+
+  docker:
+    name: Docker image (as deployed on Render)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t rukn:ci .
+
+      - name: Start container and check pages
+        run: |
+          docker run -d --name rukn -p 10000:10000 \
+            -e APP_KEY="base64:$(openssl rand -base64 32)" \
+            -e APP_URL=http://localhost:10000 \
+            -e DB_CONNECTION=sqlite -e DB_DATABASE=/tmp/db.sqlite \
+            -e MAIL_MAILER=log \
+            rukn:ci sh -c "touch /tmp/db.sqlite && chown www-data /tmp/db.sqlite /tmp && docker/start.sh"
+
+          for i in $(seq 1 30); do
+            curl -fs -o /dev/null http://localhost:10000/nl && break
+            sleep 2
+          done
+
+          for path in /nl /ar /en/products /sitemap.xml /robots.txt /nl/login /ar/privacy-policy; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "http://localhost:10000${path}")
+            echo "${path} -> ${code}"
+            test "$code" = 200
+          done
+
+          docker exec rukn php -r 'foreach (["intl", "pdo_pgsql", "zip", "Zend OPcache"] as $e) { if (! extension_loaded($e)) { fwrite(STDERR, "missing extension: $e\n"); exit(1); } } echo "extensions ok\n";'
+          docker exec rukn pgrep -f "queue:work" > /dev/null && echo "queue worker running"
+
+      - name: Container logs
+        if: always()
+        run: docker logs rukn 2>&1 | tail -100 || true

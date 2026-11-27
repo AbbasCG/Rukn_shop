@@ -2,7 +2,6 @@
 
 @section('content')
 @php
-    $dir = app()->getLocale() === 'ar' ? 'rtl' : 'ltr';
     $statusColors = [
         'pending' => 'bg-yellow-100 text-yellow-800',
         'processing' => 'bg-blue-100 text-blue-800',
@@ -18,7 +17,7 @@
     };
 @endphp
 
-<div class="w-full max-w-7xl mx-auto space-y-6" dir="{{ $dir }}">
+<div class="w-full max-w-7xl mx-auto space-y-6">
     <section class="bg-white rounded-xl shadow-lg p-6 space-y-4">
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
@@ -114,8 +113,8 @@
                             <tr class="hover:bg-gray-50 transition">
                                 <td class="py-4 px-6 font-semibold text-primary-dark">#{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</td>
                                 <td class="py-4 px-6">
-                                    <p class="font-medium text-primary-dark">{{ $order->user->name ?? __('admin.orders.labels.guest') }}</p>
-                                    <p class="text-xs text-primary-dark/60">{{ $order->user->email ?? __('admin.orders.labels.not_available') }}</p>
+                                    <p class="font-medium text-primary-dark">{{ $order->name ?? $order->user?->name ?? __('admin.orders.labels.guest') }} @if($order->isGuest())<span class="ms-1 px-1.5 py-0.5 rounded bg-primary-gray text-[10px] font-semibold text-primary-dark/70">{{ __('admin.orders.labels.guest') }}</span>@endif</p>
+                                    <p class="text-xs text-primary-dark/60">{{ $order->email ?? $order->user?->email ?? __('admin.orders.labels.not_available') }}</p>
                                 </td>
                                 <td class="py-4 px-6 text-primary-dark/70">{{ $order->created_at->translatedFormat('M d, Y') }}</td>
                                 <td class="py-4 px-6">
@@ -123,7 +122,7 @@
                                         {{ $statusLabel(strtolower((string) $order->status)) }}
                                     </span>
                                 </td>
-                                <td class="py-4 px-6 font-semibold text-primary-dark">€{{ number_format($lineSubtotal, 2) }}</td>
+                                <td class="py-4 px-6 font-semibold text-primary-dark">{{ money($lineSubtotal) }}</td>
                                 <td class="py-4 px-6 text-primary-dark/80">{{ $order->payment_method ? ucfirst(str_replace('_', ' ', $order->payment_method)) : '-' }}</td>
                                 <td class="py-4 px-6 align-middle">
                                     <div class="flex items-center gap-2 flex-nowrap min-w-0">
@@ -175,14 +174,14 @@
                         </div>
 
                         <div class="text-sm">
-                            <p class="font-medium text-primary-dark">{{ $order->user->name ?? __('admin.orders.labels.guest') }}</p>
-                            <p class="text-primary-dark/60">{{ $order->user->email ?? __('admin.orders.labels.not_available') }}</p>
+                            <p class="font-medium text-primary-dark">{{ $order->name ?? $order->user?->name ?? __('admin.orders.labels.guest') }} @if($order->isGuest())<span class="ms-1 px-1.5 py-0.5 rounded bg-primary-gray text-[10px] font-semibold text-primary-dark/70">{{ __('admin.orders.labels.guest') }}</span>@endif</p>
+                            <p class="text-primary-dark/60">{{ $order->email ?? $order->user?->email ?? __('admin.orders.labels.not_available') }}</p>
                         </div>
 
                         <div class="grid grid-cols-2 gap-3 text-sm">
                             <div>
                                 <p class="text-primary-dark/60">{{ __('admin.orders.table.total') }}</p>
-                                <p class="font-semibold text-primary-dark">€{{ number_format($lineSubtotal, 2) }}</p>
+                                <p class="font-semibold text-primary-dark">{{ money($lineSubtotal) }}</p>
                             </div>
                             <div>
                                 <p class="text-primary-dark/60">{{ __('admin.orders.table.payment') }}</p>

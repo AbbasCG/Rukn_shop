@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\Media;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
@@ -40,11 +40,14 @@ class ProfileController extends Controller
 
         // Handle avatar upload
         if ($request->hasFile('avatar')) {
-            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+            try {
+                $avatarPath = Media::store($request->file('avatar'), 'avatars');
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::error('Avatar upload failed.', ['user_id' => $user->id, 'error' => $e->getMessage()]);
 
-            if ($user->avatar) {
-                Storage::disk('public')->delete($user->avatar);
+                return back()->withInput()->withErrors(['avatar' => __('profile.avatar_upload_failed')]);
             }
+            Media::delete($user->avatar);
 
             $data['avatar'] = $avatarPath;
         }
@@ -78,6 +81,6 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        return Redirect::route('home');
     }
 }

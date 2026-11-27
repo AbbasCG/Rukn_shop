@@ -1,4 +1,4 @@
-<aside :class="sidebarOpen ? 'translate-x-0' : '{{ app()->getLocale() === 'ar' ? 'translate-x-full md:translate-x-0' : '-translate-x-full md:translate-x-0' }}'" class="fixed md:static inset-y-0 {{ app()->getLocale() === 'ar' ? 'right-0 border-l' : 'left-0 border-r' }} w-64 bg-white dark:bg-white border-primary-gray dark:border-primary-gray transform transition-transform duration-300 ease-in-out z-40" style="font-family: 'Signika', sans-serif;">
+<aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full rtl:translate-x-full md:translate-x-0 md:rtl:translate-x-0'" class="fixed md:static inset-y-0 start-0 border-e w-64 bg-white dark:bg-white border-primary-gray dark:border-primary-gray transform transition-transform duration-300 ease-in-out z-40">
     
     <!-- Sidebar Header -->
     <div class="h-24 px-6 flex items-center justify-between border-b border-primary-gray dark:border-primary-gray">
@@ -25,6 +25,7 @@
                 ['label' => __('admin.sidebar.items.products'), 'route' => 'admin.products.index', 'icon' => 'archive-box'],
                 ['label' => __('admin.sidebar.items.categories'), 'route' => 'admin.categories.index', 'icon' => 'tag'],
                 ['label' => __('admin.sidebar.items.orders'), 'route' => 'admin.orders.index', 'icon' => 'shopping-bag'],
+                ['label' => __('admin.sidebar.items.messages'), 'route' => 'admin.messages.index', 'icon' => 'envelope', 'badge' => \App\Models\ContactMessage::unread()->count()],
                 ['label' => __('admin.sidebar.items.users'), 'route' => 'admin.users.index', 'icon' => 'users'],
             ];
         @endphp
@@ -37,6 +38,9 @@
                     @include('admin.partials.icon', ['name' => $item['icon']])
                 </x-slot>
                 {{ $item['label'] }}
+                @if(!empty($item['badge']))
+                    <span class="ms-2 inline-flex min-w-5 h-5 px-1.5 items-center justify-center rounded-full bg-amber-500 text-white text-xs font-bold">{{ $item['badge'] }}</span>
+                @endif
             </x-admin.nav-link>
         @endforeach
 
@@ -72,7 +76,7 @@
             @endphp
             <div class="h-10 w-10 rounded-full overflow-hidden border border-neutral-200 flex items-center justify-center bg-primary-dark text-white text-sm font-semibold">
                 @if($sidebarUser->avatar ?? false)
-                    <img src="{{ asset('storage/' . $sidebarUser->avatar) }}" alt="{{ $sidebarUser->name }}" class="h-full w-full object-cover">
+                    <img src="{{ $sidebarUser->avatarUrl() }}" alt="{{ $sidebarUser->name }}" class="h-full w-full object-cover">
                 @else
                     <span>{{ $sidebarInitial }}</span>
                 @endif

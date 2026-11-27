@@ -19,9 +19,8 @@
 @endphp
 
 <div
-	x-data="toastNotifications(@js($initialToasts), { isRtl: @js(app()->getLocale() === 'ar') })"
-	class="fixed top-4 sm:top-6 z-[100] w-[min(92vw,24rem)] pointer-events-none"
-	:class="isRtl ? 'left-4 sm:left-6' : 'right-4 sm:right-6'"
+	x-data="toastNotifications(@js($initialToasts))"
+	class="fixed top-4 sm:top-6 end-4 sm:end-6 z-[100] w-[min(92vw,24rem)] pointer-events-none"
 >
 	<template x-for="toast in toasts" :key="toast.id">
 		<div
@@ -36,10 +35,10 @@
 			:class="toastClass(toast.type)"
 			role="alert"
 		>
-			<div class="flex items-start gap-3 px-4 py-3" :class="isRtl ? 'flex-row-reverse' : ''">
+			<div class="flex items-start gap-3 px-4 py-3">
 				<span class="mt-1 h-2.5 w-2.5 rounded-full shrink-0" :class="indicatorClass(toast.type)"></span>
 
-				<p class="text-sm font-medium leading-5 flex-1" :class="isRtl ? 'text-right' : 'text-left'" x-text="toast.message"></p>
+				<p class="text-sm font-medium leading-5 flex-1 text-start" x-text="toast.message"></p>
 
 				<button
 					type="button"

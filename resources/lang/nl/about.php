@@ -19,11 +19,11 @@ return [
     // Values Section
     'values_title' => 'Onze Waarden',
     'value_fast_shipping_title' => 'Snelle Verzending',
-    'value_fast_shipping_desc' => 'We verzenden bestellingen snel en houden u onderweg op de hoogte.',
+    'value_fast_shipping_desc' => 'Binnen Nederland is je bestelling meestal binnen :min_days–:max_days werkdagen in huis.',
     'value_quality_title' => 'Kwaliteitsproducten',
     'value_quality_desc' => 'We selecteren items op duurzaamheid, waarde en echte bruikbaarheid.',
-    'value_secure_title' => 'Veilige Betalingen',
-    'value_secure_desc' => 'Winkel met vertrouwen met betrouwbare, veilige betaalmethoden.',
+    'value_secure_title' => 'Betalen bij bezorging',
+    'value_secure_desc' => 'Je betaalt wanneer je bestelling wordt bezorgd.',
     'value_support_title' => 'Vriendelijke Ondersteuning',
     'value_support_desc' => 'Echte mensen klaar om te helpen met bestellingen, retouren en advies.',
     
@@ -35,4 +35,8 @@ return [
     'cta_description' => 'Bekijk onze nieuwste aanwinsten of neem contact op — we zijn er om te helpen.',
     'cta_shop_now' => 'Winkel Nu',
     'cta_contact_us' => 'Neem Contact Op',
+    'value_secure_title_online' => 'Veilig betalen',
+    'value_secure_desc_online' => 'Betaal online met iDEAL, creditcard en meer op een beveiligde pagina van Mollie.',
+    'value_secure_title_both' => 'Betaal zoals jij wilt',
+    'value_secure_desc_both' => 'Betaal online met iDEAL, creditcard en meer, of bij bezorging.',
 ];

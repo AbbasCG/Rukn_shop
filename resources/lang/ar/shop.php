@@ -3,8 +3,8 @@
 return [
     // Shop Page Hero
     'shop_badge' => 'المتجر',
-    'shop_title' => 'ابحث عن شيء<br />ستحبه',
-    'shop_subtitle' => 'منتجات مختارة بعناية مصنوعة بعناية. جودة يمكنك الوثوق بها، أسلوب ستحبه.',
+    'shop_title' => "ابحث عن شيء ستحبه",
+    'shop_subtitle' => 'منتجات مختارة بعناية. جودة تثق بها وأسلوب يناسبك.',
     
     // Features
     'fast_shipping' => 'شحن سريع',
@@ -24,7 +24,7 @@ return [
     'sort_newest' => 'الأحدث',
     'sort_price_low' => 'السعر: من الأقل إلى الأعلى',
     'sort_price_high' => 'السعر: من الأعلى إلى الأقل',
-    'sort_popular' => 'الأكثر شعبية',
+    'sort_popular' => 'الأكثر مبيعًا',
     'sort_name' => 'الاسم: أ-ي',
     
     // Filter Labels
@@ -47,6 +47,7 @@ return [
     
     // Product Cards
     'out_of_stock' => 'غير متوفر',
+    'low_stock' => 'باقي :count فقط',
     'only_left' => 'باقي فقط',
     'left' => 'في المخزون',
     'in_stock' => 'متوفر',
@@ -54,6 +55,7 @@ return [
     'view_product' => 'عرض المنتج',
     'add_to_wishlist' => 'أضف إلى قائمة الأمنيات',
     'added' => 'تمت الإضافة!',
+    'add_failed' => 'تعذّرت الإضافة إلى السلة. حاول مرة أخرى.',
     'view_details' => 'عرض التفاصيل',
     'remove' => 'إزالة',
     'remove_item_confirm' => 'إزالة هذا العنصر؟',

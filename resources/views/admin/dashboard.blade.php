@@ -1,10 +1,38 @@
 @extends('layouts.admin', ['title' => __('admin.dashboard.page_title')])
 
 @section('content')
-<div class="w-full max-w-7xl mx-auto space-y-6" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+<div class="w-full max-w-7xl mx-auto space-y-6">
+
+    {{-- Background email problems: only shown when there is something to do --}}
+    @php
+        $failedEmails = \App\Support\MailQueue::failedCount();
+        $stuckEmails = \App\Support\MailQueue::stuckCount();
+    @endphp
+    @if ($failedEmails > 0)
+        <div role="alert" class="rounded-xl border border-red-200 bg-red-50 p-5 text-sm text-red-800">
+            <p class="font-semibold">{{ __('admin.mail_queue.failed_title', ['count' => $failedEmails]) }}</p>
+            <p class="mt-1">{{ __('admin.mail_queue.failed_text') }}</p>
+            <div class="mt-3 flex flex-wrap gap-3">
+                <form method="POST" action="{{ r('admin.mail-queue.retry') }}">
+                    @csrf
+                    <button type="submit" class="rounded-lg bg-red-700 px-4 py-2 font-semibold text-white hover:bg-red-800">{{ __('admin.mail_queue.retry') }}</button>
+                </form>
+                <form method="POST" action="{{ r('admin.mail-queue.discard') }}" onsubmit="return confirm(@js(__('admin.mail_queue.discard_confirm')))">
+                    @csrf
+                    <button type="submit" class="rounded-lg border border-red-300 bg-white px-4 py-2 font-semibold text-red-800 hover:bg-red-100">{{ __('admin.mail_queue.discard') }}</button>
+                </form>
+            </div>
+        </div>
+    @endif
+    @if ($stuckEmails > 0)
+        <div role="alert" class="rounded-xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900">
+            <p class="font-semibold">{{ __('admin.mail_queue.stuck_title', ['count' => $stuckEmails, 'minutes' => \App\Support\MailQueue::STUCK_AFTER_MINUTES]) }}</p>
+            <p class="mt-1">{{ __('admin.mail_queue.stuck_text') }}</p>
+        </div>
+    @endif
 
     <!-- Welcome Section -->
-    <div class="bg-white rounded-xl shadow-lg p-6 border-primary-dark {{ app()->getLocale() === 'ar' ? 'border-r-4' : 'border-l-4' }}">
+    <div class="bg-white rounded-xl shadow-lg p-6 border-primary-dark border-s-4">
         <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-2xl font-bold text-primary-dark">{{ __('admin.dashboard.title', ['name' => auth()->user()->name]) }}</h1>
@@ -75,9 +103,9 @@
                     <p class="text-sm font-medium text-primary-dark/60">{{ __('admin.dashboard.cards.total_revenue') }}</p>
                     @php
                     $completedOrderIds = \App\Models\Order::where('payment_status', 'paid')->pluck('id');
-                    $revenue = \App\Models\order_items::whereIn('order_id', $completedOrderIds)->sum(\DB::raw('price * quantity'));
+                    $revenue = \App\Models\OrderItem::whereIn('order_id', $completedOrderIds)->sum(\DB::raw('price * quantity'));
                     @endphp
-                    <p class="text-3xl font-bold text-primary-dark mt-2">€{{ number_format($revenue, 2) }}</p>
+                    <p class="text-3xl font-bold text-primary-dark mt-2">{{ money($revenue) }}</p>
                     <p class="text-xs text-primary-dark/50 mt-1">{{ __('admin.dashboard.cards.from_paid_orders') }}</p>
                 </div>
                 <div class="bg-primary-dark/10 rounded-full p-3">
@@ -151,7 +179,7 @@
                 </a>
                 <a href="{{ r('admin.orders.index') }}" class="flex items-center justify-between w-full px-4 py-3 bg-white border border-primary-dark text-primary-dark font-semibold rounded-lg hover:bg-primary-dark/5 transition-all duration-300">
                     <span>{{ __('admin.dashboard.quick_actions.view_all_orders') }}</span>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
                 </a>
@@ -219,7 +247,7 @@
                             <span class="text-sm font-medium text-primary-dark">#{{ $order->id }}</span>
                         </td>
                         <td class="py-3 px-4">
-                            <span class="text-sm text-primary-dark">{{ $order->user->name ?? __('admin.dashboard.recent_orders.guest') }}</span>
+                            <span class="text-sm text-primary-dark">{{ $order->name ?? $order->user?->name ?? __('admin.dashboard.recent_orders.guest') }}</span>
                         </td>
                         <td class="py-3 px-4">
                             @php
@@ -227,7 +255,7 @@
                             return $item->price * $item->quantity;
                             });
                             @endphp
-                            <span class="text-sm font-semibold text-primary-dark">${{ number_format($orderTotal, 2) }}</span>
+                            <span class="text-sm font-semibold text-primary-dark">{{ money($orderTotal) }}</span>
                         </td>
                         <td class="py-3 px-4">
                             @php

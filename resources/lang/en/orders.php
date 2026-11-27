@@ -94,4 +94,27 @@ return [
         'summary' => 'Order Summary',
         'order_number' => 'Order #',
     ],
+    'lookup' => [
+        'title' => 'Find my order',
+        'subtitle' => 'Enter your order number and the email address you used at checkout.',
+        'number' => 'Order number',
+        'number_placeholder' => 'e.g. 000123',
+        'email' => 'Email address',
+        'submit' => 'Show my order',
+        'not_found' => 'We could not find an order with this number and email address.',
+    ],
+    'guest' => [
+        'save_link' => 'Save this page: its link is the way to see your order without an account. We also sent it to :email.',
+        'find_later' => 'Lost the link? You can find your order with its number and your email.',
+        'find_link' => 'Find my order',
+        'create_account' => 'Want to see all your orders in one place? Create an account with the same email address.',
+    ],
+    'tracking' => [
+        'title' => 'Shipment',
+        'shipped_on' => 'Shipped on :date',
+        'number' => 'Tracking number',
+        'carrier_number' => ':carrier tracking number',
+        'track' => 'Track your parcel',
+        'no_tracking' => 'This parcel is sent without a tracking number.',
+    ],
 ];

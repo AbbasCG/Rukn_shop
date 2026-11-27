@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'avatar_upload_failed' => 'Your photo could not be uploaded. Please try again later.',
     'title' => 'My Profile',
     'subtitle' => 'Manage your personal information and account settings.',
     'status' => 'Your profile has been updated.',

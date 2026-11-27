@@ -84,4 +84,22 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
+
+    /**
+     * Profile photo URL on the media disk (local or R2), or null.
+     */
+    public function avatarUrl(): ?string
+    {
+        return \App\Support\Media::url($this->avatar);
+    }
+
+    /**
+     * Branded, localised reset email instead of Laravel's default
+     * notification (English, left-to-right).
+     */
+    public function sendPasswordResetNotification($token): void
+    {
+        \Illuminate\Support\Facades\Mail::to($this->email, $this->name)
+            ->send(new \App\Mail\PasswordResetEmail($this, $token, app()->getLocale()));
+    }
 }

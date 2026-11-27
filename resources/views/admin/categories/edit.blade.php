@@ -27,6 +27,8 @@
             @error('name')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
 
+        @include('admin.categories.partials.name-translations', ['category' => $category])
+
         <!-- Slug -->
         <div>
             <label for="slug" class="block text-sm font-medium text-primary-dark mb-2">{{ __('admin.categories.form.slug_optional') }}</label>

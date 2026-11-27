@@ -2,8 +2,6 @@
 
 @section('content')
 @php
-    $dir = app()->getLocale() === 'ar' ? 'rtl' : 'ltr';
-    $isRtl = $dir === 'rtl';
     $statusColors = [
         'pending' => 'bg-yellow-100 text-yellow-800',
         'processing' => 'bg-blue-100 text-blue-800',
@@ -26,10 +24,10 @@
     $grandTotal = (float) ($order->total ?? ($subtotal + $shipping + $tax - $discount));
 @endphp
 
-<div class="w-full max-w-7xl mx-auto space-y-6" dir="{{ $dir }}">
+<div class="w-full max-w-7xl mx-auto space-y-6">
     <div class="flex flex-wrap items-center justify-between gap-3">
         <a href="{{ r('admin.orders.index') }}" class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-primary-dark hover:bg-gray-50 transition">
-            <svg class="w-4 h-4 {{ $isRtl ? 'rotate-180' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <svg class="w-4 h-4 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
             {{ __('admin.orders.actions.back_to_orders') }}
@@ -49,7 +47,7 @@
 
             <div class="text-start lg:text-end">
                 <p class="text-xs uppercase tracking-wide text-primary-dark/60">{{ __('admin.orders.table.total') }}</p>
-                <p class="text-3xl font-bold text-primary-dark">€{{ number_format($grandTotal, 2) }}</p>
+                <p class="text-3xl font-bold text-primary-dark">{{ money($grandTotal) }}</p>
             </div>
         </div>
 
@@ -59,11 +57,11 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                     <div>
                         <p class="text-primary-dark/60">{{ __('admin.orders.show.fields.name') }}</p>
-                        <p class="font-medium text-primary-dark">{{ $order->user->name ?? $order->name ?? __('admin.orders.labels.guest') }}</p>
+                        <p class="font-medium text-primary-dark">{{ $order->name ?? $order->user?->name ?? __('admin.orders.labels.guest') }} @if($order->isGuest())<span class="ms-1 px-1.5 py-0.5 rounded bg-primary-gray text-[10px] font-semibold text-primary-dark/70">{{ __('admin.orders.labels.guest') }}</span>@endif</p>
                     </div>
                     <div>
                         <p class="text-primary-dark/60">{{ __('admin.orders.show.fields.email') }}</p>
-                        <p class="font-medium text-primary-dark">{{ $order->user->email ?? '-' }}</p>
+                        <p class="font-medium text-primary-dark">{{ $order->email ?? $order->user?->email ?? '-' }}</p>
                     </div>
                     <div>
                         <p class="text-primary-dark/60">{{ __('admin.orders.show.fields.phone') }}</p>
@@ -101,6 +99,42 @@
                             <option value="{{ $status }}" @selected($order->status === $status)>{{ $statusLabel($status) }}</option>
                         @endforeach
                     </select>
+
+                    {{-- Shipment: carrier + track & trace --}}
+                    <div class="pt-3 mt-1 border-t border-gray-100 space-y-3">
+                        <div class="flex items-center justify-between gap-2">
+                            <h3 class="text-sm font-semibold text-primary-dark">{{ __('admin.orders.tracking.title') }}</h3>
+                            @if ($order->shipped_at)
+                                <span class="text-xs text-neutral-500">{{ __('admin.orders.tracking.shipped_on', ['date' => $order->shipped_at->locale(app()->getLocale())->isoFormat('D MMM YYYY')]) }}</span>
+                            @endif
+                        </div>
+                        <div>
+                            <label for="tracking_carrier" class="block text-xs font-medium text-neutral-600 mb-1">{{ __('admin.orders.tracking.carrier') }}</label>
+                            <select id="tracking_carrier" name="tracking_carrier" class="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-primary-dark focus:border-primary-dark/30 focus:outline-none focus:ring-2 focus:ring-primary-dark/10">
+                                <option value="">{{ __('admin.orders.tracking.carrier_none') }}</option>
+                                @foreach (config('shop.carriers') as $key => $carrier)
+                                    <option value="{{ $key }}" @selected(old('tracking_carrier', $order->tracking_carrier) === $key)>{{ $carrier['name'] ?? __('admin.orders.tracking.other') }}</option>
+                                @endforeach
+                            </select>
+                            @error('tracking_carrier')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
+                        </div>
+                        <div>
+                            <label for="tracking_number" class="block text-xs font-medium text-neutral-600 mb-1">{{ __('admin.orders.tracking.number') }}</label>
+                            <input id="tracking_number" name="tracking_number" dir="ltr" autocomplete="off" value="{{ old('tracking_number', $order->tracking_number) }}" class="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-primary-dark focus:border-primary-dark/30 focus:outline-none focus:ring-2 focus:ring-primary-dark/10 font-mono">
+                            @error('tracking_number')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
+                        </div>
+                        <div>
+                            <label for="tracking_url" class="block text-xs font-medium text-neutral-600 mb-1">{{ __('admin.orders.tracking.url') }}</label>
+                            <input id="tracking_url" name="tracking_url" type="url" dir="ltr" placeholder="https://" value="{{ old('tracking_url', $order->tracking_url) }}" class="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-primary-dark focus:border-primary-dark/30 focus:outline-none focus:ring-2 focus:ring-primary-dark/10">
+                            <p class="mt-1 text-xs text-neutral-500">{{ __('admin.orders.tracking.url_hint') }}</p>
+                            @error('tracking_url')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
+                        </div>
+                        @if ($order->trackingUrl())
+                            <a href="{{ $order->trackingUrl() }}" target="_blank" rel="noopener noreferrer" class="inline-block text-xs font-medium text-primary-dark underline">{{ __('admin.orders.tracking.open') }}</a>
+                        @endif
+                        <p class="text-xs text-neutral-500 leading-relaxed">{{ __('admin.orders.tracking.email_hint') }}</p>
+                    </div>
+
                     <button type="submit" class="w-full rounded-lg bg-primary-dark px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary-dark/90 transition">
                         {{ __('admin.orders.actions.save_status') }}
                     </button>
@@ -131,18 +165,18 @@
                                     <div class="flex items-center gap-3">
                                         <img
                                             src="{{ optional($product)->primaryImageUrl() ?? asset(\App\Models\Product::FALLBACK_IMAGE) }}"
-                                            alt="{{ optional($product)->name ?? __('admin.orders.labels.product') }}"
+                                            alt="{{ $item->display_name }}"
                                             class="w-14 h-14 rounded-lg object-cover border border-gray-200"
                                             onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
                                         <div>
-                                            <p class="font-semibold text-primary-dark">{{ optional($product)->name ?? __('admin.orders.labels.product') }}</p>
-                                            <p class="text-xs text-primary-dark/60 mt-1">{{ __('admin.orders.show.fields.sku') }}: {{ optional($product)->sku ?? __('admin.orders.labels.not_available') }}</p>
+                                            <p class="font-semibold text-primary-dark">{{ $item->display_name }}</p>
+                                            @if($item->variant_label)<p class="text-sm text-primary-dark/70"><bdi>{{ $item->variant_label }}</bdi></p>@endif
                                         </div>
                                     </div>
                                 </td>
                                 <td class="py-4 font-medium text-primary-dark">{{ $item->quantity }}</td>
-                                <td class="py-4 font-medium text-primary-dark">€{{ number_format($item->price, 2) }}</td>
-                                <td class="py-4 font-semibold text-primary-dark">€{{ number_format($item->price * $item->quantity, 2) }}</td>
+                                <td class="py-4 font-medium text-primary-dark">{{ money($item->price) }}</td>
+                                <td class="py-4 font-semibold text-primary-dark">{{ money($item->price * $item->quantity) }}</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -156,12 +190,12 @@
                         <div class="flex gap-3">
                             <img
                                 src="{{ optional($product)->primaryImageUrl() ?? asset(\App\Models\Product::FALLBACK_IMAGE) }}"
-                                alt="{{ optional($product)->name ?? __('admin.orders.labels.product') }}"
+                                alt="{{ $item->display_name }}"
                                 class="w-16 h-16 rounded-lg object-cover border border-gray-200"
                                 onerror="this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
                             <div class="flex-1 min-w-0">
-                                <p class="font-semibold text-primary-dark truncate">{{ optional($product)->name ?? __('admin.orders.labels.product') }}</p>
-                                <p class="text-xs text-primary-dark/60 mt-1">{{ __('admin.orders.show.fields.sku') }}: {{ optional($product)->sku ?? __('admin.orders.labels.not_available') }}</p>
+                                <p class="font-semibold text-primary-dark truncate">{{ $item->display_name }}</p>
+                                @if($item->variant_label)<p class="text-sm text-primary-dark/70"><bdi>{{ $item->variant_label }}</bdi></p>@endif
                                 <div class="grid grid-cols-2 gap-3 mt-3 text-sm">
                                     <div>
                                         <p class="text-primary-dark/60">{{ __('admin.orders.show.table.qty') }}</p>
@@ -169,14 +203,14 @@
                                     </div>
                                     <div>
                                         <p class="text-primary-dark/60">{{ __('admin.orders.show.table.unit_price') }}</p>
-                                        <p class="font-medium text-primary-dark">€{{ number_format($item->price, 2) }}</p>
+                                        <p class="font-medium text-primary-dark">{{ money($item->price) }}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="mt-3 pt-3 border-t border-gray-200 flex items-center justify-between text-sm">
                             <span class="text-primary-dark/60">{{ __('admin.orders.show.fields.line_subtotal') }}</span>
-                            <span class="font-semibold text-primary-dark">€{{ number_format($item->price * $item->quantity, 2) }}</span>
+                            <span class="font-semibold text-primary-dark">{{ money($item->price * $item->quantity) }}</span>
                         </div>
                     </article>
                 @endforeach
@@ -188,23 +222,23 @@
             <div class="space-y-3 text-sm">
                 <div class="flex items-center justify-between">
                     <span class="text-primary-dark/60">{{ __('admin.orders.show.fields.subtotal') }}</span>
-                    <span class="font-medium text-primary-dark">€{{ number_format($subtotal, 2) }}</span>
+                    <span class="font-medium text-primary-dark">{{ money($subtotal) }}</span>
                 </div>
                 <div class="flex items-center justify-between">
                     <span class="text-primary-dark/60">{{ __('admin.orders.show.fields.shipping') }}</span>
-                    <span class="font-medium text-primary-dark">€{{ number_format($shipping, 2) }}</span>
+                    <span class="font-medium text-primary-dark">{{ money($shipping) }}</span>
                 </div>
                 <div class="flex items-center justify-between">
                     <span class="text-primary-dark/60">{{ __('admin.orders.show.fields.discount') }}</span>
-                    <span class="font-medium text-primary-dark">-€{{ number_format($discount, 2) }}</span>
+                    <span class="font-medium text-primary-dark">-{{ money($discount) }}</span>
                 </div>
                 <div class="flex items-center justify-between">
                     <span class="text-primary-dark/60">{{ __('admin.orders.show.fields.tax') }}</span>
-                    <span class="font-medium text-primary-dark">€{{ number_format($tax, 2) }}</span>
+                    <span class="font-medium text-primary-dark">{{ money($tax) }}</span>
                 </div>
                 <div class="pt-3 border-t border-gray-200 flex items-center justify-between">
                     <span class="text-base font-semibold text-primary-dark">{{ __('admin.orders.show.fields.grand_total') }}</span>
-                    <span class="text-xl font-bold text-primary-dark">€{{ number_format($grandTotal, 2) }}</span>
+                    <span class="text-xl font-bold text-primary-dark">{{ money($grandTotal) }}</span>
                 </div>
             </div>
         </aside>

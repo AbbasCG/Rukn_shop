@@ -51,7 +51,7 @@
                     class="w-full px-4 py-2.5 rounded-lg border border-primary-gray bg-white text-primary-dark transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">
                     <option value="">{{ __('admin.products.form.select_category') }}</option>
                     @foreach($categories as $category)
-                        <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>
+                        <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->display_name }}</option>
                     @endforeach
                 </select>
                 @error('category_id')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
@@ -124,6 +124,9 @@
                 class="w-full px-4 py-2.5 rounded-lg border border-primary-gray bg-white text-primary-dark placeholder-primary-dark/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark hover:border-primary-dark/50">{{ old('long_description') }}</textarea>
             @error('long_description')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
+
+        <!-- Sizes & colours -->
+        @include('admin.products.partials.variants')
 
         <!-- Specifications (Full width) -->
         @php
@@ -258,13 +261,13 @@
                             <button 
                                 type="button"
                                 @click="removeImage(index)"
-                                class="absolute top-1 right-1 bg-red-600 hover:bg-red-700 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-lg">
+                                class="absolute top-1 end-1 bg-red-600 hover:bg-red-700 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-lg">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                                 </svg>
                             </button>
 
-                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-2 rounded-b-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                            <div class="absolute bottom-0 start-0 end-0 bg-gradient-to-t from-black/50 to-transparent p-2 rounded-b-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                                 <p class="text-white text-xs truncate" :title="image.file.name" x-text="image.file.name"></p>
                                 <p class="text-gray-200 text-xs" x-text="formatFileSize(image.file.size)"></p>
                             </div>

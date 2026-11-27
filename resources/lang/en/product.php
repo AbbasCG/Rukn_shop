@@ -23,7 +23,7 @@ return [
     // Buttons & Actions
     'add_to_cart' => 'Add to Cart',
     'buy_now' => 'Buy Now',
-    'buy_now_whatsapp' => 'Buy Now (WhatsApp)',
+    'buy_now_whatsapp' => 'Order via WhatsApp',
     'add_to_wishlist' => 'Add to Wishlist',
     'remove_from_wishlist' => 'Remove from Wishlist',
     'view_wishlist' => 'View Wishlist',
@@ -43,19 +43,19 @@ return [
     'specifications_empty' => 'No specifications available for this product.',
     
     // Shipping & Returns Information
-    'shipping_title' => 'Shipping Information',
-    'shipping_info' => 'We offer free standard shipping on orders over €50. Orders are typically processed within 1-2 business days and delivered within 3-5 business days.',
-    'shipping_free' => 'Free shipping €50+',
-    'shipping_secure' => 'Secure payment',
-    'shipping_returns' => '30-day returns',
+    'shipping_title' => 'Shipping',
+    'shipping_info' => 'We ship to all EU countries. Orders of :threshold or more ship free; below that, shipping costs :rate. Within the Netherlands your order usually arrives in :min_days–:max_days business days; delivery to other EU countries can take longer.',
+    'shipping_free' => 'Free shipping from :threshold',
+    'shipping_secure' => 'Pay on delivery',
+    'shipping_returns' => ':return_days-day returns',
     
-    'returns_title' => 'Return Policy',
-    'returns_info' => 'We accept returns within 30 days of delivery. Items must be unused and in original packaging. Return shipping costs are the responsibility of the customer unless the item is defective.',
+    'returns_title' => 'Returns',
+    'returns_info' => 'You can return your order within :return_days days of receiving it. Items must be unused and in their original packaging. Return shipping is at your own cost. Contact us first; we refund the purchase price and the original shipping cost within 14 days of your notice.',
     
     // Extra Info
-    'free_shipping_threshold' => 'Free shipping €50+',
-    'secure_payment' => 'Secure payment',
-    'return_policy' => '30-day returns',
+    'free_shipping_threshold' => 'Free shipping from :threshold',
+    'secure_payment' => 'Pay on delivery',
+    'return_policy' => ':return_days-day returns',
     
     // Related Products
     'related_products_title' => 'You May Also Like',
@@ -106,4 +106,13 @@ return [
     'copy_link' => 'Copy Link',
     'link_copied' => 'Link copied to clipboard!',
     'share_message' => 'Check out this product: :name for €:price',
+    'hidden_notice' => 'This product is hidden: customers cannot see it. Only admins can preview this page.',
+    'price_from' => 'From :price',
+    'choose_options' => 'Choose size and colour',
+    'size' => 'Size',
+    'color' => 'Colour',
+    'size_hint_lengths' => 'Abaya length in inches, measured from shoulder to ankle.',
+    'variant' => 'Variant',
+    'secure_payment_online' => 'Secure online payment',
+    'secure_payment_both' => 'Pay online or on delivery',
 ];

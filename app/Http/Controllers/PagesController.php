@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\product;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class PagesController extends Controller
 {
     // public function home()
     // {
-    //     $products = product::where('is_active', true)
+    //     $products = Product::where('is_active', true)
     //         ->with('category')
     //         ->latest()
     //         ->take(10)

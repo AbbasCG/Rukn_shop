@@ -52,7 +52,7 @@
         x-transition:leave="transition ease-in duration-150"
         x-transition:leave-start="opacity-100 transform scale-100"
         x-transition:leave-end="opacity-0 transform scale-95"
-        class="absolute {{ app()->getLocale() === 'ar' ? 'left-0' : 'right-0' }} mt-2 w-64 bg-white dark:bg-neutral-800 rounded-xl shadow-xl border border-neutral-200 dark:border-neutral-700 z-50 overflow-hidden"
+        class="absolute end-0 mt-2 w-64 bg-white dark:bg-neutral-800 rounded-xl shadow-xl border border-neutral-200 dark:border-neutral-700 z-50 overflow-hidden"
         style="display: none;">
         
         <!-- WhatsApp -->
@@ -136,7 +136,7 @@
 </div>
 
 <!-- Toast Notification for Copy Success -->
-<div id="copyToast" class="fixed bottom-4 {{ app()->getLocale() === 'ar' ? 'left-4' : 'right-4' }} bg-green-600 text-white px-6 py-3 rounded-xl shadow-xl z-50 transform translate-y-20 opacity-0 transition-all duration-300">
+<div id="copyToast" class="fixed bottom-4 end-4 bg-green-600 text-white px-6 py-3 rounded-xl shadow-xl z-50 transform translate-y-20 opacity-0 transition-all duration-300">
     <div class="flex items-center gap-2">
         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>

@@ -14,13 +14,14 @@ class CategorySeeder extends Seeder
     {
         // Create default categories
         $categories = [
-            ['name' => 'Abayas', 'slug' => 'abayas', 'description' => 'Traditional and modern abayas'],
-            ['name' => 'Electric Mabkhara', 'slug' => 'electric-mabkhara', 'description' => 'Electric Mabkhara and incense burners'],
+            ['name' => 'Abayas', 'slug' => 'abayas', 'description' => 'Traditional and modern abayas', 'name_translations' => ['nl' => "Abaya's", 'en' => 'Abayas', 'ar' => 'عبايات']],
+            ['name' => 'Electric Mabkhara', 'slug' => 'electric-mabkhara', 'description' => 'Electric Mabkhara and incense burners', 'name_translations' => ['nl' => "Elektrische mabkhara's", 'en' => 'Electric mabkharas', 'ar' => 'مباخر كهربائية']],
         ];
 
         foreach ($categories as $category) {
             Category::create([
                 'name' => $category['name'],
+                'name_translations' => $category['name_translations'],
                 'slug' => $category['slug'],
                 'description' => $category['description'],
                 'is_active' => true,
