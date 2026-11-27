@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Cart;
-use App\Models\Reviews;
+use App\Models\Review;
 
 class User extends Authenticatable
 {
@@ -67,7 +67,7 @@ class User extends Authenticatable
 
     public function reviews()
     {
-        return $this->hasMany(Reviews::class);
+        return $this->hasMany(Review::class);
     }
 
     public function orders()

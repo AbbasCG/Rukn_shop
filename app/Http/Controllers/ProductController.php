@@ -107,8 +107,8 @@ class ProductController extends Controller
             return redirect()->to($target . ($query ? '?' . $query : ''), 301);
         }
 
-        $product->load(['category', 'reviews.user']);
-        $reviews = $product->reviews;
+        $product->load(['category', 'approvedReviews']);
+        $reviews = $product->approvedReviews;
         $relatedProducts = Product::where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
             ->where('is_active', true)

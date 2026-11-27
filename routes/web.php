@@ -98,6 +98,12 @@ Route::prefix('{locale}')
         Route::get('/orders/placed/{order}/{token}', [GuestOrderController::class, 'confirmation'])
             ->whereNumber('order')->where('token', '[A-Za-z0-9]{40}')->name('orders.placed');
         Route::get('/orders/lookup', [GuestOrderController::class, 'lookupForm'])->name('orders.lookup');
+
+        // Reviews by buyers, from the private order link.
+        Route::get('/orders/review/{order}/{token}', [\App\Http\Controllers\ReviewController::class, 'create'])
+            ->whereNumber('order')->where('token', '[A-Za-z0-9]{40}')->name('reviews.create');
+        Route::post('/orders/review/{order}/{token}', [\App\Http\Controllers\ReviewController::class, 'store'])
+            ->whereNumber('order')->where('token', '[A-Za-z0-9]{40}')->middleware('throttle:10,1')->name('reviews.store');
         Route::post('/orders/lookup', [GuestOrderController::class, 'lookup'])
             ->middleware('throttle:5,1')->name('orders.lookup.submit');
 
@@ -128,6 +134,9 @@ Route::prefix('{locale}')
 
             // Contact form messages
             Route::resource('messages', AdminContactMessageController::class)->only(['index', 'update', 'destroy']);
+
+            // Review moderation
+            Route::resource('reviews', \App\Http\Controllers\Admin\ReviewController::class)->only(['index', 'update', 'destroy']);
 
             // Emails that failed in the background
             Route::post('/mail-queue/retry', [\App\Http\Controllers\Admin\MailQueueController::class, 'retry'])->name('mail-queue.retry');

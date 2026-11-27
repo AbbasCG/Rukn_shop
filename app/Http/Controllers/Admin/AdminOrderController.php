@@ -97,6 +97,11 @@ class AdminOrderController extends Controller
         if ($firstShipment) {
             $validated['shipped_at'] = now();
         }
+        // The review request email is sent a week after the first delivery.
+        if ($validated['status'] === 'delivered' && $order->delivered_at === null) {
+            $validated['delivered_at'] = now();
+            $validated['shipped_at'] ??= $order->shipped_at ?? now();
+        }
 
         $wasCancelled = $order->status === 'cancelled';
         $isCancelled = $validated['status'] === 'cancelled';

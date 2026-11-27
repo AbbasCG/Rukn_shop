@@ -83,4 +83,12 @@ return [
         'button_trouble' => 'Werkt de knop niet? Kopieer deze link naar je browser:',
         'not_you' => 'Heb je dit niet aangevraagd? Dan kun je deze e-mail negeren: je wachtwoord blijft hetzelfde.',
     ],
+    'review_request' => [
+        'subject' => 'Hoe bevalt je bestelling #:number?',
+        'preheader' => 'Beoordeel je aankoop in een minuut en help andere klanten kiezen.',
+        'intro' => 'We hopen dat je blij bent met je bestelling #:number. Wil je andere klanten vertellen wat je ervan vindt? Het kost maar een minuut.',
+        'button' => 'Schrijf een review',
+        'note' => 'Je review verschijnt in de winkel met de naam die je kiest; je e-mailadres wordt nooit getoond.',
+        'problem' => 'Is er iets niet in orde met je bestelling? Beantwoord deze e-mail of schrijf naar :email, dan helpen we je.',
+    ],
 ];

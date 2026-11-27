@@ -29,11 +29,14 @@ class Order extends Model
         'subtotal', 'shipping_cost', 'total',
         'notes',
         'tracking_carrier', 'tracking_number', 'tracking_url', 'shipped_at',
+        'delivered_at', 'review_requested_at',
     ];
 
     protected $casts = [
         'paid_at' => 'datetime',
         'shipped_at' => 'datetime',
+        'delivered_at' => 'datetime',
+        'review_requested_at' => 'datetime',
     ];
 
     protected $hidden = ['access_token'];
@@ -168,5 +171,43 @@ class Order extends Model
         }
 
         return 'NL';
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    /** Customers can review what they bought once the order has been delivered. */
+    public function canBeReviewed(): bool
+    {
+        return $this->status === 'delivered';
+    }
+
+    /**
+     * Products of this order that can still be reviewed: still in the shop
+     * and not reviewed from this order yet (one review per product).
+     *
+     * @return \Illuminate\Support\Collection<int, \App\Models\Product>
+     */
+    public function reviewableProducts(): \Illuminate\Support\Collection
+    {
+        $this->loadMissing(['items.product', 'reviews']);
+        $reviewed = $this->reviews->pluck('product_id')->all();
+
+        return $this->items->pluck('product')->filter()
+            ->unique('id')
+            ->reject(fn (Product $product) => in_array($product->id, $reviewed, true))
+            ->values();
+    }
+
+    /** Private link to the review page of this order (works without an account). */
+    public function reviewUrl(?string $locale = null): string
+    {
+        return route('reviews.create', [
+            'locale' => $locale ?? $this->locale ?? app()->getLocale(),
+            'order' => $this->id,
+            'token' => $this->access_token,
+        ]);
     }
 }

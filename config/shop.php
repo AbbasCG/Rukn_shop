@@ -72,6 +72,12 @@ return [
         'delivery_days_max' => (int) env('SHOP_DELIVERY_DAYS_MAX', 3),
     ],
 
+    'reviews' => [
+        // Days after an order is marked "delivered" before the customer is
+        // asked to review it.
+        'request_after_days' => max(1, (int) env('SHOP_REVIEW_REQUEST_DAYS', 7)),
+    ],
+
     'returns' => [
         // Days after delivery in which a customer may return an order.
         // Dutch/EU law requires at least 14 for online purchases.

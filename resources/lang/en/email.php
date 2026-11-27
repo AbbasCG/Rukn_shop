@@ -83,4 +83,12 @@ return [
         'button_trouble' => 'Button not working? Copy this link into your browser:',
         'not_you' => 'Did you not ask for this? Then you can ignore this email: your password stays the same.',
     ],
+    'review_request' => [
+        'subject' => 'How do you like your order #:number?',
+        'preheader' => 'Rate your purchase in a minute and help other customers choose.',
+        'intro' => 'We hope you are happy with your order #:number. Would you tell other customers what you think? It takes a minute.',
+        'button' => 'Write a review',
+        'note' => 'Your review appears in the shop with the name you choose; your email address is never shown.',
+        'problem' => 'Something not right with your order? Reply to this email or write to :email and we will help you.',
+    ],
 ];

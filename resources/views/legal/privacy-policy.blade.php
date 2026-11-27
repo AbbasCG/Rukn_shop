@@ -11,6 +11,7 @@
         ['title' => $p('what_order_title'), 'text' => $p('what_order')],
         ['title' => $p('what_account_title'), 'text' => $p('what_account')],
         ['title' => $p('what_contact_title'), 'text' => $p('what_contact')],
+        ['title' => $p('what_review_title'), 'text' => $p('what_review')],
         ['title' => $p('what_payment_title'), 'text' => $online ? $p('what_payment_online') : $p('what_payment_cod')],
         ['title' => $p('what_technical_title'), 'text' => $p('what_technical')],
     ]));
