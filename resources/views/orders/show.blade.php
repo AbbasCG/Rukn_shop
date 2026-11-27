@@ -60,6 +60,17 @@
                     </div>
                 </div>
 
+                @if ($order->canBeReviewed() && $order->access_token && $order->reviewableProducts()->isNotEmpty())
+                    {{-- Delivered: invite the buyer to review --}}
+                    <div class="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-4 md:p-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between print:hidden">
+                        <div>
+                            <p class="text-sm font-semibold text-primary-dark">{{ __('reviews.order_cta.title') }}</p>
+                            <p class="mt-1 text-sm text-neutral-700">{{ __('reviews.order_cta.text') }}</p>
+                        </div>
+                        <a href="{{ $order->reviewUrl(app()->getLocale()) }}" class="inline-flex justify-center rounded-xl bg-primary-dark px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary-dark/90 transition">{{ __('reviews.order_cta.button') }}</a>
+                    </div>
+                @endif
+
                 @if ($order->shipped_at && in_array($order->status, ['shipped', 'delivered'], true))
                     {{-- Track & trace --}}
                     <div class="mt-6 rounded-xl border border-gray-200 bg-gray-50 p-4 md:p-5">

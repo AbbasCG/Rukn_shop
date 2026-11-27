@@ -194,7 +194,13 @@ class Product extends Model
 
     public function reviews()
     {
-        return $this->hasMany(Reviews::class);
+        return $this->hasMany(Review::class);
+    }
+
+    /** Reviews shown in the shop: approved, newest first. */
+    public function approvedReviews()
+    {
+        return $this->hasMany(Review::class)->approved()->latest('approved_at')->latest('id');
     }
 
     public function cartItems()

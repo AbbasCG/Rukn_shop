@@ -18,6 +18,8 @@ return [
         'what_account' => 'Your name, email address and password (stored only in encrypted, non-readable form), and optionally your phone number, address and a profile photo.',
         'what_contact_title' => 'When you use the contact form',
         'what_contact' => 'Your name, email address, the subject and your message.',
+        'what_review_title' => 'When you write a review',
+        'what_review' => 'The rating, your review and the name you choose; they are shown in the shop once approved, never your email address or order. The review stays linked to your order so we know it comes from a real buyer. You can ask us to remove your review at any time.',
         'what_payment_title' => 'Payment',
         'what_payment_online' => 'We never see or store your card or bank details. Online payments are handled by our payment provider Mollie; we only receive the payment status and a payment reference.',
         'what_payment_cod' => 'You pay on delivery. We do not receive or store any card or bank details.',

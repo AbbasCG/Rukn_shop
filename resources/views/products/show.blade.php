@@ -23,6 +23,10 @@
         ],
     ] : null;
 
+    // Published reviews (the controller passes approved ones only).
+    $reviewCount = $reviews->count();
+    $averageRating = $reviewCount ? round((float) $reviews->avg('rating'), 1) : 0.0;
+
     $seoImage = url($product->primaryImageUrl());
     $seoDescription = $product->short_description ?: $product->long_description;
     $productUrl = r('products.show', $product);
@@ -64,6 +68,23 @@
             ])),
         ],
     ];
+    // Star ratings in search results, only with real published reviews.
+    if ($reviewCount > 0) {
+        $structuredData[0]['aggregateRating'] = [
+            '@type' => 'AggregateRating',
+            'ratingValue' => number_format($averageRating, 1, '.', ''),
+            'reviewCount' => $reviewCount,
+            'bestRating' => 5,
+            'worstRating' => 1,
+        ];
+        $structuredData[0]['review'] = $reviews->take(5)->map(fn ($review) => array_filter([
+            '@type' => 'Review',
+            'author' => ['@type' => 'Person', 'name' => $review->author_name],
+            'datePublished' => ($review->approved_at ?? $review->created_at)->toDateString(),
+            'reviewRating' => ['@type' => 'Rating', 'ratingValue' => $review->rating, 'bestRating' => 5, 'worstRating' => 1],
+            'reviewBody' => $review->comment,
+        ]))->values()->all();
+    }
 @endphp
 @push('structured-data')
     <meta property="product:price:amount" content="{{ number_format($minPrice, 2, '.', '') }}">
@@ -157,33 +178,13 @@
                     </div>
                 </div>
 
-                <!-- Rating -->
-                <div class="flex items-center gap-4">
-                    <div class="flex items-center">
-                        @for($i = 1; $i <= 5; $i++)
-                            @if($i <= floor($product->rating))
-                                <svg class="w-6 h-6 text-warning fill-current" viewBox="0 0 20 20">
-                                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
-                                </svg>
-                            @elseif($i - 0.5 <= $product->rating)
-                                <svg class="w-6 h-6 text-warning" viewBox="0 0 20 20">
-                                    <defs>
-                                        <linearGradient id="half-{{ $i }}">
-                                            <stop offset="50%" stop-color="currentColor"/>
-                                            <stop offset="50%" stop-color="#D4D4D4"/>
-                                        </linearGradient>
-                                    </defs>
-                                    <path fill="url(#half-{{ $i }})" d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
-                                </svg>
-                            @else
-                                <svg class="w-6 h-6 text-neutral-300 dark:text-neutral-600 fill-current" viewBox="0 0 20 20">
-                                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
-                                </svg>
-                            @endif
-                        @endfor
-                    </div>
-                    <span class="text-base text-neutral-500 dark:text-primary-300 font-medium">{{ number_format($product->rating, 1) }} <span class="text-neutral-400">({{ __('product.reviews_count', ['count' => $reviews->count()]) }})</span></span>
-                </div>
+                {{-- Rating: only once there are published reviews --}}
+                @if ($reviewCount > 0)
+                    <a href="#reviews" class="inline-flex items-center gap-3 w-fit">
+                        <x-stars :rating="$averageRating" size="w-6 h-6" />
+                        <span class="text-base text-neutral-500 font-medium">{{ number_format($averageRating, 1) }} <span class="text-neutral-400 underline underline-offset-2">({{ trans_choice('reviews.count', $reviewCount, ['count' => $reviewCount]) }})</span></span>
+                    </a>
+                @endif
 
                 <!-- Price -->
                 <div class="text-5xl font-bold text-primary-800 dark:text-primary-800" @if($hasVariants) x-text="priceText" @endif>{{ $defaultPriceText }}</div>
@@ -492,83 +493,48 @@
         </div>
     </div>
 
-    <!-- Reviews Section - Hidden for Later -->
-    {{-- 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div class="bg-white dark:bg-white rounded-2xl shadow-xl border border-neutral-200 dark:border-neutral-300 p-8">
-            <h2 class="text-3xl font-bold text-primary-800 dark:text-primary-800 mb-6">Customer Reviews</h2>
-
-            <!-- Reviews Summary -->
-            <div class="flex items-center gap-6 mb-8 pb-8 border-b border-primary-200 dark:border-neutral-300">
-                <div class="text-center bg-primary-100 dark:bg-primary-100 rounded-xl px-7 py-5">
-                    <div class="text-5xl font-bold text-primary-800 dark:text-primary-800">{{ number_format($product->rating, 1) }}</div>
-                    <div class="flex items-center justify-center mt-2.5">
-                        @for($i = 1; $i <= 5; $i++)
-                            <svg class="w-6 h-6 {{ $i <= floor($product->rating) ? 'text-warning' : 'text-neutral-300 dark:text-neutral-600' }} fill-current" viewBox="0 0 20 20">
-                                <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
-                            </svg>
-                        @endfor
-                    </div>
-                    <div class="text-sm text-neutral-500 dark:text-primary-300 mt-2 font-medium">{{ $reviews->count() }} reviews</div>
-                </div>
-            </div>
-
-            <!-- Reviews List -->
-            <div class="space-y-4 mb-8">
-                @forelse($reviews as $review)
-                    <div class="bg-primary-100 dark:bg-primary-100 rounded-xl p-5 border border-primary-200 dark:border-neutral-300">
-                        <div class="flex items-start justify-between mb-3">
-                            <div>
-                                <h4 class="font-bold text-lg text-primary-800 dark:text-primary-800">{{ $review->user->name }}</h4>
-                                <div class="flex items-center mt-2">
-                                    @for($i = 1; $i <= 5; $i++)
-                                        <svg class="w-5 h-5 {{ $i <= $review->rating ? 'text-warning' : 'text-neutral-300 dark:text-neutral-600' }} fill-current" viewBox="0 0 20 20">
-                                            <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
-                                        </svg>
-                                    @endfor
-                                </div>
-                            </div>
-                            <span class="text-sm text-neutral-500 dark:text-primary-300 font-medium">{{ $review->created_at->format('M d, Y') }}</span>
+    {{-- Customer reviews: only published ones, only when there are any --}}
+    @if ($reviewCount > 0)
+        <section id="reviews" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 scroll-mt-24">
+            <div class="bg-white rounded-2xl shadow-xl border border-neutral-200 p-6 md:p-8">
+                <div class="flex flex-wrap items-center gap-6 mb-8 pb-8 border-b border-primary-200">
+                    <h2 class="text-3xl font-bold text-primary-800 me-auto">{{ __('reviews.product.title') }}</h2>
+                    <div class="flex items-center gap-4 rounded-xl bg-primary-100 px-6 py-4">
+                        <div class="text-4xl font-bold text-primary-800" dir="ltr">{{ number_format($averageRating, 1) }}</div>
+                        <div>
+                            <x-stars :rating="$averageRating" />
+                            <div class="mt-1 text-sm text-neutral-500 font-medium">{{ __('reviews.product.based_on', ['count' => trans_choice('reviews.count', $reviewCount, ['count' => $reviewCount])]) }}</div>
                         </div>
-                        <p class="text-neutral-600 dark:text-primary-300 leading-relaxed">{{ $review->comment }}</p>
                     </div>
-                @empty
-                    <p class="text-center text-neutral-500 dark:text-primary-300 py-12 text-lg">No reviews yet. Be the first to review this product!</p>
-                @endforelse
-            </div>
+                </div>
 
-            <!-- Review Form -->
-            <div class="border-t border-primary-200 dark:border-neutral-300 pt-8">
-                <h3 class="text-2xl font-bold text-primary-800 dark:text-primary-800 mb-5">Write a Review</h3>
-                <form class="space-y-5">
-                    @csrf
-                    <div>
-                        <label class="block text-sm font-bold text-primary-800 dark:text-primary-800 mb-2.5">Your Name</label>
-                        <input type="text" class="w-full px-4 py-3 border-2 border-neutral-200 dark:border-neutral-300 rounded-xl bg-white dark:bg-white text-primary-800 dark:text-primary-800 focus:outline-none focus:ring-2 focus:ring-primary-800 focus:border-primary-800 transition-all" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-primary-800 dark:text-primary-800 mb-2.5">Rating</label>
-                        <select class="w-full px-4 py-3 border-2 border-neutral-200 dark:border-neutral-300 rounded-xl bg-white dark:bg-white text-primary-800 dark:text-primary-800 focus:outline-none focus:ring-2 focus:ring-primary-800 focus:border-primary-800 transition-all" required>
-                            <option value="">Select rating</option>
-                            <option value="5">⭐⭐⭐⭐⭐ 5 Stars - Excellent</option>
-                            <option value="4">⭐⭐⭐⭐ 4 Stars - Good</option>
-                            <option value="3">⭐⭐⭐ 3 Stars - Average</option>
-                            <option value="2">⭐⭐ 2 Stars - Poor</option>
-                            <option value="1">⭐ 1 Star - Terrible</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-primary-800 dark:text-primary-800 mb-2.5">Your Review</label>
-                        <textarea rows="5" class="w-full px-4 py-3 border-2 border-neutral-200 dark:border-neutral-300 rounded-xl bg-white dark:bg-white text-primary-800 dark:text-primary-800 focus:outline-none focus:ring-2 focus:ring-primary-800 focus:border-primary-800 transition-all" required></textarea>
-                    </div>
-                    <button type="submit" class="px-7 py-2.5 bg-primary-800 hover:bg-primary-700 active:bg-primary-900 text-white text-base font-semibold rounded-xl shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
-                        Submit Review
-                    </button>
-                </form>
+                <ul class="space-y-4">
+                    @foreach ($reviews as $review)
+                        <li class="rounded-xl p-5 border border-primary-200 bg-primary-50">
+                            <div class="flex flex-wrap items-start justify-between gap-3 mb-2">
+                                <div>
+                                    <p class="font-bold text-primary-800"><bdi>{{ $review->author_name }}</bdi></p>
+                                    <div class="mt-1 flex flex-wrap items-center gap-3">
+                                        <x-stars :rating="$review->rating" size="w-4 h-4" />
+                                        @if ($review->isVerified())
+                                            <span class="inline-flex items-center gap-1 text-xs font-semibold text-green-700">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                                {{ __('reviews.product.verified') }}
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <time class="text-sm text-neutral-500" datetime="{{ ($review->approved_at ?? $review->created_at)->toDateString() }}">{{ ($review->approved_at ?? $review->created_at)->copy()->locale(app()->getLocale())->isoFormat('D MMMM YYYY') }}</time>
+                            </div>
+                            @if (filled($review->comment))
+                                <p class="text-neutral-700 leading-relaxed whitespace-pre-line" dir="auto">{{ $review->comment }}</p>
+                            @endif
+                        </li>
+                    @endforeach
+                </ul>
             </div>
-        </div>
-    </div>
-    --}}
+        </section>
+    @endif
 
     <!-- Related Products -->
     @if($relatedProducts && $relatedProducts->count() > 0)
