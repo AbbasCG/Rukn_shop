@@ -45,8 +45,7 @@
                             <p class="mt-1 text-xs {{ $price > $pricedAt ? 'text-amber-700' : 'text-emerald-700' }}">{{ __('cart.item.price_changed', ['old' => money($pricedAt)]) }}</p>
                         @endif
                         <div class="mt-4 flex items-center gap-3">
-                            @auth
-                            <form method="POST" action="{{ r('cart.update', ['cart' => $item->id]) }}" x-ref="form">
+                            <form method="POST" action="{{ r('cart.update', ['line' => $item->lineKey()]) }}" x-ref="form">
                                 @csrf
                                 @method('PATCH')
                                 <div class="flex items-center gap-2">
@@ -56,7 +55,7 @@
                                     <button type="button" @click="if (qty >= {{ (int) $stock }}) return; qty = qty+1; $refs.q.value = qty; $refs.form.submit(); glow=true; setTimeout(()=>glow=false,600)" @disabled($qty >= $stock) class="w-9 h-9 flex items-center justify-center rounded-lg border border-primary-gray bg-white text-primary-dark hover:bg-primary-gray transition disabled:opacity-40 disabled:cursor-not-allowed">+</button>
                                 </div>
                             </form>
-                            <form method="POST" action="{{ r('cart.destroy', ['cart' => $item->id]) }}" x-data="{ removing: false }" @submit="removing = true">
+                            <form method="POST" action="{{ r('cart.destroy', ['line' => $item->lineKey()]) }}" x-data="{ removing: false }" @submit="removing = true">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" :disabled="removing" class="ms-4 inline-flex items-center justify-center w-9 h-9 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 shadow-sm transition disabled:opacity-60 disabled:cursor-not-allowed" title="{{ __('cart.item.remove') }}">
@@ -69,11 +68,6 @@
                                     </svg>
                                 </button>
                             </form>
-                            @else
-                            <div class="flex items-center gap-2">
-                                <span class="px-3 py-1 rounded-lg bg-primary-gray text-primary-dark text-sm">x <span x-text="qty"></span></span>
-                            </div>
-                            @endauth
                         </div>
                     </div>
                     <div :class="glow ? 'bg-primary-gray/50' : ''" class="rounded-xl px-4 py-2 text-primary-dark font-semibold transition">
@@ -81,13 +75,11 @@
                     </div>
                 </div>
                 @endforeach
-                @auth
                 <form method="POST" action="{{ r('cart.clear') }}" class="pt-2">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="inline-flex items-center px-4 py-2 rounded-xl border border-primary-gray text-primary-dark bg-white hover:bg-primary-gray transition">{{ __('cart.actions.clear') }}</button>
                 </form>
-                @endauth
             </div>
 
             <!-- Right: Order Summary -->

@@ -70,11 +70,6 @@ Route::prefix('{locale}')
             Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
             Route::get('/orders/{order}', [OrderController::class, 'show'])->whereNumber('order')->name('orders.show');
 
-            // Cart routes (auth-only actions)
-            Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-            Route::patch('/cart/{cart}', [CartController::class, 'update'])->whereNumber('cart')->name('cart.update');
-            Route::delete('/cart/{cart}', [CartController::class, 'destroy'])->whereNumber('cart')->name('cart.destroy');
-            Route::delete('/cart', [CartController::class, 'clear'])->name('cart.clear');
 
             // Checkout routes
 
@@ -111,8 +106,12 @@ Route::prefix('{locale}')
         Route::post('/orders/lookup', [GuestOrderController::class, 'lookup'])
             ->middleware('throttle:5,1')->name('orders.lookup.submit');
 
-        // Public cart add route and public cart page for guests
+        // Cart: for guests (session) and logged-in customers (saved). A line is
+        // a saved cart id, or for guests "<productId>" / "<productId>:<variantId>".
         Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+        Route::patch('/cart/{line}', [CartController::class, 'update'])->where('line', '[0-9]+(:[0-9]+)?')->name('cart.update');
+        Route::delete('/cart/{line}', [CartController::class, 'destroy'])->where('line', '[0-9]+(:[0-9]+)?')->name('cart.destroy');
+        Route::delete('/cart', [CartController::class, 'clear'])->name('cart.clear');
         Route::post('/cart/coupon', [\App\Http\Controllers\CouponController::class, 'store'])->middleware('throttle:10,1')->name('cart.coupon.store');
         Route::delete('/cart/coupon', [\App\Http\Controllers\CouponController::class, 'destroy'])->name('cart.coupon.destroy');
         Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
