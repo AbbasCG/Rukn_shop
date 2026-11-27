@@ -76,7 +76,7 @@ return [
         'section_1_content' => 'Door deze website te bezoeken en te gebruiken, accepteert u de voorwaarden van deze overeenkomst en gaat u ermee akkoord. Als u niet akkoord gaat met deze voorwaarden, gebruik dan onze website niet.',
         
         'section_2_title' => 'Producten en prijzen',
-        'section_2_content' => 'Alle producten zijn onder voorbehoud van beschikbaarheid. We behouden ons het recht voor om hoeveelheden te beperken en producten op elk moment te staken. Prijzen kunnen zonder voorafgaande kennisgeving worden gewijzigd. We streven ernaar nauwkeurige prijsinformatie weer te geven, maar er kunnen fouten optreden. In dergelijke gevallen behouden we ons het recht voor om bestellingen te weigeren of te annuleren.',
+        'section_2_content' => 'Alle prijzen zijn in euro en inclusief :vat% btw. Verzendkosten zie je apart voordat je bestelt. Producten zijn leverbaar zolang de voorraad strekt. Prijzen kunnen veranderen voor toekomstige bestellingen; je betaalt de prijs die bij je bestelling werd getoond. Is een prijs duidelijk onjuist, dan mogen we de bestelling annuleren en betalen we terug wat je al hebt betaald.',
         
         'section_3_title' => 'Bestellingen en betaling',
         'section_3_content' => 'Je bestelling is een aanbod om te kopen; de overeenkomst komt tot stand zodra we je bestelling per e-mail bevestigen. Je betaalt met een van de betaalmethoden die bij het afrekenen worden aangeboden: online op een beveiligde betaalpagina of bij aflevering, afhankelijk van wat beschikbaar is. Blijkt een artikel toch niet leverbaar, dan laten we je dat meteen weten en betalen we terug wat je al hebt betaald.',

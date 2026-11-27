@@ -72,6 +72,11 @@ return [
         'delivery_days_max' => (int) env('SHOP_DELIVERY_DAYS_MAX', 3),
     ],
 
+    // VAT (btw) included in every consumer price. Dutch standard rate: 21%.
+    'vat' => [
+        'rate' => (float) env('SHOP_VAT_RATE', 21),
+    ],
+
     'reviews' => [
         // Days after an order is marked "delivered" before the customer is
         // asked to review it.

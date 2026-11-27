@@ -96,7 +96,8 @@
                 <div class="space-y-2 text-sm">
                     <div class="flex items-center justify-between"><span>{{ __('cart.summary.subtotal') }}</span><span>{{ money($subtotal) }}</span></div>
                     <div class="flex items-center justify-between"><span>{{ __('cart.summary.shipping') }}</span><span>{{ $shipping > 0 ? money($shipping) : __('cart.summary.free') }}</span></div>
-                    <div class="flex items-center justify-between text-base font-semibold"><span>{{ __('cart.summary.total') }}</span><span>{{ money($total) }}</span></div>
+                    <div class="flex items-center justify-between text-base font-semibold"><span>{{ __('shop.vat.total_incl') }}</span><span>{{ money($total) }}</span></div>
+                    <div class="flex items-center justify-between text-xs text-white/70"><span>{{ __('shop.vat.included', ['rate' => \App\Support\Vat::rateLabel()]) }}</span><span>{{ money(\App\Support\Vat::included((float) $total)) }}</span></div>
                 </div>
                 @php($remainingForFree = \App\Support\Shipping::remainingForFree((float) $subtotal))
                 @if($remainingForFree > 0)

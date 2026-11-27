@@ -86,4 +86,10 @@ return [
     'language' => 'Language',
     'switch_to_dutch' => 'Switch to Dutch',
     'switch_to_arabic' => 'Switch to Arabic',
+    'vat' => [
+        'price_note' => 'Incl. :rate% VAT,',
+        'shipping_link' => 'excl. shipping',
+        'total_incl' => 'Total (incl. VAT)',
+        'included' => 'Of which VAT (:rate%)',
+    ],
 ];

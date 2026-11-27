@@ -86,4 +86,10 @@ return [
     'language' => 'Taal',
     'switch_to_dutch' => 'Schakel over naar Nederlands',
     'switch_to_arabic' => 'Schakel over naar Arabisch',
+    'vat' => [
+        'price_note' => 'Incl. :rate% btw,',
+        'shipping_link' => 'excl. verzendkosten',
+        'total_incl' => 'Totaal (incl. btw)',
+        'included' => 'Waarvan btw (:rate%)',
+    ],
 ];

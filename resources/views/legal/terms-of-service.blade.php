@@ -23,7 +23,7 @@
             <!-- Section 2 -->
             <div>
                 <h2 class="text-2xl font-semibold text-primary-dark mb-3">{{ __('legal.terms.section_2_title') }}</h2>
-                <p class="text-primary-dark/80 leading-relaxed">{{ __('legal.terms.section_2_content') }}</p>
+                <p class="text-primary-dark/80 leading-relaxed">{{ policy_text('legal.terms.section_2_content', $who + ['vat' => \App\Support\Vat::rateLabel()]) }}</p>
             </div>
 
             <!-- Section 3 -->
