@@ -124,3 +124,30 @@ jobs:
 
       - name: Check PHP packages for known vulnerabilities
         run: composer audit --locked --no-interaction
+
+  production-branch:
+    # After every push to main whose tests all pass: update the "production"
+    # branch (main + compiled public/build), which Hostinger pulls from, so
+    # the server never needs Node.js.
+    name: Update production branch (with built assets)
+    needs: [tests, assets-and-audit]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    concurrency:
+      group: production-branch
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Build and push the production branch
+        run: bash .github/scripts/update-production-branch.sh production
