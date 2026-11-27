@@ -113,15 +113,21 @@ php artisan queue:retry all
 
 | المتغير | الغرض |
 |---|---|
-| `APP_KEY`, `APP_URL`, `APP_DEBUG=false` | أساسية |
+| `APP_KEY`, `APP_URL`, `APP_ENV=production`, `APP_DEBUG=false` | أساسية |
 | `DB_CONNECTION=mysql`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` | قاعدة البيانات (MySQL/MariaDB من hPanel) |
 | `QUEUE_CONNECTION=database` | الإيميلات في الطابور (لا تضع `sync`) |
-| `MAIL_MAILER=smtp`, `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD`, `MAIL_FROM_ADDRESS` | إرسال الإيميلات |
+| `MAIL_MAILER=smtp`, `MAIL_SCHEME`, `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD`, `MAIL_FROM_ADDRESS` | إرسال الإيميلات. مع بريد Hostinger: `MAIL_SCHEME=smtps` و `MAIL_HOST=smtp.hostinger.com` و `MAIL_PORT=465`، واسم المستخدم هو عنوان الإيميل كاملاً |
 | `MOLLIE_KEY` | الدفع أونلاين (ابدأ بمفتاح `test_`) |
 | `SHOP_PAYMENT_COD` | الدفع عند الاستلام (`true`/`false`) |
-| `SHOP_CONTACT_EMAIL`, `SHOP_ORDER_NOTIFY_EMAILS` | بريد المتجر ومن يستلم إشعارات الطلبات |
-| `SHOP_BUSINESS_NAME`, `SHOP_BUSINESS_ADDRESS`, `SHOP_BUSINESS_KVK` | بيانات الشركة (تظهر في نموذج التراجع وصفحة الاتصال) |
-| `SHOP_SHIPPING_FLAT_RATE`, `SHOP_FREE_SHIPPING_THRESHOLD`, `SHOP_DELIVERY_DAYS_MIN/MAX`, `SHOP_RETURN_DAYS` | سياسة الشحن والإرجاع (كل نصوص المتجر تقرأ منها) |
+| `SHOP_CONTACT_EMAIL`, `SHOP_ORDER_NOTIFY_EMAILS` | بريد المتجر، ومن يستلم إشعارات الطلبات (أكثر من عنوان: افصل بفاصلة) |
+| `SHOP_ADMIN_LOCALE` | لغة إيميل إشعار الطلبات للمتجر (`ar` أو `nl` أو `en`) |
+| `SHOP_LOW_STOCK_THRESHOLD` | المنتج الذي ينزل مخزونه إلى هذا العدد أو أقل بعد طلب يُعلَّم في إيميل الإشعار (الافتراضي 5) |
+| `SHOP_BUSINESS_NAME`, `SHOP_BUSINESS_ADDRESS`, `SHOP_BUSINESS_KVK` | بيانات الشركة (تظهر في الفواتير ونموذج التراجع وصفحة الاتصال). العنوان ورقم KvK إلزاميان في الفاتورة |
+| `SHOP_BUSINESS_VAT_ID` | رقم الضريبة (btw-id، مثل `NL001234567B01`). إلزامي في الفاتورة، وإذا نقص يظهر تنبيه في صفحة الطلب في لوحة التحكم |
+| `SHOP_BUSINESS_IBAN` | اختياري. إذا وُضع يظهر في الفاتورة |
+| `SHOP_VAT_RATE` | نسبة الضريبة المشمولة في الأسعار (الافتراضي `21`). تُحفظ مع كل طلب، فتغييرها لا يغيّر الطلبات القديمة |
+| `SHOP_REVIEW_REQUEST_DAYS` | بعد كم يوماً من التوصيل يُرسل للعميل إيميل طلب التقييم (الافتراضي `7`) |
+| `SHOP_SHIPPING_FLAT_RATE`, `SHOP_FREE_SHIPPING_THRESHOLD`, `SHOP_DELIVERY_DAYS_MIN`, `SHOP_DELIVERY_DAYS_MAX`, `SHOP_RETURN_DAYS` | سياسة الشحن والإرجاع (كل نصوص المتجر تقرأ منها) |
 | `SHOP_SOCIAL_INSTAGRAM`, `SHOP_SOCIAL_FACEBOOK`, `SHOP_SOCIAL_X`, `SHOP_SOCIAL_TIKTOK` | روابط الفوتر. الفارغ يُخفى |
 
 هذه المتغيرات تُكتب في ملف `.env` على السيرفر، والقائمة الكاملة مع الشرح في `.env.example`.
