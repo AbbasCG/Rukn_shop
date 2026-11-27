@@ -66,6 +66,12 @@ Route::prefix('{locale}')
             Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
             Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+            // Two-step verification for admins (code by email).
+            Route::post('/profile/two-factor', [\App\Http\Controllers\TwoFactorSettingsController::class, 'start'])->middleware('throttle:5,1')->name('two-factor.start');
+            Route::post('/profile/two-factor/confirm', [\App\Http\Controllers\TwoFactorSettingsController::class, 'confirm'])->middleware('throttle:10,1')->name('two-factor.confirm');
+            Route::post('/profile/two-factor/cancel', [\App\Http\Controllers\TwoFactorSettingsController::class, 'cancel'])->name('two-factor.cancel');
+            Route::delete('/profile/two-factor', [\App\Http\Controllers\TwoFactorSettingsController::class, 'destroy'])->middleware('throttle:5,1')->name('two-factor.disable');
+
             // Customer Orders
             Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
             Route::get('/orders/{order}', [OrderController::class, 'show'])->whereNumber('order')->name('orders.show');

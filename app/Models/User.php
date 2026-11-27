@@ -57,6 +57,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'newsletter_opt_in' => 'boolean',
+            'two_factor_enabled_at' => 'datetime',
         ];
     }
 
@@ -83,6 +84,14 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
+    }
+
+    /**
+     * Two-step verification (a code by email at login) is for admins only.
+     */
+    public function usesTwoFactor(): bool
+    {
+        return $this->isAdmin() && $this->two_factor_enabled_at !== null;
     }
 
     /**
