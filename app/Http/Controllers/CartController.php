@@ -136,6 +136,7 @@ class CartController extends Controller
                 'subtotal' => $subtotal,
                 'shipping' => $shipping,
                 'total' => $subtotal + $shipping,
+                'vat' => \App\Support\Vat::included((float) ($subtotal + $shipping)),
             ]);
         }
 

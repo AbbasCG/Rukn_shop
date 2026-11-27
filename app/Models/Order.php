@@ -30,6 +30,7 @@ class Order extends Model
         'notes',
         'tracking_carrier', 'tracking_number', 'tracking_url', 'shipped_at',
         'delivered_at', 'review_requested_at',
+        'vat_rate', 'vat_amount',
     ];
 
     protected $casts = [
@@ -37,6 +38,8 @@ class Order extends Model
         'shipped_at' => 'datetime',
         'delivered_at' => 'datetime',
         'review_requested_at' => 'datetime',
+        'vat_rate' => 'decimal:2',
+        'vat_amount' => 'decimal:2',
     ];
 
     protected $hidden = ['access_token'];
@@ -209,5 +212,11 @@ class Order extends Model
             'order' => $this->id,
             'token' => $this->access_token,
         ]);
+    }
+
+    /** True when VAT figures were stored at checkout (orders since the VAT lines). */
+    public function hasVat(): bool
+    {
+        return $this->vat_rate !== null && $this->vat_amount !== null;
     }
 }

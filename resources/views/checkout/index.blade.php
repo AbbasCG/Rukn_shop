@@ -147,8 +147,12 @@
                             <span class="font-semibold text-primary-dark">{{ $shipping > 0 ? money($shipping) : __('cart.summary.free') }}</span>
                         </div>
                         <div class="flex items-center justify-between text-base">
-                            <span class="text-primary-dark font-semibold">{{ __('checkout.summary.total') }}</span>
+                            <span class="text-primary-dark font-semibold">{{ __('shop.vat.total_incl') }}</span>
                             <span class="text-primary-dark font-semibold">{{ money($total) }}</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs text-neutral-500">
+                            <span>{{ __('shop.vat.included', ['rate' => \App\Support\Vat::rateLabel()]) }}</span>
+                            <span>{{ money(\App\Support\Vat::included((float) $total)) }}</span>
                         </div>
                     </div>
                 </div>

@@ -187,7 +187,13 @@
                 @endif
 
                 <!-- Price -->
-                <div class="text-5xl font-bold text-primary-800 dark:text-primary-800" @if($hasVariants) x-text="priceText" @endif>{{ $defaultPriceText }}</div>
+                <div>
+                    <div class="text-5xl font-bold text-primary-800 dark:text-primary-800" @if($hasVariants) x-text="priceText" @endif>{{ $defaultPriceText }}</div>
+                    <p class="mt-2 text-sm text-neutral-500">
+                        {{ __('shop.vat.price_note', ['rate' => \App\Support\Vat::rateLabel()]) }}
+                        <a href="{{ r('faq') }}#faq-shipping" class="underline underline-offset-2 hover:text-primary-800">{{ __('shop.vat.shipping_link') }}</a>
+                    </p>
+                </div>
 
                 <!-- Availability -->
                 @if($hasVariants)

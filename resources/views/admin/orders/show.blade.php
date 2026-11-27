@@ -19,9 +19,7 @@
 
     $subtotal = (float) $order->orderItems->sum(fn($item) => $item->price * $item->quantity);
     $shipping = (float) ($order->shipping_cost ?? 0);
-    $discount = (float) ($order->discount_amount ?? 0);
-    $tax = (float) ($order->tax_amount ?? 0);
-    $grandTotal = (float) ($order->total ?? ($subtotal + $shipping + $tax - $discount));
+    $grandTotal = (float) ($order->total ?? ($subtotal + $shipping));
 @endphp
 
 <div class="w-full max-w-7xl mx-auto space-y-6">
@@ -228,17 +226,14 @@
                     <span class="text-primary-dark/60">{{ __('admin.orders.show.fields.shipping') }}</span>
                     <span class="font-medium text-primary-dark">{{ money($shipping) }}</span>
                 </div>
-                <div class="flex items-center justify-between">
-                    <span class="text-primary-dark/60">{{ __('admin.orders.show.fields.discount') }}</span>
-                    <span class="font-medium text-primary-dark">-{{ money($discount) }}</span>
-                </div>
-                <div class="flex items-center justify-between">
-                    <span class="text-primary-dark/60">{{ __('admin.orders.show.fields.tax') }}</span>
-                    <span class="font-medium text-primary-dark">{{ money($tax) }}</span>
-                </div>
                 <div class="pt-3 border-t border-gray-200 flex items-center justify-between">
                     <span class="text-base font-semibold text-primary-dark">{{ __('admin.orders.show.fields.grand_total') }}</span>
                     <span class="text-xl font-bold text-primary-dark">{{ money($grandTotal) }}</span>
+                </div>
+                {{-- VAT included in the total, as stored at checkout (older orders: unknown) --}}
+                <div class="flex items-center justify-between">
+                    <span class="text-primary-dark/60">{{ __('shop.vat.included', ['rate' => $order->hasVat() ? \App\Support\Vat::rateLabel((float) $order->vat_rate) : '—']) }}</span>
+                    <span class="font-medium text-primary-dark">{{ $order->hasVat() ? money($order->vat_amount) : '—' }}</span>
                 </div>
             </div>
         </aside>
