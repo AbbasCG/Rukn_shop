@@ -18,6 +18,8 @@ return [
         'what_account' => 'Je naam, e-mailadres en wachtwoord (alleen versleuteld en onleesbaar opgeslagen), en als je dat wilt je telefoonnummer, adres en een profielfoto.',
         'what_contact_title' => 'Als je het contactformulier gebruikt',
         'what_contact' => 'Je naam, e-mailadres, het onderwerp en je bericht.',
+        'what_review_title' => 'Als je een review schrijft',
+        'what_review' => 'De beoordeling, je review en de naam die je kiest; die worden na goedkeuring in de winkel getoond, nooit je e-mailadres of bestelling. De review blijft gekoppeld aan je bestelling, zodat we weten dat hij van een echte koper komt. Je kunt ons altijd vragen je review te verwijderen.',
         'what_payment_title' => 'Betaling',
         'what_payment_online' => 'Wij zien en bewaren nooit je kaart- of bankgegevens. Online betalingen worden afgehandeld door onze betaaldienst Mollie; wij ontvangen alleen de status van de betaling en een betaalreferentie.',
         'what_payment_cod' => 'Je betaalt bij aflevering. Wij ontvangen en bewaren geen kaart- of bankgegevens.',

@@ -26,6 +26,7 @@
                 ['label' => __('admin.sidebar.items.categories'), 'route' => 'admin.categories.index', 'icon' => 'tag'],
                 ['label' => __('admin.sidebar.items.orders'), 'route' => 'admin.orders.index', 'icon' => 'shopping-bag'],
                 ['label' => __('admin.sidebar.items.messages'), 'route' => 'admin.messages.index', 'icon' => 'envelope', 'badge' => \App\Models\ContactMessage::unread()->count()],
+                ['label' => __('reviews.admin.title'), 'route' => 'admin.reviews.index', 'icon' => 'star', 'badge' => \App\Models\Review::pending()->count()],
                 ['label' => __('admin.sidebar.items.users'), 'route' => 'admin.users.index', 'icon' => 'users'],
             ];
         @endphp
