@@ -34,7 +34,7 @@ return [
         'share_title' => '4. Who receives your data',
         'share_intro' => 'We only share data with companies that help us run the shop, and only what they need. Service providers that process data on our behalf may only use it for that purpose.',
         'share_hosting_title' => 'Hosting',
-        'share_hosting' => 'Our website, database and server logs run at our hosting provider Render.',
+        'share_hosting' => 'Our website, database and server logs run at our hosting provider Hostinger.',
         'share_email_title' => 'Email delivery',
         'share_email' => 'The emails we send you (order confirmation, shipping, password reset) are delivered through our email service provider.',
         'share_mollie' => 'When you pay online, you complete the payment on Mollie\'s secure page. Mollie receives the data needed for the payment and processes it under its own privacy policy.',

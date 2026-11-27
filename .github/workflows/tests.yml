@@ -1,7 +1,6 @@
-# Runs on every push and pull request: the test suite on SQLite and on
-# PostgreSQL (the production database), the front-end build, a security
-# audit of the PHP packages, and a build + smoke test of the Docker image
-# that Render deploys.
+# Runs on every push and pull request: the test suite on SQLite, on MariaDB
+# (the database at Hostinger, where the shop runs) and on PostgreSQL, the
+# front-end build and a security audit of the PHP packages.
 name: Tests
 
 on:
@@ -25,9 +24,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        database: [sqlite, pgsql]
+        database: [sqlite, mariadb, pgsql]
 
     services:
+      mariadb:
+        image: mariadb:10.11
+        env:
+          MARIADB_ROOT_PASSWORD: root
+          MARIADB_DATABASE: rukn_test
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd "healthcheck.sh --connect --innodb_initialized"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
       postgres:
         image: postgres:16
         env:
@@ -47,7 +57,7 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
-          extensions: intl, mbstring, pdo_sqlite, pdo_pgsql, zip, gd
+          extensions: intl, mbstring, pdo_sqlite, pdo_mysql, pdo_pgsql, zip, gd
           coverage: none
 
       - name: Cache Composer packages
@@ -66,6 +76,17 @@ jobs:
 
       - name: Run tests (SQLite)
         if: matrix.database == 'sqlite'
+        run: php vendor/bin/phpunit
+
+      - name: Run tests (MariaDB)
+        if: matrix.database == 'mariadb'
+        env:
+          DB_CONNECTION: mariadb
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: rukn_test
+          DB_USERNAME: root
+          DB_PASSWORD: root
         run: php vendor/bin/phpunit
 
       - name: Run tests (PostgreSQL)
@@ -103,46 +124,3 @@ jobs:
 
       - name: Check PHP packages for known vulnerabilities
         run: composer audit --locked --no-interaction
-
-  docker:
-    name: Docker image (as deployed on Render)
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Build image
-        run: docker build -t rukn:ci .
-
-      - name: Start container and check pages
-        run: |
-          docker run -d --name rukn -p 10000:10000 \
-            -e APP_KEY="base64:$(openssl rand -base64 32)" \
-            -e APP_URL=http://localhost:10000 \
-            -e DB_CONNECTION=sqlite -e DB_DATABASE=/tmp/db.sqlite \
-            -e MAIL_MAILER=log \
-            rukn:ci sh -c "touch /tmp/db.sqlite && chown www-data /tmp/db.sqlite /tmp && docker/start.sh"
-
-          for i in $(seq 1 30); do
-            curl -fs -o /dev/null http://localhost:10000/nl && break
-            sleep 2
-          done
-
-          for path in /nl /ar /en/products /sitemap.xml /robots.txt /nl/login /ar/privacy-policy; do
-            code=$(curl -s -o /dev/null -w '%{http_code}' "http://localhost:10000${path}")
-            echo "${path} -> ${code}"
-            test "$code" = 200
-          done
-
-          docker exec rukn php -r 'foreach (["intl", "pdo_pgsql", "zip", "Zend OPcache"] as $e) { if (! extension_loaded($e)) { fwrite(STDERR, "missing extension: $e\n"); exit(1); } } echo "extensions ok\n";'
-          docker exec rukn pgrep -f "queue:work" > /dev/null && echo "queue worker running"
-
-          # Uploaded files (product photos on the local disk) must be reachable.
-          docker exec rukn sh -c 'echo ok > storage/app/public/ci-check.txt'
-          code=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:10000/storage/ci-check.txt)
-          echo "/storage/ci-check.txt -> ${code}"
-          test "$code" = 200
-
-      - name: Container logs
-        if: always()
-        run: docker logs rukn 2>&1 | tail -100 || true

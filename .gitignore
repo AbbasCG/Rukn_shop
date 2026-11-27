@@ -23,7 +23,7 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 
-# Environment files for any target (e.g. .env_render) — never commit secrets
+# Environment files for any target (e.g. .env_production) — never commit secrets
 .env_*
 .env.*
 !.env.example

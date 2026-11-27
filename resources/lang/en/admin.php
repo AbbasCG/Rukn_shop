@@ -604,6 +604,6 @@ return [
         'retried' => 'The emails will be sent again in a moment.',
         'discarded' => 'The failed emails were discarded.',
         'stuck_title' => ':count email(s) have been waiting for more than :minutes minutes',
-        'stuck_text' => 'The background process that sends emails does not seem to be running. Restart the service on Render; if this keeps happening, check the logs.',
+        'stuck_text' => 'The scheduled task that sends emails does not seem to be running. Check the cron job in hPanel (Advanced → Cron Jobs); if this keeps happening, check the logs.',
     ],
 ];

@@ -14,7 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // Render (and similar hosts) terminate HTTPS at their proxy and forward
+        // Hostinger's CDN (and similar hosts) terminate HTTPS at their proxy and forward
         // over HTTP. Trusting it makes Laravel see the real scheme and client IP,
         // so generated URLs (canonical, sitemap, og:url, emails) use https and
         // rate limits apply per visitor instead of per proxy.

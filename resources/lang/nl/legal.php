@@ -34,7 +34,7 @@ return [
         'share_title' => '4. Wie je gegevens ontvangt',
         'share_intro' => 'We delen gegevens alleen met bedrijven die ons helpen de winkel te laten draaien, en alleen wat zij nodig hebben. Dienstverleners die gegevens namens ons verwerken, mogen ze alleen daarvoor gebruiken.',
         'share_hosting_title' => 'Hosting',
-        'share_hosting' => 'Onze website, database en serverlogs draaien bij onze hostingpartij Render.',
+        'share_hosting' => 'Onze website, database en serverlogs draaien bij onze hostingpartij Hostinger.',
         'share_email_title' => 'Verzending van e-mails',
         'share_email' => 'De e-mails die we je sturen (orderbevestiging, verzending, wachtwoord herstellen) worden bezorgd via onze e-maildienst.',
         'share_mollie' => 'Als je online betaalt, rond je de betaling af op de beveiligde pagina van Mollie. Mollie ontvangt de gegevens die nodig zijn voor de betaling en verwerkt die volgens haar eigen privacybeleid.',

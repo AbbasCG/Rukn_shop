@@ -604,6 +604,6 @@ return [
         'retried' => 'De e-mails worden zo opnieuw verstuurd.',
         'discarded' => 'De mislukte e-mails zijn verwijderd.',
         'stuck_title' => ':count e-mail(s) wachten al langer dan :minutes minuten',
-        'stuck_text' => 'Het achtergrondproces dat e-mails verstuurt lijkt niet te draaien. Herstart de service op Render; gebeurt dit vaker, bekijk dan de logs.',
+        'stuck_text' => 'De geplande taak die e-mails verstuurt lijkt niet te draaien. Controleer de cronjob in hPanel (Geavanceerd → Cron Jobs); gebeurt dit vaker, bekijk dan de logs.',
     ],
 ];

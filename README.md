@@ -41,22 +41,60 @@ npm run dev
 php vendor/bin/phpunit
 ```
 
-تعمل على SQLite في الذاكرة. للتجربة على PostgreSQL مرّر `DB_CONNECTION=pgsql` مع بيانات الاتصال.
+تعمل على SQLite في الذاكرة. للتجربة على MariaDB/MySQL (قاعدة Hostinger) مرّر `DB_CONNECTION=mariadb` مع بيانات الاتصال. وعلى GitHub تعمل تلقائياً على SQLite و MariaDB و PostgreSQL مع كل تعديل.
 
-## النشر (Render بـ Docker)
+## النشر على Hostinger (عبر SSH)
 
-الـ `Dockerfile` يبني صورة إنتاج (Apache + PHP 8.3 مع intl و opcache و pdo_pgsql). عند كل تشغيل، `docker/start.sh`:
+المتجر يعمل على استضافة Hostinger، والدومين يشير إلى مجلد `public` في المشروع. خطوات نشر تحديث جديد بعد الدخول بـ SSH إلى مجلد المشروع:
 
-1. يستمع على المنفذ `$PORT` الذي يعطيه Render.
-2. يطبّق تحديثات قاعدة البيانات (`migrate --force`). لإيقافها: `RUN_MIGRATIONS=false`.
-3. يجهّز الكاش (`php artisan optimize`).
-4. يشغّل في الخلفية عملية ترسل الإيميلات (`queue:work`)، وتعيد تشغيل نفسها إذا توقفت. لإيقافها (إذا استخدمت خدمة Worker منفصلة): `RUN_QUEUE_WORKER=false`.
+1. **نسخة احتياطية من قاعدة البيانات** من hPanel ← Databases ← phpMyAdmin ← Export.
+2. سحب الكود الجديد:
+
+```bash
+git pull origin main
+```
+
+3. تثبيت مكتبات PHP بدون أدوات التطوير:
+
+```bash
+composer install --no-dev --optimize-autoloader --no-interaction
+```
+
+4. بناء ملفات التصميم (إذا لم يكن Node.js متوفراً على السيرفر، شغّل الأمر على جهازك وارفع مجلد `public/build`):
+
+```bash
+npm ci && npm run build
+```
+
+5. تحديثات قاعدة البيانات، ثم ربط مجلد الصور، ثم تجهيز الكاش:
+
+```bash
+php artisan migrate --force
+```
+
+```bash
+php artisan storage:link
+```
+
+```bash
+php artisan optimize
+```
+
+**لا تشغّل `php artisan db:seed` على السيرفر:** هو لبيانات التجربة فقط، ويُنشئ حسابات مدير بكلمة سر معروفة.
+
+### إرسال الإيميلات (Cron Job)
+
+الاستضافة المشتركة لا تسمح بعملية تعمل باستمرار، فالإيميلات تُرسل بمهمة مجدولة كل دقيقة. في hPanel ← Advanced ← Cron Jobs أضف مهمة **كل دقيقة** بهذا الأمر (مع مسار مشروعك، ومسار PHP كما يعرضه hPanel):
+
+```bash
+cd /home/USER/domains/rukn.nl/PROJECT && php artisan queue:work --stop-when-empty --max-time=50 --tries=4 >/dev/null 2>&1
+```
 
 ### الإيميلات في الخلفية
 
-كل إيميلات المتجر (الترحيب، تأكيد الطلب، إشعار المتجر، الشحن، كلمة السر، رسائل التواصل) تُوضع في طابور في قاعدة البيانات (`QUEUE_CONNECTION=database`) وترسلها العملية الخلفية، فلا ينتظر العميل سيرفر البريد. إذا فشل الإرسال تُعاد المحاولة بعد دقيقة، ثم 5 دقائق، ثم 30 دقيقة.
+كل إيميلات المتجر (الترحيب، تأكيد الطلب، إشعار المتجر، الشحن، كلمة السر، رسائل التواصل) تُوضع في طابور في قاعدة البيانات (`QUEUE_CONNECTION=database`) وترسلها المهمة المجدولة (Cron Job)، فلا ينتظر العميل سيرفر البريد. إذا فشل الإرسال تُعاد المحاولة بعد دقيقة، ثم 5 دقائق، ثم 30 دقيقة.
 
-إذا بقي إيميل فاشلاً بعد كل المحاولات، تظهر رسالة في لوحة التحكم مع زرّي "إعادة الإرسال" و"حذف". وتظهر أيضاً إذا كانت إيميلات تنتظر أكثر من 15 دقيقة (أي أن العملية الخلفية لا تعمل). من الطرفية:
+إذا بقي إيميل فاشلاً بعد كل المحاولات، تظهر رسالة في لوحة التحكم مع زرّي "إعادة الإرسال" و"حذف". وتظهر أيضاً إذا كانت إيميلات تنتظر أكثر من 15 دقيقة (أي أن المهمة المجدولة لا تعمل). من الطرفية:
 
 ```bash
 php artisan queue:failed
@@ -71,7 +109,8 @@ php artisan queue:retry all
 | المتغير | الغرض |
 |---|---|
 | `APP_KEY`, `APP_URL`, `APP_DEBUG=false` | أساسية |
-| `DB_CONNECTION=pgsql`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` | قاعدة البيانات |
+| `DB_CONNECTION=mysql`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` | قاعدة البيانات (MySQL/MariaDB من hPanel) |
+| `QUEUE_CONNECTION=database` | الإيميلات في الطابور (لا تضع `sync`) |
 | `MAIL_MAILER=smtp`, `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD`, `MAIL_FROM_ADDRESS` | إرسال الإيميلات |
 | `MOLLIE_KEY` | الدفع أونلاين (ابدأ بمفتاح `test_`) |
 | `SHOP_PAYMENT_COD` | الدفع عند الاستلام (`true`/`false`) |
@@ -80,13 +119,13 @@ php artisan queue:retry all
 | `SHOP_SHIPPING_FLAT_RATE`, `SHOP_FREE_SHIPPING_THRESHOLD`, `SHOP_DELIVERY_DAYS_MIN/MAX`, `SHOP_RETURN_DAYS` | سياسة الشحن والإرجاع (كل نصوص المتجر تقرأ منها) |
 | `SHOP_SOCIAL_INSTAGRAM`, `SHOP_SOCIAL_FACEBOOK`, `SHOP_SOCIAL_X`, `SHOP_SOCIAL_TIKTOK` | روابط الفوتر. الفارغ يُخفى |
 
-القائمة الكاملة مع الشرح في `.env.example`.
+هذه المتغيرات تُكتب في ملف `.env` على السيرفر، والقائمة الكاملة مع الشرح في `.env.example`.
 
 ### صور المنتجات (Cloudflare R2)
 
 الصور التي تُرفع من لوحة التحكم (صور المنتجات والصور الشخصية) تُحفظ في "قرص الوسائط":
 
-- **افتراضياً** (`SHOP_MEDIA_DISK=public`) على قرص السيرفر في `storage/app/public`. على Render يُمسح هذا مع كل نشر، إلا إذا ربطت Persistent Disk على `/var/www/html/storage/app/public`.
+- **افتراضياً** (`SHOP_MEDIA_DISK=public`) على قرص السيرفر في `storage/app/public`، وتُعرض عبر الرابط `public/storage` (يُنشئه `php artisan storage:link`). على Hostinger تبقى الصور محفوظة بين التحديثات، فلا تحتاج R2 إلا إذا أردت ذلك.
 - **مع R2** (`SHOP_MEDIA_DISK=r2`) تُرفع إلى Cloudflare R2 وتُعرض من رابطه العام، فلا تتأثر بالنشر.
 
 متغيرات R2:
@@ -111,4 +150,3 @@ php artisan media:copy
 - `config/shop.php`: كل إعدادات المتجر.
 - `resources/lang/{nl,en,ar}/`: النصوص بالثلاث لغات.
 - `resources/views/emails/`: قوالب الإيميلات.
-- `docker/`: إعدادات Apache و PHP وسكربت التشغيل.
