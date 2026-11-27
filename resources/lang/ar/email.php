@@ -37,6 +37,7 @@ return [
         'view_order' => 'عرض طلبك',
         'returns' => 'يمكنك إرجاع القطع خلال :return_days يوماً من استلامها.',
         'questions' => 'لديك سؤال؟ ردّ على هذا الإيميل أو راسلنا على :email.',
+        'invoice_attached' => 'فاتورتك رقم :number مرفقة بهذه الرسالة (PDF).',
         'thanks' => 'شكراً لتسوقك من ركن.',
         'unavailable_product' => 'منتج',
     ],

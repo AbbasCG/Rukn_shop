@@ -31,6 +31,7 @@ class Order extends Model
         'tracking_carrier', 'tracking_number', 'tracking_url', 'shipped_at',
         'delivered_at', 'review_requested_at',
         'vat_rate', 'vat_amount',
+        'invoice_number', 'invoiced_at',
     ];
 
     protected $casts = [
@@ -40,6 +41,7 @@ class Order extends Model
         'review_requested_at' => 'datetime',
         'vat_rate' => 'decimal:2',
         'vat_amount' => 'decimal:2',
+        'invoiced_at' => 'datetime',
     ];
 
     protected $hidden = ['access_token'];
@@ -218,5 +220,20 @@ class Order extends Model
     public function hasVat(): bool
     {
         return $this->vat_rate !== null && $this->vat_amount !== null;
+    }
+
+    public function hasInvoice(): bool
+    {
+        return $this->invoice_number !== null;
+    }
+
+    /** Private link to the invoice PDF (works without an account). */
+    public function invoiceUrl(?string $locale = null): string
+    {
+        return route('invoices.show', [
+            'locale' => $locale ?? $this->locale ?? app()->getLocale(),
+            'order' => $this->id,
+            'token' => $this->access_token,
+        ]);
     }
 }
