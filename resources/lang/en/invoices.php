@@ -16,6 +16,7 @@ return [
     'unit_price' => 'Unit price',
     'amount' => 'Amount',
     'shipping' => 'Shipping',
+    'coupon' => 'discount code :code',
     'free' => 'Free',
     'total_excl' => 'Total excl. VAT',
     'vat' => 'VAT :rate%',
@@ -61,6 +62,8 @@ return [
             'quantity' => 'Quantity',
             'unit_price' => 'Unit price incl. VAT',
             'line_total' => 'Line total incl. VAT',
+            'coupon' => 'Discount code',
+            'discount' => 'Discount (shipping saved)',
         ],
     ],
 ];

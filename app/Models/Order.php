@@ -32,6 +32,7 @@ class Order extends Model
         'delivered_at', 'review_requested_at',
         'vat_rate', 'vat_amount',
         'invoice_number', 'invoiced_at',
+        'coupon_code', 'discount_amount',
     ];
 
     protected $casts = [
@@ -42,6 +43,7 @@ class Order extends Model
         'vat_rate' => 'decimal:2',
         'vat_amount' => 'decimal:2',
         'invoiced_at' => 'datetime',
+        'discount_amount' => 'decimal:2',
     ];
 
     protected $hidden = ['access_token'];
@@ -235,5 +237,15 @@ class Order extends Model
             'order' => $this->id,
             'token' => $this->access_token,
         ]);
+    }
+
+    /** Shipping as shown to people: "Free (code GRATIS)", "€ 4,95" or "Free". */
+    public function shippingText(): string
+    {
+        if (filled($this->coupon_code)) {
+            return __('cart.coupon.shipping_with_code', ['code' => $this->coupon_code]);
+        }
+
+        return (float) $this->shipping_cost > 0 ? money($this->shipping_cost) : __('cart.summary.free');
     }
 }

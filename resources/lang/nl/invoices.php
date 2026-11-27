@@ -16,6 +16,7 @@ return [
     'unit_price' => 'Prijs per stuk',
     'amount' => 'Bedrag',
     'shipping' => 'Verzendkosten',
+    'coupon' => 'kortingscode :code',
     'free' => 'Gratis',
     'total_excl' => 'Totaal excl. btw',
     'vat' => 'Btw :rate%',
@@ -61,6 +62,8 @@ return [
             'quantity' => 'Aantal',
             'unit_price' => 'Prijs per stuk incl. btw',
             'line_total' => 'Regeltotaal incl. btw',
+            'coupon' => 'Kortingscode',
+            'discount' => 'Korting (bespaarde verzending)',
         ],
     ],
 ];

@@ -58,7 +58,7 @@
                     </div>
                     <div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
                         <p class="text-xs uppercase tracking-wide text-neutral-500">{{ __('orders.summary.shipping') }}</p>
-                        <p class="mt-1 text-lg font-semibold text-primary-dark">{{ money($order->shipping_cost) }}</p>
+                        <p class="mt-1 text-lg font-semibold text-primary-dark">{{ $order->shippingText() }}</p>
                     </div>
                     <div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
                         <p class="text-xs uppercase tracking-wide text-neutral-500">{{ __('orders.summary.payment_method') }}</p>

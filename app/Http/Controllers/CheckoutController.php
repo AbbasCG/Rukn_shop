@@ -12,6 +12,7 @@ use App\Support\OrderMails;
 use App\Support\OrderPayment;
 use App\Support\OrderStock;
 use App\Support\Payments;
+use App\Support\CartTotals;
 use App\Support\Shipping;
 use App\Support\Vat;
 use Illuminate\Http\Request;
@@ -31,9 +32,10 @@ class CheckoutController extends Controller
         // Always the current price (the variant's, else the product's): a price
         // changed after the item was added to the cart applies at checkout.
         $subtotal = $cartItems->sum(fn (Cart $item) => $item->unitPrice() * $item->quantity);
-        $shipping = Shipping::cost((float) $subtotal);
-        $total = $subtotal + $shipping;
-        return view('checkout.index', compact('cartItems', 'subtotal', 'shipping', 'total'));
+        $totals = CartTotals::for((float) $subtotal);
+        $shipping = $totals->shipping;
+        $total = $totals->total;
+        return view('checkout.index', compact('cartItems', 'subtotal', 'shipping', 'total', 'totals'));
     }
 
     public function store(Request $request)
@@ -112,8 +114,10 @@ class CheckoutController extends Controller
             }
 
             $subtotal = collect($lines)->sum(fn ($line) => $line['price'] * $line['qty']);
-            $shipping = Shipping::cost((float) $subtotal);
-            $total = $subtotal + $shipping;
+            // Re-checked now: a code may have been switched off since the cart page.
+            $totals = CartTotals::for((float) $subtotal);
+            $shipping = $totals->shipping;
+            $total = $totals->total;
 
             $order = Order::create([
                 'user_id' => $userId,
@@ -135,7 +139,13 @@ class CheckoutController extends Controller
                 // Prices include VAT; keep the figures of this moment on the order.
                 'vat_rate' => Vat::rate(),
                 'vat_amount' => Vat::included((float) $total),
+                'coupon_code' => $totals->couponApplies() ? $totals->coupon->code : null,
+                'discount_amount' => $totals->discount,
             ]);
+
+            if ($totals->couponApplies()) {
+                $totals->coupon->increment('uses_count');
+            }
 
             foreach ($lines as $line) {
                 OrderItem::create([
@@ -215,6 +225,10 @@ class CheckoutController extends Controller
             DB::transaction(function () use ($order) {
                 OrderStock::release($order);
                 $order->forceFill(['status' => 'cancelled', 'payment_status' => 'failed'])->save();
+                // The order never happened: its discount code use does not count.
+                if ($order->coupon_code) {
+                    \App\Models\Coupon::where('code', $order->coupon_code)->where('uses_count', '>', 0)->decrement('uses_count');
+                }
             });
 
             return redirect()->route('checkout.index')->withInput()
@@ -228,6 +242,8 @@ class CheckoutController extends Controller
 
     private function clearCart(?int $userId): void
     {
+        session()->forget(CartTotals::SESSION_KEY);
+
         if ($userId) {
             Cart::where('user_id', $userId)->delete();
         } else {

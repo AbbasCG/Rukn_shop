@@ -50,4 +50,16 @@ return [
         'choose_variant' => 'يرجى اختيار المقاس واللون أولاً.',
         'stock_limited' => 'المتوفر في المخزون :count فقط. تم تعديل الكمية في سلتك.',
     ],
+    'coupon' => [
+        'label' => 'كود الخصم',
+        'placeholder' => 'اكتب الكود',
+        'apply' => 'تطبيق',
+        'remove' => 'إزالة',
+        'invalid' => 'هذا الكود غير موجود أو لم يعد صالحاً.',
+        'applied' => 'تم تطبيق الكود :code.',
+        'removed' => 'تمت إزالة كود الخصم.',
+        'active_free_shipping' => 'الكود :code: شحن مجاني',
+        'below_minimum' => 'الكود :code يعطي شحناً مجانياً عند شراء منتجات بقيمة :amount أو أكثر.',
+        'shipping_with_code' => 'مجاني (الكود :code)',
+    ],
 ];
