@@ -76,7 +76,7 @@ return [
         'section_1_content' => 'By accessing and using this website, you accept and agree to be bound by the terms and provisions of this agreement. If you do not agree to these terms, please do not use our website.',
         
         'section_2_title' => 'Products and Pricing',
-        'section_2_content' => 'All products are subject to availability. We reserve the right to limit quantities and discontinue products at any time. Prices are subject to change without notice. We strive to display accurate pricing information, but errors may occur. In such cases, we reserve the right to refuse or cancel orders.',
+        'section_2_content' => 'All prices are in euros and include :vat% VAT. Shipping costs are shown separately before you place your order. Products are available while stock lasts. Prices may change for future orders; the price shown when you order is the price you pay. If a price is obviously wrong, we may cancel the order and refund anything you paid.',
         
         'section_3_title' => 'Orders and Payment',
         'section_3_content' => 'Your order is an offer to buy; the agreement is concluded when we confirm your order by email. You pay with one of the methods offered at checkout: online on a secure payment page or on delivery, depending on what is available. If an item turns out to be unavailable after all, we let you know straight away and refund anything you have already paid.',

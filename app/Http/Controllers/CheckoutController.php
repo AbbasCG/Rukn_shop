@@ -13,6 +13,7 @@ use App\Support\OrderPayment;
 use App\Support\OrderStock;
 use App\Support\Payments;
 use App\Support\Shipping;
+use App\Support\Vat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -131,6 +132,9 @@ class CheckoutController extends Controller
                 'subtotal' => $subtotal,
                 'shipping_cost' => $shipping,
                 'total' => $total,
+                // Prices include VAT; keep the figures of this moment on the order.
+                'vat_rate' => Vat::rate(),
+                'vat_amount' => Vat::included((float) $total),
             ]);
 
             foreach ($lines as $line) {

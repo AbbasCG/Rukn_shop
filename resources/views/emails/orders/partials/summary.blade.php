@@ -37,6 +37,12 @@
                                     <td style="padding:10px 0 0; text-align:{{ $start }}; font-size:16px; font-weight:bold;">{{ __('email.order.total') }}</td>
                                     <td style="padding:10px 0 0; text-align:{{ $end }}; font-size:16px; font-weight:bold;">{{ money($order->total) }}</td>
                                 </tr>
+                                @if ($order->hasVat())
+                                    <tr>
+                                        <td style="padding:2px 0 0; text-align:{{ $start }}; font-size:12px; color:{{ $muted }};">{{ __('shop.vat.included', ['rate' => \App\Support\Vat::rateLabel((float) $order->vat_rate)]) }}</td>
+                                        <td style="padding:2px 0 0; text-align:{{ $end }}; font-size:12px; color:{{ $muted }};">{{ money($order->vat_amount) }}</td>
+                                    </tr>
+                                @endif
                             </table>
                         </td>
                     </tr>

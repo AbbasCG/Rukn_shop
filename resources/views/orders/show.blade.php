@@ -45,6 +45,9 @@
                     <div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
                         <p class="text-xs uppercase tracking-wide text-neutral-500">{{ __('orders.summary.total') }}</p>
                         <p class="mt-1 text-2xl font-bold text-primary-dark">{{ money($order->total) }}</p>
+                        @if ($order->hasVat())
+                            <p class="mt-1 text-xs text-neutral-500">{{ __('shop.vat.included', ['rate' => \App\Support\Vat::rateLabel((float) $order->vat_rate)]) }}: {{ money($order->vat_amount) }}</p>
+                        @endif
                     </div>
                     <div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
                         <p class="text-xs uppercase tracking-wide text-neutral-500">{{ __('orders.summary.subtotal') }}</p>
