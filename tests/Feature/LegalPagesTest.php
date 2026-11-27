@@ -148,6 +148,8 @@ class LegalPagesTest extends TestCase
             ->assertSee('7 years')
             ->assertSee('Autoriteit Persoonsgegevens')
             ->assertDontSee('Bunny')
+            ->assertSee('Hostinger')
+            ->assertDontSee('Render')
             ->assertSee('href="' . route('cookies', ['locale' => 'en']) . '"', false);
     }
 

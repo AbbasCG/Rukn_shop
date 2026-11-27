@@ -3,13 +3,13 @@
 /*
 | Store policies. The storefront texts (product page, FAQ, terms, cart)
 | read these values, so changing them here keeps prices and promises in
-| sync. Each value can be overridden from the environment on Render.
+| sync. Each value can be overridden from the server's .env file.
 */
 
 return [
     // The legal identity of the shop, shown on the withdrawal form and legal
     // pages. Dutch law expects the business address (and KvK number) to be
-    // shown to customers: fill these in on Render.
+    // shown to customers: fill these in in the server's .env file.
     'business' => [
         'name' => env('SHOP_BUSINESS_NAME', 'Rukn'),
         'address' => env('SHOP_BUSINESS_ADDRESS'),     // e.g. "Damrak 1, 1012 LG Amsterdam, Nederland"
