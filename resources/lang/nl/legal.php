@@ -68,7 +68,7 @@ return [
     'terms' => [
         'title' => 'Algemene Voorwaarden',
         'last_updated' => 'Laatst bijgewerkt',
-        'intro' => 'Welkom bij Rukn Shop. Door onze website te bezoeken en te gebruiken, gaat u akkoord met deze Algemene Voorwaarden. Lees ze zorgvuldig door voordat u een aankoop doet.',
+        'intro' => 'Deze voorwaarden gelden voor elke bestelling in de webwinkel van :name. Lees ze even door voordat je bestelt.',
         
         'section_1_title' => 'Acceptatie van voorwaarden',
         'section_1_content' => 'Door deze website te bezoeken en te gebruiken, accepteert u de voorwaarden van deze overeenkomst en gaat u ermee akkoord. Als u niet akkoord gaat met deze voorwaarden, gebruik dan onze website niet.',
@@ -77,28 +77,28 @@ return [
         'section_2_content' => 'Alle producten zijn onder voorbehoud van beschikbaarheid. We behouden ons het recht voor om hoeveelheden te beperken en producten op elk moment te staken. Prijzen kunnen zonder voorafgaande kennisgeving worden gewijzigd. We streven ernaar nauwkeurige prijsinformatie weer te geven, maar er kunnen fouten optreden. In dergelijke gevallen behouden we ons het recht voor om bestellingen te weigeren of te annuleren.',
         
         'section_3_title' => 'Bestellingen en betaling',
-        'section_3_content' => 'Door een bestelling te plaatsen, doet u een aanbod om producten te kopen volgens deze voorwaarden. Alle bestellingen zijn onder voorbehoud van acceptatie en beschikbaarheid. We accepteren verschillende betaalmethoden zoals weergegeven tijdens het afrekenen. Betaling moet worden ontvangen voordat de bestelling wordt verwerkt.',
+        'section_3_content' => 'Je bestelling is een aanbod om te kopen; de overeenkomst komt tot stand zodra we je bestelling per e-mail bevestigen. Je betaalt met een van de betaalmethoden die bij het afrekenen worden aangeboden: online op een beveiligde betaalpagina of bij aflevering, afhankelijk van wat beschikbaar is. Blijkt een artikel toch niet leverbaar, dan laten we je dat meteen weten en betalen we terug wat je al hebt betaald.',
         
         'section_4_title' => 'Verzending en levering',
         'section_4_content' => 'We verzenden naar adressen in de Europese Unie. Binnen Nederland duurt de levering meestal :min_days–:max_days werkdagen; naar andere EU-landen kan het langer duren. Levertijden zijn een indicatie. Bestellingen vanaf :threshold worden gratis verzonden; daaronder bedragen de verzendkosten :rate. Het risico van verlies gaat bij levering op jou over.',
         
         'section_5_title' => 'Retourneren en herroepingsrecht',
-        'section_5_content' => 'Je hebt het recht om je aankoop binnen :return_days dagen na ontvangst zonder opgave van redenen te herroepen. Laat het ons weten via info@rukn.nl. Stuur de artikelen ongebruikt en in de originele verpakking binnen 14 dagen na je melding terug; de kosten van het terugsturen zijn voor jouw rekening. We betalen het aankoopbedrag, inclusief de oorspronkelijke standaardverzendkosten, binnen 14 dagen na je melding terug, maar mogen wachten tot we de artikelen hebben ontvangen. Terugbetaling gebeurt per bankoverschrijving.',
+        'section_5_content' => 'Je hebt het recht om je aankoop binnen :return_days dagen na ontvangst zonder opgave van redenen te herroepen. Laat het ons weten via :email. Stuur de artikelen ongebruikt en in de originele verpakking binnen 14 dagen na je melding terug; de kosten van het terugsturen zijn voor jouw rekening. We betalen het aankoopbedrag, inclusief de oorspronkelijke standaardverzendkosten, binnen 14 dagen na je melding terug, maar mogen wachten tot we de artikelen hebben ontvangen. We betalen terug via dezelfde betaalmethode die je hebt gebruikt; bestellingen die bij aflevering zijn betaald, betalen we terug per bankoverschrijving.',
         
         'section_6_title' => 'Intellectueel eigendom',
-        'section_6_content' => 'Alle inhoud op deze website, inclusief tekst, afbeeldingen, logo\'s en ontwerpen, is eigendom van Rukn Shop en beschermd door auteurs- en merkrechten. U mag zonder onze uitdrukkelijke schriftelijke toestemming geen reproducties, distributies of afgeleide werken maken.',
+        'section_6_content' => 'Alle inhoud op deze website, zoals teksten, afbeeldingen, logo\'s en ontwerpen, is van :name en beschermd door het auteurs- en merkenrecht. Je mag deze niet kopiëren, verspreiden of hergebruiken zonder onze schriftelijke toestemming.',
         
         'section_7_title' => 'Beperking van aansprakelijkheid',
-        'section_7_content' => 'Voor zover wettelijk toegestaan, is Rukn Shop niet aansprakelijk voor indirecte, incidentele, speciale of gevolgschade voortvloeiend uit of gerelateerd aan uw gebruik van onze website of producten.',
+        'section_7_content' => 'Niets in deze voorwaarden beperkt je rechten als consument, waaronder de wettelijke garantie dat een product moet zijn zoals beschreven en geschikt voor normaal gebruik. Is een product kapot of niet zoals beschreven, neem dan contact op via :email; we herstellen, vervangen of vergoeden het zoals de wet voorschrijft. Daarnaast zijn we, voor zover de wet dat toestaat, niet aansprakelijk voor indirecte schade.',
         
         'section_8_title' => 'Wijzigingen in voorwaarden',
-        'section_8_content' => 'We behouden ons het recht voor om deze Algemene Voorwaarden op elk moment te wijzigen. Wijzigingen worden onmiddellijk van kracht na publicatie. Uw voortgezet gebruik van de website na wijzigingen vormt acceptatie van de gewijzigde voorwaarden.',
+        'section_8_content' => 'We kunnen deze voorwaarden in de toekomst wijzigen. Op je bestelling zijn altijd de voorwaarden van toepassing die golden op de dag dat je bestelde.',
         
         'section_9_title' => 'Toepasselijk recht',
-        'section_9_content' => 'Deze Algemene Voorwaarden worden beheerst door en geïnterpreteerd in overeenstemming met de wetten van Nederland. Eventuele geschillen vallen onder de exclusieve jurisdictie van de rechtbanken in Nederland.',
+        'section_9_content' => 'Op deze voorwaarden en je bestelling is Nederlands recht van toepassing. Woon je in een ander EU-land, dan behoud je de bescherming van de dwingende consumentenregels van dat land en kun je een geschil ook voorleggen aan de rechter van je woonplaats.',
         
         'section_10_title' => 'Contactinformatie',
-        'section_10_content' => 'Voor vragen over deze Algemene Voorwaarden kunt u contact met ons opnemen viainfo@rukn.nl of onze contactpagina.',
+        'section_10_content' => 'Vragen over deze voorwaarden? Mail ons via :email of gebruik onze contactpagina.',
     ],
     'cookies' => [
         'title' => 'Cookiebeleid',

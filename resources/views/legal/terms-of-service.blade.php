@@ -1,3 +1,4 @@
+@php($who = ['name' => config('shop.business.name'), 'email' => config('shop.contact_email')])
 <x-app-layout :title="__('seo.terms_title')" :description="__('seo.terms_description')">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
         <!-- Header -->
@@ -10,7 +11,7 @@
         <section class="bg-white rounded-3xl shadow-xl border border-primary-gray/50 p-8 space-y-6 text-start">
             <!-- Introduction -->
             <div class="pb-6 border-b border-primary-gray/30">
-                <p class="text-primary-dark/80 leading-relaxed">{{ __('legal.terms.intro') }}</p>
+                <p class="text-primary-dark/80 leading-relaxed">{{ policy_text('legal.terms.intro', $who) }}</p>
             </div>
 
             <!-- Section 1 -->
@@ -28,7 +29,7 @@
             <!-- Section 3 -->
             <div>
                 <h2 class="text-2xl font-semibold text-primary-dark mb-3">{{ __('legal.terms.section_3_title') }}</h2>
-                <p class="text-primary-dark/80 leading-relaxed">{{ __('legal.terms.section_3_content') }}</p>
+                <p class="text-primary-dark/80 leading-relaxed">{{ policy_text('legal.terms.section_3_content', $who) }}</p>
             </div>
 
             <!-- Section 4 -->
@@ -40,38 +41,38 @@
             <!-- Section 5 -->
             <div>
                 <h2 class="text-2xl font-semibold text-primary-dark mb-3">{{ __('legal.terms.section_5_title') }}</h2>
-                <p class="text-primary-dark/80 leading-relaxed">{{ policy_text('legal.terms.section_5_content') }}</p>
+                <p class="text-primary-dark/80 leading-relaxed">{{ policy_text('legal.terms.section_5_content', $who) }}</p>
                 <p class="mt-3"><a href="{{ r('withdrawal-form') }}" class="font-semibold text-primary-dark underline underline-offset-4">{{ __('footer.links.withdrawal') }}</a></p>
             </div>
 
             <!-- Section 6 -->
             <div>
                 <h2 class="text-2xl font-semibold text-primary-dark mb-3">{{ __('legal.terms.section_6_title') }}</h2>
-                <p class="text-primary-dark/80 leading-relaxed">{{ __('legal.terms.section_6_content') }}</p>
+                <p class="text-primary-dark/80 leading-relaxed">{{ policy_text('legal.terms.section_6_content', $who) }}</p>
             </div>
 
             <!-- Section 7 -->
             <div>
                 <h2 class="text-2xl font-semibold text-primary-dark mb-3">{{ __('legal.terms.section_7_title') }}</h2>
-                <p class="text-primary-dark/80 leading-relaxed">{{ __('legal.terms.section_7_content') }}</p>
+                <p class="text-primary-dark/80 leading-relaxed">{{ policy_text('legal.terms.section_7_content', $who) }}</p>
             </div>
 
             <!-- Section 8 -->
             <div>
                 <h2 class="text-2xl font-semibold text-primary-dark mb-3">{{ __('legal.terms.section_8_title') }}</h2>
-                <p class="text-primary-dark/80 leading-relaxed">{{ __('legal.terms.section_8_content') }}</p>
+                <p class="text-primary-dark/80 leading-relaxed">{{ policy_text('legal.terms.section_8_content', $who) }}</p>
             </div>
 
             <!-- Section 9 -->
             <div>
                 <h2 class="text-2xl font-semibold text-primary-dark mb-3">{{ __('legal.terms.section_9_title') }}</h2>
-                <p class="text-primary-dark/80 leading-relaxed">{{ __('legal.terms.section_9_content') }}</p>
+                <p class="text-primary-dark/80 leading-relaxed">{{ policy_text('legal.terms.section_9_content', $who) }}</p>
             </div>
 
             <!-- Section 10 -->
             <div>
                 <h2 class="text-2xl font-semibold text-primary-dark mb-3">{{ __('legal.terms.section_10_title') }}</h2>
-                <p class="text-primary-dark/80 leading-relaxed">{{ __('legal.terms.section_10_content') }}</p>
+                <p class="text-primary-dark/80 leading-relaxed">{{ policy_text('legal.terms.section_10_content', $who) }}</p>
             </div>
         </section>
 

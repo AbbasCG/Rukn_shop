@@ -2,14 +2,14 @@
 
 return [
     // Hero Section
-    'title' => 'About Rukn Shop',
+    'title' => 'About Rukn',
     'subtitle' => 'Your trusted online store for quality products, fair prices, and friendly service.',
     'description' => 'We curate products we love and stand behind, combining fast shipping, clear communication, and support you can count on — so shopping feels easy and enjoyable.',
     
     // Story Section
     'since' => 'Since 2024',
     'story_title' => 'Our Story',
-    'story_paragraph_1' => 'Rukn Shop started with a simple idea: build a store we\'d love to shop at ourselves. We\'ve grown by listening to customers and refining every step — from selection to delivery.',
+    'story_paragraph_1' => 'Rukn started with a simple idea: build a store we\'d love to shop at ourselves. We\'ve grown by listening to customers and refining every step — from selection to delivery.',
     'story_paragraph_2' => 'What makes us different is our commitment to honest quality, transparent pricing, and responsive support. We believe small details make a big difference.',
     'bullet_1' => 'Curated catalog with everyday value',
     'bullet_2' => 'Fast, reliable shipping',
@@ -31,7 +31,7 @@ return [
     'partners_title' => 'Trusted by partners',
     
     // CTA Section
-    'cta_title' => 'Ready to explore Rukn Shop?',
+    'cta_title' => 'Ready to explore Rukn?',
     'cta_description' => 'Browse our latest arrivals or get in touch — we\'re here to help.',
     'cta_shop_now' => 'Shop Now',
     'cta_contact_us' => 'Contact Us',

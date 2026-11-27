@@ -68,7 +68,7 @@ return [
     'terms' => [
         'title' => 'Terms of Service',
         'last_updated' => 'Last Updated',
-        'intro' => 'Welcome to Rukn Shop. By accessing and using our website, you agree to be bound by these Terms of Service. Please read them carefully before making any purchase.',
+        'intro' => 'These terms apply to every order placed in the online shop of :name. Please read them before you order.',
         
         'section_1_title' => 'Acceptance of Terms',
         'section_1_content' => 'By accessing and using this website, you accept and agree to be bound by the terms and provisions of this agreement. If you do not agree to these terms, please do not use our website.',
@@ -77,28 +77,28 @@ return [
         'section_2_content' => 'All products are subject to availability. We reserve the right to limit quantities and discontinue products at any time. Prices are subject to change without notice. We strive to display accurate pricing information, but errors may occur. In such cases, we reserve the right to refuse or cancel orders.',
         
         'section_3_title' => 'Orders and Payment',
-        'section_3_content' => 'By placing an order, you are offering to purchase products subject to these terms. All orders are subject to acceptance and availability. We accept various payment methods as displayed during checkout. Payment must be received before order processing.',
+        'section_3_content' => 'Your order is an offer to buy; the agreement is concluded when we confirm your order by email. You pay with one of the methods offered at checkout: online on a secure payment page or on delivery, depending on what is available. If an item turns out to be unavailable after all, we let you know straight away and refund anything you have already paid.',
         
         'section_4_title' => 'Shipping and Delivery',
         'section_4_content' => 'We ship to addresses in the European Union. Within the Netherlands, delivery usually takes :min_days–:max_days business days; delivery to other EU countries can take longer. Delivery times are estimates. Orders of :threshold or more ship free; below that, shipping costs :rate. The risk of loss passes to you upon delivery.',
         
         'section_5_title' => 'Returns and right of withdrawal',
-        'section_5_content' => 'You have the right to withdraw from your purchase within :return_days days of receiving your order, without giving a reason. To do so, let us know by email at info@rukn.nl. Return the items unused and in their original packaging within 14 days of notifying us; the cost of returning them is yours. We refund the purchase price, including the original standard shipping cost, within 14 days of receiving your notice, but may wait until we have received the items back. Refunds are made by bank transfer.',
+        'section_5_content' => 'You have the right to withdraw from your purchase within :return_days days of receiving your order, without giving a reason. To do so, let us know by email at :email. Return the items unused and in their original packaging within 14 days of notifying us; the cost of returning them is yours. We refund the purchase price, including the original standard shipping cost, within 14 days of receiving your notice, but may wait until we have received the items back. We refund with the same payment method you used; orders paid on delivery are refunded by bank transfer.',
         
         'section_6_title' => 'Intellectual Property',
-        'section_6_content' => 'All content on this website, including text, images, logos, and designs, is the property of Rukn Shop and protected by copyright and trademark laws. You may not reproduce, distribute, or create derivative works without our express written permission.',
+        'section_6_content' => 'All content on this website, including text, images, logos and designs, belongs to :name and is protected by copyright and trademark law. You may not copy, distribute or reuse it without our written permission.',
         
         'section_7_title' => 'Limitation of Liability',
-        'section_7_content' => 'To the fullest extent permitted by law, Rukn Shop shall not be liable for any indirect, incidental, special, or consequential damages arising out of or related to your use of our website or products.',
+        'section_7_content' => 'Nothing in these terms limits your rights as a consumer, including the legal guarantee that a product must be as described and fit for normal use. If a product is faulty or not as described, contact us at :email and we will repair, replace or refund it as the law provides. Beyond that, and only as far as the law allows, we are not liable for indirect damage.',
         
         'section_8_title' => 'Changes to Terms',
-        'section_8_content' => 'We reserve the right to modify these Terms of Service at any time. Changes will be effective immediately upon posting. Your continued use of the website after changes constitutes acceptance of the modified terms.',
+        'section_8_content' => 'We may change these terms in the future. Your order is always governed by the terms that were shown on the day you placed it.',
         
         'section_9_title' => 'Governing Law',
-        'section_9_content' => 'These Terms of Service are governed by and construed in accordance with the laws of the Netherlands. Any disputes shall be subject to the exclusive jurisdiction of the courts in the Netherlands.',
+        'section_9_content' => 'Dutch law applies to these terms and to your order. If you live in another EU country, you keep the protection of the mandatory consumer rules of that country, and you may also bring a dispute before the court where you live.',
         
         'section_10_title' => 'Contact Information',
-        'section_10_content' => 'For questions about these Terms of Service, please contact us atinfo@rukn.nl or visit our contact page.',
+        'section_10_content' => 'Questions about these terms? Email us at :email or use our contact page.',
     ],
     'cookies' => [
         'title' => 'Cookie policy',

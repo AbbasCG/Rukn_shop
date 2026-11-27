@@ -137,6 +137,12 @@ jobs:
           docker exec rukn php -r 'foreach (["intl", "pdo_pgsql", "zip", "Zend OPcache"] as $e) { if (! extension_loaded($e)) { fwrite(STDERR, "missing extension: $e\n"); exit(1); } } echo "extensions ok\n";'
           docker exec rukn pgrep -f "queue:work" > /dev/null && echo "queue worker running"
 
+          # Uploaded files (product photos on the local disk) must be reachable.
+          docker exec rukn sh -c 'echo ok > storage/app/public/ci-check.txt'
+          code=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:10000/storage/ci-check.txt)
+          echo "/storage/ci-check.txt -> ${code}"
+          test "$code" = 200
+
       - name: Container logs
         if: always()
         run: docker logs rukn 2>&1 | tail -100 || true
