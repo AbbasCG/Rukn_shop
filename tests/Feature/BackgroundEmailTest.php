@@ -21,6 +21,12 @@ class BackgroundEmailTest extends TestCase
     {
         foreach (glob(app_path('Mail/*.php')) as $file) {
             $class = 'App\\Mail\\' . basename($file, '.php');
+            if ($class === \App\Mail\TwoFactorCode::class) {
+                // The only exception: the admin waits on the code page, and
+                // the queue runs once a minute (see TwoFactorTest).
+                $this->assertFalse(is_subclass_of($class, ShouldQueue::class));
+                continue;
+            }
             $this->assertTrue(is_subclass_of($class, ShouldQueue::class), "{$class} should implement ShouldQueue");
             $this->assertSame(4, (new \ReflectionClass($class))->getDefaultProperties()['tries'], $class);
         }
