@@ -117,12 +117,6 @@
             </header>
 
             <main class="p-6 bg-primary-50 dark:bg-primary-50 min-h-full">
-                {{-- Flash messages from controllers (saved, deleted, upload problems…) --}}
-                @foreach (['success' => 'bg-green-50 text-green-800 border-green-200', 'warning' => 'bg-amber-50 text-amber-900 border-amber-200', 'error' => 'bg-red-50 text-red-800 border-red-200'] as $type => $classes)
-                    @if (session($type))
-                        <div role="{{ $type === 'success' ? 'status' : 'alert' }}" class="mb-6 rounded-xl border px-4 py-3 text-sm {{ $classes }}">{{ session($type) }}</div>
-                    @endif
-                @endforeach
                 @yield('content')
             </main>
         </div>

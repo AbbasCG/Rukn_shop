@@ -95,7 +95,7 @@
                 </tr>
             @endforeach
             <tr>
-                <td>{{ __('invoices.shipping') }}</td>
+                <td>{{ __('invoices.shipping') }}@if ($order->coupon_code) ({{ __('invoices.coupon', ['code' => $order->coupon_code]) }})@endif</td>
                 <td class="num">1</td>
                 <td class="num">{{ (float) $order->shipping_cost > 0 ? $eur($order->shipping_cost) : __('invoices.free') }}</td>
                 <td class="num">{{ $eur($order->shipping_cost) }}</td>
