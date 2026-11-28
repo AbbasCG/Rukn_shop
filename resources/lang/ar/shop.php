@@ -14,6 +14,9 @@ return [
     // Search & Filters
     'search_products' => 'البحث عن المنتجات',
     'search_placeholder' => 'ابحث عن المنتجات...',
+    'search_did_you_mean' => 'هل تقصد:',
+    'search_all_results' => 'عرض كل النتائج',
+    'search_corrected' => 'لا توجد نتائج مطابقة تماماً لـ “:query”. النتائج لـ:',
     'filters' => 'المرشحات',
     'apply_filters' => 'تطبيق المرشحات',
     'reset' => 'إعادة تعيين',

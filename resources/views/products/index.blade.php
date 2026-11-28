@@ -26,7 +26,9 @@
                 <!-- Top Row: Search + Filters Button + Sort -->
                 <div class="flex flex-col sm:flex-row gap-3">
                     <!-- Search Input (Prominent) -->
-                    <form method="GET" action="{{ r('products.index') }}" class="flex-1">
+                    <form method="GET" action="{{ r('products.index') }}" class="flex-1" role="search"
+                          x-data="searchSuggest({ url: @js(r('search.suggest')), initial: @js((string) request('q')) })"
+                          @click.outside="open = false" @keydown.escape="open = false">
                         <label for="q" class="sr-only">{{ __('shop.search_products') }}</label>
                         <div class="relative">
                             <input 
@@ -34,9 +36,29 @@
                                 type="text" 
                                 name="q" 
                                 value="{{ request('q') }}" 
+                                x-model="q" @input.debounce.250ms="fetchSuggestions()" @focus="open = items.length > 0"
+                                @keydown.arrow-down.prevent="move(1)" @keydown.arrow-up.prevent="move(-1)" @keydown.enter="choose($event)"
+                                autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="search-suggestions" :aria-expanded="open.toString()"
                                 placeholder="{{ __('shop.search_placeholder') }}" 
                                 class="w-full rounded-2xl border border-primary-gray/60 bg-white ps-11 pe-4 py-3.5 text-sm placeholder-neutral-400 focus:ring-2 focus:ring-primary-dark/20 focus:border-primary-dark transition shadow-sm"
                             />
+                            {{-- Suggestions while typing --}}
+                            <div x-show="open" x-cloak id="search-suggestions" role="listbox"
+                                 class="absolute z-30 mt-2 w-full overflow-hidden rounded-2xl border border-primary-gray/60 bg-white shadow-lg">
+                                <p x-show="corrected" class="px-4 pt-3 text-xs text-neutral-500">{{ __('shop.search_did_you_mean') }} <span class="font-semibold text-primary-dark" x-text="corrected"></span></p>
+                                <template x-for="(item, i) in items" :key="item.url">
+                                    <a :href="item.url" role="option" :aria-selected="(i === active).toString()"
+                                       :class="i === active ? 'bg-primary-gray/40' : ''"
+                                       class="flex items-center gap-3 px-4 py-2.5 hover:bg-primary-gray/40">
+                                        <img :src="item.image" alt="" class="h-12 w-10 flex-shrink-0 rounded-lg object-cover bg-primary-gray" loading="lazy" onerror="this.onerror=null;this.src='{{ asset(\App\Models\Product::FALLBACK_IMAGE) }}'">
+                                        <span class="min-w-0 flex-1">
+                                            <span class="block truncate text-sm font-semibold text-primary-dark" x-text="item.name"></span>
+                                            <span class="block text-xs text-neutral-500" x-text="item.price"></span>
+                                        </span>
+                                    </a>
+                                </template>
+                                <button type="submit" class="block w-full border-t border-primary-gray/60 px-4 py-2.5 text-start text-sm font-semibold text-primary-dark hover:bg-primary-gray/40">{{ __('shop.search_all_results') }}</button>
+                            </div>
                             <svg class="absolute start-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                             </svg>
@@ -260,6 +282,9 @@
                     @foreach($selectedColors as $color)
                         <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-primary-dark/5 text-primary-dark text-xs font-semibold ms-1"><bdi>{{ $colorOptions[mb_strtolower($color)]['name'] ?? $color }}</bdi></span>
                     @endforeach
+                    @if(request('q') && $correctedQuery)
+                        <span class="block mt-1 text-neutral-600">{{ __('shop.search_corrected', ['query' => request('q')]) }} <span class="font-semibold text-primary-dark">{{ $correctedQuery }}</span></span>
+                    @endif
                     @if(request('q'))
                         <span class="text-neutral-500">{{ __('shop.matching') }}</span>
                         <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-primary-dark/5 text-primary-dark text-xs font-semibold ms-1">

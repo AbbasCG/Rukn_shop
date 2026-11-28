@@ -139,6 +139,53 @@ Alpine.data('addToCart', (config) => ({
 	},
 }));
 
+// Shop search: suggestions while typing (products, typo-tolerant).
+// Usage: x-data="searchSuggest({ url, initial })" on the search form.
+Alpine.data('searchSuggest', (config) => ({
+	q: config.initial || '',
+	items: [],
+	corrected: null,
+	open: false,
+	active: -1,
+	controller: null,
+
+	async fetchSuggestions() {
+		const q = this.q.trim();
+		if (q.length < 2) {
+			this.items = [];
+			this.open = false;
+			return;
+		}
+		this.controller?.abort();
+		this.controller = new AbortController();
+		try {
+			const response = await fetch(config.url + '?q=' + encodeURIComponent(q), {
+				headers: { Accept: 'application/json' },
+				signal: this.controller.signal,
+			});
+			const data = await response.json();
+			this.items = data.products || [];
+			this.corrected = data.corrected;
+			this.active = -1;
+			this.open = this.items.length > 0;
+		} catch {
+			// aborted or offline: keep the plain search working
+		}
+	},
+
+	move(step) {
+		if (!this.open || !this.items.length) return;
+		this.active = (this.active + step + this.items.length) % this.items.length;
+	},
+
+	choose(event) {
+		if (this.open && this.active >= 0 && this.items[this.active]) {
+			event.preventDefault();
+			window.location.href = this.items[this.active].url;
+		}
+	},
+}));
+
 // Favourites: the heart on product cards and pages.
 // Usage: x-data="wishlistButton({ url, saved, errorMessage })"
 Alpine.data('wishlistButton', (config) => ({
