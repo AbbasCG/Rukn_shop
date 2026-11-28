@@ -29,6 +29,8 @@ return [
     
     // Filter Labels
     'filter_category' => 'Categorie',
+    'filter_size' => 'Maat',
+    'filter_color' => 'Kleur',
     'filter_all_categories' => 'Alle categorieën',
     'filter_min_price' => 'Min Prijs (€)',
     'filter_max_price' => 'Max Prijs (€)',
