@@ -59,4 +59,15 @@ class OrderItem extends Model
     }
 
     
+
+    public function returnItems()
+    {
+        return $this->hasMany(OrderReturnItem::class);
+    }
+
+    /** Units of this line already returned. */
+    public function returnedQuantity(): int
+    {
+        return (int) $this->returnItems()->sum('quantity');
+    }
 }

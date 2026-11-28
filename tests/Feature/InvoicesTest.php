@@ -239,7 +239,7 @@ class InvoicesTest extends TestCase
         }
         $reader->close();
 
-        $this->assertSame(['Bestellingen', 'Orderregels'], array_keys($sheets));
+        $this->assertSame(['Bestellingen', 'Orderregels', 'Creditfacturen'], array_keys($sheets));
         $orders = $sheets['Bestellingen'];
         $this->assertSame('Bestelling', $orders[0][0]);
         $this->assertCount(2, $orders);                                   // header + 1 (cancelled left out)

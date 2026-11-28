@@ -41,7 +41,12 @@ class OrderExportController extends Controller
         app()->setLocale($previous === 'nl' ? 'nl' : 'en');
 
         try {
-            $path = $this->write($orders);
+            // Credit notes made in the period (whatever the order date).
+            $returns = \App\Models\OrderReturn::with('order')
+                ->whereBetween('created_at', [$from, $to])
+                ->orderBy('created_at')
+                ->get();
+            $path = $this->write($orders, $returns);
         } finally {
             app()->setLocale($previous);
         }
@@ -53,7 +58,7 @@ class OrderExportController extends Controller
         ])->deleteFileAfterSend();
     }
 
-    private function write($orders): string
+    private function write($orders, $returns): string
     {
         $path = tempnam(sys_get_temp_dir(), 'rukn-export-') . '.xlsx';
         $bold = (new Style())->withFontBold(true);
@@ -117,6 +122,28 @@ class OrderExportController extends Controller
                     round((float) $item->price * (int) $item->quantity, 2),
                 ], [2 => $date, 5 => $money, 6 => $money]));
             }
+        }
+
+        // Sheet 3: credit notes (refunds as negative amounts, for the books).
+        $writer->addNewSheetAndMakeItCurrent()->setName(substr($col('sheet_credit_notes'), 0, 31));
+        $writer->addRow(Row::fromValuesWithStyle(array_map($col, [
+            'credit_note', 'credit_date', 'invoice', 'order', 'customer', 'total_incl', 'vat_rate', 'vat', 'total_excl', 'refunded_at', 'reason',
+        ]), $bold));
+
+        foreach ($returns as $return) {
+            $writer->addRow(Row::fromValuesWithStyles([
+                $return->credit_note_number,
+                $return->created_at?->toDateTimeImmutable(),
+                $return->order?->invoice_number,
+                $return->order?->number,
+                $return->order?->name,
+                -1 * (float) $return->total,
+                (float) $return->vat_rate,
+                -1 * (float) $return->vat_amount,
+                -1 * round((float) $return->total - (float) $return->vat_amount, 2),
+                $return->refunded_at?->toDateTimeImmutable(),
+                $return->reason,
+            ], [1 => $date, 5 => $money, 7 => $money, 8 => $money, 9 => $date]));
         }
 
         $writer->close();

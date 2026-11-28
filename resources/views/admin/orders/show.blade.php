@@ -250,6 +250,8 @@
         </aside>
     </div>
 
+    @include('admin.orders.partials.returns', ['order' => $order])
+
     @if($order->notes)
         <section class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8">
             <h2 class="text-lg font-semibold text-primary-dark mb-2">{{ __('admin.orders.show.sections.notes') }}</h2>

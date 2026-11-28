@@ -103,6 +103,8 @@ Route::prefix('{locale}')
         // Invoice PDF, from the private order link.
         Route::get('/orders/invoice/{order}/{token}', [\App\Http\Controllers\InvoiceController::class, 'show'])
             ->whereNumber('order')->where('token', '[A-Za-z0-9]{40}')->middleware('throttle:30,1')->name('invoices.show');
+        Route::get('/orders/credit-note/{order}/{token}/{return}', [\App\Http\Controllers\CreditNoteController::class, 'show'])
+            ->whereNumber('order')->whereNumber('return')->where('token', '[A-Za-z0-9]{40}')->middleware('throttle:30,1')->name('credit-notes.show');
 
         // Reviews by buyers, from the private order link.
         Route::get('/orders/review/{order}/{token}', [\App\Http\Controllers\ReviewController::class, 'create'])
@@ -143,6 +145,10 @@ Route::prefix('{locale}')
             Route::get('/orders/export', [\App\Http\Controllers\Admin\OrderExportController::class, 'download'])->name('orders.export');
             Route::resource('orders', AdminOrderController::class)->only(['index', 'show', 'update']);
             Route::get('/orders/{order}/invoice', [\App\Http\Controllers\InvoiceController::class, 'admin'])->whereNumber('order')->name('orders.invoice');
+            // Returns and credit notes.
+            Route::post('/orders/{order}/returns', [\App\Http\Controllers\Admin\OrderReturnController::class, 'store'])->whereNumber('order')->name('orders.returns.store');
+            Route::post('/returns/{return}/refunded', [\App\Http\Controllers\Admin\OrderReturnController::class, 'refunded'])->whereNumber('return')->name('returns.refunded');
+            Route::get('/returns/{return}/credit-note', [\App\Http\Controllers\Admin\OrderReturnController::class, 'pdf'])->whereNumber('return')->name('returns.credit-note');
 
             // User Management
             Route::resource('users', AdminUserController::class);

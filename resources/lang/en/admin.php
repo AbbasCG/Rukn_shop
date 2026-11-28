@@ -585,6 +585,7 @@ return [
             'vat' => 'VAT',
             'shipping' => 'Shipping charged',
             'discounts' => 'Free shipping via codes',
+            'refunds' => 'Refunded (credit notes)',
         ],
         'vs_previous' => ':change vs previous period',
         'no_comparison' => 'No sales in the previous period to compare with',

@@ -84,6 +84,18 @@ return [
         'button_trouble' => 'Werkt de knop niet? Kopieer deze link naar je browser:',
         'not_you' => 'Heb je dit niet aangevraagd? Dan kun je deze e-mail negeren: je wachtwoord blijft hetzelfde.',
     ],
+    'refund' => [
+        'subject' => 'Je terugbetaling voor bestelling #:number',
+        'preheader' => 'We hebben :amount terugbetaald.',
+        'intro' => 'We hebben je retour van bestelling #:number verwerkt en :amount terugbetaald :method.',
+        'method_online' => 'via de betaalmethode die je gebruikte',
+        'method_bank' => 'per bankoverschrijving',
+        'shipping' => 'Verzendkosten',
+        'total' => 'Terugbetaald',
+        'timing' => 'Afhankelijk van je bank kan het een paar werkdagen duren voordat je het bedrag op je rekening ziet.',
+        'attached' => 'De creditfactuur (:number) zit als bijlage bij deze e-mail.',
+        'button' => 'Bekijk je bestelling',
+    ],
     'back_in_stock' => [
         'subject' => ':product is weer leverbaar',
         'preheader' => 'Het artikel waar je naar vroeg is weer op voorraad.',

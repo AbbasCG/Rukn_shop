@@ -224,6 +224,11 @@ class Order extends Model
         return $this->vat_rate !== null && $this->vat_amount !== null;
     }
 
+    public function returns()
+    {
+        return $this->hasMany(OrderReturn::class)->orderBy('id');
+    }
+
     public function hasInvoice(): bool
     {
         return $this->invoice_number !== null;
