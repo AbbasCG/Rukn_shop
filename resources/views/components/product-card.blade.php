@@ -17,6 +17,7 @@
 
 {{-- One product card for the whole storefront (home, shop, related products). --}}
 <article {{ $attributes->merge(['class' => 'group flex flex-col']) }}>
+    <div class="relative">
     <a href="{{ $url }}" class="relative block aspect-[3/4] overflow-hidden rounded-2xl bg-primary-gray" tabindex="-1" aria-hidden="true">
         <img
             src="{{ $product->primaryImageUrl() }}"
@@ -32,6 +33,8 @@
         @endif
         <x-sale.badge :product="$product" class="absolute top-3 end-3" />
     </a>
+    <x-wishlist-button :product="$product" size="sm" class="absolute bottom-3 end-3" />
+    </div>
 
     <div class="flex flex-1 flex-col gap-1 pt-3">
         @if($product->category)

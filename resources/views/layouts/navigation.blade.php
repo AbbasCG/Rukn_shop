@@ -48,6 +48,11 @@
                 <span id="cart-initial-count" class="hidden">{{ (int)$initialCartCount }}</span>
                 <script>
                     document.addEventListener('alpine:init', () => {
+                        Alpine.store('wishlist', { count: {{ \App\Support\Wishlist::count() }} });
+                    });
+                </script>
+                <script>
+                    document.addEventListener('alpine:init', () => {
                         const el = document.getElementById('cart-initial-count');
                         const initialCartCount = parseInt(el ? el.textContent : '0', 10);
                         if (!Alpine.store('cart')) {
@@ -104,6 +109,14 @@
                             @endif
                         </a>
                     </div>
+                </div>
+
+                <!-- Favourites - Desktop -->
+                <div class="relative flex items-center me-2">
+                    <a href="{{ r('wishlist.index') }}" class="inline-flex items-center justify-center p-2 rounded-lg text-primary-dark hover:bg-primary-dark hover:text-white focus:outline-none focus:ring-2 focus:ring-primary-dark/20 transition-all duration-300 ease-out transform hover:scale-110 hover:shadow-lg {{ request()->routeIs('wishlist.*') ? 'bg-primary-dark text-white' : '' }}" title="{{ __('wishlist.title') }}" aria-label="{{ __('wishlist.title') }}">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>
+                    </a>
+                    <span x-cloak x-show="$store.wishlist && $store.wishlist.count > 0" x-text="$store.wishlist ? $store.wishlist.count : ''" class="absolute -top-1 -end-1 bg-primary-dark text-white text-xs w-5 h-5 rounded-full flex items-center justify-center shadow-lg"></span>
                 </div>
 
                 <!-- Cart Icon with Badge - Desktop -->
@@ -208,6 +221,14 @@
                             @endif
                         </a>
                     </div>
+                </div>
+
+                <!-- Favourites - Mobile -->
+                <div class="relative">
+                    <a href="{{ r('wishlist.index') }}" class="w-10 h-10 flex items-center justify-center rounded-xl text-primary-dark hover:bg-black/5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-dark/20 transition-all duration-200 {{ request()->routeIs('wishlist.*') ? 'bg-primary-dark text-white' : '' }}" title="{{ __('wishlist.title') }}" aria-label="{{ __('wishlist.title') }}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>
+                    </a>
+                    <span x-cloak x-show="$store.wishlist && $store.wishlist.count > 0" x-text="$store.wishlist ? $store.wishlist.count : ''" class="absolute -top-1 -end-1 bg-primary-dark text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-md"></span>
                 </div>
 
                 <!-- Cart Icon with Badge - Mobile -->
