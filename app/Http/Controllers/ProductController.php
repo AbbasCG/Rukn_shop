@@ -40,6 +40,11 @@ class ProductController extends Controller
             });
         }
 
+        // Size / colour: something in stock in the chosen size(s) and colour(s).
+        $selectedSizes = array_slice(array_filter((array) request('sizes', []), 'is_string'), 0, 20);
+        $selectedColors = array_slice(array_filter((array) request('colors', []), 'is_string'), 0, 20);
+        \App\Support\ProductFilters::apply($query, $selectedSizes, $selectedColors);
+
         // Price filter and sort use the price customers pay now (a running
         // reduction applied). min/max_price are numbers only.
         [$priceSql, $priceBindings] = Product::currentPriceSql();
@@ -92,8 +97,10 @@ class ProductController extends Controller
 
         $products = $query->paginate(8)->withQueryString();
         $categories = Category::where('is_active', true)->get();
+        $sizeOptions = \App\Support\ProductFilters::sizeOptions();
+        $colorOptions = \App\Support\ProductFilters::colorOptions();
 
-        return view('products.index', compact('products', 'categories'));
+        return view('products.index', compact('products', 'categories', 'sizeOptions', 'colorOptions', 'selectedSizes', 'selectedColors'));
     }
 
     /**

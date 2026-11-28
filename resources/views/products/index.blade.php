@@ -18,7 +18,7 @@
 
             <!-- B) FILTER DRAWER EXPERIENCE -->
             <div x-data="{ 
-                filtersOpen: false,
+                filtersOpen: {{ ($selectedSizes || $selectedColors) ? 'true' : 'false' }},
                 min: '{{ request('min_price') }}', 
                 max: '{{ request('max_price') }}' 
             }" class="space-y-4">
@@ -53,6 +53,12 @@
                         @if(request('sort'))
                             <input type="hidden" name="sort" value="{{ request('sort') }}">
                         @endif
+                        @foreach($selectedSizes as $size)
+                            <input type="hidden" name="sizes[]" value="{{ $size }}">
+                        @endforeach
+                        @foreach($selectedColors as $color)
+                            <input type="hidden" name="colors[]" value="{{ $color }}">
+                        @endforeach
                     </form>
 
                     <!-- Right: Filters + Sort Buttons -->
@@ -67,9 +73,10 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
                             </svg>
                             {{ __('shop.filters') }}
-                            @if(request('category') || request('min_price') || request('max_price'))
+                            @php $activeFilterCount = collect([request('category'), request('min_price'), request('max_price')])->filter()->count() + count($selectedSizes) + count($selectedColors); @endphp
+                            @if($activeFilterCount > 0)
                                 <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary-dark text-white text-xs font-bold">
-                                    {{ collect([request('category'), request('min_price'), request('max_price')])->filter()->count() }}
+                                    {{ $activeFilterCount }}
                                 </span>
                             @endif
                         </button>
@@ -99,6 +106,12 @@
                             @if(request('max_price'))
                                 <input type="hidden" name="max_price" value="{{ request('max_price') }}">
                             @endif
+                            @foreach($selectedSizes as $size)
+                                <input type="hidden" name="sizes[]" value="{{ $size }}">
+                            @endforeach
+                            @foreach($selectedColors as $color)
+                                <input type="hidden" name="colors[]" value="{{ $color }}">
+                            @endforeach
                         </form>
                     </div>
                 </div>
@@ -174,6 +187,37 @@
                             </div>
                         </div>
 
+                        {{-- Size & colour: products that have it in stock --}}
+                        @if($sizeOptions->isNotEmpty())
+                            <fieldset>
+                                <legend class="block text-sm font-semibold text-primary-dark mb-2">{{ __('shop.filter_size') }}</legend>
+                                <div class="flex flex-wrap gap-2">
+                                    @foreach($sizeOptions as $size)
+                                        <label class="cursor-pointer">
+                                            <input type="checkbox" name="sizes[]" value="{{ $size }}" class="peer sr-only" @checked(in_array($size, $selectedSizes, true))>
+                                            <span dir="ltr" class="inline-flex min-w-11 h-10 items-center justify-center rounded-xl border border-neutral-200 px-3 text-sm font-semibold text-primary-dark transition peer-checked:border-primary-dark peer-checked:bg-primary-dark peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-primary-dark/30 hover:border-primary-dark">{{ $size }}</span>
+                                        </label>
+                                    @endforeach
+                                </div>
+                            </fieldset>
+                        @endif
+                        @if($colorOptions->isNotEmpty())
+                            <fieldset>
+                                <legend class="block text-sm font-semibold text-primary-dark mb-2">{{ __('shop.filter_color') }}</legend>
+                                <div class="flex flex-wrap gap-2">
+                                    @foreach($colorOptions as $value => $color)
+                                        <label class="cursor-pointer">
+                                            <input type="checkbox" name="colors[]" value="{{ $value }}" class="peer sr-only" @checked(in_array($value, array_map('mb_strtolower', $selectedColors), true))>
+                                            <span class="inline-flex h-10 items-center gap-2 rounded-xl border border-neutral-200 px-3 text-sm font-medium text-primary-dark transition peer-checked:border-primary-dark peer-checked:ring-1 peer-checked:ring-primary-dark peer-focus-visible:ring-2 peer-focus-visible:ring-primary-dark/30 hover:border-primary-dark">
+                                                <span class="h-5 w-5 rounded-full border border-black/10" style="background: {{ $color['hex'] }}" aria-hidden="true"></span>
+                                                <bdi>{{ $color['name'] }}</bdi>
+                                            </span>
+                                        </label>
+                                    @endforeach
+                                </div>
+                            </fieldset>
+                        @endif
+
                         <!-- Apply & Reset Buttons -->
                         <div class="flex items-center gap-3 pt-2">
                             <button 
@@ -210,6 +254,12 @@
                             {{ $categories->firstWhere('slug', request('category'))->name ?? request('category') }}
                         </span>
                     @endif
+                    @foreach($selectedSizes as $size)
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-primary-dark/5 text-primary-dark text-xs font-semibold ms-1">{{ __('shop.filter_size') }}: <bdi dir="ltr" class="ms-1">{{ $size }}</bdi></span>
+                    @endforeach
+                    @foreach($selectedColors as $color)
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-primary-dark/5 text-primary-dark text-xs font-semibold ms-1"><bdi>{{ $colorOptions[mb_strtolower($color)]['name'] ?? $color }}</bdi></span>
+                    @endforeach
                     @if(request('q'))
                         <span class="text-neutral-500">{{ __('shop.matching') }}</span>
                         <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-primary-dark/5 text-primary-dark text-xs font-semibold ms-1">
@@ -217,7 +267,7 @@
                         </span>
                     @endif
                 </div>
-                @if(request('q') || request('category') || request('min_price') || request('max_price'))
+                @if(request('q') || request('category') || request('min_price') || request('max_price') || $selectedSizes || $selectedColors)
                     <a 
                         href="{{ r('products.index') }}" 
                         class="inline-flex items-center gap-1.5 text-sm font-medium text-primary-dark hover:text-primary-dark/70 transition"
@@ -244,7 +294,7 @@
                         {{ __('shop.no_products_message') }}
                     </p>
                     <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-                        @if(request()->hasAny(['q', 'category', 'min_price', 'max_price']))
+                        @if(request()->hasAny(['q', 'category', 'min_price', 'max_price', 'sizes', 'colors']))
                             <a 
                                 href="{{ r('products.index') }}" 
                                 class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary-dark hover:bg-primary-dark/90 text-white font-semibold text-sm shadow-sm transition duration-200"
