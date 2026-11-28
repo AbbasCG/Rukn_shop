@@ -2,6 +2,8 @@
     // Sizes & colours: data for the productOptions picker (resources/js/app.js).
     $product->loadMissing('variants');
     $hasVariants = $product->hasVariants();
+    // Abaya length guide (only for products sold in lengths).
+    $sizeGuide = $product->size_system === 'lengths' ? \App\Models\SizeGuideRow::ordered() : collect();
     [$minPrice, $maxPrice] = $product->priceRange();
     $defaultPriceText = $minPrice < $maxPrice ? __('product.price_from', ['price' => money($minPrice)]) : money($minPrice);
     [$regularMin, $regularMax] = $product->regularPriceRange();
@@ -283,7 +285,12 @@
                                     </template>
                                 </div>
                                 @if($product->size_system === 'lengths')
-                                    <p class="mt-2 text-xs text-neutral-500">{{ __('product.size_hint_lengths') }}</p>
+                                    <p class="mt-2 text-xs text-neutral-500">
+                                        {{ __('product.size_hint_lengths') }}
+                                        @if($sizeGuide->isNotEmpty())
+                                            <button type="button" x-data @click="$dispatch('open-modal', 'size-guide')" class="ms-1 font-semibold text-primary-800 underline underline-offset-2 hover:text-primary-700">{{ __('size_guide.open') }}</button>
+                                        @endif
+                                    </p>
                                 @endif
                             </div>
                         @endif
@@ -702,4 +709,49 @@
             }
         }
     </script>
+    {{-- Abaya size guide (opened from "Size guide" next to the sizes) --}}
+    @if($sizeGuide->isNotEmpty())
+        <x-modal name="size-guide" maxWidth="lg" focusable>
+            <div class="p-6 space-y-5">
+                <div class="flex items-start justify-between gap-4">
+                    <h2 class="text-xl font-bold text-primary-800">{{ __('size_guide.title') }}</h2>
+                    <button type="button" @click="$dispatch('close')" class="text-neutral-400 hover:text-neutral-700" aria-label="{{ __('size_guide.close') }}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+                <p class="text-sm text-neutral-600">{{ __('size_guide.intro') }}</p>
+
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-primary-200 text-neutral-500">
+                            <th class="py-2 text-start font-medium">{{ __('size_guide.size') }}</th>
+                            <th class="py-2 text-start font-medium">{{ __('size_guide.length_cm') }}</th>
+                            <th class="py-2 text-start font-medium">{{ __('size_guide.height') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($sizeGuide as $row)
+                            @php $offered = in_array($row->size, $product->sizes ?? [], true); @endphp
+                            <tr class="border-b border-primary-100 {{ $offered ? 'text-primary-800' : 'text-neutral-400' }}">
+                                <td class="py-2 font-semibold"><bdi dir="ltr">{{ $row->size }}"</bdi></td>
+                                <td class="py-2"><bdi dir="ltr">{{ $row->lengthCm() ? $row->lengthCm() . ' cm' : '—' }}</bdi></td>
+                                <td class="py-2"><bdi dir="ltr">{{ $row->height_min }}–{{ $row->height_max }} cm</bdi></td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <p class="text-xs text-neutral-500">{{ __('size_guide.offered_note') }}</p>
+
+                <div class="rounded-xl bg-primary-50 p-4 text-sm text-neutral-700 space-y-2">
+                    <p class="font-semibold text-primary-800">{{ __('size_guide.how_title') }}</p>
+                    <ol class="list-decimal ps-5 space-y-1">
+                        <li>{{ __('size_guide.how_1') }}</li>
+                        <li>{{ __('size_guide.how_2') }}</li>
+                        <li>{{ __('size_guide.how_3') }}</li>
+                    </ol>
+                    <p>{{ __('size_guide.between') }}</p>
+                </div>
+            </div>
+        </x-modal>
+    @endif
 </x-app-layout>
