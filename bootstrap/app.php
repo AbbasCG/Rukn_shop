@@ -22,7 +22,9 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // Mollie posts payment updates without a CSRF token; the controller
         // fetches the payment from the Mollie API instead of trusting the post.
-        $middleware->validateCsrfTokens(except: ['payments/mollie/webhook']);
+        // The cart-reminder unsubscribe link is signed instead (mail apps post
+        // to it for one-click unsubscribe, without a CSRF token).
+        $middleware->validateCsrfTokens(except: ['payments/mollie/webhook', '*/cart-reminders/unsubscribe/*']);
 
         // Not logged in on a page that needs it: to the login page in the
         // page's language (the default redirect lacks the {locale} part).

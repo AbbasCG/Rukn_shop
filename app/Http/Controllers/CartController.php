@@ -81,6 +81,10 @@ class CartController extends Controller
         }
 
         if (Auth::check()) {
+            // Language for later emails (cart reminders).
+            if (Auth::user()->locale !== app()->getLocale()) {
+                Auth::user()->forceFill(['locale' => app()->getLocale()])->saveQuietly();
+            }
             if ($existing) {
                 $existing->update(['quantity' => $newQuantity]);
             } else {

@@ -131,6 +131,12 @@ Route::prefix('{locale}')
             ->middleware('throttle:30,1')->name('feeds.products');
         Route::get('/search/suggest', [ProductController::class, 'suggest'])->middleware('throttle:60,1')->name('search.suggest');
         Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+        // Stop cart reminder emails (signed link from the email, no login).
+        Route::get('/cart-reminders/unsubscribe/{user}', [\App\Http\Controllers\CartReminderController::class, 'show'])
+            ->whereNumber('user')->middleware('signed')->name('cart-reminders.unsubscribe');
+        Route::post('/cart-reminders/unsubscribe/{user}', [\App\Http\Controllers\CartReminderController::class, 'unsubscribe'])
+            ->whereNumber('user')->middleware(['signed', 'throttle:10,1']);
+
         // Favourites (guests: a cookie; customers: their account).
         Route::get('/wishlist', [\App\Http\Controllers\WishlistController::class, 'index'])->name('wishlist.index');
         Route::post('/wishlist/{product}', [\App\Http\Controllers\WishlistController::class, 'toggle'])

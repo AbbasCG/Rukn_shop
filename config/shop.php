@@ -85,6 +85,16 @@ return [
         'request_after_days' => max(1, (int) env('SHOP_REVIEW_REQUEST_DAYS', 7)),
     ],
 
+    // "You left something in your cart" emails to customers with an account
+    // (they can turn them off). Hours after the last change to the cart.
+    'cart_reminders' => [
+        'enabled' => (bool) env('SHOP_CART_REMINDERS', true),
+        'first_after_hours' => max(1, (int) env('SHOP_CART_REMINDER_FIRST_HOURS', 24)),
+        'second_after_hours' => max(2, (int) env('SHOP_CART_REMINDER_SECOND_HOURS', 72)),
+        // Carts untouched for longer than this are left alone.
+        'max_age_days' => 14,
+    ],
+
     'returns' => [
         // Days after delivery in which a customer may return an order.
         // Dutch/EU law requires at least 14 for online purchases.

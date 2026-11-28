@@ -96,6 +96,17 @@ return [
         'attached' => 'The credit note (:number) is attached for your records.',
         'button' => 'View your order',
     ],
+    'cart_reminder' => [
+        'subject' => 'You left something in your cart',
+        'subject_second' => 'Your cart is still waiting for you',
+        'preheader' => 'The items you chose are still in your cart.',
+        'intro' => 'You added these items to your cart but did not finish your order. They are still there for you:',
+        'intro_second' => 'A last reminder: these items are still in your cart.',
+        'note' => 'Prices and stock are as shown in the shop when you order; popular sizes can sell out.',
+        'button' => 'Go to my cart',
+        'why' => 'You receive this because you have an account with us and left items in your cart. You will get at most two reminders per cart.',
+        'unsubscribe' => 'Stop these emails',
+    ],
     'back_in_stock' => [
         'subject' => ':product is available again',
         'preheader' => 'The item you asked about is back in stock.',
