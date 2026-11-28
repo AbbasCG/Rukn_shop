@@ -222,6 +222,9 @@
                                     @else
                                         <span class="text-sm text-primary-dark/70">{{ __('admin.products.stock.units', ['count' => $product->stock]) }}</span>
                                     @endif
+                                    @if(($product->waiting_count ?? 0) > 0)
+                                        <span class="mt-1 block text-[11px] font-medium text-primary-dark/70">🔔 {{ trans_choice('admin.stock_alerts.waiting', $product->waiting_count, ['count' => $product->waiting_count]) }}</span>
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4 align-middle">
                                     @if($product->is_active)

@@ -125,6 +125,8 @@ Route::prefix('{locale}')
         // Public Product routes (browse and view)
         Route::get('/products', [ProductController::class, 'index'])->name('products.index');
         Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+        Route::post('/products/{product}/notify', [\App\Http\Controllers\StockNotificationController::class, 'store'])
+            ->middleware('throttle:5,1')->name('products.notify');
         Route::get('/categories/{category:slug}', [CategoryController::class, 'publicShow'])->name('categories.show');
 
         // Admin-only CRUD routes

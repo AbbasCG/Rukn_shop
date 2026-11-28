@@ -567,6 +567,10 @@ return [
         'no_subject' => '(geen onderwerp)',
         'customer_account' => 'Klantaccount',
     ],
+    'stock_alerts' => [
+        'waiting' => '{1} 1 klant wacht hierop|[2,*] :count klanten wachten hierop',
+        'explain' => 'Zij vroegen om een e-mail als het terug is. Zodra je voorraad toevoegt, krijgen ze automatisch één e-mail.',
+    ],
     'sale' => [
         'title' => 'Korting',
         'help' => 'De klant ziet de verlaagde prijs, de normale prijs doorgestreept en een label op de foto. Winkelwagen, afrekenen en bestellingen gebruiken de verlaagde prijs.',

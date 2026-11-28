@@ -82,6 +82,18 @@ class Product extends Model
             }
         });
 
+        // Back in stock (or visible again): email the customers who asked.
+        // Products sold in sizes/colours are handled by ProductVariant.
+        static::updated(function (Product $product) {
+            $restocked = $product->wasChanged('stock') && (int) $product->stock > 0
+                && (int) $product->stock > (int) $product->getOriginal('stock');
+            $shown = $product->wasChanged('is_active') && $product->is_active;
+
+            if ($restocked || $shown) {
+                \App\Support\StockAlerts::sendFor($product);
+            }
+        });
+
         // A slug in use belongs to its product: drop any redirect claiming it
         // (e.g. a product taking a slug another product used before).
         static::saved(function (Product $product) {
@@ -369,6 +381,11 @@ class Product extends Model
         }
 
         return $slug;
+    }
+
+    public function stockNotifications()
+    {
+        return $this->hasMany(StockNotification::class);
     }
 
     public function reviews()
