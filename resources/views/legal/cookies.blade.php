@@ -1,11 +1,12 @@
 @php
     // Update this date whenever the cookies the shop uses change.
-    $updated = \Carbon\Carbon::parse('2026-11-26')->locale(app()->getLocale())->isoFormat('D MMMM YYYY');
+    $updated = \Carbon\Carbon::parse('2026-11-28')->locale(app()->getLocale())->isoFormat('D MMMM YYYY');
     $cookies = [
         ['name' => config('session.cookie'), 'purpose' => __('legal.cookies.session_purpose'),
          'duration' => __('legal.cookies.session_duration', ['minutes' => config('session.lifetime')])],
         ['name' => 'XSRF-TOKEN', 'purpose' => __('legal.cookies.xsrf_purpose'), 'duration' => __('legal.cookies.xsrf_duration')],
         ['name' => 'remember_web_…', 'purpose' => __('legal.cookies.remember_purpose'), 'duration' => __('legal.cookies.remember_duration')],
+        ['name' => 'wishlist', 'purpose' => __('legal.cookies.wishlist_purpose'), 'duration' => __('legal.cookies.wishlist_duration')],
     ];
 @endphp
 <x-app-layout :title="__('legal.cookies.title')" :description="__('legal.cookies.intro')">

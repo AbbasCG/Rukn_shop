@@ -139,6 +139,43 @@ Alpine.data('addToCart', (config) => ({
 	},
 }));
 
+// Favourites: the heart on product cards and pages.
+// Usage: x-data="wishlistButton({ url, saved, errorMessage })"
+Alpine.data('wishlistButton', (config) => ({
+	saved: config.saved,
+	loading: false,
+
+	async toggle() {
+		if (this.loading) return;
+		this.loading = true;
+		try {
+			const token = document.querySelector('meta[name=csrf-token]')?.getAttribute('content');
+			const response = await fetch(config.url, {
+				method: 'POST',
+				headers: { 'X-CSRF-TOKEN': token, Accept: 'application/json' },
+			});
+			const data = await response.json().catch(() => null);
+			if (response.ok && data) {
+				this.saved = data.saved;
+				if (Alpine.store('wishlist')) Alpine.store('wishlist').count = data.count;
+				// Other hearts for the same product on the page follow along.
+				window.dispatchEvent(new CustomEvent('wishlist-changed', { detail: { url: config.url, saved: data.saved } }));
+				window.dispatchEvent(new CustomEvent('toast', { detail: { type: 'success', message: data.message } }));
+			} else {
+				window.dispatchEvent(new CustomEvent('toast', { detail: { type: 'error', message: config.errorMessage } }));
+			}
+		} catch {
+			window.dispatchEvent(new CustomEvent('toast', { detail: { type: 'error', message: config.errorMessage } }));
+		} finally {
+			this.loading = false;
+		}
+	},
+
+	sync(event) {
+		if (event.detail.url === config.url) this.saved = event.detail.saved;
+	},
+}));
+
 // Admin: sizes & colours editor (resources/views/admin/products/partials/variants).
 Alpine.data('productVariants', (initial, lists) => ({
 	lists,
