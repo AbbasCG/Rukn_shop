@@ -26,6 +26,10 @@ class Product extends Model
         'long_description',
         'specifications',
         'price',
+        'sale_type',
+        'sale_value',
+        'sale_starts_at',
+        'sale_ends_at',
         'stock',
         'category_id',
         'image_url',
@@ -39,7 +43,21 @@ class Product extends Model
         'specifications' => 'array',
         'sizes' => 'array',
         'colors' => 'array',
+        'sale_value' => 'decimal:2',
+        'sale_starts_at' => 'datetime',
+        'sale_ends_at' => 'datetime',
+        'regular_price_raised_at' => 'datetime',
+        'last_sale_ended_at' => 'datetime',
     ];
+
+    /** Kinds of price reduction: a percentage off, or a new (lower) price. */
+    public const SALE_TYPES = ['percent', 'price'];
+
+    /** EU/Dutch rule: a "was" price is the lowest price of the 30 days before. */
+    public const SALE_REFERENCE_DAYS = 30;
+
+    /** Sale dates are whole days in the shop's own time zone. */
+    public const SALE_TIMEZONE = 'Europe/Amsterdam';
 
     /** Ways sizes can be written; chosen per product in the admin. */
     public const SIZE_SYSTEMS = ['lengths', 'letters', 'custom'];
@@ -118,11 +136,30 @@ class Product extends Model
     }
 
     /**
-     * Lowest and highest price over the variants (or the product price).
+     * Lowest and highest price the customer pays now (sales applied), over
+     * the variants (or the product price).
      *
      * @return array{0: float, 1: float}
      */
     public function priceRange(): array
+    {
+        if (! $this->hasVariants()) {
+            $price = $this->currentPrice();
+
+            return [$price, $price];
+        }
+
+        $prices = $this->variants->map(fn (ProductVariant $v) => $v->setRelation('product', $this)->effectivePrice());
+
+        return [$prices->min(), $prices->max()];
+    }
+
+    /**
+     * Same as priceRange(), before reductions (the crossed-out price).
+     *
+     * @return array{0: float, 1: float}
+     */
+    public function regularPriceRange(): array
     {
         if (! $this->hasVariants()) {
             return [(float) $this->price, (float) $this->price];
@@ -131,6 +168,148 @@ class Product extends Model
         $prices = $this->variants->map(fn (ProductVariant $v) => (float) ($v->price ?? $this->price));
 
         return [$prices->min(), $prices->max()];
+    }
+
+    // ---- Price reductions ----
+
+    /**
+     * A reduction is set and today falls between its (optional) dates.
+     */
+    public function saleIsRunning(?\DateTimeInterface $at = null): bool
+    {
+        if (! in_array($this->sale_type, self::SALE_TYPES, true) || $this->sale_value === null) {
+            return false;
+        }
+
+        $at = $at ? \Illuminate\Support\Carbon::instance($at) : now();
+
+        return ($this->sale_starts_at === null || $this->sale_starts_at->lte($at))
+            && ($this->sale_ends_at === null || $this->sale_ends_at->gt($at));
+    }
+
+    /** Set, but its start date is still to come. */
+    public function saleIsScheduled(): bool
+    {
+        return in_array($this->sale_type, self::SALE_TYPES, true) && $this->sale_value !== null
+            && $this->sale_starts_at !== null && $this->sale_starts_at->isFuture()
+            && ($this->sale_ends_at === null || $this->sale_ends_at->gt($this->sale_starts_at));
+    }
+
+    /**
+     * What one unit costs now: the product, or one of its variants.
+     *
+     * - percent: every size/colour gets the same % off its own price.
+     * - price:   the reduced price replaces the product price; a variant
+     *            with its own price uses its own reduced price (none = no
+     *            reduction for that variant).
+     *
+     * Never more than the regular price, never below zero.
+     */
+    public function salePriceFor(?ProductVariant $variant = null): float
+    {
+        $regular = $variant ? (float) ($variant->price ?? $this->price) : (float) $this->price;
+
+        if (! $this->saleIsRunning()) {
+            return $regular;
+        }
+
+        $value = (float) $this->sale_value;
+
+        $reduced = match ($this->sale_type) {
+            'percent' => round($regular * (100 - min(100, max(0, $value))) / 100, 2),
+            'price' => $variant && $variant->price !== null
+                ? ($variant->sale_price !== null ? (float) $variant->sale_price : $regular)
+                : $value,
+        };
+
+        return max(0.0, min($regular, $reduced));
+    }
+
+    /** Last day of the sale (inclusive), in the shop's time zone, or null. */
+    public function saleLastDay(): ?\Illuminate\Support\Carbon
+    {
+        return $this->sale_ends_at?->copy()->tz(self::SALE_TIMEZONE)->subSecond()->startOfDay();
+    }
+
+    /** First day of the sale, in the shop's time zone, or null. */
+    public function saleFirstDay(): ?\Illuminate\Support\Carbon
+    {
+        return $this->sale_starts_at?->copy()->tz(self::SALE_TIMEZONE)->startOfDay();
+    }
+
+    /** Price of the product itself now (products without variants). */
+    public function currentPrice(): float
+    {
+        return $this->salePriceFor();
+    }
+
+    /**
+     * Biggest reduction in whole percent (for the badge), 0 when none.
+     * $upTo is true when sizes/colours are reduced by different amounts.
+     *
+     * @return array{percent: int, upTo: bool}
+     */
+    public function discount(): array
+    {
+        if (! $this->saleIsRunning()) {
+            return ['percent' => 0, 'upTo' => false];
+        }
+
+        $pairs = $this->hasVariants()
+            ? $this->variants->map(fn (ProductVariant $v) => [$v->setRelation('product', $this)->regularPrice(), $v->effectivePrice()])
+            : collect([[(float) $this->price, $this->currentPrice()]]);
+
+        $percents = $pairs->map(fn ($p) => $p[0] > 0 ? (int) floor(round((1 - $p[1] / $p[0]) * 100, 4)) : 0)->unique()->values();
+        $max = (int) $percents->max();
+
+        return ['percent' => max(0, $max), 'upTo' => $max > 0 && $percents->count() > 1];
+    }
+
+    /**
+     * SQL for the price a product (without variant prices) costs at $at, for
+     * filtering and sorting listings. Works on SQLite, MySQL and Postgres.
+     *
+     * @return array{0: string, 1: array}
+     */
+    public static function currentPriceSql(?\DateTimeInterface $at = null): array
+    {
+        $now = ($at ? \Illuminate\Support\Carbon::instance($at) : now())->format('Y-m-d H:i:s');
+        $running = "products.sale_value is not null"
+            . " and (products.sale_starts_at is null or products.sale_starts_at <= ?)"
+            . " and (products.sale_ends_at is null or products.sale_ends_at > ?)";
+
+        $sql = "(case"
+            . " when products.sale_type = 'percent' and {$running} then round(products.price * (100 - products.sale_value) / 100, 2)"
+            . " when products.sale_type = 'price' and {$running} and products.sale_value < products.price then products.sale_value"
+            . " else products.price end)";
+
+        return [$sql, [$now, $now, $now, $now]];
+    }
+
+    /**
+     * Reasons the crossed-out price may not be the lowest price of the 30
+     * days before the sale starts (Dutch/EU price rules), for the admin.
+     *
+     * @return list<array{key: string, date: \Illuminate\Support\Carbon}>
+     */
+    public function saleReferenceWarnings(): array
+    {
+        if (! in_array($this->sale_type, self::SALE_TYPES, true)) {
+            return [];
+        }
+
+        $start = $this->sale_starts_at ?? $this->updated_at ?? now();
+        $since = $start->copy()->subDays(self::SALE_REFERENCE_DAYS);
+        $warnings = [];
+
+        if ($this->regular_price_raised_at && $this->regular_price_raised_at->between($since, $start)) {
+            $warnings[] = ['key' => 'price_raised', 'date' => $this->regular_price_raised_at];
+        }
+        if ($this->last_sale_ended_at && $this->last_sale_ended_at->between($since, $start)) {
+            $warnings[] = ['key' => 'recent_sale', 'date' => $this->last_sale_ended_at];
+        }
+
+        return $warnings;
     }
 
     /**

@@ -149,7 +149,10 @@ class AdminProductController extends Controller
 
         $variantInput = \Illuminate\Support\Arr::only($validated, ['size_system', 'sizes', 'colors', 'variants']);
         unset($validated['size_system'], $validated['sizes'], $validated['colors'], $validated['variants']);
+        $sale = $this->saleAttributes($validated);
+        unset($validated['sale_type'], $validated['sale_value'], $validated['sale_start'], $validated['sale_end']);
         $product = Product::create($validated);
+        $product->forceFill($sale)->save();
         $this->syncVariants($product, $variantInput);
 
         // Handle multiple image uploads
@@ -228,8 +231,11 @@ class AdminProductController extends Controller
 
         $variantInput = \Illuminate\Support\Arr::only($validated, ['size_system', 'sizes', 'colors', 'variants']);
         unset($validated['size_system'], $validated['sizes'], $validated['colors'], $validated['variants']);
-        $product->update($validated);
-        $this->syncVariants($product, $variantInput);
+        $previousPrice = (float) $product->price;
+        $sale = $this->saleAttributes($validated, $product);
+        unset($validated['sale_type'], $validated['sale_value'], $validated['sale_start'], $validated['sale_end']);
+        $product->forceFill($sale)->fill($validated)->save();
+        $this->syncVariants($product, $variantInput, $previousPrice);
 
         // Handle image deletions (only images that belong to current product)
         if ($request->has('images_to_delete') && !empty($request->input('images_to_delete'))) {
@@ -268,9 +274,14 @@ class AdminProductController extends Controller
             $product->images()->orderBy('id')->first()->update(['is_primary' => true]);
         }
 
+        $warnings = array_filter([
+            ! empty($failed) ? __('admin.products.messages.images_failed', ['count' => $failed]) : null,
+            $product->fresh()->saleReferenceWarnings() ? __('admin.sale.saved_with_warning') : null,
+        ]);
+
         return redirect()->route('admin.products.index')
             ->with('success', __('admin.products.messages.updated'))
-            ->with('warning', ! empty($failed) ? __('admin.products.messages.images_failed', ['count' => $failed]) : null);
+            ->with('warning', $warnings ? implode(' ', $warnings) : null);
     }
 
     /**
@@ -412,7 +423,70 @@ class AdminProductController extends Controller
             'variants.*.color_key' => ['nullable', 'string', 'max:50'],
             'variants.*.stock' => ['required', 'integer', 'min:0'],
             'variants.*.price' => ['nullable', 'numeric', 'min:0'],
+            'variants.*.sale_price' => ['nullable', 'numeric', 'min:0', function ($attribute, $value, $fail) {
+                $price = request()->input(str_replace('.sale_price', '.price', $attribute));
+                if ($value !== null && $value !== '' && is_numeric($price) && (float) $value >= (float) $price) {
+                    $fail(__('admin.sale.errors.variant_not_lower'));
+                }
+            }],
+            // Price reduction (see saleAttributes()).
+            'sale_type' => ['nullable', Rule::in(Product::SALE_TYPES)],
+            'sale_value' => ['nullable', 'required_with:sale_type', 'numeric', 'min:0.01', function ($attribute, $value, $fail) {
+                $type = request()->input('sale_type');
+                if ($type === 'percent' && (float) $value >= 100) {
+                    $fail(__('admin.sale.errors.percent_max'));
+                }
+                if ($type === 'price' && is_numeric(request()->input('price')) && (float) $value >= (float) request()->input('price')) {
+                    $fail(__('admin.sale.errors.price_not_lower'));
+                }
+            }],
+            'sale_start' => ['nullable', 'date_format:Y-m-d'],
+            'sale_end' => ['nullable', 'date_format:Y-m-d', 'after_or_equal:sale_start'],
         ];
+    }
+
+    /**
+     * Sale columns from the form. Dates are whole days in the shop's time
+     * zone: the sale runs from the start of sale_start until the end of
+     * sale_end. Also notes, for the 30-day rule on "was" prices, when the
+     * regular price went up and when a previous reduction ended.
+     */
+    private function saleAttributes(array $validated, ?Product $product = null): array
+    {
+        $type = $validated['sale_type'] ?? null;
+        $tz = Product::SALE_TIMEZONE;
+
+        $attributes = [
+            'sale_type' => $type ?: null,
+            'sale_value' => $type ? $validated['sale_value'] : null,
+            'sale_starts_at' => $type && ! empty($validated['sale_start'])
+                ? \Illuminate\Support\Carbon::createFromFormat('Y-m-d', $validated['sale_start'], $tz)->startOfDay()->utc() : null,
+            'sale_ends_at' => $type && ! empty($validated['sale_end'])
+                ? \Illuminate\Support\Carbon::createFromFormat('Y-m-d', $validated['sale_end'], $tz)->addDay()->startOfDay()->utc() : null,
+        ];
+
+        if (! $product) {
+            return $attributes;
+        }
+
+        if ((float) $validated['price'] > (float) $product->price) {
+            $attributes['regular_price_raised_at'] = now();
+        }
+
+        // A reduction that had started is replaced or removed: it ends now
+        // (or ended on its own end date).
+        $changed = $product->sale_type !== $attributes['sale_type']
+            || (string) $product->sale_value !== (string) ($attributes['sale_value'] === null ? null : number_format((float) $attributes['sale_value'], 2, '.', ''))
+            || $product->sale_starts_at?->getTimestamp() !== $attributes['sale_starts_at']?->getTimestamp()
+            || $product->sale_ends_at?->getTimestamp() !== $attributes['sale_ends_at']?->getTimestamp();
+        $hadStarted = $product->sale_type && ($product->sale_starts_at === null || $product->sale_starts_at->isPast());
+
+        if ($changed && $hadStarted) {
+            $endedAt = $product->sale_ends_at && $product->sale_ends_at->isPast() ? $product->sale_ends_at : now();
+            $attributes['last_sale_ended_at'] = $endedAt;
+        }
+
+        return $attributes;
     }
 
     /**
@@ -420,8 +494,10 @@ class AdminProductController extends Controller
      * one row per size × colour, existing rows updated, removed ones deleted
      * (past orders keep their variant label). products.stock becomes the sum.
      */
-    private function syncVariants(Product $product, array $input): void
+    private function syncVariants(Product $product, array $input, ?float $previousProductPrice = null): void
     {
+        $previousProductPrice ??= (float) $product->price;
+        $priceRaised = false;
         $system = $input['size_system'] ?? null;
         $sizes = $system ? array_values(array_unique(array_map(fn ($s) => trim((string) $s), $input['sizes'] ?? []))) : [];
         $sizes = array_values(array_filter($sizes, fn ($s) => $s !== ''));
@@ -456,9 +532,15 @@ class AdminProductController extends Controller
             foreach (array_column($colors, 'key') ?: [null] as $colorKey) {
                 $row = $submitted->get(($size ?? '') . '|' . ($colorKey ?? ''), []);
                 $variant = $product->variants()->firstOrNew(['size' => $size, 'color_key' => $colorKey]);
+                $oldRegular = $variant->exists ? (float) ($variant->price ?? $previousProductPrice) : null;
                 $variant->stock = max(0, (int) ($row['stock'] ?? 0));
                 $variant->price = isset($row['price']) && $row['price'] !== '' ? $row['price'] : null;
+                // Reduced price for a size/colour with its own price ("new price" reductions).
+                $variant->sale_price = $variant->price !== null && isset($row['sale_price']) && $row['sale_price'] !== '' ? $row['sale_price'] : null;
                 $variant->save();
+                if ($oldRegular !== null && (float) ($variant->price ?? $product->price) > $oldRegular) {
+                    $priceRaised = true;
+                }
                 $keep[] = $variant->id;
             }
         }
@@ -466,5 +548,9 @@ class AdminProductController extends Controller
         $product->variants()->whereNotIn('id', $keep)->delete();
         $product->unsetRelation('variants');
         $product->syncStockFromVariants();
+
+        if ($priceRaised) {
+            $product->forceFill(['regular_price_raised_at' => now()])->saveQuietly();
+        }
     }
 }

@@ -145,6 +145,8 @@
         </div>
 
         <!-- Sizes & colours -->
+        @include('admin.products.partials.sale', ['product' => $product])
+
         @include('admin.products.partials.variants', ['product' => $product])
 
         <!-- Specifications (Full width) -->

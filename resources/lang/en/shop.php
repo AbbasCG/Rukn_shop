@@ -92,4 +92,11 @@ return [
         'total_incl' => 'Total (incl. VAT)',
         'included' => 'Of which VAT (:rate%)',
     ],
+    'sale' => [
+        'badge' => '-:percent%',
+        'up_to' => 'up to :badge',
+        'was' => 'Regular price',
+        'now' => 'Now',
+        'ends' => 'Offer valid until :date',
+    ],
 ];

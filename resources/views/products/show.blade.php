@@ -4,6 +4,12 @@
     $hasVariants = $product->hasVariants();
     [$minPrice, $maxPrice] = $product->priceRange();
     $defaultPriceText = $minPrice < $maxPrice ? __('product.price_from', ['price' => money($minPrice)]) : money($minPrice);
+    [$regularMin, $regularMax] = $product->regularPriceRange();
+    // Crossed-out regular price while a reduction runs.
+    $defaultWasText = $minPrice < $regularMin
+        ? ($regularMin < $regularMax ? __('product.price_from', ['price' => money($regularMin)]) : money($regularMin))
+        : null;
+    $saleRunning = $product->saleIsRunning();
     $variantOptions = $hasVariants ? [
         'sizes' => array_values($product->sizes ?? []),
         'sizeSystem' => $product->size_system,
@@ -12,9 +18,11 @@
         ])->values()->all(),
         'variants' => $product->variants->map(fn ($v) => [
             'id' => $v->id, 'size' => $v->size, 'color' => $v->color_key, 'stock' => (int) $v->stock,
-            'priceText' => money($v->price ?? $product->price),
+            'priceText' => money($v->setRelation('product', $product)->effectivePrice()),
+            'wasText' => $v->isOnSale() ? money($v->regularPrice()) : null,
         ])->values()->all(),
         'defaultPriceText' => $defaultPriceText,
+        'defaultWasText' => $defaultWasText,
         'texts' => [
             'choose' => __('product.choose_options'),
             'outOfStock' => __('product.out_of_stock'),
@@ -54,6 +62,10 @@
                     'availability' => $product->stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
                     'itemCondition' => 'https://schema.org/NewCondition',
                 ],
+                // A reduced price with an end date: tell search engines until when.
+                $saleRunning && $product->sale_ends_at
+                    ? ['priceValidUntil' => $product->saleLastDay()->toDateString()]
+                    : [],
             ),
         ],
         [
@@ -188,7 +200,18 @@
 
                 <!-- Price -->
                 <div>
-                    <div class="text-5xl font-bold text-primary-800 dark:text-primary-800" @if($hasVariants) x-text="priceText" @endif>{{ $defaultPriceText }}</div>
+                    <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                        <div class="text-5xl font-bold {{ $saleRunning ? 'text-red-700' : 'text-primary-800 dark:text-primary-800' }}" @if($hasVariants) x-text="priceText" @endif>{{ $defaultPriceText }}</div>
+                        @if ($hasVariants)
+                            <del x-show="wasText" @unless($defaultWasText) x-cloak @endunless class="text-2xl text-neutral-400"><span class="sr-only">{{ __('shop.sale.was') }}: </span><span x-text="wasText">{{ $defaultWasText }}</span></del>
+                        @elseif ($defaultWasText)
+                            <x-sale.was :amount="$defaultWasText" class="text-2xl" />
+                        @endif
+                        <x-sale.badge :product="$product" class="text-sm self-center" />
+                    </div>
+                    @if ($saleRunning && $product->sale_ends_at)
+                        <p class="mt-2 text-sm font-medium text-red-700">{{ __('shop.sale.ends', ['date' => $product->saleLastDay()->translatedFormat('j F Y')]) }}</p>
+                    @endif
                     <p class="mt-2 text-sm text-neutral-500">
                         {{ __('shop.vat.price_note', ['rate' => \App\Support\Vat::rateLabel()]) }}
                         <a href="{{ r('faq') }}#faq-shipping" class="underline underline-offset-2 hover:text-primary-800">{{ __('shop.vat.shipping_link') }}</a>

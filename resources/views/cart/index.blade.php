@@ -40,7 +40,12 @@
                         @unless($valid)
                             <p class="mt-1 text-xs text-red-600">{{ __('cart.item.unavailable') }}</p>
                         @endunless
-                        <div class="mt-1 text-neutral-700">{{ money($price) }}</div>
+                        <div class="mt-1 flex flex-wrap items-baseline gap-x-2">
+                            <span class="{{ $item->regularUnitPrice() > $price ? 'font-semibold text-red-700' : 'text-neutral-700' }}">{{ money($price) }}</span>
+                            @if($item->regularUnitPrice() > $price)
+                                <x-sale.was :amount="money($item->regularUnitPrice())" class="text-sm" />
+                            @endif
+                        </div>
                         @if($priceChanged)
                             <p class="mt-1 text-xs {{ $price > $pricedAt ? 'text-amber-700' : 'text-emerald-700' }}">{{ __('cart.item.price_changed', ['old' => money($pricedAt)]) }}</p>
                         @endif

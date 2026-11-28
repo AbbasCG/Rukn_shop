@@ -134,7 +134,12 @@
                                 <bdi>{{ $item->product->name }}</bdi> × {{ $qty }}
                                 @if($variantLabel)<span class="block text-xs text-neutral-500"><bdi>{{ $variantLabel }}</bdi></span>@endif
                             </div>
-                            <div class="text-sm font-semibold text-primary-dark">{{ money($price * $qty) }}</div>
+                            <div class="text-end text-sm font-semibold text-primary-dark">
+                                {{ money($price * $qty) }}
+                                @if($item->regularUnitPrice() > $price)
+                                    <x-sale.was :amount="money($item->regularUnitPrice() * $qty)" class="block text-xs" />
+                                @endif
+                            </div>
                         </div>
                         @endforeach
                         <div class="border-t border-primary-gray my-2"></div>

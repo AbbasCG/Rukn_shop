@@ -109,7 +109,7 @@ class CheckoutController extends Controller
                     'variant' => $variant,
                     'label' => $label,
                     'qty' => $qty,
-                    'price' => $variant ? $variant->effectivePrice() : (float) $product->price,
+                    'price' => $variant ? $variant->effectivePrice() : $product->currentPrice(),
                 ];
             }
 
