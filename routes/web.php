@@ -127,6 +127,10 @@ Route::prefix('{locale}')
         // Public Product routes (browse and view)
         Route::get('/products', [ProductController::class, 'index'])->name('products.index');
         Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+        // Favourites (guests: a cookie; customers: their account).
+        Route::get('/wishlist', [\App\Http\Controllers\WishlistController::class, 'index'])->name('wishlist.index');
+        Route::post('/wishlist/{product}', [\App\Http\Controllers\WishlistController::class, 'toggle'])
+            ->middleware('throttle:60,1')->name('wishlist.toggle');
         Route::post('/products/{product}/notify', [\App\Http\Controllers\StockNotificationController::class, 'store'])
             ->middleware('throttle:5,1')->name('products.notify');
         Route::get('/categories/{category:slug}', [CategoryController::class, 'publicShow'])->name('categories.show');

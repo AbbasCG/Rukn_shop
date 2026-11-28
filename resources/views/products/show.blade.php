@@ -188,7 +188,10 @@
                     
                     <!-- Share Button (compact variant) -->
                     <div class="flex-shrink-0">
-                        <x-product-share :product="$product" variant="compact" />
+                        <div class="flex items-center gap-2 flex-shrink-0">
+                            <x-wishlist-button :product="$product" />
+                            <x-product-share :product="$product" variant="compact" />
+                        </div>
                     </div>
                 </div>
 
