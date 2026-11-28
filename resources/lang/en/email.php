@@ -84,6 +84,18 @@ return [
         'button_trouble' => 'Button not working? Copy this link into your browser:',
         'not_you' => 'Did you not ask for this? Then you can ignore this email: your password stays the same.',
     ],
+    'refund' => [
+        'subject' => 'Your refund for order #:number',
+        'preheader' => 'We have refunded :amount.',
+        'intro' => 'We have processed your return for order #:number and refunded :amount :method.',
+        'method_online' => 'to the payment method you used',
+        'method_bank' => 'by bank transfer',
+        'shipping' => 'Shipping costs',
+        'total' => 'Refunded',
+        'timing' => 'Depending on your bank it can take a few working days before you see the amount in your account.',
+        'attached' => 'The credit note (:number) is attached for your records.',
+        'button' => 'View your order',
+    ],
     'back_in_stock' => [
         'subject' => ':product is available again',
         'preheader' => 'The item you asked about is back in stock.',

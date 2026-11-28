@@ -37,13 +37,7 @@ class Invoices
                 return $fresh->invoice_number;
             }
 
-            $year = (int) now()->format('Y');
-            DB::table('invoice_counters')->insertOrIgnore(['year' => $year, 'last_number' => 0]);
-            $counter = DB::table('invoice_counters')->where('year', $year)->lockForUpdate()->first();
-            $next = (int) $counter->last_number + 1;
-            DB::table('invoice_counters')->where('year', $year)->update(['last_number' => $next]);
-
-            $number = sprintf('%d-%04d', $year, $next);
+            $number = self::nextNumber();
             $fill = ['invoice_number' => $number, 'invoiced_at' => now()];
             // Orders placed before VAT was stored: prices always included it.
             if ($fresh->vat_rate === null || $fresh->vat_amount === null) {
@@ -54,6 +48,21 @@ class Invoices
 
             return $number;
         });
+    }
+
+    /**
+     * The next number of this year's sequence (2026-0001…), shared by
+     * invoices and credit notes. Call inside a transaction.
+     */
+    public static function nextNumber(): string
+    {
+        $year = (int) now()->format('Y');
+        DB::table('invoice_counters')->insertOrIgnore(['year' => $year, 'last_number' => 0]);
+        $counter = DB::table('invoice_counters')->where('year', $year)->lockForUpdate()->first();
+        $next = (int) $counter->last_number + 1;
+        DB::table('invoice_counters')->where('year', $year)->update(['last_number' => $next]);
+
+        return sprintf('%d-%04d', $year, $next);
     }
 
     /** Paid online, or shipped / delivered; never cancelled. */
