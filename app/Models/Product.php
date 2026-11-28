@@ -431,6 +431,21 @@ class Product extends Model
     }
 
     /**
+     * Real photo URLs (primary first), without the placeholder. For feeds.
+     *
+     * @return list<string>
+     */
+    public function imageUrls(): array
+    {
+        $images = $this->images->sortByDesc(fn ($image) => (bool) $image->is_primary)->values();
+
+        return array_values(array_unique(array_filter(array_merge(
+            $images->map(fn ($image) => $this->resolveImageUrl($image->path))->all(),
+            [$this->resolveImageUrl($this->image_url)],
+        ))));
+    }
+
+    /**
      * Get the resolved URL of the product primary image with fallback.
      */
     public function primaryImageUrl(): string

@@ -126,6 +126,9 @@ Route::prefix('{locale}')
 
         // Public Product routes (browse and view)
         Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+        // Product feed for Google Merchant Center / Meta (Instagram) catalogue.
+        Route::get('/feeds/products.xml', [\App\Http\Controllers\FeedController::class, 'products'])
+            ->middleware('throttle:30,1')->name('feeds.products');
         Route::get('/search/suggest', [ProductController::class, 'suggest'])->middleware('throttle:60,1')->name('search.suggest');
         Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
         // Favourites (guests: a cookie; customers: their account).
@@ -174,6 +177,9 @@ Route::prefix('{locale}')
             // Abaya size guide (shown on product pages).
             Route::get('/size-guide', [\App\Http\Controllers\Admin\SizeGuideController::class, 'edit'])->name('size-guide.edit');
             Route::put('/size-guide', [\App\Http\Controllers\Admin\SizeGuideController::class, 'update'])->name('size-guide.update');
+
+            // Where to find the product feeds and how to connect them.
+            Route::view('/feeds', 'admin.feeds.index')->name('feeds.index');
 
             // Sales reports.
             Route::get('/reports', [\App\Http\Controllers\Admin\ReportController::class, 'index'])->name('reports.index');
