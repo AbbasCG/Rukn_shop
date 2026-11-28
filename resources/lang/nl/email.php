@@ -96,6 +96,17 @@ return [
         'attached' => 'De creditfactuur (:number) zit als bijlage bij deze e-mail.',
         'button' => 'Bekijk je bestelling',
     ],
+    'cart_reminder' => [
+        'subject' => 'Je hebt iets in je winkelwagen laten liggen',
+        'subject_second' => 'Je winkelwagen wacht nog op je',
+        'preheader' => 'De artikelen die je koos liggen nog in je winkelwagen.',
+        'intro' => 'Je hebt deze artikelen in je winkelwagen gelegd maar je bestelling niet afgerond. Ze liggen nog voor je klaar:',
+        'intro_second' => 'Een laatste herinnering: deze artikelen liggen nog in je winkelwagen.',
+        'note' => 'Prijzen en voorraad zijn zoals in de winkel op het moment dat je bestelt; populaire maten kunnen uitverkopen.',
+        'button' => 'Naar mijn winkelwagen',
+        'why' => 'Je ontvangt dit omdat je een account bij ons hebt en artikelen in je winkelwagen liet liggen. Je krijgt hooguit twee herinneringen per winkelwagen.',
+        'unsubscribe' => 'Deze e-mails stoppen',
+    ],
     'back_in_stock' => [
         'subject' => ':product is weer leverbaar',
         'preheader' => 'Het artikel waar je naar vroeg is weer op voorraad.',

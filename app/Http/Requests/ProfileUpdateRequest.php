@@ -34,6 +34,7 @@ class ProfileUpdateRequest extends FormRequest
             'country' => ['nullable', 'string', 'max:120'],
             'customer_type' => ['nullable', Rule::in(['personal', 'business'])],
             'newsletter_opt_in' => ['nullable', 'boolean'],
+            'cart_reminders' => ['nullable', 'boolean'],
         ];
     }
 }

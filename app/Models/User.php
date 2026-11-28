@@ -33,6 +33,7 @@ class User extends Authenticatable
         'country',
         'customer_type',
         'newsletter_opt_in',
+        'cart_reminders',
         'role',
     ];
 
@@ -57,6 +58,9 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'newsletter_opt_in' => 'boolean',
+            'cart_reminders' => 'boolean',
+            'cart_reminder_for' => 'datetime',
+            'cart_reminders_sent' => 'integer',
             'two_factor_enabled_at' => 'datetime',
         ];
     }
