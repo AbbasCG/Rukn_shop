@@ -10,10 +10,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ProductVariant extends Model
 {
-    protected $fillable = ['product_id', 'size', 'color_key', 'price', 'stock'];
+    protected $fillable = ['product_id', 'size', 'color_key', 'price', 'sale_price', 'stock'];
 
     protected $casts = [
         'price' => 'decimal:2',
+        'sale_price' => 'decimal:2',
         'stock' => 'integer',
     ];
 
@@ -23,11 +24,24 @@ class ProductVariant extends Model
     }
 
     /**
-     * Price the customer pays for this variant.
+     * Price before any reduction: the variant's own price, else the product's.
+     */
+    public function regularPrice(): float
+    {
+        return (float) ($this->price ?? $this->product->price);
+    }
+
+    /**
+     * Price the customer pays now (a running sale applied).
      */
     public function effectivePrice(): float
     {
-        return (float) ($this->price ?? $this->product->price);
+        return $this->product->salePriceFor($this);
+    }
+
+    public function isOnSale(): bool
+    {
+        return $this->effectivePrice() < $this->regularPrice();
     }
 
     /**

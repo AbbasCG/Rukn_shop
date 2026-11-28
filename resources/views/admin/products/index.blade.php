@@ -199,7 +199,16 @@
                                     <span class="text-sm text-primary-dark/70">{{ $product->category->display_name ?? '-' }}</span>
                                 </td>
                                 <td class="px-6 py-4 align-middle">
-                                    <span class="text-sm font-semibold text-primary-dark">{{ money($product->price) }}</span>
+                                    @if($product->saleIsRunning())
+                                        <span class="block text-sm font-semibold text-red-700">{{ money($product->currentPrice()) }}</span>
+                                        <del class="text-xs text-primary-dark/50">{{ money($product->price) }}</del>
+                                        <span class="ms-1 rounded-full bg-red-50 px-2 py-0.5 text-[11px] font-semibold text-red-700">{{ __('admin.sale.badge') }}</span>
+                                    @else
+                                        <span class="text-sm font-semibold text-primary-dark">{{ money($product->price) }}</span>
+                                        @if($product->saleIsScheduled())
+                                            <span class="block text-[11px] text-amber-700">{{ __('admin.sale.status_scheduled', ['date' => $product->saleFirstDay()->translatedFormat('j M')]) }}</span>
+                                        @endif
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4 align-middle">
                                     @if($product->stock <= 0)

@@ -42,11 +42,28 @@ class Cart extends Model
     }
 
     /**
-     * Current price of one unit: the variant's price, else the product's.
+     * Current price of one unit (a running sale applied): the variant's
+     * price, else the product's.
      */
     public function unitPrice(): float
     {
-        return $this->variant ? $this->variant->effectivePrice() : (float) ($this->product?->price ?? 0);
+        if (! $this->product) {
+            return 0.0;
+        }
+
+        return $this->variant
+            ? $this->product->salePriceFor($this->variant)
+            : $this->product->currentPrice();
+    }
+
+    /** Price of one unit before any reduction (shown crossed out). */
+    public function regularUnitPrice(): float
+    {
+        if (! $this->product) {
+            return 0.0;
+        }
+
+        return $this->variant ? (float) ($this->variant->price ?? $this->product->price) : (float) $this->product->price;
     }
 
     /**

@@ -107,7 +107,7 @@ class AuthenticatedSessionController extends Controller
                 ->where('status', 'active')
                 ->first();
 
-            $price = $variant ? $variant->setRelation('product', $product)->effectivePrice() : (float) $product->price;
+            $price = $variant ? $variant->setRelation('product', $product)->effectivePrice() : $product->currentPrice();
 
             if ($cartItem) {
                 // Never merge beyond what is in stock.

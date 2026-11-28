@@ -90,7 +90,7 @@ class CartController extends Controller
                     'variant_id' => $variant?->id,
                     'quantity' => $newQuantity,
                     'status' => 'active',
-                    'price_at_time' => $variant ? $variant->effectivePrice() : $product->price,
+                    'price_at_time' => $variant ? $variant->effectivePrice() : $product->currentPrice(),
                 ]);
             }
             $count = (int) Cart::where('user_id', Auth::id())->sum('quantity');

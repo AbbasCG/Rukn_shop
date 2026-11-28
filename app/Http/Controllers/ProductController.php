@@ -40,35 +40,43 @@ class ProductController extends Controller
             });
         }
 
-        // Price filter - handle both price_range dropdown and direct min/max_price inputs
+        // Price filter and sort use the price customers pay now (a running
+        // reduction applied). min/max_price are numbers only.
+        [$priceSql, $priceBindings] = Product::currentPriceSql();
+        // The bound amount is cast: drivers may send it as text, and SQLite
+        // orders every number before any text.
+        $between = function (?float $min, ?float $max) use ($query, $priceSql, $priceBindings) {
+            if ($min !== null) {
+                $query->whereRaw("{$priceSql} >= cast(? as decimal(10,2))", [...$priceBindings, $min]);
+            }
+            if ($max !== null) {
+                $query->whereRaw("{$priceSql} <= cast(? as decimal(10,2))", [...$priceBindings, $max]);
+            }
+        };
+
         if (request('price_range')) {
-            $priceRange = request('price_range');
-            if ($priceRange === '0-25') {
-                $query->where('price', '<=', 25);
-            } elseif ($priceRange === '25-50') {
-                $query->whereBetween('price', [25, 50]);
-            } elseif ($priceRange === '50-100') {
-                $query->whereBetween('price', [50, 100]);
-            } elseif ($priceRange === '100+') {
-                $query->where('price', '>=', 100);
-            }
+            match (request('price_range')) {
+                '0-25' => $between(null, 25),
+                '25-50' => $between(25, 50),
+                '50-100' => $between(50, 100),
+                '100+' => $between(100, null),
+                default => null,
+            };
         } else {
-            if (request('min_price')) {
-                $query->where('price', '>=', request('min_price'));
-            }
-            if (request('max_price')) {
-                $query->where('price', '<=', request('max_price'));
-            }
+            $between(
+                is_numeric(request('min_price')) ? (float) request('min_price') : null,
+                is_numeric(request('max_price')) ? (float) request('max_price') : null,
+            );
         }
 
         // Sorting
         $sort = request('sort', 'newest');
         switch ($sort) {
             case 'price_low':
-                $query->orderBy('price', 'asc');
+                $query->orderByRaw("{$priceSql} asc", $priceBindings);
                 break;
             case 'price_high':
-                $query->orderBy('price', 'desc');
+                $query->orderByRaw("{$priceSql} desc", $priceBindings);
                 break;
             case 'popular':
                 // Real best sellers (it used to be a random order).

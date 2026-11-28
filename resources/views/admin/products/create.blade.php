@@ -126,6 +126,8 @@
         </div>
 
         <!-- Sizes & colours -->
+        @include('admin.products.partials.sale')
+
         @include('admin.products.partials.variants')
 
         <!-- Specifications (Full width) -->
