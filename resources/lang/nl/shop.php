@@ -14,6 +14,9 @@ return [
     // Search & Filters
     'search_products' => 'Zoek producten',
     'search_placeholder' => 'Zoek naar producten...',
+    'search_did_you_mean' => 'Bedoelde je:',
+    'search_all_results' => 'Alle resultaten bekijken',
+    'search_corrected' => 'Geen exacte treffers voor “:query”. Resultaten voor:',
     'filters' => 'Filters',
     'apply_filters' => 'Filters Toepassen',
     'reset' => 'Resetten',

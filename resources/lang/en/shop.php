@@ -14,6 +14,9 @@ return [
     // Search & Filters
     'search_products' => 'Search products',
     'search_placeholder' => 'Search for products...',
+    'search_did_you_mean' => 'Did you mean:',
+    'search_all_results' => 'See all results',
+    'search_corrected' => 'No exact match for “:query”. Showing results for:',
     'filters' => 'Filters',
     'apply_filters' => 'Apply Filters',
     'reset' => 'Reset',
