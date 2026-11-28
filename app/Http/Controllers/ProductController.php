@@ -16,21 +16,16 @@ class ProductController extends Controller
     {
         $query = Product::where('is_active', true)->with(['category', 'images', 'variants']);
 
-        // Search
+        // Search: every word, loose letters (Arabic variants, accents),
+        // small typos forgiven. See ProductSearch.
         $search = trim((string) request('q', ''));
+        $searchIds = null;
+        $correctedQuery = null;
         if ($search !== '') {
-            // Case-insensitive on every driver (Postgres LIKE is case-sensitive),
-            // with "%" and "_" in the query matched literally. "!" is used as the
-            // escape character because a backslash is parsed differently by MySQL.
-            $escaped = str_replace(['!', '%', '_'], ['!!', '!%', '!_'], mb_strtolower($search));
-            $like = '%' . $escaped . '%';
-
-            // Grouped so the OR conditions cannot bypass the is_active filter.
-            $query->where(function ($q) use ($like) {
-                foreach (['name', 'short_description', 'long_description'] as $column) {
-                    $q->orWhereRaw("LOWER({$column}) LIKE ? ESCAPE '!'", [$like]);
-                }
-            });
+            $result = \App\Support\ProductSearch::search($search);
+            $searchIds = array_slice($result['ids'], 0, 500);
+            $correctedQuery = $result['corrected'];
+            $query->whereIn('id', $searchIds ?: [0]);
         }
 
         // Category filter
@@ -74,9 +69,13 @@ class ProductController extends Controller
             );
         }
 
-        // Sorting
-        $sort = request('sort', 'newest');
+        // Sorting (a search without a chosen order: best match first)
+        $sort = request('sort', $searchIds ? 'relevance' : 'newest');
         switch ($sort) {
+            case 'relevance':
+                $cases = collect($searchIds)->map(fn ($id, $rank) => 'WHEN ' . (int) $id . ' THEN ' . (int) $rank)->implode(' ');
+                $query->orderByRaw("CASE products.id {$cases} ELSE 999999 END");
+                break;
             case 'price_low':
                 $query->orderByRaw("{$priceSql} asc", $priceBindings);
                 break;
@@ -100,7 +99,32 @@ class ProductController extends Controller
         $sizeOptions = \App\Support\ProductFilters::sizeOptions();
         $colorOptions = \App\Support\ProductFilters::colorOptions();
 
-        return view('products.index', compact('products', 'categories', 'sizeOptions', 'colorOptions', 'selectedSizes', 'selectedColors'));
+        return view('products.index', compact('products', 'categories', 'sizeOptions', 'colorOptions', 'selectedSizes', 'selectedColors', 'correctedQuery'));
+    }
+
+    /**
+     * Suggestions while typing in the search box (JSON): a few products.
+     */
+    public function suggest()
+    {
+        $search = trim((string) request('q', ''));
+        if (mb_strlen($search) < 2) {
+            return response()->json(['products' => [], 'corrected' => null]);
+        }
+
+        $result = \App\Support\ProductSearch::search($search);
+        $ids = array_slice($result['ids'], 0, 6);
+        $products = Product::whereIn('id', $ids)->with(['images', 'variants'])->get()->keyBy('id');
+
+        return response()->json([
+            'corrected' => $result['corrected'],
+            'products' => collect($ids)->map(fn ($id) => $products->get($id))->filter()->map(fn (Product $p) => [
+                'name' => $p->name,
+                'url' => route('products.show', ['locale' => app()->getLocale(), 'product' => $p]),
+                'image' => $p->primaryImageUrl(),
+                'price' => ($range = $p->priceRange())[0] < $range[1] ? __('product.price_from', ['price' => money($range[0])]) : money($range[0]),
+            ])->values(),
+        ]);
     }
 
     /**

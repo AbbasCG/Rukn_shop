@@ -126,6 +126,7 @@ Route::prefix('{locale}')
 
         // Public Product routes (browse and view)
         Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+        Route::get('/search/suggest', [ProductController::class, 'suggest'])->middleware('throttle:60,1')->name('search.suggest');
         Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
         // Favourites (guests: a cookie; customers: their account).
         Route::get('/wishlist', [\App\Http\Controllers\WishlistController::class, 'index'])->name('wishlist.index');
