@@ -33,6 +33,7 @@ return [
         'why_contract' => 'To process, pay, ship and deliver your order, to manage your account and to send you the related emails (order confirmation, shipping, password reset): this is needed to perform our agreement with you (article 6(1)(b) GDPR).',
         'why_legal' => 'To keep our accounts: Dutch tax law requires us to keep order and payment records (article 6(1)(c) GDPR).',
         'why_interest' => 'To answer your questions, to keep the shop secure and to prevent misuse: our legitimate interest (article 6(1)(f) GDPR).',
+        'why_cart_reminders' => 'If you have an account and leave items in your cart, we may email you up to two reminders about that cart (our legitimate interest, article 6(1)(f) GDPR). Every reminder has a link to stop them, and you can turn them off in your profile.',
         'why_not' => 'We do not send newsletters or advertising, do not use analytics or tracking, do not build profiles, do not make automated decisions about you and never sell your data.',
 
         'share_title' => '4. Who receives your data',

@@ -32,6 +32,7 @@ class ProfileController extends Controller
 
         // Normalize newsletter toggle
         $data['newsletter_opt_in'] = $request->boolean('newsletter_opt_in');
+        $data['cart_reminders'] = $request->boolean('cart_reminders');
 
         // Keep legacy address column in sync for existing flows
         if (!empty($data['address_line1'])) {

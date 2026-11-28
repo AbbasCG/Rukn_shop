@@ -100,6 +100,10 @@
                                 <label for="newsletter_opt_in" class="text-sm text-neutral-700">{{ __('profile.preferences.newsletter') }}</label>
                             </div>
                             @error('newsletter_opt_in')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
+                            <div class="flex items-center gap-3 mt-3">
+                                <input type="checkbox" id="cart_reminders" name="cart_reminders" value="1" @checked(old('cart_reminders', $user->cart_reminders)) class="h-4 w-4 rounded border-neutral-300 text-primary-dark focus:ring-primary-dark/40">
+                                <label for="cart_reminders" class="text-sm text-neutral-700">{{ __('cart_reminders.profile_label') }}</label>
+                            </div>
                         </div>
                     </div>
 

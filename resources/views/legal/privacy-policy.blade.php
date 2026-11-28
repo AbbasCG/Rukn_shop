@@ -81,6 +81,7 @@
                     <li>{{ $p('why_contract') }}</li>
                     <li>{{ $p('why_legal') }}</li>
                     <li>{{ $p('why_interest') }}</li>
+                    <li>{{ $p('why_cart_reminders') }}</li>
                 </ul>
                 <p class="mt-4">{{ $p('why_not') }}</p>
             </div>

@@ -33,6 +33,7 @@ return [
         'why_contract' => 'Om je bestelling te verwerken, te laten betalen, te verzenden en te bezorgen, je account te beheren en je de bijbehorende e-mails te sturen (orderbevestiging, verzending, wachtwoord herstellen): dit is nodig om onze overeenkomst met jou uit te voeren (artikel 6 lid 1 sub b AVG).',
         'why_legal' => 'Voor onze administratie: de Nederlandse belastingwet verplicht ons bestel- en betaalgegevens te bewaren (artikel 6 lid 1 sub c AVG).',
         'why_interest' => 'Om je vragen te beantwoorden, de winkel te beveiligen en misbruik te voorkomen: ons gerechtvaardigd belang (artikel 6 lid 1 sub f AVG).',
+        'why_cart_reminders' => 'Heb je een account en laat je artikelen in je winkelwagen liggen, dan kunnen we je hooguit twee herinneringen over die winkelwagen mailen (ons gerechtvaardigd belang, artikel 6 lid 1 sub f AVG). Elke herinnering heeft een link om ze te stoppen, en je kunt ze in je profiel uitzetten.',
         'why_not' => 'We sturen geen nieuwsbrieven of reclame, gebruiken geen analyse- of trackingdiensten, maken geen profielen, nemen geen geautomatiseerde besluiten over je en verkopen je gegevens nooit.',
 
         'share_title' => '4. Wie je gegevens ontvangt',
