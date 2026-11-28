@@ -102,12 +102,13 @@
         @endforeach
     </div>
 
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
         @foreach ([
             ['label' => __('admin.reports.tiles.excl_vat'), 'value' => $totals['excl_vat']],
             ['label' => __('admin.reports.tiles.vat'), 'value' => $totals['vat']],
             ['label' => __('admin.reports.tiles.shipping'), 'value' => $totals['shipping']],
             ['label' => __('admin.reports.tiles.discounts'), 'value' => $totals['discounts']],
+            ['label' => __('admin.reports.tiles.refunds'), 'value' => $totals['refunds']],
         ] as $tile)
             <div class="bg-white rounded-xl shadow px-5 py-4">
                 <p class="text-xs font-medium text-primary-dark/60">{{ $tile['label'] }}</p>

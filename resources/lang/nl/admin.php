@@ -585,6 +585,7 @@ return [
             'vat' => 'Btw',
             'shipping' => 'Berekende verzendkosten',
             'discounts' => 'Gratis verzending via codes',
+            'refunds' => 'Terugbetaald (creditfacturen)',
         ],
         'vs_previous' => ':change t.o.v. vorige periode',
         'no_comparison' => 'Geen verkoop in de vorige periode om mee te vergelijken',

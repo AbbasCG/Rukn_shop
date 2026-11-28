@@ -51,6 +51,16 @@
                         @if ($order->hasInvoice() && $order->access_token)
                             <a href="{{ $order->invoiceUrl(app()->getLocale()) }}" class="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary-dark underline underline-offset-2 print:hidden">{{ __('invoices.download', ['number' => $order->invoice_number]) }}</a>
                         @endif
+                        {{-- Returns: credit notes and refund status --}}
+                        @if ($order->access_token)
+                            @foreach ($order->returns as $return)
+                                <p class="mt-2 text-xs text-neutral-600">
+                                    {{ __('returns.customer.line', ['number' => $return->credit_note_number, 'amount' => money($return->total)]) }}
+                                    · {{ $return->isRefunded() ? __('returns.customer.refunded', ['date' => $return->refunded_at->translatedFormat('j F Y')]) : __('returns.customer.pending') }}
+                                    · <a href="{{ $return->setRelation('order', $order)->creditNoteUrl(app()->getLocale()) }}" class="font-semibold text-primary-dark underline underline-offset-2 print:hidden">PDF</a>
+                                </p>
+                            @endforeach
+                        @endif
                     </div>
                     <div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
                         <p class="text-xs uppercase tracking-wide text-neutral-500">{{ __('orders.summary.subtotal') }}</p>

@@ -116,6 +116,10 @@ class SalesReport
     {
         $orders = $this->orders($this->from, $this->to);
         $totals = self::totals($orders);
+        // Credit notes made in the period (refunds of returned items).
+        $totals['refunds'] = round((float) \App\Models\OrderReturn::whereBetween('created_at', [
+            $this->from->copy()->startOfDay()->utc(), $this->to->copy()->endOfDay()->utc(),
+        ])->sum('total'), 2);
         $previousTotals = self::totals($this->orders($this->previous()->from, $this->previous()->to));
 
         $change = [];
