@@ -84,6 +84,15 @@ return [
         'button_trouble' => 'Werkt de knop niet? Kopieer deze link naar je browser:',
         'not_you' => 'Heb je dit niet aangevraagd? Dan kun je deze e-mail negeren: je wachtwoord blijft hetzelfde.',
     ],
+    'back_in_stock' => [
+        'subject' => ':product is weer leverbaar',
+        'preheader' => 'Het artikel waar je naar vroeg is weer op voorraad.',
+        'title' => 'Goed nieuws: het is terug!',
+        'intro' => 'Je vroeg ons je te laten weten wanneer dit artikel weer leverbaar zou zijn. Het is nu weer op voorraad:',
+        'button' => 'Bekijken en bestellen',
+        'note' => 'De voorraad kan beperkt zijn en we kunnen het niet voor je reserveren: wie het eerst bestelt, krijgt het.',
+        'why' => 'Je ontvangt deze e-mail één keer, omdat je erom vroeg op onze website. We hebben je niet aan een mailinglijst toegevoegd.',
+    ],
     'review_request' => [
         'subject' => 'Hoe bevalt je bestelling #:number?',
         'preheader' => 'Beoordeel je aankoop in een minuut en help andere klanten kiezen.',

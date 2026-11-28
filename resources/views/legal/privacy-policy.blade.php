@@ -1,6 +1,6 @@
 @php
     // Update this date whenever the policy text or the services used change.
-    $updated = \Carbon\Carbon::parse('2026-11-26')->locale(app()->getLocale())->isoFormat('D MMMM YYYY');
+    $updated = \Carbon\Carbon::parse('2026-11-28')->locale(app()->getLocale())->isoFormat('D MMMM YYYY');
     $business = config('shop.business');
     $email = config('shop.contact_email');
     $online = \App\Support\Payments::onlineEnabled();
@@ -12,6 +12,7 @@
         ['title' => $p('what_account_title'), 'text' => $p('what_account')],
         ['title' => $p('what_contact_title'), 'text' => $p('what_contact')],
         ['title' => $p('what_review_title'), 'text' => $p('what_review')],
+        ['title' => $p('what_stock_title'), 'text' => $p('what_stock')],
         ['title' => $p('what_payment_title'), 'text' => $online ? $p('what_payment_online') : $p('what_payment_cod')],
         ['title' => $p('what_technical_title'), 'text' => $p('what_technical')],
     ]));
@@ -106,6 +107,7 @@
                     <li>{{ $p('keep_orders') }}</li>
                     <li>{{ $p('keep_account') }}</li>
                     <li>{{ $p('keep_contact') }}</li>
+                    <li>{{ $p('keep_stock') }}</li>
                     <li>{{ $p('keep_logs') }}</li>
                 </ul>
             </div>

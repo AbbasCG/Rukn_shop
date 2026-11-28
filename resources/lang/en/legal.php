@@ -20,6 +20,8 @@ return [
         'what_contact' => 'Your name, email address, the subject and your message.',
         'what_review_title' => 'When you write a review',
         'what_review' => 'The rating, your review and the name you choose; they are shown in the shop once approved, never your email address or order. The review stays linked to your order so we know it comes from a real buyer. You can ask us to remove your review at any time.',
+        'what_stock_title' => 'When you ask to be told a product is back',
+        'what_stock' => 'Your email address, the product (and size/colour) and the language of the page. We use it only to send you one email when the item is back in stock; you asked for it (consent, article 6(1)(a) GDPR). You can withdraw it at any time by emailing us.',
         'what_payment_title' => 'Payment',
         'what_payment_online' => 'We never see or store your card or bank details. Online payments are handled by our payment provider Mollie; we only receive the payment status and a payment reference.',
         'what_payment_cod' => 'You pay on delivery. We do not receive or store any card or bank details.',
@@ -51,6 +53,7 @@ return [
         'keep_orders' => 'Order and payment data: 7 years, because Dutch tax law requires this.',
         'keep_account' => 'Account data: until you delete your account. If you delete it, your account details are removed; your orders are kept for the legal period, without being linked to an account.',
         'keep_contact' => 'Contact messages: as long as needed to handle your question.',
+        'keep_stock' => 'Requests to be told a product is back: deleted 30 days after we sent the email, or after 180 days if the item did not come back.',
         'keep_logs' => 'Server logs: for a short period, kept by our hosting provider.',
 
         'security_title' => '6. Security',

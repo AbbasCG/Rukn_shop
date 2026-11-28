@@ -115,4 +115,16 @@ return [
     'variant' => 'Variant',
     'secure_payment_online' => 'Secure online payment',
     'secure_payment_both' => 'Pay online or on delivery',
+    'notify' => [
+        'title' => 'Email me when it is available',
+        'text' => 'Leave your email address and we will send you one email as soon as this is back in stock.',
+        'text_variant' => 'This size/colour is sold out. Leave your email address and we will send you one email as soon as it is back.',
+        'email_label' => 'Email address',
+        'button' => 'Notify me',
+        'privacy' => 'We only use your email address for this one message, and delete it afterwards (see our privacy policy).',
+        'done' => 'Done! We will email :email as soon as it is available again.',
+        'already' => 'You are already on the list for this. We will email you as soon as it is available again.',
+        'in_stock' => 'Good news: this is available right now.',
+        'choose_variant' => 'Choose a size/colour first.',
+    ],
 ];

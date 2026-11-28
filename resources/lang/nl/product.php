@@ -115,4 +115,16 @@ return [
     'variant' => 'Variant',
     'secure_payment_online' => 'Veilig online betalen',
     'secure_payment_both' => 'Online of bij bezorging betalen',
+    'notify' => [
+        'title' => 'Mail me als het weer leverbaar is',
+        'text' => 'Laat je e-mailadres achter en we sturen je één e-mail zodra dit weer op voorraad is.',
+        'text_variant' => 'Deze maat/kleur is uitverkocht. Laat je e-mailadres achter en we sturen je één e-mail zodra hij terug is.',
+        'email_label' => 'E-mailadres',
+        'button' => 'Houd me op de hoogte',
+        'privacy' => 'We gebruiken je e-mailadres alleen voor dit ene bericht en verwijderen het daarna (zie ons privacybeleid).',
+        'done' => 'Gelukt! We mailen :email zodra het weer leverbaar is.',
+        'already' => 'Je staat hier al op de lijst voor. We mailen je zodra het weer leverbaar is.',
+        'in_stock' => 'Goed nieuws: dit is nu al leverbaar.',
+        'choose_variant' => 'Kies eerst een maat/kleur.',
+    ],
 ];

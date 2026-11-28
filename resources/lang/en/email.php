@@ -84,6 +84,15 @@ return [
         'button_trouble' => 'Button not working? Copy this link into your browser:',
         'not_you' => 'Did you not ask for this? Then you can ignore this email: your password stays the same.',
     ],
+    'back_in_stock' => [
+        'subject' => ':product is available again',
+        'preheader' => 'The item you asked about is back in stock.',
+        'title' => 'Good news: it is back!',
+        'intro' => 'You asked us to let you know when this item would be available again. It is back in stock now:',
+        'button' => 'View and order',
+        'note' => 'Stock may be limited, so we cannot reserve it for you: whoever orders first gets it.',
+        'why' => 'You receive this email once, because you asked for it on our website. We have not added you to any mailing list.',
+    ],
     'review_request' => [
         'subject' => 'How do you like your order #:number?',
         'preheader' => 'Rate your purchase in a minute and help other customers choose.',

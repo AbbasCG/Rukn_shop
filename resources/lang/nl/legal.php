@@ -20,6 +20,8 @@ return [
         'what_contact' => 'Je naam, e-mailadres, het onderwerp en je bericht.',
         'what_review_title' => 'Als je een review schrijft',
         'what_review' => 'De beoordeling, je review en de naam die je kiest; die worden na goedkeuring in de winkel getoond, nooit je e-mailadres of bestelling. De review blijft gekoppeld aan je bestelling, zodat we weten dat hij van een echte koper komt. Je kunt ons altijd vragen je review te verwijderen.',
+        'what_stock_title' => 'Als je vraagt om bericht wanneer een product terug is',
+        'what_stock' => 'Je e-mailadres, het product (en de maat/kleur) en de taal van de pagina. We gebruiken dit alleen om je één e-mail te sturen als het artikel weer op voorraad is; je vroeg er zelf om (toestemming, artikel 6 lid 1 sub a AVG). Je kunt die toestemming altijd intrekken door ons te mailen.',
         'what_payment_title' => 'Betaling',
         'what_payment_online' => 'Wij zien en bewaren nooit je kaart- of bankgegevens. Online betalingen worden afgehandeld door onze betaaldienst Mollie; wij ontvangen alleen de status van de betaling en een betaalreferentie.',
         'what_payment_cod' => 'Je betaalt bij aflevering. Wij ontvangen en bewaren geen kaart- of bankgegevens.',
@@ -51,6 +53,7 @@ return [
         'keep_orders' => 'Bestel- en betaalgegevens: 7 jaar, omdat de Nederlandse belastingwet dat verplicht.',
         'keep_account' => 'Accountgegevens: tot je je account verwijdert. Dan worden je accountgegevens verwijderd; je bestellingen bewaren we de wettelijke termijn, zonder koppeling aan een account.',
         'keep_contact' => 'Contactberichten: zolang nodig is om je vraag af te handelen.',
+        'keep_stock' => 'Verzoeken om bericht als een product terug is: verwijderd 30 dagen nadat we de e-mail stuurden, of na 180 dagen als het artikel niet terugkwam.',
         'keep_logs' => 'Serverlogs: korte tijd, bewaard door onze hostingpartij.',
 
         'security_title' => '6. Beveiliging',

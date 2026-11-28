@@ -275,9 +275,9 @@
                                     <template x-for="option in sizes" :key="option">
                                         <button type="button" role="radio" :aria-checked="(size === option).toString()"
                                                 @click="size = (size === option ? null : option)"
-                                                :disabled="!sizeAvailable(option)"
-                                                :class="size === option ? 'border-primary-800 bg-primary-800 text-white' : 'border-primary-200 bg-white text-primary-800 hover:border-primary-800'"
-                                                class="min-w-12 h-11 px-3 rounded-xl border text-sm font-semibold transition-colors disabled:opacity-40 disabled:line-through disabled:cursor-not-allowed">
+                                                {{-- Sold out stays selectable (struck through), to ask for an email when it is back. --}}
+                                                :class="[size === option ? 'border-primary-800 bg-primary-800 text-white' : 'border-primary-200 bg-white text-primary-800 hover:border-primary-800', sizeAvailable(option) ? '' : 'line-through decoration-2 ' + (size === option ? '' : 'opacity-50')]"
+                                                class="min-w-12 h-11 px-3 rounded-xl border text-sm font-semibold transition-colors">
                                             <span dir="ltr" x-text="option"></span>
                                         </button>
                                     </template>
@@ -298,9 +298,8 @@
                                         <button type="button" role="radio" :aria-checked="(color === option.key).toString()"
                                                 :aria-label="option.name" :title="option.name"
                                                 @click="color = (color === option.key ? null : option.key)"
-                                                :disabled="!colorAvailable(option.key)"
-                                                :class="color === option.key ? 'ring-2 ring-offset-2 ring-primary-800' : 'ring-1 ring-primary-200'"
-                                                class="relative h-10 w-10 rounded-full transition disabled:opacity-60 disabled:cursor-not-allowed">
+                                                :class="[color === option.key ? 'ring-2 ring-offset-2 ring-primary-800' : 'ring-1 ring-primary-200', colorAvailable(option.key) || color === option.key ? '' : 'opacity-60']"
+                                                class="relative h-10 w-10 rounded-full transition">
                                             <span class="absolute inset-1 rounded-full border border-black/10" :style="`background:${option.hex}`"></span>
                                             {{-- Unavailable: keep the real colour visible and strike it through. --}}
                                             <span x-show="!colorAvailable(option.key)" class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
@@ -367,6 +366,45 @@
                     <!-- WhatsApp: secondary action -->
                     <x-whatsapp-buy-now :product="$product" :quantity="1" />
                 </div>
+
+                {{-- "Email me when it is back": sold-out product, or a sold-out size/colour. --}}
+                @if($hasVariants || $product->stock <= 0)
+                    <div
+                        x-data="{
+                            email: @js(auth()->user()?->email ?? ''),
+                            loading: false, done: false, message: '', error: '',
+                            async submit(variantId) {
+                                this.loading = true; this.error = '';
+                                try {
+                                    const response = await fetch(@js(r('products.notify', $product)), {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content },
+                                        body: JSON.stringify({ email: this.email, variant_id: variantId }),
+                                    });
+                                    const data = await response.json().catch(() => ({}));
+                                    if (response.ok) { this.done = true; this.message = data.message; }
+                                    else { this.error = data.message || Object.values(data.errors || {})[0]?.[0] || @js(__('shop.add_failed')); }
+                                } catch (e) { this.error = @js(__('shop.add_failed')); }
+                                this.loading = false;
+                            },
+                        }"
+                        @if($hasVariants) x-show="selected && selected.stock <= 0" x-cloak x-effect="selected; done = false; message = ''; error = ''" @endif
+                        class="rounded-2xl border border-primary-200 bg-primary-50 p-5 space-y-3"
+                    >
+                        <p class="font-semibold text-primary-800">{{ __('product.notify.title') }}</p>
+                        <p class="text-sm text-neutral-600" x-show="!done">{{ $hasVariants ? __('product.notify.text_variant') : __('product.notify.text') }}</p>
+                        <form x-show="!done" @submit.prevent="submit({{ $hasVariants ? 'selected ? selected.id : null' : 'null' }})" class="flex flex-col sm:flex-row gap-2">
+                            <label for="notify-email" class="sr-only">{{ __('product.notify.email_label') }}</label>
+                            <input id="notify-email" type="email" x-model="email" required maxlength="255" autocomplete="email" dir="ltr"
+                                   placeholder="{{ __('product.notify.email_label') }}"
+                                   class="flex-1 min-w-0 h-11 rounded-xl border border-primary-200 bg-white px-4 text-sm focus:border-primary-800 focus:ring-primary-800/20">
+                            <button type="submit" :disabled="loading" class="h-11 px-5 rounded-xl bg-primary-800 text-white text-sm font-semibold hover:bg-primary-700 disabled:opacity-60">{{ __('product.notify.button') }}</button>
+                        </form>
+                        <p x-show="error" x-text="error" x-cloak class="text-sm text-red-600"></p>
+                        <p x-show="done" x-text="message" x-cloak class="text-sm font-medium text-emerald-700"></p>
+                        <p class="text-xs text-neutral-500" x-show="!done">{{ __('product.notify.privacy') }} <a href="{{ r('privacy-policy') }}" class="underline underline-offset-2">→</a></p>
+                    </div>
+                @endif
 
                 <!-- Extra Info -->
                 <div class="border-t border-primary-200 dark:border-neutral-300 pt-4">
