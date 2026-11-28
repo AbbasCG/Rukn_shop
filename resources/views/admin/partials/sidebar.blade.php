@@ -25,6 +25,7 @@
                 ['label' => __('admin.sidebar.items.products'), 'route' => 'admin.products.index', 'icon' => 'archive-box'],
                 ['label' => __('admin.sidebar.items.categories'), 'route' => 'admin.categories.index', 'icon' => 'tag'],
                 ['label' => __('admin.sidebar.items.orders'), 'route' => 'admin.orders.index', 'icon' => 'shopping-bag'],
+                ['label' => __('admin.sidebar.items.reports'), 'route' => 'admin.reports.index', 'icon' => 'chart-bar'],
                 ['label' => __('admin.sidebar.items.messages'), 'route' => 'admin.messages.index', 'icon' => 'envelope', 'badge' => \App\Models\ContactMessage::unread()->count()],
                 ['label' => __('coupons.admin.title'), 'route' => 'admin.coupons.index', 'icon' => 'tag'],
                 ['label' => __('reviews.admin.title'), 'route' => 'admin.reviews.index', 'icon' => 'star', 'badge' => \App\Models\Review::pending()->count()],
@@ -54,7 +55,6 @@
             @php
                 $soonLinks = [
                     ['label' => __('admin.sidebar.items.settings'), 'icon' => 'cog'],
-                    ['label' => __('admin.sidebar.items.reports'), 'icon' => 'chart-bar'],
                 ];
             @endphp
             @foreach($soonLinks as $item)
