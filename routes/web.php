@@ -160,7 +160,10 @@ Route::prefix('{locale}')
             Route::post('/mail-queue/retry', [\App\Http\Controllers\Admin\MailQueueController::class, 'retry'])->name('mail-queue.retry');
             Route::post('/mail-queue/discard', [\App\Http\Controllers\Admin\MailQueueController::class, 'discard'])->name('mail-queue.discard');
 
-            // Future modules: coupons, settings, reports
+            // Sales reports.
+            Route::get('/reports', [\App\Http\Controllers\Admin\ReportController::class, 'index'])->name('reports.index');
+
+            // Future modules: settings
         });
 
         // Static pages
