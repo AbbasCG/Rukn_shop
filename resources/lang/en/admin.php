@@ -567,6 +567,10 @@ return [
         'no_subject' => '(no subject)',
         'customer_account' => 'Customer account',
     ],
+    'stock_alerts' => [
+        'waiting' => '{1} 1 customer waiting for it|[2,*] :count customers waiting for it',
+        'explain' => 'They asked to be emailed when it is back. They get one email automatically as soon as you add stock.',
+    ],
     'sale' => [
         'title' => 'Price reduction',
         'help' => 'The customer sees the reduced price, the regular price crossed out and a badge on the photo. Cart, checkout and orders use the reduced price.',

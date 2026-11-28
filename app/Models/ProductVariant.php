@@ -18,6 +18,17 @@ class ProductVariant extends Model
         'stock' => 'integer',
     ];
 
+    protected static function booted(): void
+    {
+        // A sold-out size/colour is back: email the customers who asked.
+        static::updated(function (ProductVariant $variant) {
+            if ($variant->wasChanged('stock') && (int) $variant->stock > 0
+                && (int) $variant->stock > (int) $variant->getOriginal('stock')) {
+                \App\Support\StockAlerts::sendFor($variant->product);
+            }
+        });
+    }
+
     public function product()
     {
         return $this->belongsTo(Product::class);

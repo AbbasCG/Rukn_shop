@@ -109,7 +109,7 @@ class LegalPagesTest extends TestCase
     public function test_legal_pages_show_a_fixed_localised_update_date(): void
     {
         $this->get('/nl/terms-of-service')->assertSee('26 november 2026');
-        $this->get('/nl/privacy-policy')->assertSee('26 november 2026');
+        $this->get('/nl/privacy-policy')->assertSee('28 november 2026');
         $this->get('/en/privacy-policy')->assertDontSee(date('F j, Y')); // not "today" on every visit
     }
 

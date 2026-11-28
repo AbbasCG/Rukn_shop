@@ -30,7 +30,9 @@ class AdminProductController extends Controller
             'price_max' => ['nullable', 'numeric', 'min:0'],
         ]);
 
-        $query = Product::with('category', 'images');
+        $query = Product::with('category', 'images')
+            // Customers waiting for an email when it is back in stock.
+            ->withCount(['stockNotifications as waiting_count' => fn ($q) => $q->whereNull('notified_at')]);
 
         $hasSkuColumn = Schema::hasColumn('products', 'sku');
 
