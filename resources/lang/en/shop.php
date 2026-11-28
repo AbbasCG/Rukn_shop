@@ -29,6 +29,8 @@ return [
     
     // Filter Labels
     'filter_category' => 'Category',
+    'filter_size' => 'Size',
+    'filter_color' => 'Colour',
     'filter_all_categories' => 'All categories',
     'filter_min_price' => 'Min Price (€)',
     'filter_max_price' => 'Max Price (€)',

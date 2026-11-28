@@ -29,6 +29,8 @@ return [
     
     // Filter Labels
     'filter_category' => 'الفئة',
+    'filter_size' => 'المقاس',
+    'filter_color' => 'اللون',
     'filter_all_categories' => 'جميع الفئات',
     'filter_min_price' => 'الحد الأدنى للسعر (€)',
     'filter_max_price' => 'الحد الأقصى للسعر (€)',
