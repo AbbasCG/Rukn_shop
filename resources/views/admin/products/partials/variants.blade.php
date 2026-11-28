@@ -1,7 +1,7 @@
 {{--
     Sizes & colours editor (product create/edit).
     Submits: size_system, sizes[], colors[i][key|hex|names][nl|en|ar],
-             variants[i][size|color_key|stock|price]
+             variants[i][size|color_key|stock|price|sale_price]
     Expects optional $product.
 --}}
 @php
@@ -15,7 +15,7 @@
         'variants' => array_values($old('variants', $product
             ? $product->variants->map(fn ($v) => [
                 'size' => $v->size, 'color_key' => $v->color_key,
-                'stock' => $v->stock, 'price' => $v->price,
+                'stock' => $v->stock, 'price' => $v->price, 'sale_price' => $v->sale_price,
             ])->all()
             : [])),
     ];
@@ -32,6 +32,8 @@
 <fieldset
     class="space-y-6 rounded-xl border border-primary-gray p-6"
     x-data="productVariants(@js($initial), @js($lists))"
+    x-init="saleType = @js(old('sale_type', $product?->sale_type ?? ''))"
+    @sale-type.window="saleType = $event.detail"
 >
     <div>
         <legend class="text-lg font-semibold text-primary-dark">{{ __('admin.variants.title') }}</legend>
@@ -122,7 +124,8 @@
                         <th class="py-2 pe-4 text-start font-medium" x-show="activeSizes.length">{{ __('admin.variants.size') }}</th>
                         <th class="py-2 pe-4 text-start font-medium" x-show="colors.length">{{ __('admin.variants.color') }}</th>
                         <th class="py-2 pe-4 text-start font-medium">{{ __('admin.variants.stock') }}</th>
-                        <th class="py-2 text-start font-medium">{{ __('admin.variants.price') }}</th>
+                        <th class="py-2 pe-4 text-start font-medium">{{ __('admin.variants.price') }}</th>
+                        <th class="py-2 text-start font-medium" x-show="saleType === 'price'">{{ __('admin.sale.variant_sale_price') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -141,15 +144,22 @@
                                 <input type="number" min="0" step="1" required :name="`variants[${index}][stock]`"
                                        x-model="values[combo.id].stock" class="w-24 px-3 py-1.5 rounded-lg border border-primary-gray">
                             </td>
-                            <td class="py-2">
+                            <td class="py-2 pe-4">
                                 <input type="number" min="0" step="0.01" :name="`variants[${index}][price]`"
                                        x-model="values[combo.id].price" class="w-28 px-3 py-1.5 rounded-lg border border-primary-gray">
+                            </td>
+                            {{-- Reduced price of a size/colour with its own price (only for "new price" reductions). --}}
+                            <td class="py-2" x-show="saleType === 'price'">
+                                <input type="number" min="0" step="0.01" :name="`variants[${index}][sale_price]`"
+                                       x-model="values[combo.id].sale_price" :disabled="values[combo.id].price === '' || values[combo.id].price === null"
+                                       class="w-28 px-3 py-1.5 rounded-lg border border-primary-gray disabled:bg-primary-gray/40">
                             </td>
                         </tr>
                     </template>
                 </tbody>
             </table>
             <p class="mt-2 text-xs text-primary-dark/60">{{ __('admin.variants.price_hint') }}</p>
+            <p class="text-xs text-primary-dark/60" x-show="saleType === 'price'">{{ __('admin.sale.variant_sale_price_hint') }}</p>
             <p class="text-xs text-primary-dark/60">{{ __('admin.variants.stock_note') }}</p>
         </div>
         @error('variants')<p class="text-red-600 text-sm">{{ $message }}</p>@enderror

@@ -8,6 +8,11 @@
     // Sold in sizes/colours: the choice is made on the product page.
     $hasVariants = $product->hasVariants();
     [$minPrice, $maxPrice] = $product->priceRange();
+    [$regularMin, $regularMax] = $product->regularPriceRange();
+    // Crossed-out regular price while a reduction runs.
+    $wasText = $minPrice < $regularMin
+        ? ($regularMin < $regularMax ? __('product.price_from', ['price' => money($regularMin)]) : money($regularMin))
+        : null;
 @endphp
 
 {{-- One product card for the whole storefront (home, shop, related products). --}}
@@ -25,6 +30,7 @@
                 {{ __('shop.out_of_stock') }}
             </span>
         @endif
+        <x-sale.badge :product="$product" class="absolute top-3 end-3" />
     </a>
 
     <div class="flex flex-1 flex-col gap-1 pt-3">
@@ -37,7 +43,12 @@
         </h3>
 
         <div class="mt-auto flex items-center justify-between gap-2 pt-1">
-            <span class="text-base font-bold text-primary-dark">{{ $minPrice < $maxPrice ? __('product.price_from', ['price' => money($minPrice)]) : money($minPrice) }}</span>
+            <span class="flex flex-wrap items-baseline gap-x-2">
+                <span class="text-base font-bold {{ $wasText ? 'text-red-700' : 'text-primary-dark' }}">{{ $minPrice < $maxPrice ? __('product.price_from', ['price' => money($minPrice)]) : money($minPrice) }}</span>
+                @if($wasText)
+                    <x-sale.was :amount="$wasText" class="text-sm" />
+                @endif
+            </span>
             @if($lowStock)
                 <span class="text-xs font-medium text-amber-700">{{ __('shop.low_stock', ['count' => $stock]) }}</span>
             @endif

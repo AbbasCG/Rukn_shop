@@ -37,7 +37,9 @@ class WhatsAppHelper
     private static function buildProductMessage($product, $quantity = 1)
     {
         $productName = $product->name ?? 'Product';
-        $price = isset($product->price) ? number_format($product->price, 2, ',', '.') : '0,00';
+        $price = $product instanceof \App\Models\Product
+            ? number_format($product->currentPrice(), 2, ',', '.')
+            : (isset($product->price) ? number_format($product->price, 2, ',', '.') : '0,00');
         $sku = $product->sku ?? '';
         $description = $product->short_description ?? '';
         

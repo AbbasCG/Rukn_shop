@@ -3,7 +3,7 @@
 @php
     $shareUrl = $url ?? request()->fullUrl();
     $shareTitle = $product->name;
-    $sharePrice = number_format($product->price, 2);
+    $sharePrice = number_format($product->currentPrice(), 2);
     $shareMessage = __('product.share_message', ['name' => $shareTitle, 'price' => $sharePrice]);
     
     // Encode for URLs

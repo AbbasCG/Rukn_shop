@@ -19,7 +19,7 @@
         @endif
         data-whatsapp-number="{{ $phoneNumber }}"
         data-product-name="{{ $product->name }}"
-        data-product-price="{{ number_format($product->price, 2, ',', '.') }}"
+        data-product-price="{{ number_format($product->currentPrice(), 2, ',', '.') }}"
         data-label-greeting="{{ __('product.whatsapp_greeting') }}"
         data-label-product="{{ __('product.whatsapp_product') }}"
         data-label-price="{{ __('product.whatsapp_price') }}"

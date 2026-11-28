@@ -92,4 +92,11 @@ return [
         'total_incl' => 'Totaal (incl. btw)',
         'included' => 'Waarvan btw (:rate%)',
     ],
+    'sale' => [
+        'badge' => '-:percent%',
+        'up_to' => 'tot :badge',
+        'was' => 'Normale prijs',
+        'now' => 'Nu',
+        'ends' => 'Aanbieding geldig t/m :date',
+    ],
 ];

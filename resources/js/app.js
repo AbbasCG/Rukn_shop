@@ -142,6 +142,8 @@ Alpine.data('addToCart', (config) => ({
 // Admin: sizes & colours editor (resources/views/admin/products/partials/variants).
 Alpine.data('productVariants', (initial, lists) => ({
 	lists,
+	// Kind of price reduction chosen in the sale section ('', 'percent', 'price').
+	saleType: '',
 	sizeSystem: initial.sizeSystem || '',
 	sizes: initial.sizeSystem === 'custom' ? [] : (initial.sizes || []).map(String),
 	customSizes: initial.sizeSystem === 'custom' ? (initial.sizes || []).join(', ') : '',
@@ -158,6 +160,7 @@ Alpine.data('productVariants', (initial, lists) => ({
 			this.values[this.comboId(v.size || null, v.color_key || null)] = {
 				stock: v.stock ?? 0,
 				price: v.price ?? '',
+				sale_price: v.sale_price ?? '',
 			};
 		});
 	},
@@ -181,7 +184,7 @@ Alpine.data('productVariants', (initial, lists) => ({
 		for (const size of sizes.length ? sizes : [null]) {
 			for (const color of this.colors.length ? this.colors : [null]) {
 				const id = this.comboId(size, color?.key ?? null);
-				if (!this.values[id]) this.values[id] = { stock: 0, price: '' };
+				if (!this.values[id]) this.values[id] = { stock: 0, price: '', sale_price: '' };
 				combos.push({ id, size, color });
 			}
 		}
@@ -210,8 +213,8 @@ Alpine.data('productVariants', (initial, lists) => ({
 }));
 
 // Storefront: size/colour picker on the product page.
-// data: { sizes[], colors[{key,hex,name}], variants[{id,size,color,stock,priceText}],
-//         defaultPriceText, texts{choose, outOfStock, inStock, add} }
+// data: { sizes[], colors[{key,hex,name}], variants[{id,size,color,stock,priceText,wasText}],
+//         defaultPriceText, defaultWasText, texts{choose, outOfStock, inStock, add} }
 Alpine.data('productOptions', (data) => ({
 	...data,
 	size: data.sizes.length === 1 ? data.sizes[0] : null,
@@ -245,6 +248,11 @@ Alpine.data('productOptions', (data) => ({
 
 	get priceText() {
 		return this.selected ? this.selected.priceText : this.defaultPriceText;
+	},
+
+	// Regular price, crossed out while a reduction runs (null otherwise).
+	get wasText() {
+		return this.selected ? this.selected.wasText : this.defaultWasText;
 	},
 
 	get maxQty() {
