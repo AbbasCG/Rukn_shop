@@ -24,6 +24,7 @@
                 ['label' => __('admin.sidebar.items.dashboard'), 'route' => 'admin.dashboard', 'icon' => 'home'],
                 ['label' => __('admin.sidebar.items.products'), 'route' => 'admin.products.index', 'icon' => 'archive-box'],
                 ['label' => __('admin.sidebar.items.categories'), 'route' => 'admin.categories.index', 'icon' => 'tag'],
+                ['label' => __('size_guide.admin.title'), 'route' => 'admin.size-guide.edit', 'icon' => 'ruler'],
                 ['label' => __('admin.sidebar.items.orders'), 'route' => 'admin.orders.index', 'icon' => 'shopping-bag'],
                 ['label' => __('admin.sidebar.items.reports'), 'route' => 'admin.reports.index', 'icon' => 'chart-bar'],
                 ['label' => __('admin.sidebar.items.messages'), 'route' => 'admin.messages.index', 'icon' => 'envelope', 'badge' => \App\Models\ContactMessage::unread()->count()],
